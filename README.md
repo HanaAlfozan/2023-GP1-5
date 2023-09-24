@@ -16,13 +16,13 @@ Launching Instructions:
 
   1- Data Augmentation and Labeling: Begin by augmenting and labeling the facial images dataset.
 
-  2- Model Training: Proceed to train three classification models using machine learning technology in Python. These models should be trained on the augmented facial images dataset.
+  2- Model Training: Proceed to train several classification models using machine learning technology in Python. These models should be trained on the augmented facial images dataset.
 
-  3- Face Detection and Age Group Classification: Train all three models to detect users' image faces and categorize them into five different groups: toddlers (under the age of four), +4, +9, +12, and +17.
+  3- Face Detection and Age Group Classification: Train several models to detect users' image faces and categorize them into five different groups: toddlers (0-3), +4, +9, +12, and +17.
 
-  4- Model Evaluation: Assess the performance of all three models, and select the one with the best results.
+  4- Model Evaluation: Assess the performance of all trained models, and select the one with the best results.
 
-  5- Data PreProcessing: Preform preprocessing techniques  to AppStore dataset such as data cleaning and data conversion.
+  5- Data PreProcessing: Preform preprocessing techniques to AppStore dataset such as data cleaning and encoding.
   
   6- Integration with AppStore Dataset: Integrate the chosen classification model with the AppStore dataset.
 
