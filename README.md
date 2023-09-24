@@ -10,8 +10,7 @@ about the games their children play. In most cases, the exposure to harmful cont
 kids to risks such as in-game bullying, identity theft, credit card fraud, sexual exploitation.
 Without the right guidance on what games are appropriate for them to play, kids are prone to one
 of these risks. Therefore, we thought of building a system that helps find the appropriate games
-for each user based on their age group.
-   The following markup and programming languages are required to complete our project: HTML, CSS, JavaScript, Python, and tools: Jira, GitHub, and the Django framework. 
+for each user based on their age group. The following markup and programming languages are required to complete our project: HTML, CSS, JavaScript, Python, and tools: Jira, GitHub, and the Django framework. 
 
 Launching Instructions:
 
