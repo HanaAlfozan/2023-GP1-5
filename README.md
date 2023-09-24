@@ -28,4 +28,4 @@ Launching Instructions:
 
   7- Website Creation: Start working on website's interfaces and features such as filtering and sorting.
 
-  8- Launch the System: Use the combined model. AppStore dataset and the created website to lanuch the system. This system will display suitable games for each user, taking into account their age group and interests.
+  8- Launch the System: In this step, the system will be launched after integrating the age group estimation model, the Appstore dataset and the created website. This system will display suitable games for each user, taking into account their age group and preferences.
