@@ -1,0 +1,164 @@
+{% load static %}
+{% block brand %}
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Game's Information</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'images/GGicon.png' %}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+        
+        <style> 
+        .heart:hover {
+            color: #14e3e8;
+            cursor: pointer;
+        }
+        
+        .heart{
+            color: #ff069a;
+            background-color: transparent;    
+            font-size: 140px;    
+        }
+        
+        
+        .Like{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            right: -1080px;
+            top: -620px;
+        }
+
+        .game-image {
+           width: 250px;
+        }
+        
+        .gameInfo{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1000px;
+            margin-top: 100px;
+        }
+        
+        .info {
+            position: relative;
+            top: -350px;
+            right: -380px;
+            width: auto;
+            text-align: left;
+            margin-right: -370px;
+        }
+        
+        .game-title {
+           padding: 1px;
+        }
+
+        #save{
+            font-weight: bold;
+            font-size: 20px;            
+        }
+
+        #download{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            right: 400px;
+        }
+
+
+        #download a:link, #download a:visited {
+          background-color:palegoldenrod;
+          color: black;
+          padding: 10px 100px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          
+        }
+
+        #download a:hover {
+          background-color: #bcbcbc;
+        }
+
+        #download a{
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        
+        </style>
+
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <img src="{% static 'images/GameGeek.png' %}" alt="Logo">
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="{% url 'Game' %}">Home</a></li>
+                    <li><a href="{% url 'Fav' %}">Favourites</a></li>
+                    <li><a href="{% url 'History' %}">History</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href=#>Contact us</a></li>
+                    <li><a href="{% url 'index' %}">Log out</a></li>
+                </ul>
+            </nav>
+        </header>    
+        <div class="gameInfo">
+            <h3 class="game-title">Lorem Ipsum</h3>
+            <img src= "" class="game-image" id="gameImage">
+            <script>
+              const urlParams = new URLSearchParams(window.location.search);
+              const greetingValue = urlParams.get('img');
+  
+              const gameImage = document.getElementById('gameImage');
+  
+              if (greetingValue) {
+                const imageUrl = "{% static 'images/game' %}" + greetingValue + ".png";
+                gameImage.src = imageUrl;
+                          }
+            </script>
+            <div class="info">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis purus vitae sapien semper rutrum non sed ligula. Sed lobortis tempor augue. Cras tempus fermentum lectus id placerat Pellentesque at nunc vel orci eleifend bibendum vitae eget magna. Sed iaculis nisl ut dignissim auctor. Ut luctus mauris vel viverra euismod. Proin ac bibendum ligula, in commodo ipsum. Sed nulla orci, commodo nec dictum vitae, tincidunt non est. Curabitur libero lorem, tempus molestie ante a, placerat convallis augue. Donec et mauris in augue euismod tincidunt quis at ligula. Duis tempus nibh sed ante mattis fringilla. Mauris rutrum, augue at condimentum feugiat, leo augue scelerisque lacus, et rhoncus velit sapien a ante. Nulla non commodo ante. Etiam eget condimentum nisl. Morbi tempor risus eget quam rhoncus, vitae vestibulum nisl suscipit. Vestibulum elementum egestas ultrices. Nam a tincidunt dolor. Duis scelerisque vulputate urna, ut suscipit odio ultricies blandit. Quisque elit risus, laoreet ac enim varius, ultrices pellentesque ex. Nunc vestibulum facilisis ultrices. Nam auctor hendrerit suscipit. Suspendisse nunc metus, iaculis eu sem vel, convallis sollicitudin mauris. Pellentesque imperdiet magna non arcu aliquam gravida. Praesent pretium libero vel velit pharetra ornare.  Nam gravida, dui vel ultricies interdum, diam tortor tincidunt risus, nec viverra est arcu at tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque ipsum est, posuere at sollicitudin sodales, varius vitae purus. Pellentesque consectetur faucibus lacinia. Ut vulputate tristique erat, nec iaculis est convallis in. Quisque et sapien sed felis rutrum lobortis at in ex.  Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum porta in tortor at fermentum. Integer sed lorem mattis, fermentum odio eu, faucibus odio. Donec blandit lacus nec purus pellentesque, eu dictum leo luctus. Donec mattis quam scelerisque egestas tempor. In nibh tellus, tempor eu erat in, cursus tempus tellus. 
+            </div>
+            <div class="Like">
+                <i class="fa fa-heart heart fa-2x heart"  aria-hidden="true" id="heart"></i>
+                <span id="save">Save me!</span>
+               <script>
+        const heartIcon = document.getElementById('heart');
+        const saveText = document.getElementById('save');
+        let isSaved = false;
+
+        heartIcon.addEventListener('click', () => {
+            if (isSaved) {
+                saveText.textContent = 'Save me';
+            } else {
+                saveText.textContent = 'Saved!';
+            }
+            isSaved = !isSaved;
+        });
+              </script>
+              
+            </div>
+            <div id="download">
+                <a href=#>Ready to play? Start your adventure and download now!</a>
+            </div>
+        </div>  
+    <footer>
+        <p>&copy; 2023 GameGeek All rights reserved.</p>
+    </footer>
+    </body>
+    {% endblock %}
+</html>

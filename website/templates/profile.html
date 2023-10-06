@@ -1,0 +1,47 @@
+{% load static %}
+{% block brand %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/GGicon.png' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/GameGeek.png' %}" alt="Logo">
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'Game' %}">Home</a></li>
+                <li><a href="{% url 'Fav' %}">Favourites</a></li>
+                <li><a href="{% url 'History' %}">History</a></li>
+                <li><a  class="active" href="{% url 'profile' %}">Profile</a></li>
+                <li><a href=#>Contact us</a></li>
+                <li><a href="{% url 'index' %}">Log out</a></li>
+            </ul>
+        </nav>
+    </header>   
+
+    <section class="content">
+        <h1>User Profile</h1>
+        <p>Welcome, [Username]!</p>
+        <ul>
+            <li><strong>Username:</strong> [Username]</li>
+            <li><strong>Email:</strong> [Email]</li>
+            <!-- Add more user information here -->
+        </ul>
+        <a href="{% url 'edit' %}">Edit Profile</a>
+        <br>
+        <a href="{% url 'index' %}">Logout</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 GameGeek All rights reserved.</p>
+    </footer>
+</body>
+{% endblock %}
+</html>

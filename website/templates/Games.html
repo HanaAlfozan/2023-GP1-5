@@ -1,0 +1,208 @@
+{% load static %}
+{% block brand %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Geek</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/GGicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    
+    <style>
+        .container{
+            justify-content: space-between;
+            margin-left: 220px;
+        }
+        .filter {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 237px;
+          width: 190px;
+          background-color: #f5f0df;
+          padding: 10px;
+        }
+
+        .attribute {
+          padding: 15px; 
+          margin-bottom: 30px; 
+        }
+
+        input[type="checkbox"] {
+           margin-right: 5px; 
+        }
+
+        .label{
+            font-weight: bold;
+        }
+        .sort{
+          position: absolute;
+          top: 200px;
+          padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/GameGeek.png' %}" alt="Logo">
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li><a class="active" href="{% url 'Game' %}">Home</a></li>
+                <li><a href="{% url 'Fav' %}">Favourites</a></li>
+                <li><a href="{% url 'History' %}">History</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href=#>Contact us</a></li>
+                <li><a href="{% url 'index' %}">Log out</a></li>
+            </ul>
+        </nav>
+    </header>       
+
+    <div class="sort-filter">
+        <div class="sort">
+         <select>
+        <option selected>Sort by</option>
+        <option>size</option>
+        <option>recent released</option>
+        <option>rating</option>
+        <option>name - alphabetically</option>
+        </select>        
+        </div>
+        <div class="filter">
+            <div class="attribute">
+            <span class="label">Price:</span>
+            <br>
+            <input type="checkbox">
+            <label>Free</label>
+            <input type="checkbox">
+            <label>Paid</label>
+            <br>
+            </div>
+            
+            <div class="attribute">
+            <span class="label">In-app Purchases:</span>
+            <br>
+            <input type="checkbox">
+            <label>Yes</label>
+            <input type="checkbox">
+            <label>No</label>
+            <br>
+            </div>
+            
+            <div class="attribute">
+            <span class="label">Genre:</span>
+            <br>
+            <input type="checkbox">
+            <label>Strategy</label>
+            <input type="checkbox">
+            <label>Board</label>    
+            <input type="checkbox">
+            <label>Puzzle</label>              
+            <input type="checkbox">
+            <label>Casual</label> 
+            <input type="checkbox">
+            <label>Action</label>     
+            <br>
+            </div>
+            
+            <div class="attribute">
+            <span class="label">Language:</span>
+            <br>
+            <input type="checkbox">
+            <label>English</label>
+            <input type="checkbox">
+            <label>Arabic</label>    
+            <input type="checkbox">
+            <label>Portuguese</label>    
+            <br>
+            </div>
+            
+            <div class="attribute">
+            <span class="label">Average User Rating:</span>
+            <br>
+            <input type="checkbox">
+            <label>4</label>
+            <input type="checkbox">
+            <label>3.5</label>    
+            <input type="checkbox">
+            <label>3</label>    
+            <br>            
+            </div>
+
+        </div>
+        
+        
+    </div>
+    <div class='container'>
+        <!-- Game 1 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=1" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=1"><img src="{% static 'images/game1.png' %}" class="game-image" alt="game1"></a>
+        </div>
+        
+        <!-- Game 2 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=2" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=2"><img src="{% static 'images/game2.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 3 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=3" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=3"><img src="{% static 'images/game3.png' %}"class="game-image"></a>
+        </div>
+
+        <!-- Game 4 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=4" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=4"><img src="{% static 'images/game4.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 5 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=5" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=5"><img src="{% static 'images/game5.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 6 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=6" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=6"><img src="{% static 'images/game6.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 7 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=7" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=7"><img src="{% static 'images/game7.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 8 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=8" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=8"><img src="{% static 'images/game8.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 9 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=9" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=9"><img src="{% static 'images/game9.png' %}" class="game-image"></a>
+        </div>
+
+        <!-- Game 10 -->
+        <div class="game">
+            <a href="{% url 'game_info_page' %}?img=10" class="game-title">Lorem Ipsum</a>
+            <a href="{% url 'game_info_page' %}?img=10"><img src="{% static 'images/game10.png' %}" class="game-image"></a>
+        </div>
+
+
+    </div>
+    <footer>
+        <p>&copy; 2023 GameGeek All rights reserved.</p>
+    </footer>
+</body>
+{% endblock %}
+</html>
