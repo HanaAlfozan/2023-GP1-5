@@ -1,0 +1,315 @@
+{% load static %}
+{% block brand %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>Sign Up</title>
+    
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+	<!-- animate css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="{% static 'css/meanmenu.min.css' %}">
+	<!-- main style -->
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<!-- responsive -->
+	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+	<style>
+		.games{
+			color: #fff;
+		}
+		.innerList{
+			padding-left: 40px;
+            padding-bottom: 19px;
+		}
+		ul{
+			margin: 0;
+           padding: 0;
+           list-style: none;
+		   margin-top: -15px;
+		}
+		#footer{
+			justify-content: space-between;
+		}
+		summary::-webkit-details-marker {
+          display: none;}
+
+		  summary {
+    list-style-type: none; /* For non-Chrome browsers */}
+
+
+
+	</style>
+
+</head>
+<body>
+	
+	<!--PreLoader-->
+    <div class="loader">
+        <div class="loader-inner">
+            <div class="circle"></div>
+        </div>
+    </div>
+    <!--PreLoader Ends-->
+	
+	<!-- header -->
+	<div class="top-header-area" id="sticker">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+						<!--	<a href="{% url 'index' %}"> -->
+								<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
+							</a>
+						</div>
+						<!-- logo -->
+
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+							
+								<li>
+									<li>
+										<div class="header-icons">
+										
+											<li class="current-list-item" ><a href="{% url 'index' %}">Home</a>
+		
+											</li>
+										</div>
+									</li>
+								</li>
+							</ul>
+						</nav>
+						
+						<div class="mobile-menu"></div>
+						<!-- menu end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end header -->
+
+	<!-- search area -->
+	
+	<!-- end search arewa -->
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Join the team now</p>
+						<h1>Sign Up</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- contact form -->
+	<div class="contact-from-section mt-150 mb-150">
+		<div class="container">
+			
+					<div class="form-title">
+						<h2 style="color: rgb(219, 46, 46);">Warning</h2>
+						<p style="color: rgb(219, 46, 46); font-weight: bolder;">Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek. Thank you.</p>
+					</div>
+				 	<div id="form_status"></div>
+					 <div class="form-container">
+						<br>
+						<h3>Sign up</h3>
+						<br>
+						<form action="{% url 'estimate' %}" method="POST">
+						   {% csrf_token %}
+							<input type="text" id="username" class="input-box" name="username" required placeholder="Username">
+							<br><br>
+						 
+							<input type="email" id="email" class="input-box" name="email" required placeholder="Email">
+							<br><br>
+						   
+							<input type="password" id="password" class="input-box" name="password" required placeholder="Password">
+							<br><br>
+							<input type="checkbox" id="agree" required>
+				<label for="agree">I agree to conditions and terms.</label>
+				<br><br>
+				<input type="submit" class="cta-button" value="Next" id="nextButton" disabled> 
+				
+						   
+				
+						</form>
+						<br>
+						<label>Already have an account? <a href="{% url 'login' %}"  class="alt-link"> Log in</a></label>
+				
+						</div>
+				
+			
+			
+		</div>
+	</div>
+	<!-- end contact form -->
+
+
+	<!-- footer -->
+	<div class="footer-area">
+		<div class="container">
+			<div class="row" id="footer">
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box about-widget">
+						<h2 class="widget-title">Our Guarantee to Safety and Gaming</h2>
+						<p>At Game Geek, we combine entertainment along with safeguarding. We're committed to enhancing the game-finding experience by expertly tailoring it to your age and preferences as a cutting-edge platform.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box get-in-touch">
+						<h2 class="widget-title">Get in Touch</h2>
+						<ul>
+							<li>Riyadh, Saudi Arabia.</li>
+							<li>support@gamegeek.com</li>
+							<li>+00 111 222 3333</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box pages">
+						<h2 class="widget-title">Pages</h2>
+						<ul>
+							<details><summary><li class="gmaes">Games</li></summary>
+								<ul class="innerList">
+									<li class="dash"><a href="{% url 'index' %}">All Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Favourite Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Recently Downloaded Games</a></li>
+								</ul></details>
+							<li class="dash"><a href="{% url 'index' %}">Profile</a></li>
+							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
+							<li class="dash"><a href="{% url 'index' %}">About Us</a></li>
+						</ul>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end footer -->
+	
+	<!-- copyright -->
+	<div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-12">
+					<p>Copyrights &copy; 2023 GameGeek Rights Reserved.<br>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end copyright -->
+	
+	<!-- jquery -->
+	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+	<!-- bootstrap -->
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+	<!-- count down -->
+	<script src="{% static '/js/jquery.countdown.js' %}"></script>
+	<!-- isotope -->
+	<script src="{% static '/js/jquery.isotope-3.0.6.min.js' %}"></script>
+	<!-- waypoints -->
+	<script src="{% static '/js/waypoints.js' %}"></script>
+	<!-- owl carousel -->
+	<script src="{% static '/js/owl.carousel.min.js' %}"></script>
+	<!-- magnific popup -->
+	<script src="{% static '/js/jquery.magnific-popup.min.js' %}"></script>
+	<!-- mean menu -->
+	<script src="{% static '/js/jquery.meanmenu.min.js' %}"></script>
+	<!-- sticker js -->
+	<script src="{% static '/js/jquery.sticker.js' %}"></script>
+	<!-- form validation js -->
+	<script src="{% static '/js/form-validate.js' %}"></script>
+	<!-- main js -->
+	<script src="{% static '/js/main.js' %}"></script>
+	
+	<script>
+        // Function to show the age warning popup
+        function showAgeWarning() {
+          // Create a modal element
+          const modal = document.createElement("div");
+          modal.classList.add("modal");
+      
+          // Create the content for the modal
+          const modalContent = document.createElement("div");
+          modalContent.classList.add("modal-content");
+      
+          // Create the warning message
+          const warningMessage = document.createElement("p");
+          warningMessage.textContent = "Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek. Thank you.";
+      
+          // Create a close button
+          const closeButton = document.createElement("button");
+          closeButton.textContent = "Okay";
+          closeButton.addEventListener("click", hideAgeWarning);
+      
+          // Append elements to the modal
+          modalContent.appendChild(warningMessage);
+          modalContent.appendChild(closeButton);
+          modal.appendChild(modalContent);
+      
+          // Append the modal to the body
+          document.body.appendChild(modal);
+        }
+      
+        // Function to hide the age warning popup
+        function hideAgeWarning() {
+          const modal = document.querySelector(".modal");
+          if (modal) {
+            modal.style.display = "none";
+          }
+        }
+      
+        // Show the age warning when the page loads
+        showAgeWarning();
+      </script>
+      <script>
+        // Function to handle the checkbox state and enable/disable the "Next" button
+        function handleCheckbox() {
+          const agreeCheckbox = document.getElementById("agree");
+          const nextButton = document.getElementById("nextButton");
+      
+          if (agreeCheckbox.checked) {
+            nextButton.disabled = false;
+          } else {
+            nextButton.disabled = true;
+          }
+        }
+      
+        // Add an event listener to the checkbox to handle changes
+        const agreeCheckbox = document.getElementById("agree");
+        agreeCheckbox.addEventListener("change", handleCheckbox);
+      </script>
+</body>
+
+{% endblock %}
+</html>
