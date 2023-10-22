@@ -37,6 +37,7 @@
 
 	<style>
 
+
 .single-product-item {
     position: relative;
 	margin: 10px;
@@ -58,8 +59,9 @@
 }
 
 .single-product-item h3 {
-  font-weight: 720;
+  font-weight: 600;
   color: black;
+  font-family: "Poppins", sans-serif;
 }
 
 .games{
@@ -70,27 +72,72 @@
 	padding-left: 40px;
     padding-bottom: 19px;
 }
-		
-ul{
-			margin: 0;
-           padding: 0;
-           list-style: none;
-		   margin-top: -15px;
-		}
-		#footer{
-			justify-content: space-between;
-		}
-		summary::-webkit-details-marker {
-          display: none;}
 
-		  summary {
-    list-style-type: none; /* For non-Chrome browsers */}
+ul{
+    list-style: none;
+}
+
+summary::-webkit-details-marker {
+display: none;
+}
+
+#footer{
+    justify-content: space-between;
+  padding-right: 0px;
+  margin-left: -183px;
+  margin-right: -371px;
+  margin-top: -52px;
+}
+
+summary {
+    list-style-type: none; /* For non-Chrome browsers */
+}
+
 button{
 	font-weight: bolder;
-		}
+}
 
 .breadcrumb-text p {
 	font-size: 15px;
+}
+
+.oit{
+    margin-top: 35px;
+
+}
+
+.footer-box p {
+  margin-top: 40px;
+  font-size: 14px;
+  max-width: 80%;
+}
+
+h2{
+    font-family: "Poppins", sans-serif;
+}
+
+h2.widget-title::after {
+  height: 2px;
+}
+h2.widget-title {
+  padding-bottom: 30px;
+  position: relative;
+}
+
+ul li{
+    font-family: "Open Sans", sans-serif;
+}
+
+.footer-area {
+  padding: 125px 0px;
+}
+
+.get-in-touch ul  {
+    margin-top: 50px;
+}
+.outerList{
+    margin-top: 50px;
+
 }
 
 
@@ -152,10 +199,6 @@ button{
 		</div>
 	</div>
 	<!-- end header -->
-
-	<!-- search area -->
-
-	<!-- end search arewa -->
 	
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
@@ -204,47 +247,7 @@ button{
 					</div>
 				</div>
 			</div>
-			
-			<script>
-				// Get all the remove game buttons.
-				const removeGameButtons = document.querySelectorAll('.remove-game');
-			
-				removeGameButtons.forEach(button => {
-					button.addEventListener('click', () => {
-						// Get the data-id attribute of the button.
-						const buttonId = button.getAttribute('data-id');
-						// Calculate the shift amount (e.g., 380px).
-						const shiftAmount = 380;
-			
-						// Delete the single-product-item div.
-						button.parentElement.remove();
-			
-						// Check if the buttonId is '1', then move the next item 380px to the left.
-						if (buttonId === '1') {
-							const remainingProductItem = document.querySelector('.single-product-item');
-							if (remainingProductItem) {
-								const itemLeft = parseInt(remainingProductItem.style.left, 10) || 0;
-								remainingProductItem.style.left = (itemLeft - shiftAmount) + 'px';
-							}
-						}
-					});
-				});
-			</script>
-			
-			
-			
-			
-			
-			
-			
-			
-			  
-
-			
-			
-			  
-	  
-
+						
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
@@ -261,18 +264,13 @@ button{
 		</div>
 	</div>
 	<!-- end games -->
-
-	<!-- logo carousel -->
-	
-	<!-- end logo carousel -->
-
 	<!-- footer -->
 	<div class="footer-area">
 		<div class="container">
 			<div class="row" id="footer">
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box about-widget">
-						<h2 class="widget-title">Our Guarantee to Safety and Gaming</h2>
+						<h2 class="widget-title">Our Guarantee</h2>
 						<p>At Game Geek, we combine entertainment along with safeguarding. We're committed to enhancing the game-finding experience by expertly tailoring it to your age and preferences as a cutting-edge platform.</p>
 					</div>
 				</div>
@@ -289,7 +287,7 @@ button{
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box pages">
 						<h2 class="widget-title">Pages</h2>
-						<ul>
+						<ul class= "outerList">
 							<details><summary><li class="gmaes">Games</li></summary>
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'Games' %}">All Games</a></li>
@@ -320,6 +318,32 @@ button{
 		</div>
 	</div>
 	<!-- end copyright -->
+
+    <script>
+        // Get all the remove game buttons.
+        const removeGameButtons = document.querySelectorAll('.remove-game');
+    
+        removeGameButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Get the data-id attribute of the button.
+                const buttonId = button.getAttribute('data-id');
+                // Calculate the shift amount (e.g., 380px).
+                const shiftAmount = 380;
+    
+                // Delete the single-product-item div.
+                button.parentElement.remove();
+    
+                // Check if the buttonId is '1', then move the next item 380px to the left.
+                if (buttonId === '1') {
+                    const remainingProductItem = document.querySelector('.single-product-item');
+                    if (remainingProductItem) {
+                        const itemLeft = parseInt(remainingProductItem.style.left, 10) || 0;
+                        remainingProductItem.style.left = (itemLeft - shiftAmount) + 'px';
+                    }
+                }
+            });
+        });
+    </script>
 	
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>

@@ -503,7 +503,6 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   position: relative;
   z-index: 1;
   background-attachment: fixed;
-  padding-top: 200px;
 }
 
 .breadcrumb-section:after {
@@ -858,6 +857,14 @@ a.mobile-show {
 # Footer Styles
 
 ----------------------------------------------------------------------------- */
+#footer{
+  justify-content: space-between;
+  padding-right: 20px;
+  margin-left: -70px;
+  margin-right: -213px;
+  margin-top: -33px;
+}
+
 .single-logo-item img {
   max-width: 180px;
   margin: 0 auto;
@@ -871,7 +878,7 @@ a.mobile-show {
 .footer-area {
   background-color: #051922;
   color: #fff;
-  padding: 150px 0;
+  padding: 120px 0px;
 }
 
 h2.widget-title {
@@ -897,43 +904,28 @@ h2.widget-title:after {
   opacity: 0.7;
   line-height: 1.8;
   margin-top: -15px;
+  max-width: 100%;
 }
 
 .footer-box ul li {
   opacity: 0.7;
   margin-bottom: 10px;
   line-height: 1.8;
+
+}
+
+.outerList{
+	margin-left: -45px;
+
 }
 
 .footer-box ul li:last-child {
   margin-bottom: 0;
 }
 
-.footer-box.subscribe form input[type=email] {
-  border: none;
-  background-color: #012738;
-  width: 78%;
-  padding: 15px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  color: #fff;
+.get-in-touch ul  {
+  margin-left: -40px;
 }
-
-.footer-box.subscribe form button {
-  width: 20%;
-  border: none;
-  background-color: #012738;
-  color: #ff069a;
-  padding: 14px 0;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  cursor: pointer;
-}
-
-.footer-box.subscribe form button:focus {
-  outline: none;
-}
-
 .copyright {
   background-color: #051922;
   border-top: 1px solid #232a35;
@@ -956,24 +948,6 @@ h2.widget-title:after {
   color: #ff069b9b;
 }
 
-.social-icons ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.social-icons ul li {
-  display: inline-block;
-}
-
-.social-icons ul li a {
-  font-size: 16px;
-  color: #fff;
-  opacity: 0.7;
-  padding: 16px 10px;
-  display: block;
-}
-
 .footer-box ul li a {
   color: #fff;
 }
@@ -984,7 +958,6 @@ h2.widget-title:after {
   margin-bottom: 15px;
 }
 
-
 .footer-box.pages ul li:before {
   position: absolute;
   left: 0;
@@ -993,6 +966,7 @@ h2.widget-title:after {
   font-weight: 900;
   color: #ff069a;
 }
+
 
 .dash:before{
   content:"\002D";
@@ -1138,6 +1112,10 @@ a.tof-btn:hover i {
   color: #ff069bc0;
 }
 
+.footer-box.pages ul li:hover {
+  color: #ff069bc0;
+}
+
 .footer-box.subscribe form button {
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
@@ -1147,27 +1125,6 @@ a.tof-btn:hover i {
 .footer-box.subscribe form button:hover {
   background-color: #ff069bc0;
   color: #051922;
-}
-
-.social-icons ul li:hover a {
-  color: #ff069bc0;
-}
-
-.social-icons ul li a {
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-}
-
-ul.social-link-team li a {
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-}
-
-ul.social-link-team li a:hover {
-  background-color: #051922;
-  color: #ff069bc0;
 }
 
 .counter-box {
@@ -1690,10 +1647,9 @@ p.excerpt {
 }
 
 .pagination-wrap ul {
-  margin: 100px;
-  margin-left: 300px;
-  padding: 0;
+  margin-left: -120px;
   list-style: none;
+  margin-top: 100px;
 }
 
 .pagination-wrap ul li {
@@ -2170,23 +2126,6 @@ a.video-play-btn {
   position: relative;
   margin: 90px 0;
   margin-right: 80px;
-}
-
-
-.team-bg-1 {
-  background-image: url(../img/team/team-1.jpg);
-}
-
-.team-bg-2 {
-  background-image: url(../img/team/team-2.jpg);
-}
-
-.team-bg-3 {
-  background-image: url(../img/team/team-3.jpg);
-}
-
-.team-bg-4 {
-  background-image: url(../img/team/team-4.jpg);
 }
 
 .team-bg {

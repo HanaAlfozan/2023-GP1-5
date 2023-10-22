@@ -203,12 +203,12 @@ Click on <a id="start-camera-button" href="#">Ready</a> to start taking the pict
                     .then(result => {
             if ('error' in result) {
                 console.error('Error from model:', result.error);
-                displayMessage('Error processing image. Please try again.');
+                displayMessage('No Face Detected. Please try again.');
             } else {
-                console.log('Result from model:', result);
+                console.log('Your Estimated Age Group is:', result);
 
                 // Display the result in the message container
-                displayMessage(`Result from model: ${result["Estimated Age Group is: "]}`);
+                displayMessage(`Your Estimated Age Group is: ${result["Estimated Age Group is: "]}`);
             }
         })
         .catch(error => {

@@ -42,10 +42,7 @@
             padding-bottom: 19px;
 		}
 		ul{
-			margin: 0;
-           padding: 0;
            list-style: none;
-		   margin-top: -15px;
 		}
 		#footer{
 			justify-content: space-between;
@@ -54,10 +51,17 @@
           display: none;}
 
 		  summary {
-    list-style-type: none; /* For non-Chrome browsers */}
+           list-style-type: none; /* For non-Chrome browsers */}
 		button{
 			font-weight: bolder;
 		}
+		.breadcrumb-section {
+           padding: 107.2px 0;
+		}
+		.breadcrumb-text{
+			margin-top: 30px;
+		}  
+
 	</style>
 </head>
 <body>
@@ -235,7 +239,7 @@
 			<div class="row" id="footer">
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box about-widget">
-						<h2 class="widget-title">About us</h2>
+						<h2 class="widget-title">Our Guarantee</h2>
 						<p>At Game Geek, we combine entertainment along with safeguarding. We're committed to enhancing the game-finding experience by expertly tailoring it to your age and preferences as a cutting-edge platform.</p>
 					</div>
 				</div>
@@ -252,17 +256,17 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box pages">
 						<h2 class="widget-title">Pages</h2>
-						<ul>
-							<li class="gmaes">Games</li>
+						<ul class="outerList">
+							<details><summary><li class="gmaes">Games</li></summary>
 								<ul class="innerList">
-									<li><a href="{% url 'Games' %}">All Games</a></li>
-									<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
-									<li><a href="{% url 'History' %}">Recently Downloaded Games</a></li>
-								</ul>
-							<li><a href="{% url 'profile' %}">Profile</a></li>
-							<li><a href="{% url 'contact' %}">Contact Us</a></li>
-							<li><a href="{% url 'about' %}">About Us</a></li>
-						</ul>
+									<li class="dash"><a href="{% url 'Games' %}">All Games</a></li>
+									<li class="dash"><a href="{% url 'Fav' %}">Favourite Games</a></li>
+									<li class="dash"><a href="{% url 'History' %}">Recently Downloaded Games</a></li>
+								</ul></details>
+								<li class="dash"><a href="{% url 'profile' %}">Profile</a></li>
+								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
+								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
+							</ul>
 						
 					</div>
 				</div>
