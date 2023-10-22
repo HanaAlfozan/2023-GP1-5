@@ -159,8 +159,12 @@
 		}
 
 		.footer-area {
-  padding: 120px 0px;
-}
+         padding: 120px 0px;
+		}
+
+		.sizeRange{
+			margin: 20px;
+		}
 
 		
     </style>
@@ -195,7 +199,7 @@
 										<ul class="sub-menu">
 											<li><a href="{% url 'Games' %}">All Games</a></li>
 											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
-											<li><a href="{% url 'History' %}">Recently Downloaded Games</a></li>
+											<li><a href="{% url 'History' %}">Downloaded Games</a></li>
 											
 										</ul>
 									</li>
@@ -230,8 +234,8 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
+						<h1>All Games</h1>
 						<p>where happiness is met</p>
-						<h1>Games</h1>
 					</div>
 				</div>
 			</div>
@@ -248,7 +252,7 @@
 			<!-- Select -->
 			<select>
 			  <option selected disabled>Sort by</option>
-			  <option>Most Recent</option>
+			  <option>Newest Games</option>
 			  <option>Highest Price</option>
 			  <option>Lowest Price</option>
 			  <option>Highest Rating</option>
@@ -405,31 +409,27 @@
 						<div class="border-bottom pb-4 mb-4">
 			
 							<div class="d-grid gap-2">
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" checked>
-									<label class="form-check-label">4.7 bytes - 5.6 bytes</label>
-								</div>
-			
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="">
-									<label class="form-check-label">5.7 bytes - 6.6 bytes</label>
-								</div>
-
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="">
-									<label class="form-check-label">6.7 bytes - 7.6 bytes</label>
-								</div>
-
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="">
-									<label class="form-check-label">7.7 bytes - 8.6 bytes</label>
-								</div>
-
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="">
-									<label class="form-check-label">8.7 bytes - 9.6 bytes</label>
-								</div>
-
+								<div class="InformationDrawer_content">
+									<section class="RangeFilter_container">
+									  <div class="RangeFilter_row">
+										<div class="RangeFilter_inputs">
+										  <div>
+											<div class="NumberInput_inputContainer">
+											  <input class="NumberInput" autocomplete="off" type="number" value="" name="" style=" padding: 5px; width: 70px; margin-bottom: 0px;">
+											  <span class="style=font-size: 14px;">Mega Bytes</span>
+											</div>
+										  </div>
+										  <span class="sizeRange">to</span>
+										  <div>
+											<div class="NumberInput_inputContainer">
+											  <input class="NumberInput" autocomplete="off" type="number" value="" name=""  style=" padding: 5px; width: 70px; margin-bottom: 0px;">
+											  <span style="font-size: 14px;">Mega Bytes</span>
+											</div>
+										  </div>
+										</div>
+									  </div>
+									</section>
+								  </div>
 							</div>
 						</div>
 					</details>
@@ -606,8 +606,8 @@
 					<div class="pagination-wrap">
 						<ul>
 							<li><a href="#">Prev</a></li>
-							<li><a href="#">1</a></li>
-							<li><a class="active" href="#">2</a></li>
+							<li><a class="active" href="#">1</a></li>
+							<li><a href="#">2</a></li>
 							<li><a href="#">3</a></li>
 							<li><a href="#">Next</a></li>
 						</ul>
@@ -646,7 +646,7 @@
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'Games' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'Fav' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'History' %}">Recently Downloaded Games</a></li>
+									<li class="dash"><a href="{% url 'History' %}">Downloaded Games</a></li>
 								</ul></details>
 								<li class="dash"><a href="{% url 'profile' %}">Profile</a></li>
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>

@@ -55,12 +55,6 @@
 		  summary {
     list-style-type: none; /* For non-Chrome browsers */
        }
-	    .breadcrumb-section {
-           padding: 107.2px 0;
-		}
-		.breadcrumb-text{
-			margin-top: 30px;
-		}
 		.footer-area {
   padding: 120px 0px;
 }
@@ -103,7 +97,7 @@
 									<ul class="sub-menu">
 										<li><a href="{% url 'Games' %}">All Games</a></li>
 										<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
-										<li><a href="{% url 'History' %}">Recently Downloaded Games</a></li>
+										<li><a href="{% url 'History' %}">Downloaded Games</a></li>
 										
 									</ul>
 								</li>
@@ -215,7 +209,7 @@
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'Games' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'Fav' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'History' %}">Recently Downloaded Games</a></li>
+									<li class="dash"><a href="{% url 'History' %}">Downloaded Games</a></li>
 								</ul></details>
 								<li class="dash"><a href="{% url 'profile' %}">Profile</a></li>
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>

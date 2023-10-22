@@ -319,7 +319,7 @@ p:last-child {
 }
 
 .mt-150 {
-  margin-top: 150px;
+  margin-top: 100px;
 }
 
 @media only screen and (max-width: 767.96px) {
@@ -493,11 +493,11 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   font-weight: 900;
   color: #120202;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 70px;
 }
 
 .breadcrumb-section {
-  padding: 150px 0;
+  padding: 65px 0;
   background-size: cover;
   background-position: center center;
   position: relative;
