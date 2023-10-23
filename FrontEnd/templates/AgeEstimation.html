@@ -17,7 +17,7 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 
 	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:00,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
@@ -37,10 +37,10 @@
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <style>
                   #main-content{
-
-
-background: rgb(21,232,237);
-background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(168,168,168,0.02006740196078427) 52%, rgba(255,6,154,1) 100%);
+                  margin:auto;
+height:107%;
+background: rgb(255,6,154);
+background: linear-gradient(273deg, rgba(255,6,154,1) 0%, rgba(21,232,237,1) 40%, rgba(168,168,168,0.02006740196078427) 100%);
      }
 
     .top-header-area {
@@ -55,15 +55,22 @@ background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(168,168,168,0.020
             border-radius: 4%;
             border-color: #ff069a;
             border-width: 2px;
-             margin: 20% 0 0 0;
+
+margin: 20% auto -1% auto;
+             display:none;
+                margin-right:-180px;
         }
 
         #video-stream {
-            max-width: 100%;
 
+margin: 20% auto auto auto;
             border-radius: 4%;
             border-color: #ff069a;
-             margin: 20% 0 0 0;
+             margin-right:-10px;
+
+
+
+             display:none;
         }
 
         #button-container {
@@ -84,19 +91,21 @@ background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(168,168,168,0.020
     text-align: center;
     padding-top: 5%;
 
-
+.footer-area{
+ position: fixed;
+   }
 
 
 }
 #popup{
  margin: 10% auto 0 auto;
- padding :10% auto;
+padding-top:3%;
  border-radius: 50px;
  background-color: rgba(255, 255, 255, 0.7);
    height: 40%;
     width: 40%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    font-size: 13px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.);
+    font-size: 1px;
 
 
 
@@ -107,10 +116,12 @@ background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(168,168,168,0.020
 
             width: 80%;
             align-content: center;
+            text-align:center;
 
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.);
               font-size: 20px;
+              display:none;
         }
 
 .inst-container li{
@@ -137,9 +148,10 @@ button.boxed-btn:hover {
   color: #fff;
 }
 button.boxed-btn {
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
+  -webkit-transition: 0.s;
+  -o-transition: 0.s;
+  transition: 0.s;
+
 }
 
 				.games{
@@ -162,7 +174,12 @@ button.boxed-btn {
     list-style-type: none; /* For non-Chrome browsers */}
 	.footer-area {
   padding: 120px 0px;
-}
+
+} #retake-button , #next-button{
+margin:auto 2%;
+
+width:50%;
+height:20%;}
     </style>
 <body>
 
@@ -235,7 +252,7 @@ button.boxed-btn {
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 offset-lg-3 text-center">
+            <div class="col-lg-8 offset-lg- text-center">
 
 
     <br>
@@ -256,9 +273,9 @@ button.boxed-btn {
 
 <div id="button-container">
     <a id="take-snapshot-button" disabled class="boxed-btn" style="display:none;">Take Snapshot</a> <br>
-    <a id="retake-button" class="boxed-btn" style="display: none;">Retake</a>
+    <a id="retake-button" class="boxed-btn" style="display: none; " onclick="dis()">Retake</a>
     <br>
-    <a id="next-button" class="boxed-btn" href="Games.html" style="display: none;">Next</a>
+    <a id="next-button" class="boxed-btn" href="{% url 'Games' %}" style="display: none;">Next</a>
 </div>
 </div>
 </div> <!-- End class row -->
@@ -268,7 +285,7 @@ button.boxed-btn {
 <div class="message-container" id="message-container" style="display: none; width:100%;  font-family: 'Poppins', sans-serif;"></div>
 
 </section><!-- End class main-content -->
-    	<!-- footer -->
+  <!-- footer -->
 	<div class="footer-area">
 		<div class="container">
 			<div class="row" id="footer">
@@ -331,21 +348,21 @@ button.boxed-btn {
             const capturedImage = document.getElementById('captured-image');
             const videoElement = document.getElementById('video-stream');
             const nextButton = document.getElementById('next-button');
-    
+
             let mediaStream;
             let snapshotDataUrl;
-    
+
             startCameraButton.addEventListener('click', async () => {
                 try {
                     mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
-    
+
                     // Display the video stream in the video element
                     videoElement.srcObject = mediaStream;
-    
+
                     // Show the video element and hide the captured image
                     videoElement.style.display = 'block';
                     capturedImage.style.display = 'none';
-    
+
                     // Enable the "Take Snapshot" button
                     takeSnapshotButton.disabled = false;
                     takeSnapshotButton.style.display = 'block';
@@ -353,7 +370,7 @@ button.boxed-btn {
                     console.error('Error accessing camera:', error);
                 }
             });
-    
+
             takeSnapshotButton.addEventListener('click', () => {
                 if (mediaStream) {
                     const canvas = document.createElement('canvas');
@@ -361,11 +378,11 @@ button.boxed-btn {
                     canvas.height = videoElement.videoHeight;
                     const context = canvas.getContext('2d');
                     context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-    
+
                     // Convert the captured snapshot to base64 data
                     snapshotDataUrl = canvas.toDataURL('image/jpeg');
                     const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
-    
+
                     fetch('/AgeEstimationModel/process_image/', {
                         method: 'POST',
                         headers: {
@@ -411,7 +428,7 @@ button.boxed-btn {
 
 
                     // Disable the "Take Snapshot" button
-                    takeSnapshotButton.disabled = true;
+                    takeSnapshotButton.style.display = "none";
                 }
             });
 
@@ -438,8 +455,26 @@ button.boxed-btn {
 
 
         function hideDiv() {
+          message = document.getElementById('message-container');
             var div = document.getElementById("instructions");
+            take=document.getElementById('take-snapshot-button');
             div.style.display = "none";
+             vv=document.getElementById("video-container");
+            vv.style.display="block";
+             message.style.display = 'none';
+              take.style.display="none";
+        }
+		function dis() {
+		  message = document.getElementById('message-container');
+		  message.style.display = "none";
+            var div = document.getElementById("instructions");
+            div.style.display = "block";
+
+take=document.getElementById('take-snapshot-button');
+            vv=document.getElementById("video-container");
+            vv.style.display="none";
+            take.style.display="none";
+
         }
 
     </script>
