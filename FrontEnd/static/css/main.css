@@ -410,7 +410,7 @@ p:last-child {
   background-color: #162133;
 }
 
-a.boxed-btn {
+a.boxed-btn  {
   font-family: 'Poppins', sans-serif;
   display: inline-block;
   background-color: #ff069a;
@@ -529,8 +529,11 @@ ul.navbar-nav li.nav-item a.nav-link, ul.navbar-nav li.nav-item.active a.nav-lin
 .top-header-area {
   position: absolute;
   z-index: 999;
-  width: 100%;
+  width: 95%;
+
   padding: 25px 0;
+
+
 }
 
 .top-header-area.white ul.navbar-nav li.nav-item a.nav-link, .top-header-area.white ul.navbar-nav li.nav-item.active a.nav-link {
@@ -851,10 +854,14 @@ a.mobile-show {
   color:#F9F9F9;
   font-family: 'Poppins', sans-serif;
 }
-
+.black{
+color:#5b5b5b;
+}
+.blue{
+color:#15e8ed}
+.pink{
+color:#ff069bc0}
 /* -----------------------------------------------------------------------------
-
-# Footer Styles
 
 ----------------------------------------------------------------------------- */
 #footer{

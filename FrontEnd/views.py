@@ -16,6 +16,9 @@ def edit(request):
 def login(request):
     return render(request,"login.html" )
 
+def log_in(request):
+    return render(request,"log-in.html" )
+
 def profile(request):
     return render(request,"profile.html" )
 
