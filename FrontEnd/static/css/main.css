@@ -677,9 +677,13 @@ nav.mean-nav > ul > li:first-child > a {
 
 .site-logo {
   position: relative;
-  left: -80px;
+  left: -100px;
 }
 
+.site-logo img{
+  width: 200px;
+  height: 80px;
+}
 
 .top-header-area.sepherate-header ul li > a, .top-header-area.sepherate-header .header-icons a {
   color: #051922;
