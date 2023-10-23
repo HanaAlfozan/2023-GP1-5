@@ -12,7 +12,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>Age estimations</title>
+	<title>Age Estimations</title>
 	<!-- favicon -->
     <link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 
@@ -90,12 +90,6 @@ margin: 20% auto auto auto;
 
     text-align: center;
     padding-top: 5%;
-
-.footer-area{
- position: fixed;
-   }
-
-
 }
 #popup{
  margin: 10% auto 0 auto;
@@ -110,19 +104,21 @@ padding-top:3%;
 
 
     }
-.message-container {
-            background-color: rgba(255, 255, 255, 0.7);
-  font-family: 'Poppins', sans-serif;
+    .message-container {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-family: 'Poppins', sans-serif;
+    width: 90%; /* Increased the width to 90% */
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjusted the box shadow */
+    font-size: 24px; /* Increased the font size to 24px */
+    display: none;
+    margin-top:-30px ;
+    height: 68px;
+    padding-bottom: -30px;
+}
 
-            width: 80%;
-            align-content: center;
-            text-align:center;
-
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.);
-              font-size: 20px;
-              display:none;
-        }
 
 .inst-container li{
     margin-bottom: 10px;
@@ -172,10 +168,12 @@ button.boxed-btn {
 
 		  summary {
     list-style-type: none; /* For non-Chrome browsers */}
-	.footer-area {
-  padding: 120px 0px;
+    .footer-area {
+  padding: 37px 0px;
+  padding-top: 60px;
 
-} #retake-button , #next-button{
+}
+ #retake-button , #next-button{
 margin:auto 2%;
 
 width:50%;
