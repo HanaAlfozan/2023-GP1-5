@@ -25,7 +25,6 @@ urlpatterns = [
     path('Games/',views.Game,name='Games'),
     path('Fav/',views.Fav,name='Fav'),
     path('History/',views.History,name='History'),
-    path('editprofile/',views.edit,name='edit'),
     path('login/',views.login,name='login'),
     path('signup/',views.signup,name='signup'),
     path('profile/',views.profile,name='profile'),
@@ -33,6 +32,6 @@ urlpatterns = [
     path('GameInfoPage/', views.game_info_page, name='game_info_page'),
     path('contact/',views.contact,name='contact'),
     path('about/',views.about,name='about'),
+    path('AgeEstimation/Games.html', views.Game,name='Games'),
     path('AgeEstimationModel/process_image/', AgeEstimationModel_views.process_image, name='process_image'),
-
 ]

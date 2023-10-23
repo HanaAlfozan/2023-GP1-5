@@ -10,7 +10,6 @@ import json
 
 # Define class labels
 class_labels = ['0-3', '12+', '17+', '4+', '9+']
-# ['Toddler', 'Kid', 'Adult']
 
 model = None
 

@@ -422,10 +422,9 @@ button.boxed-btn {
                 takeSnapshotButton.disabled = false;
             });
 
-
             nextButton.addEventListener('click', () => {
                 // Trigger the download of the captured image
-                window.location.href = "{% url 'Games' %}";
+                window.location.href = "/Games/";
             });
         });
 
