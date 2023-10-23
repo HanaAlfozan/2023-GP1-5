@@ -58,16 +58,16 @@
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
-            margin-bottom: 20px;
-			margin-top: -430px;
+			margin-top: -360px;
+			margin-left: 150px;
 		}		
 
 		.sort{
 			position: relative;
-			top: 5px;
-			left: 29px;
-			width: 2129px;
-		}
+            top: -90px;
+			left: 28px;
+            width: 2129px;
+}
 
 		option{
 			margin-left: 2px;
@@ -109,15 +109,17 @@
 		}
 
 		.filter-container {
-			border: 1px solid #aaa;
+			border: 0.2px solid #aaa;
             border-radius: 4px;
             padding: 20px;
             margin: 0 -10px;
             width: 130%; 
-			margin-top: 30px;
+			margin-top: -80px;
+			position: relative;
+
         }
 
-		#clearAllButton{
+		#clearFilters{
 			font-family: 'Poppins', sans-serif;
             background-color: #ff069a;
             color: #fff;
@@ -149,7 +151,7 @@
 			font-weight: bolder;
 		}
 
-		#clearAllButton:hover {
+		#clearFilters:hover {
          background-color: #06f7ff;
          color: #fff;
 		}
@@ -165,6 +167,52 @@
 		.sizeRange{
 			margin: 20px;
 		}
+
+		.AppliedFilters{
+			position: absolute;
+
+		}
+		input[type="checkbox"]{
+			cursor: pointer;
+		}
+		.result-text {
+		position: relative;
+		top:-70px;
+		left: 90px;
+		font-size: 16px;
+        font-weight: bold;
+    }
+
+
+    .checkbox-value {
+        font-weight: normal;
+        color: #333;
+    }
+
+    .remove-button {
+        cursor: pointer;
+        margin-left: 5px;
+        color: gray;
+        font-weight: bold;
+    }
+
+	.mt-150 {
+      margin-top: 150px;
+	}
+
+.checkbox-container {
+		position: relative;
+		top:-70px;
+		left: 100px;
+		display: inline-flex;
+        align-items: center;
+        margin: 5px;
+        padding: 3px;
+        border: none;
+        border-radius: 5px;
+		background-color: #f7f0d2;
+		box-shadow: 0 0 20px #e4e4e4
+}
 
 		
     </style>
@@ -247,7 +295,7 @@
 	<div class="product-section mt-150 mb-150">
 
 
-
+						
 		<div class="sort">
 			<!-- Select -->
 			<select>
@@ -263,77 +311,58 @@
 			</select>
 			<!-- End Select -->
 		</div>
-		
 
 		<div class="container">
 
-			<div class="row">
-                <div class="col-md-12">
-                  
-                </div>
-            </div>
 
+		<!-- AppliedFilters -->
+			<div class="AppliedFilters">
+				<div id="resultsForText" class="result-text"></div>
+			</div>
+		<!-- End of AppliedFilters -->	
 			<div class="row product-lists">
-
 
 <!-- Card Grid -->
 <div class="container content-space-1">
 	<div class="row">
 	  <div class="col-lg-3">
 		<!-- Navbar -->
-		<div class="navbar-expand-lg mb-5">
-		  <!-- Navbar Toggle -->
-		  <div class="d-grid">
-			<button type="button" class="navbar-toggler btn btn-white mb-3" data-bs-toggle="collapse" data-bs-target="#navbarVerticalNavMenuEg2" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarVerticalNavMenuEg2">
-			  <span class="d-flex justify-content-between align-items-center">
-				<span class="text-dark">Filter</span>
-  
-				<span class="navbar-toggler-default">
-				  <i class="bi-list"></i>
-				</span>
-  
-				<span class="navbar-toggler-toggled">
-				  <i class="bi-x"></i>
-				</span>
-			  </span>
-			</button>
-		  </div>
-		  <!-- End Navbar Toggle -->
-  
+		<div class="navbar-expand-lg mb-5">  
 		  <!-- Navbar Collapse -->
 		  <div id="navbarVerticalNavMenuEg2" class="collapse navbar-collapse">
 			<div class="w-100">
-
 				<div class="filter-container">
+					
 				    <h5 id="Ftitle">
 					<i class="bi bi-filter" id="filter-icon"></i>
 					Filters</h5>
+					
 					  <details class="category">
 						  <summary>Genre</summary>
 						  <div class="border-bottom pb-4 mb-4">			  
 							  <div class="d-grid gap-2">
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" checked>
+									  <input class="form-check-input" type="checkbox" value="Strategy">
 									  <label class="form-check-label">Strategy</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Puzzle">
 									  <label class="form-check-label">Puzzle</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Board">
 									  <label class="form-check-label">Board</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Action">
 									  <label class="form-check-label">Action</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Entertainment">
 									  <label class="form-check-label">Entertainment</label>
 								  </div>
 							  </div>
@@ -345,12 +374,12 @@
 						  <div class="border-bottom pb-4 mb-4">			  
 							  <div class="d-grid gap-2">
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Free - Price">
 									  <label class="form-check-label">Free</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Paid - Price">
 									  <label class="form-check-label">Paid</label>
 								  </div>
 							  </div>
@@ -363,22 +392,22 @@
 
 							  <div class="d-grid gap-2">
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" checked>
+									  <input class="form-check-input" type="checkbox" value="Arabic">
 									  <label class="form-check-label">Arabic</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="English">
 									  <label class="form-check-label">English</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="French">
 									  <label class="form-check-label">French</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="Dutch">
 									  <label class="form-check-label">Dutch</label>
 								  </div>
 							  </div>
@@ -391,12 +420,12 @@
 			  
 							  <div class="d-grid gap-2">
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" checked>
+									  <input class="form-check-input" type="checkbox" value="Yes - In-App Purchases">
 									  <label class="form-check-label">Yes</label>
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="">
+									  <input class="form-check-input" type="checkbox" value="No - In-App Purchases ">
 									  <label class="form-check-label">No</label>
 								  </div>
 							  </div>
@@ -440,7 +469,7 @@
 			  
 							  <div class="d-grid gap-2">
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" id="1starCheckbox">
+									  <input class="form-check-input" type="checkbox" value="1 start" id="1starCheckbox">
 									  <label class="form-check-label" for="1starCheckbox">
 										  <span class="d-flex gap-1">
 											  <span class="fa fa-star checked"></span>
@@ -453,7 +482,7 @@
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" id="2starCheckbox">
+									  <input class="form-check-input" type="checkbox" value="2 stars" id="2starCheckbox">
 									  <label class="form-check-label" for="2starCheckbox">
 										  <span class="d-flex gap-1">
 											  <span class="fa fa-star checked"></span>
@@ -466,7 +495,7 @@
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" id="3starCheckbox">
+									  <input class="form-check-input" type="checkbox" value="3 stars" id="3starCheckbox">
 									  <label class="form-check-label" for="3starCheckbox">
 										  <span class="d-flex gap-1">
 											  <span class="fa fa-star checked"></span>
@@ -479,7 +508,7 @@
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" id="4starCheckbox">
+									  <input class="form-check-input" type="checkbox" value="4 stars" id="4starCheckbox">
 									  <label class="form-check-label" for="4starCheckbox">
 										  <span class="d-flex gap-1">
 											  <span class="fa fa-star checked"></span>
@@ -492,7 +521,7 @@
 								  </div>
 			  
 								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="" id="5starCheckbox">
+									  <input class="form-check-input" type="checkbox" value="5 start" id="5starCheckbox">
 									  <label class="form-check-label" for="5starCheckbox">
 										  <span class="d-flex gap-1">
 											  <span class="fa fa-star checked"></span>
@@ -507,27 +536,80 @@
 						  </div>
 						   </details>
 					    </details>
-			  
-					  <div class="d-grid">
-						  <button type="button" class="btn btn-white btn-transition" id="clearAllButton">Clear all</button>
-					  </div>
-					</div>	
-
-			  <script>
-				// Get a reference to the "Clear all" button
-				const clearAllButton = document.getElementById("clearAllButton");
-			
-				// Add a click event listener to the button
-				clearAllButton.addEventListener("click", function() {
-					// Select all checkboxes inside the form
-					const checkboxes = document.querySelectorAll("input[type='checkbox']");
-			
-					// Loop through all checkboxes and uncheck them
-					checkboxes.forEach(function(checkbox) {
-						checkbox.checked = false;
-					});
-				});
-			</script>			
+						<div class="d-grid">
+							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
+						</div>
+					  </div>	
+					</div>
+					
+					<script>
+						const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+						const resultsForText = document.getElementById('resultsForText');
+						const clearFiltersButton = document.getElementById('clearFilters');
+					
+						genreCheckboxes.forEach(checkbox => {
+							checkbox.addEventListener('change', updateSelectedFilters);
+						});
+					
+						clearFiltersButton.addEventListener('click', clearAllFilters);
+					
+						resultsForText.addEventListener('click', (event) => {
+							if (event.target.classList.contains('remove-button')) {
+								const value = event.target.getAttribute('data-value');
+								removeFilter(value);
+							}
+						});
+					
+						function updateSelectedFilters() {
+							const selectedFilterValues = Array.from(genreCheckboxes)
+								.filter(checkbox => checkbox.checked)
+								.map(checkbox => checkbox.value);
+					
+							resultsForText.innerHTML = '';
+					
+							if (selectedFilterValues.length > 0) {
+								resultsForText.style.display = 'inline';
+								resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
+					
+								selectedFilterValues.forEach(value => {
+									const container = document.createElement('span');
+									container.className = 'checkbox-container';
+					
+									const checkboxValue = document.createElement('span');
+									checkboxValue.className = 'checkbox-value';
+									checkboxValue.textContent = value;
+					
+									const removeButton = document.createElement('span');
+									removeButton.className = 'remove-button';
+									removeButton.textContent = 'X';
+									removeButton.setAttribute('data-value', value);
+					
+									container.appendChild(checkboxValue);
+									container.appendChild(removeButton);
+					
+									resultsForText.appendChild(container);
+								});
+							} else {
+								resultsForText.style.display = 'none';
+								resultsForText.textContent = '';
+							}
+						}
+					
+						function removeFilter(value) {
+							const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
+							if (checkbox) {
+								checkbox.checked = false;
+							}
+							updateSelectedFilters();
+						}
+					
+						function clearAllFilters() {
+							genreCheckboxes.forEach(checkbox => {
+								checkbox.checked = false;
+							});
+							updateSelectedFilters();
+						}
+					</script>
 			</div>
 		  </div>
 		  <!-- End Navbar Collapse -->
