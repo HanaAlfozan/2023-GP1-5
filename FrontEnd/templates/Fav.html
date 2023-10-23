@@ -129,7 +129,8 @@ ul li{
 }
 
 .footer-area {
-  padding: 125px 0px;
+  padding: 37px 0px;
+  padding-top: 60px;
 }
 
 .get-in-touch ul  {
@@ -138,6 +139,14 @@ ul li{
 .outerList{
     margin-top: 50px;
 
+}
+
+.pagination-wrap {
+  margin-top: 20px;
+  margin-right: -50px;
+}
+ul li a:hover {
+  color: #06f7ff;
 }
 
 
@@ -172,27 +181,28 @@ ul li{
 							<nav class="main-menu">
 								<ul>
 									
-									<li><a href=#>Games</a>
+									<li><a href=# style="text-decoration: none;">Games</a>
 										<ul class="sub-menu">
-											<li><a href="{% url 'Games' %}">All Games</a></li>
-											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
-											<li><a href="{% url 'History' %}">Downloaded Games</a></li>
+											<li><a href="{% url 'Games' %}" style="text-decoration: none;">All Games</a></li>
+											<li><a href="{% url 'Fav' %}" style="text-decoration: none;">Favourite Games</a></li>
+											<li><a href="{% url 'History' %}" style="text-decoration: none;">Downloaded Games</a></li>
 											
 										</ul>
 									</li>
-									<li><a href="{% url 'profile' %}">Profile</a>
-									<li><a href="{% url 'contact' %}">Contact Us</a></li>
-									<li><a href="{% url 'about' %}">About Us</a></li>
+									<li><a href="{% url 'profile' %}" style="text-decoration: none;">Profile</a>
+									<li><a href="{% url 'contact' %}" style="text-decoration: none;">Contact Us</a></li>
+									<li><a href="{% url 'about' %}" style="text-decoration: none;">About Us</a></li>
 								<li>
 									<div class="header-icons">
 									
-										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}">Logout</a>
+										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}" style="text-decoration: none;">Logout</a>
 									</div>
 								</li>
 							</ul>
 						</nav>
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
+						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp</div>
 					</div>
 				</div>
 			</div>
@@ -237,7 +247,7 @@ ul li{
 							<a href="{% url 'game_info_page' %}?img=1"><img src="{% static 'img/Games/game1.png' %}" alt=""></a>
 						</div>
 						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=1" class="cart-btn">More info</a>
+						<a href="{% url 'game_info_page' %}?img=1" class="cart-btn" style="text-decoration: none;">More info</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center berry">
@@ -247,7 +257,7 @@ ul li{
 							<a href="{% url 'game_info_page' %}?img=2"><img src="{% static 'img/Games/game2.png' %}" alt=""></a>
 						</div>
 						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=2" class="cart-btn">More info</a>
+						<a href="{% url 'game_info_page' %}?img=2" class="cart-btn" style="text-decoration: none;">More info</a>
 					</div>
 				</div>
 			</div>

@@ -329,7 +329,7 @@ p:last-child {
 }
 
 .mb-150 {
-  margin-bottom: 150px;
+  margin-bottom: 40px;
 }
 
 @media only screen and (max-width: 767.96px) {
@@ -676,8 +676,10 @@ nav.mean-nav > ul > li:first-child > a {
 }
 
 .site-logo {
-  padding: 6px 0;
+  position: relative;
+  left: -80px;
 }
+
 
 .top-header-area.sepherate-header ul li > a, .top-header-area.sepherate-header .header-icons a {
   color: #051922;
@@ -885,7 +887,8 @@ color:#ff069bc0}
 .footer-area {
   background-color: #051922;
   color: #fff;
-  padding: 120px 0px;
+  padding: 30px 0px;
+  padding-top: 60px;
 }
 
 h2.widget-title {
@@ -1561,102 +1564,14 @@ div.owl-controls, .owl-controls div {
   border-radius: 999px;
 }
 
-/* -----------------------------------------------------------------------------
-
-# News Styles
-
------------------------------------------------------------------------------ */
-.news-bg-1 {
-  background-image: url(../img/latest-news/news-bg-1.jpg);
-}
-
-.news-bg-2 {
-  background-image: url(../img/latest-news/news-bg-2.jpg);
-}
-
-.news-bg-3 {
-  background-image: url(../img/latest-news/news-bg-3.jpg);
-}
-
-.news-bg-4 {
-  background-image: url(../img/latest-news/news-bg-4.jpg);
-}
-
-.news-bg-5 {
-  background-image: url(../img/latest-news/news-bg-5.jpg);
-}
-
-.news-bg-6 {
-  background-image: url(../img/latest-news/news-bg-6.jpg);
-}
-
-.latest-news-bg {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-  background-color: #ddd;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.single-latest-news h3 {
-  font-size: 20px;
-  line-height: 1.25em;
-  font-weight: 600;
-}
-
-.single-latest-news h3 a {
-  color: #051922;
-}
-
-p.blog-meta span {
-  margin-right: 15px;
-  opacity: 0.6;
-  color: #051922;
-  font-size: 0.85em;
-}
-
-p.blog-meta span:last-child {
-  margin-right: 0;
-}
-
-p.blog-meta span i {
-  margin-right: 5px;
-}
-
-p.excerpt {
-  line-height: 1.8;
-  color: #555;
-}
-
-.latest-news a.boxed-btn {
-  margin-top: 80px;
-}
-
-.news-text-box {
-  padding: 25px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.single-latest-news {
-  margin-bottom: 30px;
-}
-
-.single-artcile-bg {
-  background-image: url(../img/latest-news/news-bg-3.jpg);
-  height: 450px;
-}
-
 .pagination-wrap {
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-right: -50px;
 }
 
 .pagination-wrap ul {
   margin-left: -120px;
   list-style: none;
-  margin-top: 100px;
 }
 
 .pagination-wrap ul li {
@@ -1673,6 +1588,7 @@ p.excerpt {
   margin: 3px;
   font-weight: 600;
   border-radius: 50px;
+  
 }
 
 .pagination-wrap ul li a.active {
@@ -2771,3 +2687,26 @@ table.order-details tbody td {
     
    
   }
+
+
+  .header-icons {
+    position: relative;
+    left: 120px;
+  }
+
+  .helloUserName {
+    position: relative;
+    left: 450px;
+    top: -35px;
+    color: #ff069a;
+    font-size: 15px;
+}
+
+.helloUserName i {
+    color: #06f7ff;
+}
+
+.helloUserName::after {
+    content: "Hello Sara!"; /* Add the text content as a pseudo-element */
+    font-weight: 700; /* Apply the font-weight to the text content */
+}
