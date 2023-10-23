@@ -8,42 +8,62 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/x-icon" href="{% static 'images/GGicon.png' %}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
 	<title>Age estimations</title>
+	<!-- favicon -->
 
+	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+	<!-- animate css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="{% static 'css/meanmenu.min.css' %}">
+	<!-- main style -->
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<!-- responsive -->
+	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <style>
-            body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-weight: bolder;
-            font-family: "Poppins", sans-serif;
-           
-        }
-   
+                  #main-content{
 
-        #video-container,#captured-image {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+
+background: rgb(21,232,237);
+background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(168,168,168,0.02006740196078427) 52%, rgba(255,6,154,1) 100%);
+     }
+
+    .top-header-area {
+
+  padding: 15px 0;
+  width:100%;
+}
+        #video-container, #captured-image {
+
+
+
             border-radius: 4%;
             border-color: #ff069a;
-            border-width: 2cap;
+            border-width: 2px;
+             margin: 20% 0 0 0;
         }
 
         #video-stream {
             max-width: 100%;
-            max-height: 100%;
+
             border-radius: 4%;
             border-color: #ff069a;
+             margin: 20% 0 0 0;
         }
 
         #button-container {
@@ -53,100 +73,247 @@
             margin-top: 20px;
             flex-flow: row;
             align-content: space-between;
-            justify-content: space-between;
-            
+            justify-content: center;
+
         }
 
-        #start-camera-button{
-            background-color: transparent;
-            color: #ff069a;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-            font-weight: bolder;
-            text-decoration: none;
-    
-        }
+      .inst-container {
 
-        .inst-container{
-    background-color: #efefef;
-    border-radius: 4%;
-    height: 20%;
-    width: 80%;
-    align-content: center;
-    padding: 2%;
+
+
+    text-align: center;
+    padding-top: 5%;
+
+
+
+
 }
+#popup{
+ margin: 10% auto 0 auto;
+ padding :10% auto;
+ border-radius: 50px;
+ background-color: rgba(255, 255, 255, 0.7);
+   height: 40%;
+    width: 40%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-size: 13px;
 
+
+
+    }
 .message-container {
-            background-color: #efefef;
-            border-radius: 4%;
-            height: 20%;
+            background-color: rgba(255, 255, 255, 0.7);
+  font-family: 'Poppins', sans-serif;
+
             width: 80%;
             align-content: center;
-            margin-top: 20px;
-            padding: 50px;
+
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+              font-size: 20px;
         }
 
 .inst-container li{
     margin-bottom: 10px;
-    
+
 }
 
-a.boxed-btn {
+button.boxed-btn {
   font-family: 'Poppins', sans-serif;
   display: inline-block;
   background-color: #ff069a;
   color: #fff;
   padding: 10px 20px;
   cursor: pointer;
-  margin-left: 40px;
+
   text-decoration: none;
 }
 
-a.boxed-btn {
+button.boxed-btn {
   border-radius: 50px;
 }
-a.boxed-btn:hover {
+button.boxed-btn:hover {
   background-color: #06f7ff;
   color: #fff;
-} 
-a.boxed-btn {
+}
+button.boxed-btn {
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
 }
- 
+
+				.games{
+			color: #fff;
+		}
+		.innerList{
+			padding-left: 40px;
+            padding-bottom: 19px;
+		}
+		ul{
+           list-style: none;
+		}
+		#footer{
+			justify-content: space-between;
+		}
+		summary::-webkit-details-marker {
+          display: none;}
+
+		  summary {
+    list-style-type: none; /* For non-Chrome browsers */}
+	.footer-area {
+  padding: 120px 0px;
+}
     </style>
 <body>
-    <br> <br>
-        <div class="inst-container">
-            <h4>Before taking the picture remember to:</h4>
-    <p>
-        <ul> 
-            <li>
-Stay still while taking the picture.
-            </li>
-            <li>
- Make sure the lights are good.
-            </li>
-            <li>
-Click on <a id="start-camera-button" href="#">Ready</a> to start taking the picture.
-            </li>
-        </ul>
-    </p>
-</div>
-<br> <br>  <br> 
+
+	<!-- header -->
+<div class="top-header-area" id="sticker">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+						<!--	<a href="{% url 'index' %}"> -->
+								<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
+							</a>
+						</div>
+						<!-- logo -->
+
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+
+								<li>
+									<li>
+
+									</li>
+								</li>
+							</ul>
+						</nav>
+
+						<div class="mobile-menu"></div>
+						<!-- menu end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- end header -->
+
+    <section id="main-content">
+
+
+
+
+
+
+    <div class="inst-container" id="instructions">
+        <div id="popup">
+            <br>
+        <h4 style="color: #ff069bc0;">Welcome again!</h4>
+        <h6 >It is time for taking the picture, please follow the instructions:</h6>
+
+            <p>Stay still while taking the picture.</p>
+            <p>Make sure the lighting is good.</p>
+            <p>Click on <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> to start taking the picture.</p>
+
+
+             </div>
+    </div>
+
+ <!-- End class row -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-3 text-center">
+
+
+    <br>
+
     <div id="video-container">
         <video id="video-stream" autoplay playsinline></video>
     </div>
 
     <img id="captured-image" src="" alt="Captured Image" style="display: none;">
-        <div id="button-container">
-        <a id="take-snapshot-button" disabled class="boxed-btn" style="display: none;" >Take Snapshot</a> <br>
-        <a id="retake-button"  class="boxed-btn" style="display: none;">Retake</a>
-        <a id="next-button" class="boxed-btn" href="{% url 'Games' %}"  style="display: none;">Next</a>
-    </div>
-    <div class="message-container" id="message-container" style="display: none;"></div>
 
+</div>
+</div> <!-- End class row -->
+</div> <!-- End class container -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5 offset-lg-4 text-center">
+
+
+<div id="button-container">
+    <a id="take-snapshot-button" disabled class="boxed-btn" style="display:none;">Take Snapshot</a> <br>
+    <a id="retake-button" class="boxed-btn" style="display: none;">Retake</a>
+    <br>
+    <a id="next-button" class="boxed-btn" href="Games.html" style="display: none;">Next</a>
+</div>
+</div>
+</div> <!-- End class row -->
+</div> <!-- End class container -->
+<br> <br>
+
+<div class="message-container" id="message-container" style="display: none; width:100%;  font-family: 'Poppins', sans-serif;"></div>
+
+</section><!-- End class main-content -->
+    	<!-- footer -->
+	<div class="footer-area">
+		<div class="container">
+			<div class="row" id="footer">
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box about-widget">
+						<h2 class="widget-title">Our Guarantee</h2>
+						<p>At Game Geek, we combine entertainment along with safeguarding. We're committed to enhancing the game-finding experience by expertly tailoring it to your age and preferences as a cutting-edge platform.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box get-in-touch">
+						<h2 class="widget-title">Get in Touch</h2>
+						<ul>
+							<li>Riyadh, Saudi Arabia.</li>
+							<li>support@gamegeek.com</li>
+							<li>+00 111 222 3333</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box pages">
+						<h2 class="widget-title">Pages</h2>
+						<ul class= "outerList">
+							<details><summary><li class="gmaes">Games</li></summary>
+								<ul class="innerList">
+									<li class="dash"><a href="{% url 'index' %}">All Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Favourite Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Downloaded Games</a></li>
+								</ul></details>
+							<li class="dash"><a href="{% url 'index' %}">Profile</a></li>
+							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
+							<li class="dash"><a href="{% url 'index' %}">About Us</a></li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end footer -->
+
+	<!-- copyright -->
+	<div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-12">
+					<p>Copyrights &copy; 2023 GameGeek Rights Reserved.<br>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end copyright -->
     <script>
         // JavaScript code for capturing and saving the image
         document.addEventListener('DOMContentLoaded', () => {
@@ -261,6 +428,13 @@ Click on <a id="start-camera-button" href="#">Ready</a> to start taking the pict
                 window.location.href = "{% url 'Games' %}";
             });
         });
+
+
+        function hideDiv() {
+            var div = document.getElementById("instructions");
+            div.style.display = "none";
+        }
+
     </script>
 </body>	
 {% endblock %}
