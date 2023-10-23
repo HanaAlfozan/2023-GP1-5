@@ -60,6 +60,36 @@
 		.subtitle h1{
 		margin:auto;}
 
+
+.animate-charcter {
+  text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+	#ff069a 29%,
+    #06f7ff 67%,
+    #fff 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+  font-size: 80px;
+  letter-spacing: 20px;
+  line-height: 1.5;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
 	</style>
 
 </head>
@@ -81,8 +111,7 @@
 					<div class="main-menu-wrap">
 						<!-- logo -->
 						<div class="site-logo">
-						<!--	<a href="{% url 'index' %}"> -->
-							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
+							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
 							</a>
 						</div>
 
@@ -90,18 +119,14 @@
 						<nav class="main-menu">
 							<ul>
 
-							
-							
 								<li>
 									<div class="header-icons">
 									
-										<a class="boxed-btn" id="login-btn" href="{% url 'login' %}">Log In</a>
+										<a class="boxed-btn" id="login-btn" href="{% url 'login' %}" style="font-size: 20px;">Log In</a>
 									</div>
 								</li>
 							</ul>
 						</nav>
-						<a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-						<div class="mobile-menu"></div>
 						<!-- menu end -->
 					</div>
 				</div>
@@ -116,14 +141,24 @@
 	<!-- end search area -->
 
 	<!-- hero area -->
-	<div class="hero-area hero-bg">
+	<div class="hero-area hero-bg" style="background-size: 120%;">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-9 offset-lg-2 text-center">
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
 							<p class="subtitle"></p>
-							<h1>Welcome to Game Geek</h1>
+
+
+							<div class="containeTitle">
+								<div class="rowTitle">
+								  <div class="col-md-12 text-center">
+									<h3 class="animate-charcter">Welcome to Game Geek</h3>
+								  </div>
+								</div>
+							  </div>
+							  
+							  
 							<div class="hero-btns">
 								<a href="{% url 'signup' %}" class="boxed-btn">Join Us</a>
 								

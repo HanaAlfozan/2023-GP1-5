@@ -319,7 +319,7 @@ p:last-child {
 }
 
 .mt-150 {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 @media only screen and (max-width: 767.96px) {
@@ -339,7 +339,7 @@ p:last-child {
 }
 
 .pt-80 {
-  padding-top: 80px;
+  padding-top: 40px;
 }
 
 @media only screen and (max-width: 767.96px) {
@@ -349,7 +349,7 @@ p:last-child {
 }
 
 .pb-80 {
-  padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 @media only screen and (max-width: 767.96px) {
@@ -1419,6 +1419,7 @@ html, body {
 
 .hero-btns {
   margin-top: 35px;
+  font-size: 20px;
 }
 
 .hero-btns a.bordered-btn {
