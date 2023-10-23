@@ -11,7 +11,7 @@
 
 	<!-- title -->
 	<title>Sign Up</title>
-    
+
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
@@ -56,6 +56,99 @@
 	.footer-area {
   padding: 120px 0px;
 }
+.back{
+height:100%;
+margin:0;
+margin-top:-12%;
+background: rgb(21,232,237);
+background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(168,168,168,0.02006740196078427) 52%, rgba(255,6,154,1) 100%);
+		}
+
+
+.form-container form {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50px;
+    padding: 25px; /* Increase padding for input boxes */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    width: 50%; /* Reduce the width of the form */
+    margin: 10% auto; /* Adjust vertical margin */
+}
+
+
+.form-container {
+     background-color: transparent;
+
+}
+
+.form-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 10px;
+    color: #ff069a;
+}
+
+.input-box {
+    width: 60%; /* Make inputs take full width of the form */
+    padding: 10px; /* Reduce padding for inputs */
+
+ box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.input-box:focus {
+    border: 2px solid #ff069a;
+}
+
+.checkbox-container {
+    text-align: left;
+}
+
+.checkbox-container input {
+    margin-right: 5px;
+}
+
+.checkbox-container label {
+    font-weight: bold;
+    color: #333;
+
+}
+
+.alt-link {
+    color: #ff069a;
+    text-decoration: none;
+}
+
+.input-pair {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* This ensures labels and inputs start from left to right */
+    margin-bottom: 10px;
+}
+
+.input-pair label {
+    flex: 0 0 20%; /* Adjust label width as needed */
+    font-weight: bold;
+    text-align:center;
+}
+
+
+
+.form-title {
+    font-size: 24px;
+
+    color: #ff069a;
+}
+.form-title p{
+text-align:justify;
+padding:10px;
+
+}
+
+
 
 
 
@@ -93,11 +186,9 @@
 								<li>
 									<li>
 										<div class="header-icons">
-										
-											<li class="current-list-item" ><a href="{% url 'index' %}">Home</a>
-		
-											</li>
-										</div>
+
+										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}">Home</a>
+									</div>
 									</li>
 								</li>
 							</ul>
@@ -122,8 +213,13 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<p>Join the team now</p>
+
 						<h1>Sign Up</h1>
+						<p>
+							<span class="blue">Join </span>
+							<span class="black">the team</span>
+
+							<span class="pink"> now</span></p>
 					</div>
 				</div>
 			</div>
@@ -132,45 +228,48 @@
 	<!-- end breadcrumb section -->
 
 	<!-- contact form -->
+	<div class="back">
 	<div class="contact-from-section mt-150 mb-150">
 		<div class="container">
-			
-					<div class="form-title">
-						<h2 style="color: rgb(219, 46, 46);">Warning</h2>
-						<p style="color: rgb(219, 46, 46); font-weight: bolder;">Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek. Thank you.</p>
-					</div>
-				 	<div id="form_status"></div>
-					 <div class="form-container">
-						<br>
-						<h3>Sign up</h3>
-						<br>
-						<form action="{% url 'estimate' %}" method="POST">
-						   {% csrf_token %}
-							<input type="text" id="username" class="input-box" name="username" required placeholder="Username">
-							<br><br>
-						 
-							<input type="email" id="email" class="input-box" name="email" required placeholder="Email">
-							<br><br>
-						   
-							<input type="password" id="password" class="input-box" name="password" required placeholder="Password">
-							<br><br>
-							<input type="checkbox" id="agree" required>
-				<label for="agree">I agree to conditions and terms.</label>
-				<br><br>
-				<input type="submit" class="cta-button" value="Next" id="nextButton" disabled> 
-				
-						   
-				
-						</form>
-						<br>
-						<label>Already have an account? <a href="{% url 'login' %}"  class="alt-link"> Log in</a></label>
-				
-						</div>
-				
-			
-			
-		</div>
+    <div class="form-container">
+<form action="{% url 'estimate' %}" method="POST">
+    {% csrf_token %}
+
+    <div class="input-pair">
+        <label for="username">Username:</label>
+        <input type="text" id="username" class="input-box" name="username" required placeholder="Enter your username">
+    </div>
+    <div class="input-pair">
+        <label for="email">Email:</label>
+        <input type="email" id="email" class="input-box" name="email" required placeholder="Enter your email">
+    </div>
+    <div class="input-pair">
+        <label for="password">Password:</label>
+        <input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password">
+    </div>
+    <div class="input-pair">
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password">
+    </div>
+<br>
+	 <h2 class="form-title">Warning</h2>
+    <p><b>Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek.</b></p>
+		<label for="agree">I agree to the terms and conditions.</label>
+        <input type="checkbox" id="agree" required>
+
+
+    <br><br>
+    <input type="submit" id="LogIN" value="Register">
+    <br><br>
+    <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
+</form>
+
+
+
+    </div>
+</div>
 	</div>
+		</div>
 	<!-- end contact form -->
 
 
