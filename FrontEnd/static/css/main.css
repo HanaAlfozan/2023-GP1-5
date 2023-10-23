@@ -2700,8 +2700,8 @@ table.order-details tbody td {
 
   .helloUserName {
     position: relative;
-    left: 450px;
-    top: -35px;
+    left: 420px;
+    top: -36px;
     color: #ff069a;
     font-size: 15px;
 }
@@ -2711,6 +2711,6 @@ table.order-details tbody td {
 }
 
 .helloUserName::after {
-    content: "Hello Sara!"; /* Add the text content as a pseudo-element */
+    content: "Hello Sara! (+17)"; /* Add the text content as a pseudo-element */
     font-weight: 700; /* Apply the font-weight to the text content */
 }
