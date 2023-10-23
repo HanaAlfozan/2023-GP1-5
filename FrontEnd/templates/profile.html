@@ -9,10 +9,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
-    
+
         <!-- title -->
         <title>Profile</title>
-    
+
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
@@ -35,6 +35,127 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
+		<style>
+
+  /************/
+ body{
+	background-color: #f1f1f1 ;
+  }
+  .profile-sec {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    margin-left: 20%; /* Adjust the left margin for responsiveness */
+    margin-right: 20%; /* Adjust the right margin for responsiveness */
+
+}
+
+.profile-container {
+    text-align: center;
+    padding: 20px;
+    width: auto; /* Responsive width */
+    max-width: 50%; /* Limit maximum width for two containers side by side */
+    display: flex; /* Display as a flex container */
+    flex-wrap: wrap; /* Allow content to wrap within the container */
+    background-color: #fff; /* Background color for the entire container */
+    border-radius: 3%; /* Border radius for the entire container */
+}
+
+
+/* Your styles for the content inside each profile container */
+
+/* Add responsive styles */
+
+.labels-container {
+    order: 3; /* Set the order to 2 to place it on the right */
+    background-color: #fff;
+    border-radius: 0 3% 3% 0; /* Apply different radius on the left */
+    margin-right: 0; /* Remove right margin */
+	margin-left: 6%;
+
+}
+
+.user-info-container {
+    order: 1; /* Set the order to 1 to place it on the left */
+    background-color: #fff;
+    border-radius: 3% 0 0 3%; /* Apply different radius on the right */
+    margin-left: 0; /* Remove left margin */
+	padding-top: 5%;
+	padding-left: 5%;
+
+}
+
+
+/* Your styles for the content inside each container */
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+  .profile-sec {
+      flex-direction: column; /* Stack containers on small screens */
+  }
+
+  .profile-container {
+    width: 90%; /* Reduce width for smaller screens */
+    margin: 0 auto; /* Center the container horizontally */
+    margin-bottom: 0; /* Remove margin between stacked containers */
+}
+}
+
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add space between input containers */
+
+}
+
+.input-container input {
+  border: none !important;
+width: 100%; /* Make the input wider */
+height: 40px; /* Increase the input height */
+color: #ff069a; /* Set the text color */
+font-weight: bolder;
+background: transparent; /* Remove the background color */
+background-color: #cfcfcf28;
+font-size: larger;
+border-bottom: 1px solid #0505056c !important; /* Add a 2px solid bottom border with the specified color */
+/* Add any other desired styling for the input elements */
+border-radius: 3%;
+cursor: not-allowed;
+outline: none;
+
+
+}
+
+    .input-container label {
+        width: 150px;
+        font-weight: bolder;
+        margin-right: 10px;
+        font-size: larger;
+    }
+
+    /* Add responsive styles */
+    @media (max-width: 768px) {
+        .input-container {
+            flex-direction: column; /* Stack label and input on small screens */
+        }
+
+        .input-container label {
+            width: 100%; /* Make label full-width on small screens */
+            margin-bottom: 5px; /* Add space between label and input */
+        }
+    }
+
+	.separator {
+	order: 2; /* Set the order to 2 to place it on the right */
+    width: 1px; /* Width of the vertical line */
+    background-color: #ff069a; /* Color of the vertical line */
+    margin: 0 ;
+	margin-left: 7%;
+}
+	</style>
+
 	<style>
 		.games{
 			color: #fff;
@@ -56,44 +177,12 @@
     list-style-type: none; /* For non-Chrome browsers */
        }
 
-		.profile-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-/* Style for each profile section */
-.profile-section section {
-    flex-basis: calc(50% - 10px); /* Each section is 50% width minus 10px for spacing */
-
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    background: rgb(21,232,237);
-background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(161,161,161,0.02006740196078427) 52%, rgba(255,6,154,0.4906556372549019) 100%);
-}
-
-/* Style for section headings (e.g., User Name, Email, etc.) */
-.profile-section h2 {
-    font-size: 20px;
-    color: #0077cc;
-}
-
-/* Style for the content (e.g., John Doe, john.doe@example.com, etc.) */
-.profile-section p {
-    font-size: 16px;
-    color: #555;
-}
 
 	</style>
-    
+
     </head>
     <body>
-	
+
         <!--PreLoader-->
         <div class="loader">
             <div class="loader-inner">
@@ -101,7 +190,7 @@ background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(
             </div>
         </div>
         <!--PreLoader Ends-->
-        
+
         	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
@@ -118,27 +207,27 @@ background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
-									
+
 								</li>
-								
+
 								<li><a href=#>Games</a>
 									<ul class="sub-menu">
 										<li><a href="{% url 'Games' %}">All Games</a></li>
 										<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
 										<li><a href="{% url 'History' %}">Downloaded Games</a></li>
-										
+
 									</ul>
 								</li>
 								<li><a href="{% url 'profile' %}">Profile</a>
 								<li><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li><a href="{% url 'about' %}">About Us</a></li>
 								<li>
-									
+
 								</li>
 								<li>
 									<div class="header-icons">
-									
-										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}">Logout</a>
+
+										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}">Log Out</a>
 									</div>
 								</li>
 							</ul>
@@ -152,11 +241,9 @@ background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(
 		</div>
 	</div>
 	<!-- end header -->
-    
-        <!-- search area -->
-    
-        <!-- end search arewa -->
-        
+
+
+
         <!-- breadcrumb-section -->
         <div class="breadcrumb-section breadcrumb-bg">
             <div class="container">
@@ -171,47 +258,53 @@ background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(
             </div>
         </div>
         <!-- end breadcrumb section -->
-    
-        <!-- contact form -->
-		<br>
 
-		<br>
-				</div>
-				<div class="list-box d-flex align-items-center" style="margin-left: 40%;">
-					<div class="list-icon">
-						<i class="fas fa-solid fa-user"></i>
+
+
+
+				<div class="profile-sec">
+			<section class="d-flex">
+				<div class="profile-container labels-container">
+
+					<div class="input-container">
+						<label for="username" style="font-weight: bolder;">Username:</label>
+						<input type="text" id="username" name="username" value="Sara" readonly>
 					</div>
-					<div class="content">
-						<h3><label style="font-size:150%; font-weight: bolder;">Hello, <label class="pink-text">Username</label></label></h3>
+
+						<div class="input-container">
+						<label for="age-group" style="font-weight: bolder;">Age group:</label>
+						<input type="text" id="age-group" name="age-group" value="12+" readonly>
+					</div>
+
+					<div class="input-container">
+						<label for="email" style="font-weight: bolder;">Email:</label>
+						<input type="text" id="email" name="email" value="sarah@example.com" readonly>
+					</div>
+
+					<div class="input-container">
+						<label for="joined-on" style="font-weight: bolder;">Date joined:</label>
+						<input type="text" id="joined-on" name="joined-on" value="10/10/2023" readonly>
 					</div>
 				</div>
-				<div class="profile-section">
-    <section>
-        <h2>User Name</h2>
-        <p>John Doe</p>
-    </section>
-    <section>
-        <h2>Email</h2>
-        <p>john.doe@example.com</p>
-    </section>
-    <section>
-        <h2>Age Group</h2>
-        <p>18-24</p>
-    </section>
-    <section>
-        <h2>Joining Date</h2>
-        <p>2023-10-23</p>
-    </section>
-</div>
+		        <div class="separator"></div> <!-- Add this separator element -->
+
+				<div class="profile-container user-info-container">
+					<div class="list-box d-flex flex-column align-items-center" style="margin-left: 1%;">
+
+						<div class="content">
+						 <label  style="font-size:150%; font-weight: bolder;">Sara</label>
+						 <h5 class="pink-text">12+</h5>
+						</div>
+					</div>
+				</div>
+
+			</section>
+		</div>
 
 
+<br>
 
 
-
-
-        <!-- end contact form -->
-    
-    
 	<!-- footer -->
 	<div class="footer-area">
 		<div class="container">
@@ -246,14 +339,14 @@ background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
 							</ul>
-						
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-	
+
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -289,7 +382,7 @@ background: linear-gradient(95deg, rgba(21,232,237,0.6503195028011204) 0%, rgba(
 	<script src="{% static '/js/form-validate.js' %}"></script>
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
-        
+
     </body>
 	{% endblock %}
     </html>
