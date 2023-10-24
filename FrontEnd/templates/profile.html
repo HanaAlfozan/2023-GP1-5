@@ -37,31 +37,43 @@
 
 		<style>
 
-  /************************************/
+  /************/
  body{
     background-color: #fff;
   }
-  .profile-sec {
-    background-color: #f1f1f1 ;
+.profile-sec {
+    background-color: #f1f1f1;
     padding: 20px;
     display: flex;
-    justify-content: center;
-    margin:10% auto;
-    width:50%;
-    border-radius: 15px;
-
-
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    margin: 0 auto; /* Center the section horizontally */
+    max-width: 50%; /* Limit maximum width for two containers side by side */
+    border-radius: 3%;
 }
 
 .profile-container {
     text-align: center;
     padding: 20px;
-    width: auto; /* Responsive width */
-    max-width: 50%; /* Limit maximum width for two containers side by side */
-    display: flex; /* Display as a flex container */
-    flex-wrap: wrap; /* Allow content to wrap within the container */
-    background-color: #f1f1f1; /* Background color for the entire container */
-    border-radius: 3%; /* Border radius for the entire container */
+    margin: 0 auto; /* Center the container horizontally */
+    width: 100%; /* Take up the full width of the parent container */
+    max-width: 500px; /* Limit the maximum width for readability */
+    background-color: #f1f1f1;
+    border-radius: 3%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+}
+
+/* Your styles for the content inside each profile container */
+.input-container, .input-container-read {
+    width: 100%; /* Make the content take up the full width */
+    text-align: left; /* Adjust text alignment as needed */
+}
+
+.input-container input, .input-container-read input {
+    width: 100%;
 }
 
 
@@ -74,7 +86,6 @@
     background-color: #f1f1f1 ;
     border-radius: 0 3% 3% 0; /* Apply different radius on the left */
     margin-right: 0; /* Remove right margin */
-	margin-left: 6%;
 	    box-shadow: none;
 
 
@@ -85,8 +96,8 @@
     background-color: #f1f1f1 ;
     border-radius: 3% 0 0 3%; /* Apply different radius on the right */
     margin-left: 0; /* Remove left margin */
-	padding-top: 20%;
-	padding-left: 5%;
+	padding-top: 5%;
+	padding-left:-2%;
 	    box-shadow: none;
 
 
@@ -123,44 +134,42 @@
 }
 
 .input-container input {
-  border: none !important;
-width: 100%; /* Make the input wider */
-height: 40px; /* Increase the input height */
-color: #ff069a; /* Set the text color */
-font-weight: bolder;
-background: transparent; /* Remove the background color */
-background-color: #fff;
-font-size: larger;
-border-bottom: 1px solid #0505056c !important; /* Add a 2px solid bottom border with the specified color */
-border-radius: 3%;
-
+    width: 100%; /* Make the input elements take up the full width */
+    height: 40px;
+    color: #ff069a;
+    font-weight: bolder;
+    background-color: #fff;
+    font-size: larger;
+    border: none; /* Remove the border */
+    border-bottom: 1px solid #0505056c !important;
+    border-radius: 3%;
 }
+
 
 .input-container-read input {
-  border: none !important;
-width: 100%; /* Make the input wider */
-height: 40px; /* Increase the input height */
-color: #ff069a; /* Set the text color */
-font-weight: bolder;
-background: transparent; /* Remove the background color */
-background-color: #f1f1f1;
-font-size: larger;
-border-radius: 3%;
-cursor: not-allowed;
-outline: none;
+    width: 100%; /* Make the input elements take up the full width */
+    height: 40px;
+    color: #ff069a;
+    font-weight: bolder;
+    background: transparent;
+    font-size: larger;
+    border: none; /* Remove the border */
+    background-color: #f1f1f1; /* Background color for read-only input */
+    border-radius: 3%;
+    cursor: not-allowed; /* Change cursor to prohibited sign */
+    outline: none; /* Remove the outline when focused */
 }
 
+
     .input-container-read label {
-        width: 350px;
+        width: 150px;
         font-weight: bolder;
         margin-right: 10px;
         font-size: larger;
-
-
     }
 
     .input-container label {
-        width: 350px;
+        width: 150px;
         font-weight: bolder;
         margin-right: 10px;
         font-size: larger;
@@ -182,8 +191,8 @@ outline: none;
 	order: 2; /* Set the order to 2 to place it on the right */
     width: 1px; /* Width of the vertical line */
     background-color: #ff069a; /* Color of the vertical line */
-    margin: 0 ;
-	margin-left: 7%;
+    margin-left: -10% ;
+	margin-right: 1%;
 }
 	</style>
 
@@ -282,10 +291,10 @@ outline: none;
                     <div class="col-lg-8 offset-lg-2 text-center">
                         <div class="breadcrumb-text">
                             <h1>Profile</h1>
-							 <p>
-								 <span class="blue" >Gamer's</span>
-								 <span class="black"> information</span>
-							 </p>
+							<p>
+							<span class="blue">Gamer's</span>
+							<span class="pink">information</span>
+						</p>
 
                         </div>
                     </div>
@@ -315,7 +324,7 @@ outline: none;
 
 					<div class="input-container-read">
 						<label for="email" style="font-weight: bolder;">Email:</label>
-						<input type="text" id="email" name="email" value="sarah@example.com" readonly>
+						<input type="text" id="email" name="email" value="sarah@mail.com" readonly>
 					</div>
 
 					<div class="input-container-read">
@@ -329,7 +338,7 @@ outline: none;
 					<div class="list-box d-flex flex-column align-items-center" style="margin-left: 1%;">
 
 						<div class="content">
-						 <label  style="font-size:230%; font-weight: bolder; margin:auto;">Sarah</label>
+						 <label  style="font-size:230%; font-weight: bolder;">@Sarah</label>
 						 <h4 class="pink-text">12+</h4>
 						</div>
 					</div>

@@ -53,6 +53,7 @@
 		  summary {
     list-style-type: none; /* For non-Chrome browsers */}
 
+
 	</style>
 
 
@@ -151,22 +152,34 @@
 					</div>
 				 	<div id="form_status"></div>
 					<div class="contact-form">
-						<form type="POST" id="fruitkha-contact" onSubmit="return valid_datas( this );">
-							<p>
-								<input type="text" placeholder="Name" name="name" id="name">
-								<input type="email" placeholder="Email" name="email" id="email">
-							</p>
-							<p>
-								<input type="tel" placeholder="Phone" name="phone" id="phone">
-								<input type="text" placeholder="Subject" name="subject" id="subject">
-							</p>
-							<p><textarea name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea></p>
-							<input type="hidden" name="token" value="FsWga4&@f6aw" />
-							<p><input type="submit" value="Submit"></p>
-						</form>
+						<div id="form_status"></div>
+						<div class="contact-form">
+							<form method="POST" id="fruitkha-contact" onsubmit="handleSubmit(event)">
+								<p>
+								  <input type="text" placeholder="Name" name="name" id="name" class="required-input" required>
+								  <input type="email" placeholder="Email" name="email" id="email" class="required-input" required>
+								</p>
+								<p>
+								  <input type="tel" placeholder="Phone" name="phone" id="phone" class="required-input" required>
+								  <input type="text" placeholder="Subject" name="subject" id="subject" class="required-input" required>
+								</p>
+								<p><textarea name="message" id="message" cols="30" rows="10" placeholder="Message" class="required-input" required></textarea></p>
+								<input type="hidden" name="token" value="FsWga4&@f6aw" />
+								<p><input type="submit" value="Submit" id="submitButton"></p>
+							  </form>
+						</div>
+						</div>
+						
 					</div>
 				</div>
-
+				<script>
+					function handleSubmit(event) {
+					  event.preventDefault(); // Prevent the form from submitting
+					  // Optionally, you can change the button text to "Sent!"
+					  var submitButton = document.getElementById("submitButton");
+					  submitButton.value = "Sent!";
+					}
+				  </script>
 			</div>
 		</div>
 	</div>
@@ -186,7 +199,6 @@
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<li>Riyadh, Saudi Arabia.</li>
 							<li>support@gamegeek.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>
