@@ -47,11 +47,11 @@
     display: flex;
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
-    margin: 0 auto; /* Center the section horizontally */
+    margin: 5% auto; /* Center the section horizontally */
     max-width: 50%; /* Limit maximum width for two containers side by side */
     border-radius: 3%;
 }
-
+]
 .profile-container {
     text-align: center;
     padding: 20px;
@@ -64,6 +64,7 @@
     flex-wrap: wrap;
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
+
 }
 
 /* Your styles for the content inside each profile container */
@@ -87,6 +88,7 @@
     border-radius: 0 3% 3% 0; /* Apply different radius on the left */
     margin-right: 0; /* Remove right margin */
 	    box-shadow: none;
+
 
 
 }
@@ -131,6 +133,7 @@
   align-items: center;
   margin-bottom: 10px; /* Add space between input containers */
 
+
 }
 
 .input-container input {
@@ -173,6 +176,7 @@
         font-weight: bolder;
         margin-right: 10px;
         font-size: larger;
+
     }
 
     /* Add responsive styles */
@@ -189,58 +193,17 @@
 
 	.separator {
 	order: 2; /* Set the order to 2 to place it on the right */
-    width: 1px; /* Width of the vertical line */
-    background-color: #ff069a; /* Color of the vertical line */
+    width: 6px; /* Width of the vertical line */
+   background: rgb(21,232,237);
+background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(180,175,175,0.5032606792717087) 52%, rgba(255,6,154,1) 100%);
     margin-left: -10% ;
 	margin-right: 1%;
+}.content label{
+margin:auto 100% auto -30%;}
+
+			.content h5{
+margin-left:-70% ;
 }
-
-			    .content {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .content label {
-        width: 50%; /* Adjust the width for responsive design */
-        font-weight: bolder;
-        text-align: right; /* Right-align the labels on smaller screens */
-    }
-
-    .content h4 {
-        width: 50%; /* Adjust the width for responsive design */
-        font-size: 230%;
-        font-weight: bolder;
-        text-align: left; /* Left-align the age-group on smaller screens */
-    }
-
-    /* Add responsive styles */
-    @media (max-width: 768px) {
-        .profile-container,
-        .user-info-container {
-            width: 90%; /* Reduce width for smaller screens */
-            margin: 0 auto; /* Center the containers horizontally */
-            margin-bottom: 0; /* Remove margin between stacked containers */
-        }
-
-        .input-container,
-        .input-container-read {
-            flex-direction: column; /* Stack label and input on small screens */
-        }
-
-        .input-container label,
-        .input-container-read label {
-            width: 100%; /* Make label full-width on small screens */
-            margin-bottom: 5px; /* Add space between label and input */
-            text-align: left; /* Left-align the labels on smaller screens */
-        }
-
-        .content label,
-        .content h4 {
-            width: 100%; /* Make labels and age-group full-width on small screens */
-            text-align: left; /* Left-align both on smaller screens */
-        }
-    }
 	</style>
 
 	<style>
@@ -338,7 +301,10 @@
                     <div class="col-lg-8 offset-lg-2 text-center">
                         <div class="breadcrumb-text">
                             <h1>Profile</h1>
-							 <p>Gamer's information</p>
+							<p>
+							<span class="blue">Gamer's</span>
+							<span class="pink">information</span>
+						</p>
 
                         </div>
                     </div>
@@ -349,6 +315,7 @@
 
 
 <br>
+
 
 
 				<div class="profile-sec">
@@ -368,7 +335,7 @@
 
 					<div class="input-container-read">
 						<label for="email" style="font-weight: bolder;">Email:</label>
-						<input type="text" id="email" name="email" value="sarah@example.com" readonly>
+						<input type="text" id="email" name="email" value="sara@mail.com" readonly>
 					</div>
 
 					<div class="input-container-read">
@@ -378,16 +345,16 @@
 				</div>
 		        <div class="separator"></div> <!-- Add this separator element -->
 
-				   <div class="profile-container user-info-container">
-            <div class="list-box d-flex flex-column align-items-center" style="margin-left: 1%;">
-                <div class="content">
-                    <label for="username" style="font-weight: bolder; padding-right:25%; font-size:large;">Username:</label>
-                    <label style="font-size: 230%; font-weight: bolder; padding-right:60%; padding-left:30%;" class="pink-text" >@Sarah</label>
-                    <label for="age-group" style="font-weight: bolder;padding-right:39%; font-size:large;">Age-Group:</label>
-                    <h4 class="pink-text" style="padding-right:65%; padding-left:42%; padding-bottom:10%;" >12+</h4>
-                </div>
-            </div>
-        </div>
+				<div class="profile-container user-info-container">
+
+
+						<div class="content">
+						 <label  style="font-size:230%; font-weight: bolder;">@Sara</label>
+
+						 <h5 class="pink-text"> Age group:17+</h5>
+
+					</div>
+				</div>
 
 			</section>
 		</div>
@@ -410,23 +377,10 @@
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<ul>
-								<li><a href="mailto:support@gamegeek.com" class="mail">
-									<i class="fas fa-envelope"></i>&#160;&#160;GameGeekWebsite@gmail.com
-								</a></li>
-								<li>
-									<a href="https://www.instagram.com/Game_Geek2023" target="_blank">
-									  <i class="fab fa-instagram"></i>&#160;&#160; Game_Geek2023
-									</a>
-								</li>
-								<li>
-									<a href="https://www.X.com/Game_Geek2023" target="_blank">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" version="1.1" width="13" height="13" class="X">
-										<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="white"/>
-										</svg>&#160;&#160; <span style="position: relative; top: 2px;">Game_Geek2023</span>
-									</a>
-								</li>
-							</ul>
+							<li>Riyadh, Saudi Arabia.</li>
+							<li>support@gamegeek.com</li>
+							<li>+00 111 222 3333</li>
+						</ul>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
