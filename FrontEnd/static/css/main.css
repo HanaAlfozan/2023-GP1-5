@@ -2717,4 +2717,5 @@ table.order-details tbody td {
 .helloUserName::after {
     content: "Hello Sara! (+17)"; /* Add the text content as a pseudo-element */
     font-weight: 700; /* Apply the font-weight to the text content */
+
 }
