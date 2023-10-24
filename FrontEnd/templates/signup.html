@@ -68,8 +68,10 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
 
+
     width: 60%; /* Reduce the width of the form */
-    margin: -3% auto; /* Adjust vertical margin */
+    margin: 3% auto; /* Adjust vertical margin */
+
 }
 
 
@@ -147,8 +149,8 @@ padding:10px;
 		.animate-charcter {
   text-transform: uppercase;
   background-image: linear-gradient(
-    -225deg,
-    #231557 0%,
+     -225deg,
+    #2ae2e1 0%,
 	#ff069a 29%,
     #06f7ff 67%,
     #fff 100%
@@ -160,12 +162,12 @@ padding:10px;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: textclip 2s linear infinite;
+
   display: inline-block;
   font-size: 80px;
   letter-spacing: 20px;
   line-height: 1.5;
-  margin:auto;
+  margin:  auto;
 }
 
 @keyframes textclip {
@@ -299,7 +301,7 @@ padding:10px;
         <input type="checkbox" id="agree" required>
 
 
-    <br><br>
+    <br>
     <input type="submit" id="LogIN" value="Register">
     <br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
