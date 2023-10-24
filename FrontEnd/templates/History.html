@@ -9,7 +9,7 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>Recent Games</title>
+	<title>Downloaded Games</title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
@@ -133,12 +133,15 @@
 						<span class="blue">All</span>
 							<span class="black"> the fun</span>
 							<span class="pink">is here</span>
-
-
-
 						</p>
 					</div>
 				</div>
+				<ul class="Realbreadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'signup' %}" >Sign Up</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'History' %}">Downloaded Games</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>

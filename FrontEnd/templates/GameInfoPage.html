@@ -130,12 +130,15 @@
 							<span class="blue">See</span>
 							<span class="black"> more</span>
 							<span class="pink">Details</span>
-
-
-
 						</p>
 					</div>
 				</div>
+				<ul class="Realbreadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'signup' %}" >Sign Up</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'game_info_page' %}">Game Inforomation</a></li>
+				 </ul>
 			</div>
 		</div>
 	</div>

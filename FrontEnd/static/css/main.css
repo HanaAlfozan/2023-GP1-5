@@ -497,7 +497,7 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
 }
 
 .breadcrumb-section {
-  padding: 65px 0;
+  padding: 45px 0;
   background-size: cover;
   background-position: center center;
   position: relative;
@@ -2718,3 +2718,28 @@ table.order-details tbody td {
     content: "Hello Sara! (+17)"; /* Add the text content as a pseudo-element */
     font-weight: 700; /* Apply the font-weight to the text content */
 }
+
+.Realbreadcrumb{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: -150px;
+  top: 84px;
+}
+
+  .Realbreadcrumb .current a {
+    color: #ff069a;
+    
+  }
+
+  .Realbreadcrumb a{
+    color: #051922;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .Realbreadcrumb a:hover{
+    color: #06f7ff;
+
+  }

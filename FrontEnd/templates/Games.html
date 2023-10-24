@@ -278,12 +278,7 @@
 	</div>
 	<!-- end header -->
 
-	<!-- search area -->
-
-	<!-- end search arewa -->
-	
-	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
@@ -296,10 +291,16 @@
 						</p>
 					</div>
 				</div>
+				<ul class="Realbreadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'signup' %}" >Sign Up</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'Games' %}">All Games</a></li>
+				  </ul>
 			</div>
 		</div>
 	</div>
-	<!-- end breadcrumb section -->
+	  
+
 
 	<!-- games -->
 	<div class="product-section mt-150 mb-150">
