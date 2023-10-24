@@ -194,6 +194,53 @@
     margin-left: -10% ;
 	margin-right: 1%;
 }
+
+			    .content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .content label {
+        width: 50%; /* Adjust the width for responsive design */
+        font-weight: bolder;
+        text-align: right; /* Right-align the labels on smaller screens */
+    }
+
+    .content h4 {
+        width: 50%; /* Adjust the width for responsive design */
+        font-size: 230%;
+        font-weight: bolder;
+        text-align: left; /* Left-align the age-group on smaller screens */
+    }
+
+    /* Add responsive styles */
+    @media (max-width: 768px) {
+        .profile-container,
+        .user-info-container {
+            width: 90%; /* Reduce width for smaller screens */
+            margin: 0 auto; /* Center the containers horizontally */
+            margin-bottom: 0; /* Remove margin between stacked containers */
+        }
+
+        .input-container,
+        .input-container-read {
+            flex-direction: column; /* Stack label and input on small screens */
+        }
+
+        .input-container label,
+        .input-container-read label {
+            width: 100%; /* Make label full-width on small screens */
+            margin-bottom: 5px; /* Add space between label and input */
+            text-align: left; /* Left-align the labels on smaller screens */
+        }
+
+        .content label,
+        .content h4 {
+            width: 100%; /* Make labels and age-group full-width on small screens */
+            text-align: left; /* Left-align both on smaller screens */
+        }
+    }
 	</style>
 
 	<style>
@@ -291,10 +338,7 @@
                     <div class="col-lg-8 offset-lg-2 text-center">
                         <div class="breadcrumb-text">
                             <h1>Profile</h1>
-							<p>
-							<span class="blue">Gamer's</span>
-							<span class="pink">information</span>
-						</p>
+							 <p>Gamer's information</p>
 
                         </div>
                     </div>
@@ -324,7 +368,7 @@
 
 					<div class="input-container-read">
 						<label for="email" style="font-weight: bolder;">Email:</label>
-						<input type="text" id="email" name="email" value="sarah@mail.com" readonly>
+						<input type="text" id="email" name="email" value="sarah@example.com" readonly>
 					</div>
 
 					<div class="input-container-read">
@@ -334,15 +378,16 @@
 				</div>
 		        <div class="separator"></div> <!-- Add this separator element -->
 
-				<div class="profile-container user-info-container">
-					<div class="list-box d-flex flex-column align-items-center" style="margin-left: 1%;">
-
-						<div class="content">
-						 <label  style="font-size:230%; font-weight: bolder;">@Sarah</label>
-						 <h4 class="pink-text">12+</h4>
-						</div>
-					</div>
-				</div>
+				   <div class="profile-container user-info-container">
+            <div class="list-box d-flex flex-column align-items-center" style="margin-left: 1%;">
+                <div class="content">
+                    <label for="username" style="font-weight: bolder; padding-right:25%; font-size:large;">Username:</label>
+                    <label style="font-size: 230%; font-weight: bolder; padding-right:60%; padding-left:30%;" class="pink-text" >@Sarah</label>
+                    <label for="age-group" style="font-weight: bolder;padding-right:39%; font-size:large;">Age-Group:</label>
+                    <h4 class="pink-text" style="padding-right:65%; padding-left:42%; padding-bottom:10%;" >12+</h4>
+                </div>
+            </div>
+        </div>
 
 			</section>
 		</div>
