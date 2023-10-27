@@ -36,41 +36,33 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <style>
-                  #main-content{
-                  margin:auto;
-height:107%;
-background: rgb(21,22,51);
-background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
-     }
+        #main-content {
+            margin: auto;
+            height: 107%;
+            background: rgb(21, 22, 51);
+            background: linear-gradient(96deg, rgba(21, 22, 51, 1) 0%, rgba(226, 42, 162, 1) 86%);
+        }
 
-    .top-header-area {
+        .top-header-area {
+            padding: 15px 0;
+            width: 100%;
+        }
 
-  padding: 15px 0;
-  width:100%;
-}
         #video-container, #captured-image {
-
-
-
             border-radius: 4%;
             border-color: #ff069a;
             border-width: 2px;
-
-margin: 20% auto -1% auto;
-             display:none;
-                margin-right:-180px;
+            margin: 20% auto -1% auto;
+            display: none;
+            margin-right: -180px;
         }
 
         #video-stream {
-
-margin: 20% auto auto auto;
+            margin: 20% auto auto auto;
             border-radius: 4%;
             border-color: #ff069a;
-             margin-right:-10px;
-
-
-
-             display:none;
+            margin-right: -10px;
+            display: none;
         }
 
         #button-container {
@@ -81,103 +73,85 @@ margin: 20% auto auto auto;
             flex-flow: row;
             align-content: space-between;
             justify-content: center;
-
         }
 
-      .inst-container {
+        .inst-container {
+            text-align: center;
+            padding-top: 5%;
+        }
 
+        #popup {
+            margin: 10% auto 0 auto;
+            padding-top: 3%;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.7);
+            height: 40%;
+            width: 40%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            font-size: 1px;
+        }
 
+        .message-container {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.7);
+            font-family: 'Poppins', sans-serif;
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-size: 24px;
+            display: none;
+            margin-top: -30px;
+            height: 68px;
+            padding-bottom: -30px;
+        }
 
-    text-align: center;
-    padding-top: 5%;
-}
-#popup{
- margin: 10% auto 0 auto;
-padding-top:3%;
- border-radius: 50px;
- background-color: rgba(255, 255, 255, 0.7);
-   height: 40%;
-    width: 40%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.);
-    font-size: 1px;
+        button.boxed-btn {
+            font-family: 'Poppins', sans-serif;
+            display: inline-block;
+            background-color: #ff069a;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 50px;
+        }
 
+        button.boxed-btn:hover {
+            background-color: #06f7ff;
+            color: #fff;
+        }
 
+        button.boxed-btn {
+            -webkit-transition: 0.5s;
+            -o-transition: 0.5s;
+            transition: 0.5s;
+        }
 
-    }
-    .message-container {
-    position: relative;
-    background-color: rgba(255, 255, 255, 0.7);
-    font-family: 'Poppins', sans-serif;
-    width: 90%; /* Increased the width to 90% */
-    margin: 0 auto; /* Center the container horizontally */
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjusted the box shadow */
-    font-size: 24px; /* Increased the font size to 24px */
-    display: none;
-    margin-top:-30px ;
-    height: 68px;
-    padding-bottom: -30px;
-}
+        .games {
+            color: #fff;
+        }
 
-
-.inst-container li{
-    margin-bottom: 10px;
-
-}
-
-button.boxed-btn {
-  font-family: 'Poppins', sans-serif;
-  display: inline-block;
-  background-color: #ff069a;
-  color: #fff;
-  padding: 10px 20px;
-  cursor: pointer;
-
-  text-decoration: none;
-}
-
-button.boxed-btn {
-  border-radius: 50px;
-}
-button.boxed-btn:hover {
-  background-color: #06f7ff;
-  color: #fff;
-}
-button.boxed-btn {
-  -webkit-transition: 0.s;
-  -o-transition: 0.s;
-  transition: 0.s;
-
-}
-
-				.games{
-			color: #fff;
-		}
-		.innerList{
-			padding-left: 40px;
+        .innerList {
+            padding-left: 40px;
             padding-bottom: 19px;
-		}
-		ul{
-           list-style: none;
-		}
-		#footer{
-			justify-content: space-between;
-		}
-		summary::-webkit-details-marker {
-          display: none;}
+        }
 
-		  summary {
-    list-style-type: none; /* For non-Chrome browsers */}
-    .footer-area {
-  padding: 37px 0px;
-  padding-top: 60px;
+        ul {
+            list-style: none;
+        }
 
-}
- #retake-button , #next-button{
-margin:auto 2%;
+        #footer {
+            justify-content: space-between;
+        }
 
-width:50%;
-height:20%;}
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary {
+            list-style-type: none;
+        }
     </style>
 <body>
 
@@ -342,73 +316,71 @@ height:20%;}
 	</div>
 	<!-- end copyright -->
     <script>
-        // JavaScript code for capturing and saving the image
-        document.addEventListener('DOMContentLoaded', () => {
-            const startCameraButton = document.getElementById('start-camera-button');
-            const takeSnapshotButton = document.getElementById('take-snapshot-button');
-            const retakeButton = document.getElementById('retake-button');
-            const capturedImage = document.getElementById('captured-image');
-            const videoElement = document.getElementById('video-stream');
-            const nextButton = document.getElementById('next-button');
+    document.addEventListener('DOMContentLoaded', () => {
+        const startCameraButton = document.getElementById('start-camera-button');
+        const takeSnapshotButton = document.getElementById('take-snapshot-button');
+        const retakeButton = document.getElementById('retake-button');
+        const capturedImage = document.getElementById('captured-image');
+        const videoElement = document.getElementById('video-stream');
+        const nextButton = document.getElementById('next-button');
 
-            let mediaStream;
-            let snapshotDataUrl;
+        let mediaStream;
+        let snapshotDataUrl;
 
-            startCameraButton.addEventListener('click', async () => {
-                try {
-                    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        startCameraButton.addEventListener('click', async () => {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
 
-                    // Display the video stream in the video element
-                    videoElement.srcObject = mediaStream;
+                // Display the video stream in the video element
+                videoElement.srcObject = mediaStream;
 
-                    // Show the video element and hide the captured image
-                    videoElement.style.display = 'block';
-                    capturedImage.style.display = 'none';
+                // Show the video element and hide the captured image
+                videoElement.style.display = 'block';
+                capturedImage.style.display = 'none';
 
-                    // Enable the "Take Snapshot" button
-                    takeSnapshotButton.disabled = false;
-                    takeSnapshotButton.style.display = 'block';
-                } catch (error) {
-                    console.error('Error accessing camera:', error);
+                // Enable the "Take Snapshot" button
+                takeSnapshotButton.disabled = false;
+                takeSnapshotButton.style.display = 'block';
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        });
+
+        takeSnapshotButton.addEventListener('click', () => {
+            if (mediaStream) {
+                const canvas = document.createElement('canvas');
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                const context = canvas.getContext('2d');
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                // Convert the captured snapshot to base64 data
+                snapshotDataUrl = canvas.toDataURL('image/jpeg');
+                const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+
+                fetch('/AgeEstimationModel/process_image/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({ image_data: snapshotDataUrl }),
+                })
+                .then(response => response.json())
+            .then(result => {
+                if ('error' in result) {
+                    console.error('Error from model:', result.error);
+                    displayMessage('No Face Detected. Please try again.');
+                } else {
+                    console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
+                    displayMessage(`Your Estimated Age Group is: ${result['Estimated Age Group']}`);
                 }
+            })
+            .catch(error => {
+                console.error('Error processing image:', error);
+                displayMessage('Error processing image. Please try again.');
             });
 
-            takeSnapshotButton.addEventListener('click', () => {
-                if (mediaStream) {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = videoElement.videoWidth;
-                    canvas.height = videoElement.videoHeight;
-                    const context = canvas.getContext('2d');
-                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                    // Convert the captured snapshot to base64 data
-                    snapshotDataUrl = canvas.toDataURL('image/jpeg');
-                    const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
-
-                    fetch('/AgeEstimationModel/process_image/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken,
-                        },
-                        body: JSON.stringify({ image_data: snapshotDataUrl }),
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-            if ('error' in result) {
-                console.error('Error from model:', result.error);
-                displayMessage('No Face Detected. Please try again.');
-            } else {
-                console.log('Your Estimated Age Group is:', result);
-
-                // Display the result in the message container
-                displayMessage(`Your Estimated Age Group is: ${result["Estimated Age Group is: "]}`);
-            }
-        })
-        .catch(error => {
-            console.error('Error processing image:', error);
-            displayMessage('Error processing image. Please try again.');
-        });
 
         // Function to display messages in the container
         function displayMessage(message) {
