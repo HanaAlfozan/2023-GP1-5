@@ -278,7 +278,7 @@ padding:10px;
 	 <h5>{{message}}</h5>
 	 {% endfor %}
     <div class="form-container">
-<form action="{% url 'signup_user' %}" method="POST">
+<form action="{% url 'SignupUser' %}" method="POST">
     {% csrf_token %}
     <div class="input-pair">
         <label for="username">Username:</label>

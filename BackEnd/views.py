@@ -1,15 +1,14 @@
 from .models import GGUser
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 import json
-from django.contrib.auth import login
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
 
 
-def signup_user(request):
+def SignupUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
         email = request.POST['Email']
@@ -132,3 +131,8 @@ def GetProfileData(request):
             return JsonResponse({'error': 'User not found'}, status=400)
     else:
         return JsonResponse({'error': 'User not authenticated'})
+
+
+def LogoutUser(request):  
+    logout(request)
+    return redirect('index')     

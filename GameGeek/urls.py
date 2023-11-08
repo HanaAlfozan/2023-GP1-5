@@ -36,7 +36,7 @@ urlpatterns = [
     path('about/',views.about,name='about'),
     path('AgeEstimation/Games.html', views.Game,name='Games'),
     path('AgeEstimationModel/process_image/', AgeEstimationModel_views.process_image, name='process_image'),
-    path('BackEnd/signup_user/', BackEnd_views.signup_user, name='signup_user'),
+    path('BackEnd/SignupUser/', BackEnd_views.SignupUser, name='SignupUser'),
     path('AgeEstimation/',Frontend_views.estimate, name='estimat'),
     path('signup/',Frontend_views.signup,name='signup'),
     path('login/',Frontend_views.login,name='login'),
@@ -45,6 +45,8 @@ urlpatterns = [
     path('Games/',Frontend_views.Game,name='Games'),
     path('BackEnd/Hello/', BackEnd_views.Hello, name='Hello'),
     path('BackEnd/GetProfileData/', BackEnd_views.GetProfileData, name='GetProfileData'),
+    path('BackEnd/LogoutUser/', BackEnd_views.LogoutUser, name='LogoutUser'),
+
 
 
 
