@@ -9,6 +9,8 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 	<!-- title -->
 	<title>Favourites</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
@@ -180,17 +182,17 @@ ul li a:hover {
 							<nav class="main-menu">
 								<ul>
 									
-									<li><a href=# style="text-decoration: none;">Games</a>
+									<li><a href=# style="text-decoration: none; font-size: 15px;">Games</a>
 										<ul class="sub-menu">
-											<li><a href="{% url 'Games' %}" style="text-decoration: none;">All Games</a></li>
-											<li><a href="{% url 'Fav' %}" style="text-decoration: none;">Favourite Games</a></li>
-											<li><a href="{% url 'History' %}" style="text-decoration: none;">Downloaded Games</a></li>
+											<li><a href="{% url 'Games' %}" style="text-decoration: none; font-size: 15px;">All Games</a></li>
+											<li><a href="{% url 'Fav' %}" style="text-decoration: none; font-size: 15px;">Favourite Games</a></li>
+											<li><a href="{% url 'History' %}" style="text-decoration: none; font-size: 15px;">Downloaded Games</a></li>
 											
 										</ul>
 									</li>
-									<li><a href="{% url 'profile' %}" style="text-decoration: none;">Profile</a>
-									<li><a href="{% url 'contact' %}" style="text-decoration: none;">Contact Us</a></li>
-									<li><a href="{% url 'about' %}" style="text-decoration: none;">About Us</a></li>
+									<li><a href="{% url 'profile' %}" style="text-decoration: none; font-size: 15px;">Profile</a>
+									<li><a href="{% url 'contact' %}" style="text-decoration: none; font-size: 15px;">Contact Us</a></li>
+									<li><a href="{% url 'about' %}" style="text-decoration: none; font-size: 15px;">About Us</a></li>
 								<li>
 									<div class="header-icons">
 									
@@ -201,8 +203,26 @@ ul li a:hover {
 						</nav>
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
-						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp</div>
-					</div>
+						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
+
+						<script>
+							$(document).ready(function() {
+								$.ajax({
+									url: '/BackEnd/Hello/',
+									type: 'GET',
+									success: function(data) {
+										if (data.error) {
+											console.error('Error:', data.error);
+										} else {
+											$('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
+										}
+									},
+									error: function(xhr, status, error) {
+										console.error('Error:', error);
+									}
+								});
+							});
+							</script>					</div>
 				</div>
 			</div>
 		</div>

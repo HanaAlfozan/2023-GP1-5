@@ -12,6 +12,7 @@
 
         <!-- title -->
         <title>Profile</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
@@ -304,7 +305,26 @@ margin-right:55%;
 						</nav>
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
-						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp</div>
+						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
+
+						<script>
+							$(document).ready(function() {
+								$.ajax({
+									url: '/BackEnd/Hello/',
+									type: 'GET',
+									success: function(data) {
+										if (data.error) {
+											console.error('Error:', data.error);
+										} else {
+											$('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
+										}
+									},
+									error: function(xhr, status, error) {
+										console.error('Error:', error);
+									}
+								});
+							});
+							</script>
 					</div>
 				</div>
 			</div>
@@ -341,51 +361,65 @@ margin-right:55%;
 <br>
 
 
-
-				<div class="profile-sec">
-			<section class="d-flex">
-				<div class="profile-container labels-container">
-
-					<div class="input-container">
-						<label for="Fname" style="font-weight: bolder;">First Name:</label>
-						<input type="text" id="Fname" name="Fname" value="">
-					</div>
-
-						<div class="input-container">
-						<label for="Lname" style="font-weight: bolder;">Last Name:</label>
-						<input type="text" id="Lname" name="Lname" value="" >
-
-					</div>
-
-					<div class="input-container-read">
-						<label for="email" style="font-weight: bolder;">Email:</label>
-						<input type="text" id="email" name="email" value="sara@mail.com" readonly>
-					</div>
-
-					<div class="input-container-read">
-						<label for="joined-on" style="font-weight: bolder;">Date joined:</label>
-						<input type="text" id="joined-on" name="joined-on" value="10/10/2023" readonly>
-					</div>
-				</div>
-		        <div class="separator"></div> <!-- Add this separator element -->
-
-							   <div class="profile-container user-info-container">
+<div class="profile-sec">
+    <section class="d-flex">
+        <div class="profile-container labels-container">
+            <div class="input-container">
+                <label for="Fname" style="font-weight: bolder;">First Name:</label>
+                <input type="text" id="Fname" name="Fname" value="">
+            </div>
+            <div class="input-container">
+                <label for="Lname" style="font-weight: bolder;">Last Name:</label>
+                <input type="text" id="Lname" name="Lname" value="">
+            </div>
+            <div class="input-container-read">
+                <label for="email" style="font-weight: bolder;">Email:</label>
+                <input type="text" id="email" name="email" value="" readonly>
+            </div>
+            <div class="input-container-read">
+                <label for="joined-on" style="font-weight: bolder;">Date joined:</label>
+                <input type="text" id="joined-on" name="joined-on" value="" readonly>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <div class="profile-container user-info-container">
             <div class="list-box d-flex flex-column align-items-center" style="margin-left: -70%;">
                 <div class="content">
-                    <label for="username" style="font-weight: bolder;  padding-right:20%; padding-left: 15%; font-size:large;">Username:</label>
-                    <h4 style="font-size: 230%; font-weight: bolder;  " class="pink-text" >sara</h4>
+                    <label for="username" style="font-weight: bolder; padding-right:20%; padding-left: 15%; font-size:large;">Username:</label>
+                    <h4 style="font-size: 230%; font-weight: bolder;" class="pink-text" id="usernamePlaceholder"></h4>
                     <label for="age-group" style="font-weight: bolder; font-size:large; margin-left:20%">Age-Group:</label>
-                    <h4 class="pink-text" style="font-size: 200%; padding-bottom:10%;" >17+</h4>
+                    <h4 class="pink-text" style="font-size: 200%; padding-bottom:10%;" id="ageGroupPlaceholder"></h4>
                 </div>
             </div>
         </div>
+    </section>
+</div>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: '/BackEnd/GetProfileData/',
+        type: 'GET',
+        success: function(data) {
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                $('#Fname').val(data.First_name);
+                $('#Lname').val(data.Last_name);
+                $('#email').val(data.Email);
+                $('#joined-on').val(data.Date_joined);
+                $('#usernamePlaceholder').text(data.Username);
+                $('#ageGroupPlaceholder').text(data.Age_group);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+});
 
-			</section>
-		</div>
-
+</script>
 
 <br>
-
 
 	<!-- footer -->
 	<div class="footer-area">
@@ -401,9 +435,21 @@ margin-right:55%;
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<li>Riyadh, Saudi Arabia.</li>
-							<li>support@gamegeek.com</li>
-							<li>+00 111 222 3333</li>
+							<li><a href="mailto:support@gamegeek.com" class="mail">
+								<i class="fas fa-envelope"></i>&#160;&#160;GameGeekWebsite@gmail.com
+							</a></li>
+							<li>
+								<a href="https://www.instagram.com/Game_Geek2023" target="_blank">
+								  <i class="fab fa-instagram"></i>&#160;&#160; Game_Geek2023
+								</a>
+							</li>
+							<li>
+								<a href="https://www.X.com/Game_Geek2023" target="_blank">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" version="1.1" width="13" height="13" class="X">
+									<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="white"/>
+									</svg>&#160;&#160; <span style="position: relative; top: 2px;">Game_Geek2023</span>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -421,7 +467,7 @@ margin-right:55%;
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
 							</ul>
-
+						
 					</div>
 				</div>
 			</div>

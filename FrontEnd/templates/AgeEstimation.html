@@ -231,6 +231,9 @@
 </div> <!-- End class row -->
 </div> <!-- End class container -->
 <div class="container">
+    {% for message in messages %}
+     <h5>{{message}}</h5>
+    {% endfor %}
     <div class="row">
         <div class="col-lg-5 offset-lg-4 text-center">
 
@@ -357,6 +360,7 @@
                 // Convert the captured snapshot to base64 data
                 snapshotDataUrl = canvas.toDataURL('image/jpeg');
                 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+                var estimatedAgeGroup;
 
                 fetch('/AgeEstimationModel/process_image/', {
                     method: 'POST',
@@ -374,6 +378,17 @@
                 } else {
                     console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
                     displayMessage(`Your Estimated Age Group is: ${result['Estimated Age Group']}`);
+                    fetch('/BackEnd/AssignAgeGroup/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({ 
+                            estimatedAgeGroup: `${result['Estimated Age Group']}`,
+                            previousPage: document.referrer
+                        }),
+                })
                 }
             })
             .catch(error => {

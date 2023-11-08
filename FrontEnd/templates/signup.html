@@ -274,21 +274,23 @@ padding:10px;
 								  </div>
 								</div>
 							  </div>
+	 {% for message in messages %}
+	 <h5>{{message}}</h5>
+	 {% endfor %}
     <div class="form-container">
-<form action="{% url 'estimate' %}" method="POST">
+<form action="{% url 'signup_user' %}" method="POST">
     {% csrf_token %}
-
     <div class="input-pair">
         <label for="username">Username:</label>
-        <input type="text" id="username" class="input-box" name="username" required placeholder="Enter your username">
+        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
     </div>
     <div class="input-pair">
         <label for="email">Email:</label>
-        <input type="email" id="email" class="input-box" name="email" required placeholder="Enter your email">
+        <input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email">
     </div>
     <div class="input-pair">
         <label for="password">Password:</label>
-        <input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password">
+        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
     </div>
     <div class="input-pair">
         <label for="confirm_password">Confirm Password:</label>
@@ -298,9 +300,7 @@ padding:10px;
 	 <h2 class="form-title">Warning</h2>
     <p><b>Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek.</b></p>
 		<label for="agree">I agree to the terms and conditions.</label>
-        <input type="checkbox" id="agree" required>
-
-
+        <input type="checkbox" id="agree" name="Accept_conditions" required>
     <br>
     <input type="submit" id="LogIN" value="Register">
     <br>

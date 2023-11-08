@@ -11,6 +11,7 @@
 	<!-- title -->
 	<title>All Games</title>
 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
@@ -270,7 +271,28 @@
 						</nav>
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
-						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp</div>
+						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
+
+						<script>
+							$(document).ready(function() {
+								$.ajax({
+									url: '/BackEnd/Hello/',
+									type: 'GET',
+									success: function(data) {
+										if (data.error) {
+											console.error('Error:', data.error);
+										} else {
+											$('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
+										}
+									},
+									error: function(xhr, status, error) {
+										console.error('Error:', error);
+									}
+								});
+							});
+							</script>
+							
+
 					</div>
 				</div>
 			</div>

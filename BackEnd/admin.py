@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import GGUser
 
-# Register your models here.
+admin.site.register(GGUser) 
+
+list_display = ('Username', 'Email','Password')

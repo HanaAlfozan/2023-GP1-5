@@ -242,23 +242,21 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 								  </div>
 								</div>
 							  </div>
+{% for message in messages %}
+<h5>{{message}}</h5>
+{% endfor %}
     <div class="form-container">
-
-<form action="{% url 'estimate' %}" method="POST">
+<form action="{% url 'LoginUser' %}" method="POST">
     {% csrf_token %}
-
     <div class="input-pair">
 
         <label for="username">Username:</label>
-        <input type="text" id="username" class="input-box" name="username" required placeholder="Enter your username">
+        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
     </div>
     <div class="input-pair">
         <label for="password">Password:</label>
-        <input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password">
+        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
     </div>
-
-
-
 
    <br>
     <input type="submit" id="LogIN" value="Log In">

@@ -565,6 +565,7 @@ nav.main-menu ul li a {
   font-weight: 700;
   display: block;
   padding: 15px;
+  font-size: 15px;
 }
 
 nav.main-menu ul > li {
@@ -2705,7 +2706,7 @@ table.order-details tbody td {
   .helloUserName {
     position: relative;
     left: 440px;
-    top: -34px;
+    top: -38px;
     color: #ff069a;
     font-size: 15px;
 }
@@ -2715,9 +2716,9 @@ table.order-details tbody td {
 }
 
 .helloUserName::after {
-    content: "Hello Sara! (+17)"; /* Add the text content as a pseudo-element */
-    font-weight: 700; /* Apply the font-weight to the text content */
+    font-weight: 700; 
 }
+
 
 .Realbreadcrumb{
   display: flex;

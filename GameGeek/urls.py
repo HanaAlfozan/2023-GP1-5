@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
-from FrontEnd import views
 from AgeEstimationModel import views as AgeEstimationModel_views
+from FrontEnd import views
+from BackEnd import views as BackEnd_views
+from FrontEnd import views as Frontend_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,4 +36,18 @@ urlpatterns = [
     path('about/',views.about,name='about'),
     path('AgeEstimation/Games.html', views.Game,name='Games'),
     path('AgeEstimationModel/process_image/', AgeEstimationModel_views.process_image, name='process_image'),
+    path('BackEnd/signup_user/', BackEnd_views.signup_user, name='signup_user'),
+    path('AgeEstimation/',Frontend_views.estimate, name='estimat'),
+    path('signup/',Frontend_views.signup,name='signup'),
+    path('login/',Frontend_views.login,name='login'),
+    path('BackEnd/LoginUser/', BackEnd_views.LoginUser, name='LoginUser'),
+    path('BackEnd/AssignAgeGroup/', BackEnd_views.AssignAgeGroup, name='AssignAgeGroup'),
+    path('Games/',Frontend_views.Game,name='Games'),
+    path('BackEnd/Hello/', BackEnd_views.Hello, name='Hello'),
+    path('BackEnd/GetProfileData/', BackEnd_views.GetProfileData, name='GetProfileData'),
+
+
+
+
+
 ]
