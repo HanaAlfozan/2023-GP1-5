@@ -620,6 +620,14 @@ nav.main-menu > ul li:last-child {
   max-width: 150px;
 }
 
+.site-logo img{
+  width: 200px;
+    height: 100px;
+}
+body img{
+  max-width: 600px;
+}
+
 ul.sub-menu li:last-child {
   float: none !important;
 }

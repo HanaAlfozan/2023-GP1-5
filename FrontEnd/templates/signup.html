@@ -67,18 +67,19 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     padding: 25px; /* Increase padding for input boxes */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-
-
-    width: 60%; /* Reduce the width of the form */
-    margin: -3% auto; /* Adjust vertical margin */
+    width: 90%;
 
 }
 
 
 .form-container {
      background-color: transparent;
-
 }
+
+.hero-area {
+    min-height: 150vh;
+}
+
 
 .form-title {
     font-size: 24px;
@@ -124,26 +125,26 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     display: flex;
     align-items: center;
     justify-content: space-between; /* This ensures labels and inputs start from left to right */
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+	margin-left: 20px;
 }
 
 .input-pair label {
     flex: 0 0 20%; /* Adjust label width as needed */
-    font-weight: bold;
-    text-align:center;
+    font-weight: 700;
+    text-align:left;
+	font-size: 17px;
 }
-
 
 
 .form-title {
     font-size: 24px;
-
+	float: left;
     color: #ff069a;
+	margin-top: -10px;
 }
 .form-title p{
-text-align:justify;
-padding:10px;
-
+text-align:left;
 }
 
 		.animate-charcter {
@@ -177,6 +178,35 @@ padding:10px;
 }
 
 
+.site-logo img{
+		width: 200px;
+	    height: 100px;
+		position: relative;
+		left: 100px;
+	}
+	body img{
+		max-width: 600px;
+	}
+
+	.input-item {
+		 position: relative;
+         background: transparent;
+         color: #333;
+         right: 4px;
+		 top: -2px;
+		 font-size: 16px;
+         border-radius: 5px 0px 0px 5px;
+		}
+
+		.mb-150{
+			margin-bottom: 0px;
+
+		}
+
+		.mt-150{
+			margin-top: 0px;
+
+		}
 
 
 
@@ -195,76 +225,21 @@ padding:10px;
 	
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
-							</a>
-						</div>
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-
-								<li>
-									<div class="header-icons">
-
-										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}" style="font-size: 20px;">Home</a>
-									</div>
-								</li>
-							</ul>
-						</nav>
-						<!-- menu end -->
-					</div>
+		<div class="col-lg-12 col-sm-12 text-center">
+				<!-- logo -->
+				<div class="site-logo">
+					<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
+					</a>
 				</div>
-			</div>
-		</div>
 	</div>
-						<!-- logo -->
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-							
-								<li>
-									<li>
-										<div class="header-icons">
-
-										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}">Home</a>
-									</div>
-									</li>
-								</li>
-							</ul>
-						</nav>
-						
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
 	<!-- end header -->
-
-	<!-- search area -->
-	<div class="hero-area hero-bg" style="background-size: 120%;">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-9 offset-lg-2 text-center">
-					<div class="hero-text">
-						<div class="hero-text-tablecell">
-							<p class="subtitle"></p>
-	<!-- end search arewa -->
-	
-	<!-- breadcrumb-section -->
-
-	<!-- end breadcrumb section -->
-
-	<!-- contact form -->
-
+		<div class="hero-area hero-bg" style="background-size: 120%;">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 offset-lg-2 text-center">
+						<div class="hero-text">
+							<div class="hero-text-tablecell">
 	<div class="contact-from-section mt-150 mb-150">
 		<div class="container">
 			<div class="containeTitle">
@@ -274,23 +249,32 @@ padding:10px;
 								  </div>
 								</div>
 							  </div>
-	 {% for message in messages %}
-	 <h5>{{message}}</h5>
-	 {% endfor %}
+
     <div class="form-container">
 <form action="{% url 'SignupUser' %}" method="POST">
     {% csrf_token %}
     <div class="input-pair">
+		<span class="input-item">
+			<i class="fa fa-user-circle"></i>
+		</span>
         <label for="username">Username:</label>
         <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
     </div>
     <div class="input-pair">
+		<span class="input-item">
+			<i class="fa fa-envelope"></i>
+		</span>
         <label for="email">Email:</label>
-        <input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email">
+        <input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" pattern=".+@globex\.com" size="30" 
+        title="Enter a valid email address (e.g., example@example.com).">
     </div>
     <div class="input-pair">
+		<span class="input-item">
+			<i class="fa fa-key"></i>
+		</span>
         <label for="password">Password:</label>
-        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
+        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+        title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
     </div>
     <div class="input-pair">
         <label for="confirm_password">Confirm Password:</label>
@@ -302,8 +286,16 @@ padding:10px;
 		<label for="agree">I agree to the terms and conditions.</label>
         <input type="checkbox" id="agree" name="Accept_conditions" required>
     <br>
-    <input type="submit" id="LogIN" value="Register">
-    <br>
+	<br>
+	<!-- Display messages only if there are any -->
+	{% if messages %}
+		{% for message in messages %}
+			<h5>{{ message }}</h5>
+		{% endfor %}
+	{% endif %}
+	<br>
+    <input type="submit" id="LogIN" value="Register" style="width: 80%;">
+    <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
 
@@ -318,9 +310,6 @@ padding:10px;
 			</div>
 		</div>
 	</div>
-
-
-	<!-- end contact form -->
 
 
 	<!-- footer -->
@@ -413,46 +402,6 @@ padding:10px;
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 	
-	<script>
-        // Function to show the age warning popup
-        function showAgeWarning() {
-          // Create a modal element
-          const modal = document.createElement("div");
-          modal.classList.add("modal");
-      
-          // Create the content for the modal
-          const modalContent = document.createElement("div");
-          modalContent.classList.add("modal-content");
-      
-          // Create the warning message
-          const warningMessage = document.createElement("p");
-          warningMessage.textContent = "Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek. Thank you.";
-      
-          // Create a close button
-          const closeButton = document.createElement("button");
-          closeButton.textContent = "Okay";
-          closeButton.addEventListener("click", hideAgeWarning);
-      
-          // Append elements to the modal
-          modalContent.appendChild(warningMessage);
-          modalContent.appendChild(closeButton);
-          modal.appendChild(modalContent);
-      
-          // Append the modal to the body
-          document.body.appendChild(modal);
-        }
-      
-        // Function to hide the age warning popup
-        function hideAgeWarning() {
-          const modal = document.querySelector(".modal");
-          if (modal) {
-            modal.style.display = "none";
-          }
-        }
-      
-        // Show the age warning when the page loads
-        showAgeWarning();
-      </script>
       <script>
         // Function to handle the checkbox state and enable/disable the "Next" button
         function handleCheckbox() {

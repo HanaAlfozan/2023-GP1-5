@@ -12,8 +12,6 @@
 	<!-- title -->
 	<title>Log In</title>
 
-	<!-- favicon -->
-
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -69,19 +67,8 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     padding: 25px; /* Increase padding for input boxes */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-
-    width: 60%; /* Reduce the width of the form */
-    margin: -3% auto; /* Adjust vertical margin */
-
-
+    width: 80%;
 }
-
-.hero-area {
-  height: 70%;
-}
-
-
-
 
 .form-container {
      background-color: transparent;
@@ -94,8 +81,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 .input-box {
     width: 60%; /* Make inputs take full width of the form */
     padding: 10px; /* Reduce padding for inputs */
-
-
  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
@@ -129,13 +114,15 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     display: flex;
     align-items: center;
     justify-content: space-between; /* This ensures labels and inputs start from left to right */
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+	margin-left: 20px;
 }
 
 .input-pair label {
     flex: 0 0 20%; /* Adjust label width as needed */
-    font-weight: bold;
+    font-weight: 700;
     text-align:left;
+	font-size: 17px;
 }
 
 .animate-charcter {
@@ -169,8 +156,40 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   }
 }
 
-
-
+#forgetPass{
+			font-family: 'Poppins', sans-serif;
+            background-color: #ff069a;
+            color: #fff;
+            padding: 10px 20px;
+			font-weight: 700;
+			text-transform: uppercase;
+			font-size: 14px;
+			cursor: pointer;
+			padding: 15px 20px;
+			border-radius: 50px !important
+		}
+	#forgetPass:hover {
+         background-color: #06f7ff;
+         color: #fff;
+		}
+	.input-item {
+		 position: relative;
+         background: transparent;
+         color: #333;
+         right: 4px;
+		 top: -2px;
+		 font-size: 16px;
+         border-radius: 5px 0px 0px 5px;
+		}
+		.site-logo img{
+		width: 200px;
+	    height: 100px;
+		position: relative;
+		left: 100px;
+	}
+	body img{
+		max-width: 600px;
+	}
 
 
 	</style>
@@ -188,47 +207,21 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
 							</a>
 						</div>
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-
-								<li>
-									<div class="header-icons">
-
-										<a class="boxed-btn" id="login-btn" href="{% url 'index' %}" style="font-size: 20px;">Home</a>
-									</div>
-								</li>
-							</ul>
-						</nav>
-						<!-- menu end -->
-					</div>
-				</div>
 			</div>
-		</div>
 	</div>
 	<!-- end header -->
-
-	<!-- search area -->
 	<div class="hero-area hero-bg" style="background-size: 120%;">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-9 offset-lg-2 text-center">
 					<div class="hero-text">
 						<div class="hero-text-tablecell">
-							<p class="subtitle"></p>
-
-
-
 
 
 
@@ -242,31 +235,38 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 								  </div>
 								</div>
 							  </div>
-{% for message in messages %}
-<h5>{{message}}</h5>
-{% endfor %}
-    <div class="form-container">
-<form action="{% url 'LoginUser' %}" method="POST">
-    {% csrf_token %}
-    <div class="input-pair">
 
-        <label for="username">Username:</label>
-        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
-    </div>
-    <div class="input-pair">
-        <label for="password">Password:</label>
-        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
-    </div>
-
-   <br>
-    <input type="submit" id="LogIN" value="Log In">
-    <br>
-
-</form>
-
-
-
-    </div>
+							  <div class="form-container">
+								<form action="{% url 'LoginUser' %}" method="POST">
+									{% csrf_token %}
+									<div class="input-pair">
+										<span class="input-item">
+											<i class="fa fa-user-circle"></i>
+										</span>
+										<label for="username">Username:</label>
+										<input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
+									</div>
+									<div class="input-pair">
+										<span class="input-item">
+											<i class="fa fa-key"></i>
+										</span>
+										<label for="password">Password:</label>
+										<input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
+									</div>
+									<br>
+									<!-- Display messages only if there are any -->
+									{% if messages %}
+										{% for message in messages %}
+											<h5>{{ message }}</h5>
+										{% endfor %}
+									{% endif %}
+									<br>
+									<button type="button" class="btn btn-white btn-transition" id="forgetPass">Forgot Password?</button>
+									<input type="submit" id="LogIN" value="Log In">
+									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
+								</form>
+							</div>
+							
 </div>
 	</div>
 		</div>
@@ -377,63 +377,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 
-	<script>
-        // Function to show the age warning popup
-        function showAgeWarning() {
-          // Create a modal element
-          const modal = document.createElement("div");
-          modal.classList.add("modal");
-
-          // Create the content for the modal
-          const modalContent = document.createElement("div");
-          modalContent.classList.add("modal-content");
-
-          // Create the warning message
-          const warningMessage = document.createElement("p");
-          warningMessage.textContent = "Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek. Thank you.";
-
-          // Create a close button
-          const closeButton = document.createElement("button");
-          closeButton.textContent = "Okay";
-          closeButton.addEventListener("click", hideAgeWarning);
-
-          // Append elements to the modal
-          modalContent.appendChild(warningMessage);
-          modalContent.appendChild(closeButton);
-          modal.appendChild(modalContent);
-
-          // Append the modal to the body
-          document.body.appendChild(modal);
-        }
-
-        // Function to hide the age warning popup
-        function hideAgeWarning() {
-          const modal = document.querySelector(".modal");
-          if (modal) {
-            modal.style.display = "none";
-          }
-        }
-
-        // Show the age warning when the page loads
-        showAgeWarning();
-      </script>
-      <script>
-        // Function to handle the checkbox state and enable/disable the "Next" button
-        function handleCheckbox() {
-          const agreeCheckbox = document.getElementById("agree");
-          const nextButton = document.getElementById("nextButton");
-
-          if (agreeCheckbox.checked) {
-            nextButton.disabled = false;
-          } else {
-            nextButton.disabled = true;
-          }
-        }
-
-        // Add an event listener to the checkbox to handle changes
-        const agreeCheckbox = document.getElementById("agree");
-        agreeCheckbox.addEventListener("change", handleCheckbox);
-      </script>
 </body>
 
 {% endblock %}
