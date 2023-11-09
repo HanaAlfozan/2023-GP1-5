@@ -136,3 +136,27 @@ def GetProfileData(request):
 def LogoutUser(request):  
     logout(request)
     return redirect('index')     
+
+def EditNames(request):
+    if request.method == 'POST':
+        user_id = request.session.get('user_id')
+        if user_id is not None:
+            try:
+                user = GGUser.objects.get(User_ID=user_id)
+
+                # Update the user's profile based on the POST data
+                user.First_name = request.POST.get('First_name', user.First_name)
+                user.Last_name = request.POST.get('Last_name', user.Last_name)
+                user.save()
+
+                profile_data = {
+                    'First_name': user.First_name,
+                    'Last_name': user.Last_name,
+                }
+                return JsonResponse(profile_data)
+            except GGUser.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=400)
+        else:
+            return JsonResponse({'error': 'User not authenticated'})
+    else:
+        return JsonResponse({'error': 'Invalid request method. POST expected'}, status=400)

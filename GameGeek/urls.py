@@ -46,9 +46,7 @@ urlpatterns = [
     path('BackEnd/Hello/', BackEnd_views.Hello, name='Hello'),
     path('BackEnd/GetProfileData/', BackEnd_views.GetProfileData, name='GetProfileData'),
     path('BackEnd/LogoutUser/', BackEnd_views.LogoutUser, name='LogoutUser'),
-
-
-
+    path('BackEnd/EditNames/', BackEnd_views.EditNames, name='EditNames'),
 
 
 

@@ -1,5 +1,7 @@
 {% load static %}
 {% block brand %}
+{% csrf_token %}
+
 <!DOCTYPE html>
 <html lang="en">
     <!DOCTYPE html>
@@ -49,8 +51,9 @@
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
     margin: 5% auto; /* Center the section horizontally */
-    max-width: 50%; /* Limit maximum width for two containers side by side */
+    max-width: 70%;
     border-radius: 3%;
+	height: 300px;
 }
 
 .profile-container {
@@ -98,10 +101,10 @@
     order: 1; /* Set the order to 1 to place it on the left */
     background-color: #f1f1f1 ;
     border-radius: 3% 0 0 3%; /* Apply different radius on the right */
-    margin-left: 0; /* Remove left margin */
+	margin-left: -30px;
 	padding-top: 5%;
 	padding-left:-2%;
-	    box-shadow: none;
+    box-shadow: none;
 
 
 }
@@ -123,12 +126,16 @@
 }
 
 
-.input-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px; /* Add space between input containers */
+       .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+	
+        }
 
-}
+        .input-container label {
+            font-weight: bolder;
+        }
 .input-container-read {
   display: flex;
   align-items: center;
@@ -136,18 +143,68 @@
 
 
 }
+        .input-container input {
+            width: 100%;
+            height: 40px;
+            color: #ff069a;
+            font-weight: bolder;
+            background-color: #fff;
+            font-size: larger;
+            border: none;
+            border-bottom: 0.5px solid #0505056c;
+            border-radius: 3%;
+        }
 
-.input-container input {
-    width: 100%; /* Make the input elements take up the full width */
-    height: 40px;
-    color: #ff069a;
-    font-weight: bolder;
-    background-color: #fff;
-    font-size: larger;
-    border: none; /* Remove the border */
-    border-bottom: 1px solid #0505056c !important;
-    border-radius: 3%;
+	.edit-button{
+    --border-radius: 10px;
+    --border-width: 2px;
+    appearance: none;
+    position: relative;
+    border: 0;
+    background-color: transparent;
+    font-weight: 700;
+	font-size: 15px;
+	left: 20px;
+    width: 90px;
+
 }
+
+.edit-button::after {
+    --m-i: linear-gradient(#000, #000);
+    --m-o: content-box, padding-box;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: var(--border-width);
+    border-radius: var(--border-radius);
+    background-image: conic-gradient(
+        #c5c5c5,
+        #ff069a,
+        aqua
+    );
+    mask-image: var(--m-i), var(--m-i);
+    mask-origin: var(--m-o);
+    mask-clip: var(--m-o);
+    mask-composite: exclude;
+    -webkit-mask-composite: destination-out;
+    filter: hue-rotate(0);
+    animation: hue linear 500ms infinite;
+    animation-play-state: paused;
+}
+
+.edit-button:hover::after {
+    animation-play-state: running;
+}
+
+@keyframes hue {
+    to {
+        filter: hue-rotate(1turn);
+    }
+}
+
 
 
 .input-container-read input {
@@ -162,18 +219,18 @@
     border-radius: 3%;
     cursor: not-allowed; /* Change cursor to prohibited sign */
     outline: none; /* Remove the outline when focused */
+	margin-left: 40px;
 }
 
 
     .input-container-read label {
-        width: 150px;
+		width: 170px;
         font-weight: bolder;
-        margin-right: 10px;
         font-size: larger;
     }
 
     .input-container label {
-        width: 150px;
+        width: 200px;
         font-weight: bolder;
         margin-right: 10px;
         font-size: larger;
@@ -202,9 +259,7 @@ background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(180,175,175,0.503
 }
 .content label{
 margin-left: 0%;
-margin-right: 100%;
-padding-right: 20%;
-padding-left: -15%;
+
 }
 
 			.content h5{
@@ -364,14 +419,17 @@ margin-right:55%;
 <div class="profile-sec">
     <section class="d-flex">
         <div class="profile-container labels-container">
-            <div class="input-container">
-                <label for="Fname" style="font-weight: bolder;">First Name:</label>
-                <input type="text" id="Fname" name="Fname" value="">
-            </div>
-            <div class="input-container">
-                <label for="Lname" style="font-weight: bolder;">Last Name:</label>
-                <input type="text" id="Lname" name="Lname" value="">
-            </div>
+			<div class="input-container">
+				<label for="Fname">First Name:</label>
+				<input type="text" id="Fname" name="Fname" value="" readonly>
+				<button class="edit-button" onclick="toggleEditMode(this)">Edit</button>
+			</div>
+		
+			<div class="input-container">
+				<label for="Lname">Last Name:</label>
+				<input type="text" id="Lname" name="Lname" value="" readonly>
+				<button class="edit-button" onclick="toggleEditMode(this)">Edit</button>
+			</div>
             <div class="input-container-read">
                 <label for="email" style="font-weight: bolder;">Email:</label>
                 <input type="text" id="email" name="email" value="" readonly>
@@ -385,9 +443,9 @@ margin-right:55%;
         <div class="profile-container user-info-container">
             <div class="list-box d-flex flex-column align-items-center" style="margin-left: -70%;">
                 <div class="content">
-                    <label for="username" style="font-weight: bolder; padding-right:20%; padding-left: 15%; font-size:large;">Username:</label>
-                    <h4 style="font-size: 230%; font-weight: bolder;" class="pink-text" id="usernamePlaceholder"></h4>
-                    <label for="age-group" style="font-weight: bolder; font-size:large; margin-left:20%">Age-Group:</label>
+                    <label for="username" style="font-weight: bolder; padding-right:20%; font-size:large;">Username:</label>
+                    <h4 style="font-size: 230%; font-weight: bolder; margin-bottom: 50px;" class="pink-text" id="usernamePlaceholder"></h4>
+                    <label for="age-group" style="font-weight: bolder; font-size:large;">Age-Group:</label>
                     <h4 class="pink-text" style="font-size: 200%; padding-bottom:10%;" id="ageGroupPlaceholder"></h4>
                 </div>
             </div>
@@ -487,7 +545,65 @@ $(document).ready(function() {
 		</div>
 	</div>
 	<!-- end copyright -->
+    <script>
+		// Function to get the CSRF token from a cookie
+				function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = $.trim(cookies[i]);
+                    // Check if this cookie name is the csrf token
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        function toggleEditMode(button) {
+            const input = button.previousElementSibling;
+            if (input.getAttribute('readonly') === 'readonly') {
+                // Enable editing
+                input.removeAttribute('readonly');
+                input.style.border = '1px solid aqua';
+                button.textContent = 'Save';
+            } else {
+                // Save changes and disable editing
+                input.setAttribute('readonly', 'readonly');
+                input.style.border = 'none';
+                button.textContent = 'Edit';
 
+                var updatedData = {
+                    First_name: $('#Fname').val(),
+                    Last_name: $('#Lname').val()
+                };
+
+				var csrfToken = getCookie('csrftoken');
+                var headers = {
+                    'X-CSRFToken': csrfToken
+				};
+
+                $.ajax({
+                    url: '/BackEnd/EditNames/',
+                    type: 'POST',
+                    headers: headers, 
+                    data: updatedData,
+                    success: function(response) {
+                        if (response.error) {
+                            console.error('Error:', response.error);
+                        } else {
+                            console.log('Success:', response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        }
+    </script>
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<!-- bootstrap -->
