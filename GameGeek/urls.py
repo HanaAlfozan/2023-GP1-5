@@ -20,6 +20,7 @@ from AgeEstimationModel import views as AgeEstimationModel_views
 from FrontEnd import views
 from BackEnd import views as BackEnd_views
 from FrontEnd import views as Frontend_views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,7 +48,7 @@ urlpatterns = [
     path('BackEnd/GetProfileData/', BackEnd_views.GetProfileData, name='GetProfileData'),
     path('BackEnd/LogoutUser/', BackEnd_views.LogoutUser, name='LogoutUser'),
     path('BackEnd/EditNames/', BackEnd_views.EditNames, name='EditNames'),
-
-
-
+    path('BackEnd/custom_password_reset_confirm/', BackEnd_views.custom_password_reset_confirm, name='password_reset'),
+    path('reset/<str:uidb64>/<str:token>/', BackEnd_views.custom_password_reset_confirm, name='password_reset'),
+    path('BackEnd/custom_password_reset/', BackEnd_views.custom_password_reset, name='custom_password_reset'),
 ]

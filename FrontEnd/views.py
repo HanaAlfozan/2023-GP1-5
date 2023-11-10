@@ -43,3 +43,6 @@ def game_info_page(request):
         'img': img,
         }
     return render(request, 'GameInfoPage.html', context)
+
+def custom_password_reset_form(request):
+    return render(request,"custom_password_reset_form.html" )

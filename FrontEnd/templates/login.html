@@ -33,6 +33,8 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<style>
 		.games{
 			color: #fff;
@@ -98,7 +100,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 .input-pair {
-    display: flex;
     align-items: center;
     justify-content: space-between; /* This ensures labels and inputs start from left to right */
     margin-bottom: 30px;
@@ -110,7 +111,13 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     font-weight: 700;
     text-align:left;
 	font-size: 17px;
+	margin-left: 10px;
 }
+
+.input-pair input {
+	margin-left: 10px;
+}
+
 
 .animate-charcter {
   text-transform: uppercase;
@@ -177,6 +184,67 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	body img{
 		max-width: 600px;
 	}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+  background-color: #fff;
+  max-width: 600px;
+  margin: 15% auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: red;
+}
+
+#resetPassword , #setNewPassword{
+  background-color: #06f7ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 1000;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+#resetPassword:hover , #setNewPassword:hover {
+  background-color: #ff069a;
+}
+
+.Success .popup-content{
+	padding: 50px;
+}
+
+.fail .popup-content{
+	padding: 70px;
+}
+
 
 
 	</style>
@@ -253,6 +321,154 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>
 							</div>
+<!-- Password Reset Pop-up -->
+<div id="passwordResetPopup" class="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopup">&times;</span>
+        <h3>Password Reset</h3>
+        <h6>Enter your email address to reset your password:</h6>
+        <form id="passwordResetForm" action="{% url 'custom_password_reset' %}" method="POST">
+            {% csrf_token %}
+            <div class="input-pair">
+                <label for="email" style="margin-left: 10px;">Email:</label>
+                <input type="email" id="email" class="input-box" name="email" required placeholder="Enter your email" style="margin-left: 10px;">
+            </div>
+            <button type="button" id="resetPassword">Reset Password</button>
+        </form>
+    </div>
+</div>
+<!-- Password Reset failed Pop-up (hidden by default) -->
+			<div class="popup fail" id="errorPopup">
+				<div class="popup-content">
+					<span class="close" id="closeErrorPopup">&times;</span>
+					<h3 class="error">Email not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+					<h5>Make sure you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+				</div>
+			</div>
+
+<!-- Password sent Success Pop-up (hidden by default) -->
+<div id="EmailSentSuccess" class="popup Success">
+    <div class="popup-content">
+        <span class="close" id="closePopupSuccess">&times;</span>
+        <h3>Password Reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+        <h5>A password reset link has been sent to your email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
+		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
+    </div>
+</div>
+<!-- Password Confirm Success Pop-up (hidden by default) -->
+<div id="passwordResetConfirm" class="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopupConfirm" style="padding: 30px;">&times;</span>
+        <h3 style="padding-bottom: 20px;">Set New Password</h3>
+        <h5>Enter your new password:</5>
+        <form id="passwordResetConfirmForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="input-pair">
+                <label for="password">New Password:</label>
+				<input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter."></div>
+            <div class="input-pair">
+                <label for="password2">Confirm Password:</label>
+                <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
+            </div>
+			<br>
+			{% if messages %}
+			{% for message in messages %}
+				<h5>{{ message }}</h5>
+			{% endfor %}
+		{% endif %}
+			<br>
+            <button type="submit" id="setNewPassword">Set New Password</button>
+        </form>
+    </div>
+</div>
+<!-- Password reset Success Pop-up (hidden by default) -->
+<div id="passwordResetComplete" class="popup">
+    <div class="popup-content Complete" style="padding: 40px;">
+        <span class="close" id="closePopupComplete">&times;</span>
+        <h3>Password has been successfully reset!</h3>
+    </div>
+</div>
+
+<script>
+    var status = "{{ status }}";
+    if (status === 'confirm') {
+        // Display passwordResetConfirm pop-up
+        document.getElementById('passwordResetConfirm').style.display = 'block';
+        document.getElementById('EmailSentSuccess').style.display = 'none';
+        document.getElementById('passwordResetComplete').style.display = 'none';
+    } 
+	else if (status === 'error'){
+		// Display error pop-up
+        document.getElementById('passwordResetPopup').style.display = 'none';
+        document.getElementById('EmailSentSuccess').style.display = 'none';
+        document.getElementById('passwordResetConfirm').style.display = 'none';
+        document.getElementById('passwordResetComplete').style.display = 'none';
+        document.getElementById('errorPopup').style.display = 'block';
+	}
+	else if(status === 'reset'){
+			// Display reset pop-up
+		document.getElementById('passwordResetPopup').style.display = 'none';
+        document.getElementById('EmailSentSuccess').style.display = 'none';
+        document.getElementById('passwordResetConfirm').style.display = 'none';
+        document.getElementById('passwordResetComplete').style.display = 'block';
+        document.getElementById('errorPopup').style.display = 'none';
+
+		    // Close the passwordResetComplete popup after 8 seconds
+		setTimeout(function () {
+                document.getElementById('passwordResetComplete').style.display = 'none';
+            }, 8000);
+	}
+	
+    document.getElementById('resetPassword').addEventListener('click', function () {
+        email = document.getElementById('email').value;
+        
+        // Get the CSRF token from the cookie
+        var csrftoken = getCookie('csrftoken');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', "{% url 'custom_password_reset' %}", true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // Set the CSRF token in the request headers
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+		xhr.onload = function () {
+    if (xhr.status === 200) {
+        // Password reset was successful, display the success pop-up
+        document.getElementById('EmailSentSuccess').style.display = 'block';
+        document.getElementById('passwordResetPopup').style.display = 'none';
+    } else if (xhr.status === 404) {
+        // Email not found, display the error pop-up
+        document.getElementById('passwordResetPopup').style.display = 'none';
+        document.getElementById('errorPopup').style.display = 'block';
+    }
+};
+
+        xhr.send('email=' + email);
+    });
+
+    // Function to get the CSRF token from the cookie
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+
+
+											  
 							
 </div>
 	</div>
@@ -262,16 +478,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 				</div>
 			</div>
 		</div>
-
-	<!-- end search arewa -->
-
-	<!-- breadcrumb-section -->
-
-	<!-- end breadcrumb section -->
-
-	<!-- contact form -->
-
-	<!-- end contact form -->
 
 
 	<!-- footer -->
@@ -340,6 +546,51 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 		</div>
 	</div>
 	<!-- end copyright -->
+<!-- JavaScript to handle the close buttons and pop-ups -->
+<!-- JavaScript to handle the pop-ups -->
+<script>
+    document.getElementById("forgetPass").addEventListener("click", function() {
+        var popup = document.getElementById("passwordResetPopup");
+        popup.style.display = "block";
+    });
+
+    document.getElementById("closePopup").addEventListener("click", function() {
+        var popup = document.getElementById("passwordResetPopup");
+        popup.style.display = "none";
+    });
+
+    document.getElementById("closePopupSuccess").addEventListener("click", function() {
+        var successPopup = document.getElementById("EmailSentSuccess");
+        successPopup.style.display = "none";
+    });
+
+    document.getElementById("closeErrorPopup").addEventListener("click", function() {
+        var successPopup = document.getElementById("errorPopup");
+        successPopup.style.display = "none";
+    });
+
+    document.getElementById("closePopupConfirm").addEventListener("click", function() {
+        var successPopup = document.getElementById("passwordResetConfirm");
+        successPopup.style.display = "none";
+    });
+
+    document.getElementById("closePopupComplete").addEventListener("click", function() {
+        var successPopup = document.getElementById("passwordResetComplete");
+        successPopup.style.display = "none";
+    });
+
+    // Close the pop-up when clicking outside the content
+    window.onclick = function(event) {
+        var popup = document.getElementById("passwordResetPopup");
+        var successPopup = document.getElementById("EmailSentSuccess");
+        if (event.target === popup || event.target === successPopup) {
+            popup.style.display = "none";
+            successPopup.style.display = "none";
+        }
+    };
+</script>
+
+	  
 
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
