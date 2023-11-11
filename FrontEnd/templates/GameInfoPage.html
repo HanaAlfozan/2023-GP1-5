@@ -144,7 +144,7 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
-						<h1>Lorem ipsum</h1>
+						<h1 class="name"></h1>
 						<p>
 							<span class="blue">See</span>
 							<span class="black"> more</span>
@@ -183,17 +183,21 @@
 						
 					</div>
 				</div>
-				<div class="col-md-7">
+			<div class="col-md-7">
 					<div class="single-product-content">
-						<h2>Lorem ipsum</h2>
-						
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta sint dignissimos, rem commodi cum voluptatem quae reprehenderit repudiandae ea tempora incidunt ipsa, quisquam animi perferendis eos eum modi! Tempora, earum.</p>
+						<h2 class="name"></h2>
+
+						<p class="disc"></p>
 						<div class="single-product-form">
-						
-							<p><strong>Genre: </strong>Action, Strategy</p>
+
+							<p class="genre"></p>
+							<p class="Lang"></p>
+							<p class="rDate"></p>
+							<p class="Developer"></p>
+							<p class="rateC"></p>
 
 							<a href="#" class="cart-btn" id="favBtn"><i class="fas fa-regular fa-heart"></i> <span id="favText">Add to Favourite Games</span></a>
-							<a href="javascript:void(0);" class="cart-btn" id="copyBtn"><i class="fas fa-solid fa-link"></i><span id="copyText">Go to The Download Page!</span></a>
+							<a href="javascript:void(0); " class="cart-btn download" id="copyBtn"><i class="fas fa-solid fa-link "></i><span id="copyText">Go to The Download Page!</span></a>
 							<script>
                                 const favBtn = document.getElementById('favBtn');
                                 const favText = document.getElementById('favText');
@@ -347,6 +351,76 @@
 	<script src="{% static '/js/jquery.sticker.js' %}"></script>
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to retrieve game information
+    function retrieveGameInfo(gameId) {
+        $.ajax({
+            url: `/BackEnd/retrieve_game_info/?ID=${gameId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Retrieved Game Information:', data);
+
+                // Update the HTML content with the retrieved data
+                updateGameContent(data.games_data);
+            },
+            error: function (error) {
+                console.error('Error making AJAX request:', error);
+            }
+        });
+    }
+
+    function updateGameContent(gameData) {
+        // Get elements by their class names and update their content
+        var nameElements = document.querySelectorAll('.name');
+
+        // Update the content of each element
+        nameElements.forEach(function (element) {
+            element.textContent = gameData.Name;
+        });
+
+        // Update the description element
+        var descriptionElement = document.querySelector('.disc');
+        if (descriptionElement) {
+
+            descriptionElement.innerHTML = gameData.Description;
+            descriptionElement.style.textAlign = 'justify';
+        }
+
+        // Update the genre element
+        var genreElement = document.querySelector('.genre');
+        if (genreElement) {
+            genreElement.innerHTML = '<strong>Genres:</strong> ' + gameData.Genres;
+        }
+
+        // Update the image element
+        var imageElement = document.getElementById('gameImageINFO');
+        if (imageElement) {
+            imageElement.src = gameData.Icon_URL;
+        }
+            // Update the download element
+    var downloadElement = document.querySelector('.download');
+    if (downloadElement) {
+        downloadElement.href = gameData.URL;
+    }
+
+                  document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + gameData.Languages;
+            document.querySelector('.rDate').innerHTML = '<strong>Release Date:</strong> ' + gameData.Original_Release_Date;
+            document.querySelector('.Developer').innerHTML = '<strong>Developer:</strong> ' + gameData.Developer;
+            document.querySelector('.rateC').innerHTML = '<strong>Rating:</strong> ' + gameData.Average_User_Rating;
+;
+
+    }
+
+    // Extract the game ID from the URL
+    var gameIdFromUrl = window.location.href.split('/').filter(Boolean).pop();
+
+    // Call retrieveGameInfo to initiate the AJAX request
+    retrieveGameInfo(gameIdFromUrl);
+});
+
+</script>
 
 </body>
 {% endblock %}
