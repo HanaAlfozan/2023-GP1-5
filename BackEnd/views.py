@@ -15,6 +15,9 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.http import HttpResponseNotFound
+from .models import GamesList
+import re
+import codecs
 
 def SignupUser(request):
     if request.method == 'POST':
@@ -222,3 +225,139 @@ def EditNames(request):
             return JsonResponse({'error': 'User not authenticated'})
     else:
         return JsonResponse({'error': 'Invalid request method. POST expected'}, status=400)
+
+
+
+def retrieve_all_games(request):
+    # Retrieve all objects from the All_Games model
+    all_games_data = GamesList.objects.all()
+
+    # Receive the slice parameter from the request
+    slice_number = int(request.GET.get('slice', 0))  # Default to slice 0 if not provided
+    items_per_page = 18
+    start_index = slice_number * items_per_page
+    end_index = start_index + items_per_page
+    sliced_games_data = all_games_data[start_index:end_index]
+
+    # Convert the sliced model data to a list of dictionaries with cleaned names
+    games_list = [
+        {
+            'Name': clean_name(game.Name),
+            'Icon_URL': game.Icon_URL,
+            'Genres': game.Genres,
+            'URL': game.URL,
+            'Average_User_Rating': game.Average_User_Rating,
+            'User_Rating_Count': game.User_Rating_Count,
+            'Price': game.Price,
+            'In_app_Purchases': game.In_app_Purchases,
+            'Developer': game.Developer,
+            'Age_Rating': game.Age_Rating,
+            'Languages': game.Languages,
+            'Size': str(game.Size),  # Convert DecimalField to string
+            'Original_Release_Date': game.Original_Release_Date,
+            'ID': game.ID,
+        }
+        for game in sliced_games_data
+    ]
+
+    # Return a JSON response
+    return JsonResponse({'games_data': games_list})
+def clean_name(name):
+    # Decode Unicode escape sequences
+    name = name.encode().decode('unicode_escape')
+
+    # Check if the name contains a hyphen (-) and if it's not at the beginning
+    if '-' in name and not name.startswith('-'):
+        # Use a regular expression to remove everything after the first hyphen
+        cleaned_name = re.sub(r' - .*', '', name)
+    else:
+        cleaned_name = name
+
+    # Check if the name contains a backslash (\) and if it's not at the beginning
+    if '\\' in cleaned_name:
+        # If the backslash is at the beginning, remove it and all values after it until a capital letter
+        if cleaned_name.startswith('\\'):
+            cleaned_name = re.sub(r'\\([^A-Z]*)', r'\1', cleaned_name)
+        else:
+            # If the backslash is not at the beginning, remove everything after the first backslash, excluding capital letters
+            cleaned_name = re.sub(r'\\([^A-Z]*[A-Z].*)', r'\1', cleaned_name)
+
+    return cleaned_name
+
+
+def clean_description(description):
+    # Remove URLs
+    description_without_urls = re.sub(r'http\S+|www\S+|https\S+', '', description, flags=re.MULTILINE)
+
+    # Remove emails
+    description_without_emails = re.sub(r'\S+@\S+', '', description_without_urls, flags=re.MULTILINE)
+
+    # Replace consecutive newlines with a space
+    cleaned_description = re.sub(r'\n+', ' ', description_without_emails)
+
+    # Remove non-word-like strings (e.g., u25cfu25cfu25cf)
+    cleaned_description = re.sub(r'\b\w{1,2}\b', '', cleaned_description)
+
+    # Remove words that start or contain numbers
+    cleaned_description = ' '.join(
+        word for word in cleaned_description.split() if not any(char.isdigit() for char in word))
+
+    # Remove special characters, symbols, and extra spaces
+    cleaned_description = re.sub(r'[^a-zA-Z0-9\s.,!?]', '', cleaned_description)
+
+    # Add a space after "facebook.com" and "twitter.com"
+    cleaned_description = re.sub(r'(facebook\.com|twitter\.com)', r'\1 ', cleaned_description)
+
+    # Add periods after sentences if missing
+    cleaned_description = re.sub(r'(?<=[.!?])\s*(?=[A-Z])', '. ', cleaned_description)
+
+    # Capitalize the first letter of each sentence
+    cleaned_description = '. '.join(sentence.capitalize() for sentence in cleaned_description.split('. '))
+
+    # Ensure the description ends with a period
+    if not cleaned_description.endswith('.'):
+        cleaned_description += '.'
+
+    return cleaned_description
+
+
+
+
+
+
+
+def retrieve_game_info(request):
+    # Retrieve the game ID from the request parameters
+    game_id = request.GET.get('ID')
+
+    print('Received game ID:', game_id)  # Check if the ID is received in the server console
+
+    # Retrieve the game object based on the game ID
+    try:
+        game = GamesList.objects.get(ID=game_id)
+
+        # Clean the game description
+        cleaned_description = clean_description(game.Description)
+
+        cleaned_name = clean_name(game.Name)
+        # Convert the game object to a dictionary with the cleaned description
+        game_info = {
+            'Name': cleaned_name,
+            'Icon_URL': game.Icon_URL,
+            'Description': cleaned_description,
+            'Genres': game.Genres + '.',
+            'URL': game.URL,
+            'Average_User_Rating': game.Average_User_Rating + '.',
+            'User_Rating_Count': game.User_Rating_Count + '.',
+            'Price': game.Price,
+            'In_app_Purchases': game.In_app_Purchases,
+            'Developer': game.Developer + '.',
+            'Age_Rating': game.Age_Rating,
+            'Languages': game.Languages + '.',
+            'Size': str(game.Size),  # Convert DecimalField to string
+            'Original_Release_Date': game.Original_Release_Date + '.',
+        }
+        return JsonResponse({'games_data': game_info})
+    except GamesList.DoesNotExist:
+        return JsonResponse({'error': 'Game not found'}, status=404)
+

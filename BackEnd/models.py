@@ -43,3 +43,24 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.Username
+
+class GamesList(models.Model):
+    URL = models.TextField()
+    Name = models.TextField()
+    Icon_URL = models.TextField()
+    Average_User_Rating = models.TextField()
+    User_Rating_Count = models.TextField()
+    Price = models.TextField()
+    In_app_Purchases = models.TextField()
+    Description = models.TextField()
+    Developer = models.TextField()
+    Age_Rating = models.TextField()
+    Languages = models.TextField()
+    Size = models.DecimalField(max_digits=10, decimal_places=2)
+    Genres = models.TextField()
+    Original_Release_Date = models.TextField()
+    Subtitle_Description = models.TextField()
+    ID = models.AutoField(primary_key=True)
+
+    def __str__(self):
+        return self.Name

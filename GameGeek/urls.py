@@ -51,4 +51,7 @@ urlpatterns = [
     path('BackEnd/custom_password_reset_confirm/', BackEnd_views.custom_password_reset_confirm, name='password_reset'),
     path('reset/<str:uidb64>/<str:token>/', BackEnd_views.custom_password_reset_confirm, name='password_reset'),
     path('BackEnd/custom_password_reset/', BackEnd_views.custom_password_reset, name='custom_password_reset'),
+    path('BackEnd/retrieve_all_games/', BackEnd_views.retrieve_all_games, name='retrieve_all_games'),
+    path('game_info_page/<int:game_id>/', views.game_info_page, name='game_info_page'),
+    path('BackEnd/retrieve_game_info/', BackEnd_views.retrieve_game_info, name='retrieve_game_info'),
 ]

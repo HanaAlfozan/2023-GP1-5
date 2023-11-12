@@ -46,3 +46,6 @@ def game_info_page(request):
 
 def custom_password_reset_form(request):
     return render(request,"custom_password_reset_form.html" )
+
+def game_info_page(request, game_id):
+    return render(request, 'GameInfoPage.html', {'game_id': game_id})

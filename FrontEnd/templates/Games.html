@@ -654,67 +654,20 @@
 	<!-- End Row -->
   </div>
   <!-- End Card Grid -->
-    <div class="GAMES">
-				<div class="col-lg-4 col-md-6 text-center strawberry">
+       <div class="GAMES">
+				<div class="col-lg-4 col-md-6 text-center strawberry ">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=1" ><img src="{% static 'img/Games/game1.png' %}" alt=""></a>
+							<a href="" ><img src="" alt=""></a>
 						</div>
-						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=1" class="cart-btn">More info</a>
+						<h3></h3>
+						<form id="gameInfoForm">
+						<input type="hidden" id="gameIdInput" name="game_id">
+						<button type="button" id="moreInfoButton">More info</button>
+						</form>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6 text-center berry">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=2" ><img src="{% static 'img/Games/game2.png' %}" alt=""></a>
-						</div>
-						<h3>Lorem ipsum</h3>
-						
-						<a href="{% url 'game_info_page' %}?img=2" class="cart-btn">More info</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center lemon">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=3"><img src="{% static 'img/Games/game3.png' %}" alt=""></a>
-						</div>
-						<h3>Lorem ipsum</h3>
-						
-						<a href="{% url 'game_info_page' %}?img=3" class="cart-btn">More info</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=4" ><img src="{% static 'img/Games/game4.png' %}" alt=""></a>
-						</div>
-						<h3>Lorem ipsum</h3>
-						
-						<a href="{% url 'game_info_page' %}?img=4"class="cart-btn">More info</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=5"><img src="{% static 'img/Games/game5.png' %}" alt=""></a>
-						</div>
-						<h3>Lorem ipsum</h3>
-						
-						<a href="{% url 'game_info_page' %}?img=5" class="cart-btn">More info</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center strawberry">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=6" ><img src="{% static 'img/Games/game6.png' %}" alt=""></a>
-						</div>
-						<h3>Lorem ipsum</h3>
-						
-						<a href="{% url 'game_info_page' %}?img=6"  class="cart-btn">More info</a>
-					</div>
-				</div>
-			</div>
+
 	</div>
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -820,6 +773,61 @@
 	<script src="{% static '/js/jquery.sticker.js' %}"></script>
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
+<script>
+	var selectedGameId;
+	var currentPage = 1;  // Initialize current page
+
+function makeAjaxRequest(page, slice) {
+    $.ajax({
+        url: `/BackEnd/retrieve_all_games/?page=${page}&slice=${slice}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Log the data to the console for testing
+            console.log(data);
+            // Call a function to update the HTML with the retrieved data
+            updateGamesContainer(data.games_data);
+        },
+        error: function (error) {
+            console.error('Error making AJAX request:', error);
+        }
+    });
+}
+
+function updateGamesContainer(data) {
+    var gamesContainer = $('.GAMES');
+    gamesContainer.empty();  // Clear the container
+
+    // Loop through the games in the JSON response and update the HTML
+    for (var i = 0; i < data.length; i++) {
+        var game = data[i];
+        var gameHTML = `
+            <div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.ID}">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="${game.URL}"><img src="${game.Icon_URL}" alt=""></a>
+                    </div>
+                    <h3>${game.Name}</h3>
+                    <a href="#" class="cart-btn more-info-btn">More info</a>
+                </div>
+            </div>
+        `;
+        gamesContainer.append(gameHTML);
+    }
+
+    // Set up click event for the "More Info" buttons
+    $('.more-info-btn').on('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Get the game ID from the clicked item's data attribute
+        selectedGameId = $(this).closest('.game-item').data('game-id');
+        // Redirect to the game info page with the selected game ID
+        window.location.href = `/game_info_page/${selectedGameId}/`;
+    });
+}
+
+// Make a request for the second page with slice 3 (games from 20 to 29)
+makeAjaxRequest(1, 1);
+</script>
 
 </body>
 {% endblock %}
