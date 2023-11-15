@@ -28,9 +28,7 @@ def SignupUser(request):
         Accept_conditions = request.POST.get('Accept_conditions') == 'on'
 
         if password == confirm_password:
-            if GGUser.objects.filter(Email=email).exists():
-                messages.error(request, "Email Already Exists!")
-            elif GGUser.objects.filter(Username=username).exists():
+            if GGUser.objects.filter(Username=username).exists():
                 messages.error(request, "Username Already Exists!")
             else:
                 user = GGUser.objects.create_user(
@@ -51,15 +49,16 @@ def SignupUser(request):
 
 def custom_password_reset(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['username']
         try:
-            user = GGUser.objects.get(Email=email)
+            user = GGUser.objects.get(Username=username)
         except GGUser.DoesNotExist:
-            return HttpResponseNotFound('Email not found')
+            return HttpResponseNotFound('Username not found')
 
         # Generate a token and uid for the user
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email = user.Email
 
         # Create the reset link
         reset_link = f"{request.scheme}://{request.get_host()}/reset/{uid}/{token}/"
@@ -105,7 +104,6 @@ def custom_password_reset_confirm(request, uidb64, token):
         return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
 
 
-
 def LoginUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
@@ -123,9 +121,7 @@ def LoginUser(request):
         else:
             messages.error(request, 'Invalid username or password')
     return redirect('login')
-
-
-   
+ 
 
 def AssignAgeGroup(request):
     if request.method == 'POST':

@@ -20,7 +20,7 @@ class CustomUserManager(BaseUserManager):
 class GGUser(AbstractBaseUser, PermissionsMixin):
     User_ID = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=50, unique=True)
-    Email = models.EmailField(unique=True)
+    Email = models.EmailField(max_length=50)
     Accept_conditions = models.BooleanField(default=False)
     First_name = models.CharField(max_length=30)
     Last_name = models.CharField(max_length=30)

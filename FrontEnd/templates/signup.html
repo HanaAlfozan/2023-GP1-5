@@ -35,7 +35,6 @@
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 	<style>
 		.games{
 			color: #fff;
@@ -268,10 +267,8 @@ text-align:left;
 		</span>
         <label for="email">Email:</label>
 		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" 
-		pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" 
-		size="30" 
-		title="Enter a valid email address (e.g., user@example.com).">
- 
+		pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+		oninvalid="this.setCustomValidity('Enter a valid email address (such as user@example.com)')">>
     </div>
     <div class="input-pair">
 		<span class="input-item">
@@ -280,11 +277,12 @@ text-align:left;
         <label for="password">Password:</label>
         <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
         title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
-    </div>
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 170px; cursor: pointer;"></i>
+	 </div>
     <div class="input-pair">
         <label for="confirm_password">Confirm Password:</label>
         <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password">
-    </div>
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 170px; cursor: pointer;"></i>	</div>
 
 	 <h2 class="form-title">Warning</h2>
     <p><b>Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek.</b></p>
@@ -303,6 +301,18 @@ text-align:left;
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
+
+<script>
+    document.querySelectorAll('.togglePassword').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            var passwordInput = document.getElementById(this.previousElementSibling.id);
+            var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+            this.classList.toggle('fa-eye');
+        });
+    });
+</script>
 
 
 
@@ -424,6 +434,8 @@ text-align:left;
         const agreeCheckbox = document.getElementById("agree");
         agreeCheckbox.addEventListener("change", handleCheckbox);
       </script>
+
+
 </body>
 
 {% endblock %}

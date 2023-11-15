@@ -306,6 +306,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 										</span>
 										<label for="password">Password:</label>
 										<input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
+										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 199px; top: 360px; cursor: pointer;"></i>
 									</div>
 									<br>
 									<!-- Display messages only if there are any -->
@@ -325,12 +326,12 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     <div class="popup-content">
         <span class="close" id="closePopup">&times;</span>
         <h3>Password Reset</h3>
-        <h6>Enter your email address to reset your password:</h6>
+        <h6>Enter your username to reset your password using your registered email:</h6>
         <form id="passwordResetForm" action="{% url 'custom_password_reset' %}" method="POST">
             {% csrf_token %}
             <div class="input-pair">
-                <label for="email" style="margin-left: 10px;">Email:</label>
-                <input type="email" id="email" class="input-box" name="email" required placeholder="Enter your email" style="margin-left: 10px;">
+                <label for="username" style="margin-left: 10px;">Username:</label>
+                <input type="username" id="Username" class="input-box" name="Username" required placeholder="Enter your email" style="margin-left: 10px;">
             </div>
             <button type="button" id="resetPassword">Reset Password</button>
         </form>
@@ -340,8 +341,8 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 			<div class="popup fail" id="errorPopup">
 				<div class="popup-content">
 					<span class="close" id="closeErrorPopup">&times;</span>
-					<h3 class="error">Email not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-					<h5>Make sure you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+					<h3 class="error">Username not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+					<h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
 				</div>
 			</div>
 
@@ -350,7 +351,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     <div class="popup-content">
         <span class="close" id="closePopupSuccess">&times;</span>
         <h3>Password Reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
-        <h5>A password reset link has been sent to your email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
+        <h5>A password reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
 		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
     </div>
 </div>
@@ -366,9 +367,11 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
                 <label for="password">New Password:</label>
 				<input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
 				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter."></div>
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 170px; cursor: pointer;"></i>
             <div class="input-pair">
                 <label for="password2">Confirm Password:</label>
                 <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 170px; cursor: pointer;"></i>
             </div>
 			<br>
 			{% if messages %}
@@ -420,7 +423,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	}
 	
     document.getElementById('resetPassword').addEventListener('click', function () {
-        email = document.getElementById('email').value;
+        username = document.getElementById('Username').value;
         
         // Get the CSRF token from the cookie
         var csrftoken = getCookie('csrftoken');
@@ -445,7 +448,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     }
 };
 
-        xhr.send('email=' + email);
+        xhr.send('username=' + username);
     });
 
     // Function to get the CSRF token from the cookie
@@ -463,6 +466,18 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
         }
         return cookieValue;
     }
+</script>
+
+<script>
+    document.querySelectorAll('.togglePassword').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            var passwordInput = document.getElementById(this.previousElementSibling.id);
+            var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+            this.classList.toggle('fa-eye');
+        });
+    });
 </script>
 
 
