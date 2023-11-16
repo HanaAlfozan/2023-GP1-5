@@ -35,6 +35,22 @@
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<script>
+		function validateCheckbox() {
+			var checkbox = document.getElementById("agree");
+			var messageSpan = document.getElementById("agreeMessage");
+	
+			if (!checkbox.checked) {
+				messageSpan.innerHTML = "Please agree to the terms and conditions before registering.";
+				return false;
+			} else {
+				messageSpan.innerHTML = ""; 
+			}
+	
+			return true;
+		}
+	</script>
 	<style>
 		.games{
 			color: #fff;
@@ -65,11 +81,24 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 .form-container form {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 50px;
-    padding: 25px; /* Increase padding for input boxes */
+    padding: 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-    width: 90%;
+    width: 55%;
+	margin-left: 200px;
 
+}
+
+.right {
+  position: relative;
+  left: 250px;
+  top:-340px
+}
+
+.left{
+  position: relative;
+  left: -370px;
+  top: 200px;
 }
 
 
@@ -78,16 +107,9 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 .hero-area {
-    min-height: 150vh;
+    min-height: 105vh;
 }
 
-
-.form-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0 0 10px;
-    color: #ff069a;
-}
 
 .input-box {
     width: 60%; /* Make inputs take full width of the form */
@@ -103,20 +125,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     border: 2px solid #ff069a;
 }
 
-.checkbox-container {
-    text-align: left;
-}
-
-.checkbox-container input {
-    margin-right: 5px;
-}
-
-.checkbox-container label {
-    font-weight: bold;
-    color: #333;
-
-}
-
 .alt-link {
     color: #ff069a;
     text-decoration: none;
@@ -125,9 +133,8 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 .input-pair {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* This ensures labels and inputs start from left to right */
-    margin-bottom: 30px;
-	margin-left: 20px;
+    justify-content: space-between;
+    margin-bottom: 25px;
 }
 
 .input-pair label {
@@ -137,16 +144,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	font-size: 17px;
 }
 
-
-.form-title {
-    font-size: 24px;
-	float: left;
-    color: #ff069a;
-	margin-top: -10px;
-}
-.form-title p{
-text-align:left;
-}
 
 		.animate-charcter {
   text-transform: uppercase;
@@ -160,16 +157,13 @@ text-align:left;
   background-size: auto auto;
   background-clip: border-box;
   background-size: 200% auto;
-  color: #fff;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  display: inline-block;
-  font-size: 80px;
-  letter-spacing: 20px;
+  font-size: 50px;
+  letter-spacing: 10px;
   line-height: 1.5;
-  margin:  auto;
 }
 
 @keyframes textclip {
@@ -180,8 +174,8 @@ text-align:left;
 
 
 .site-logo img{
-		width: 200px;
-	    height: 100px;
+	    width: 240px;
+        height: 140px;
 		position: relative;
 		left: 100px;
 	}
@@ -193,10 +187,9 @@ text-align:left;
 		 position: relative;
          background: transparent;
          color: #333;
-         right: 4px;
-		 top: -2px;
+         right: 6px;
+		 top: -3px;
 		 font-size: 16px;
-         border-radius: 5px 0px 0px 5px;
 		}
 
 		.mb-150{
@@ -205,7 +198,7 @@ text-align:left;
 		}
 
 		.mt-150{
-			margin-top: 0px;
+			padding-top: 0px;
 
 		}
 
@@ -243,10 +236,24 @@ text-align:left;
 							<div class="hero-text-tablecell">
 	<div class="contact-from-section mt-150 mb-150">
 		<div class="container">
-			<div class="containeTitle">
+			<div class="left">
+				<h3 class="animate-charcter">Let the fun begin with Game Geek!</h3>
+				<br>
+				<h4 class="note" style="color: #ff069a; letter-spacing: 1px; font-size: 22px;">Important Note for Our Young Gamers🎮</h4>
+				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 16px;" ALIGN=LEFT><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly ensure that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
+				<br>
+				<div style="margin-right: 60px;">
+					<label for="agree" style="color: #fff; letter-spacing: 1px; font-size: 15px;">I agree to the terms and conditions</label>
+					<input type="checkbox" id="agree" name="Accept_conditions" required>	
+					<br>
+					<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>			
+				</div>
+			</div>
+			<div class="right">
+			<div class="containeTitle" style="margin-left: 200px;">
 								<div class="rowTitle">
 								  <div class="col-md-12 text-center">
-									<h3 class="animate-charcter">Sign Up</h3>
+									<h3 class="animate-charcter" style="font-size: 40px;">Sign Up</h3>
 								  </div>
 								</div>
 							  </div>
@@ -259,16 +266,15 @@ text-align:left;
 			<i class="fa fa-user-circle"></i>
 		</span>
         <label for="username">Username:</label>
-        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
+        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username" style="width: 58%;">
     </div>
     <div class="input-pair">
 		<span class="input-item">
 			<i class="fa fa-envelope"></i>
 		</span>
         <label for="email">Email:</label>
-		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" 
-		pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
-		oninvalid="this.setCustomValidity('Enter a valid email address (such as user@example.com)')">>
+		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+		oninvalid="this.setCustomValidity('Enter a valid email address (such as user@example.com)')">
     </div>
     <div class="input-pair">
 		<span class="input-item">
@@ -277,27 +283,19 @@ text-align:left;
         <label for="password">Password:</label>
         <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
         title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
-		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 170px; cursor: pointer;"></i>
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>
 	 </div>
     <div class="input-pair">
         <label for="confirm_password">Confirm Password:</label>
-        <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password">
-		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 170px; cursor: pointer;"></i>	</div>
-
-	 <h2 class="form-title">Warning</h2>
-    <p><b>Dear user, if you are under the age of 17, you must have adult supervision while registering for Game Geek.</b></p>
-		<label for="agree">I agree to the terms and conditions.</label>
-        <input type="checkbox" id="agree" name="Accept_conditions" required>
-    <br>
-	<br>
+        <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>	</div>
 	<!-- Display messages only if there are any -->
 	{% if messages %}
 		{% for message in messages %}
 			<h5>{{ message }}</h5>
 		{% endfor %}
 	{% endif %}
-	<br>
-    <input type="submit" id="LogIN" value="Register" style="width: 80%;">
+    <input type="submit" id="LogIN" value="Register" style="width: 80%;" onclick="return validateCheckbox();">
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
@@ -317,6 +315,7 @@ text-align:left;
 
 
     </div>
+</div>
 </div>
 	</div>
 						</div>
