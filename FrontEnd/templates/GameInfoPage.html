@@ -57,11 +57,16 @@
 			font-weight:500;
 			text-decoration: none;
 		}
+		.col-md-7{
+		padding-left:5%;}
+
+
+
 
 	</style>
 </head>
 <body>
-	
+
 	<!--PreLoader-->
     <div class="loader">
         <div class="loader-inner">
@@ -69,7 +74,7 @@
         </div>
     </div>
     <!--PreLoader Ends-->
-	
+
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
@@ -82,17 +87,17 @@
 								</a>
 							</div>
 							<!-- logo -->
-	
+
 							<!-- menu start -->
 							<nav class="main-menu">
 								<ul>
-									
+
 									<li><a href=#>Games</a>
 										<ul class="sub-menu">
 											<li><a href="{% url 'Games' %}">All Games</a></li>
 											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
 											<li><a href="{% url 'History' %}">Downloaded Games</a></li>
-											
+
 										</ul>
 									</li>
 									<li><a href="{% url 'profile' %}">Profile</a>
@@ -100,7 +105,7 @@
 									<li><a href="{% url 'about' %}">About Us</a></li>
 								<li>
 									<div class="header-icons">
-									
+
 										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
 									</div>
 								</li>
@@ -137,7 +142,7 @@
 	<!-- search area -->
 
 	<!-- end search arewa -->
-	
+
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -156,7 +161,7 @@
 					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
 					<li class="breadcrumb-item"><a href="{% url 'signup' %}" >Sign Up</a></li>
 					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
-					<li class="breadcrumb-item current"><a href="{% url 'game_info_page' %}">Game Inforomation</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'game_info_page' game_id=game_id %}">Game Inforomation</a></li>
 				 </ul>
 			</div>
 		</div>
@@ -168,22 +173,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5">
-					<div class="single-product-img">
-						<img src="" id="gameImageINFO">
-						<script>
-							const urlParams = new URLSearchParams(window.location.search);
-							const greetingValue = urlParams.get('img');
-							const gameImage = document.getElementById('gameImageINFO');
-							if (greetingValue) {
-								// Use Django template tag to generate the image URL
-								const imageUrl = "{% static 'img/Games/game' %}" + greetingValue + ".png";
-								gameImage.src = imageUrl;
-							}
-						</script>
-						
-					</div>
-				</div>
-			<div class="col-md-7">
+    <div class="single-product-img">
+        <img src="" id="gameImageINFO">
+    </div>
+</div>
+				<div class="col-md-7">
 					<div class="single-product-content">
 						<h2 class="name"></h2>
 
@@ -208,8 +202,8 @@
                                     if (favText.textContent === 'Add to Favourite Games') {
                                         favText.textContent = 'Saved to Favourite Games!';
                                     } else {
-										if (favText.textContent === 'Saved to Favourite Games!') 
-                                        favText.textContent = 'Add to Favourite Games';										
+										if (favText.textContent === 'Saved to Favourite Games!')
+                                        favText.textContent = 'Add to Favourite Games';
 									}});
 							</script>
 						</div>
@@ -225,7 +219,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="section-title">	
+					<div class="section-title">
 						<h3>Recently&nbsp;<span class="pink-text">Viewd</span> Games</h3>
 					</div>
 				</div>
@@ -234,33 +228,88 @@
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=10"><img src="{% static 'img/Games/game10.png' %}" alt=""></a>
+							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
 						</div>
-						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=10" class="cart-btn">More info</a>
+						<h3 class="names"></h3>
+						<a  href="" class="cart-btn urls" >More info</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=8"><img src="{% static 'img/Games/game8.png' %}" alt=""></a>
+							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
 						</div>
-						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=8" class="cart-btn">More info</a>
+						<h3 class="names"></h3>
+						<a  href="" class="cart-btn">More info</a>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3 text-center">
+				<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=7"><img src="{% static 'img/Games/game7.png' %}" alt=""></a>
+							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
 						</div>
-						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=7" class="cart-btn">More info</a>
+						<h3 class="names"></h3>
+						<a  href="" class="cart-btn ">More info</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+<script>
+$(document).ready(function () {
+console.log("Document is ready.");
+    // Function to fetch and display random high-rated games
+    function fetchRandomGames() {
+        var url = '/BackEnd/retrieve_random_high_rated_games/';
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Received data:', data);
+
+                if (data && data.random_high_rated_games_data) {
+                    displayGames(data.random_high_rated_games_data);
+                } else {
+                    console.error('Data format is not as expected:', data);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+            }
+        });
+    }
+
+    // Function to dynamically update the HTML with game data
+  function displayGames(games) {
+    for (var i = 0; i < 3; i++) {
+        var game = games[i];
+
+        // Select elements by class
+        var imageElement = document.getElementsByClassName('imgs')[i];
+        var nameElement = document.getElementsByClassName('names')[i];
+        var urlElement = document.getElementsByClassName('urls')[i];
+        var idElement = document.getElementsByClassName('text-center')[i];
+
+        // Update element content
+        imageElement.src = game.Icon_URL;
+        nameElement.textContent = game.Name;
+        urlElement.href = game.URL;
+        urlElement.setAttribute('data-game-id', game.ID);
+
+        console.log(`Element ${i + 1} data-game-id:`, urlElement.getAttribute('data-game-id'));
+
+
+    }
+
+}
+
+    // Fetch random games when the page loads
+    fetchRandomGames();
+    console.log("fetchRandomGames function called.");
+});
+</script>
 	<!-- end recent games products -->
 
 
@@ -310,14 +359,14 @@
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
 							</ul>
-						
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-	
+
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -330,7 +379,7 @@
 		</div>
 	</div>
 	<!-- end copyright -->
-	
+
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<!-- bootstrap -->
@@ -395,10 +444,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Update the image element
-        var imageElement = document.getElementById('gameImageINFO');
-        if (imageElement) {
-            imageElement.src = gameData.Icon_URL;
-        }
+     var imageElement = document.getElementById('gameImageINFO');
+if (imageElement) {
+    console.log('Image URL:', gameData.Icon_URL); // Log the URL to the console for debugging
+    imageElement.src = gameData.Icon_URL; // Use the actual property from your game data
+}
             // Update the download element
     var downloadElement = document.querySelector('.download');
     if (downloadElement) {
@@ -408,8 +458,18 @@ document.addEventListener('DOMContentLoaded', function () {
                   document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + gameData.Languages;
             document.querySelector('.rDate').innerHTML = '<strong>Release Date:</strong> ' + gameData.Original_Release_Date;
             document.querySelector('.Developer').innerHTML = '<strong>Developer:</strong> ' + gameData.Developer;
-            document.querySelector('.rateC').innerHTML = '<strong>Rating:</strong> ' + gameData.Average_User_Rating;
-;
+    // Update the rating element
+    var ratingElement = document.querySelector('.rateC');
+    if (ratingElement) {
+        var ratingText;
+        if (gameData.Average_User_Rating && gameData.Average_User_Rating.toLowerCase() !== 'nan') {
+            ratingText = gameData.Average_User_Rating;
+        } else {
+            ratingText = 'Not Rated';
+        }
+        ratingElement.innerHTML = '<strong>Rating:</strong> ' + ratingText;
+    }
+
 
     }
 
@@ -421,7 +481,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
-
+<script>
+	   function createClickListener() {
+        return function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+            var clickedGameID = this.getAttribute('data-game-id');
+            console.log(clickedGameID)
+            //window.location.href = `/game_info_page/${clickedGameID}/`;
+        };
+    }
+</script>
 </body>
 {% endblock %}
 </html>

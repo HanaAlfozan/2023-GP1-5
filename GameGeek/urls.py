@@ -54,4 +54,5 @@ urlpatterns = [
     path('BackEnd/retrieve_all_games/', BackEnd_views.retrieve_all_games, name='retrieve_all_games'),
     path('game_info_page/<int:game_id>/', views.game_info_page, name='game_info_page'),
     path('BackEnd/retrieve_game_info/', BackEnd_views.retrieve_game_info, name='retrieve_game_info'),
+    path('BackEnd/retrieve_random_high_rated_games/', BackEnd_views.retrieve_random_high_rated_games, name='retrieve_random_high_rated_games'),
 ]

@@ -37,12 +37,7 @@ def about(request):
 def estimate(request):
     return render(request,"AgeEstimation.html" )
 
-def game_info_page(request):
-    img = request.GET.get('img')
-    context = {
-        'img': img,
-        }
-    return render(request, 'GameInfoPage.html', context)
+
 
 def custom_password_reset_form(request):
     return render(request,"custom_password_reset_form.html" )
