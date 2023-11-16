@@ -63,13 +63,15 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 		}
 
 
-.form-container form {
+		.form-container form {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 50px;
-    padding: 25px; /* Increase padding for input boxes */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	padding-top: 25px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-    width: 80%;
+    width: 55%;
+	margin-left: 200px;
+
 }
 
 .form-container {
@@ -81,7 +83,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 
 
 .input-box {
-    width: 60%; /* Make inputs take full width of the form */
+    width: 60%;
     padding: 10px; /* Reduce padding for inputs */
  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
@@ -100,10 +102,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 .input-pair {
-    align-items: center;
-    justify-content: space-between; /* This ensures labels and inputs start from left to right */
     margin-bottom: 30px;
-	margin-left: 20px;
 }
 
 .input-pair label {
@@ -122,7 +121,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 .animate-charcter {
   text-transform: uppercase;
   background-image: linear-gradient(
-    -225deg,
+     -225deg,
     #2ae2e1 0%,
 	#ff069a 29%,
     #06f7ff 67%,
@@ -131,18 +130,21 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   background-size: auto auto;
   background-clip: border-box;
   background-size: 200% auto;
-  color: #fff;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-
-  display: inline-block;
-  font-size: 80px;
-  letter-spacing: 20px;
+  font-size: 50px;
+  letter-spacing: 10px;
   line-height: 1.5;
-  margin:auto;
 }
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
 
 @keyframes textclip {
   to {
@@ -152,32 +154,27 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 
 #forgetPass{
 			font-family: 'Poppins', sans-serif;
-            background-color: #ff069a;
-            color: #fff;
-            padding: 10px 20px;
+            color: #333;
 			font-weight: 700;
-			text-transform: uppercase;
-			font-size: 14px;
+			margin-left: 220px;
+			font-size: 12px;
 			cursor: pointer;
-			padding: 15px 20px;
-			border-radius: 50px !important
+			position: relative;
+            top: 10px;
 		}
 	#forgetPass:hover {
-         background-color: #06f7ff;
-         color: #fff;
+         color: #06f7ff;
 		}
-	.input-item {
+		.input-item {
 		 position: relative;
          background: transparent;
          color: #333;
-         right: 4px;
-		 top: -2px;
-		 font-size: 16px;
-         border-radius: 5px 0px 0px 5px;
+         right: -6px;
+		 font-size: 18px;
 		}
 		.site-logo img{
-		width: 200px;
-	    height: 100px;
+	    width: 240px;
+        height: 140px;
 		position: relative;
 		left: 100px;
 	}
@@ -192,7 +189,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   left: 50;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .popup-content {
@@ -245,6 +241,18 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	padding: 70px;
 }
 
+.right {
+  position: relative;
+  left: 250px;
+  top:-160px
+}
+
+.left{
+  position: relative;
+  left: -370px;
+  top: 200px;
+}
+
 
 
 	</style>
@@ -253,7 +261,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 <body>
 
 	<!--PreLoader-->
-    <div class="loader">
+    <div class="loader" id="loader">
         <div class="loader-inner">
             <div class="circle"></div>
         </div>
@@ -283,10 +291,15 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	<div class="contact-from-section mt-150 mb-150">
 
 		<div class="container">
-			<div class="containeTitle">
-								<div class="rowTitle">
+			<div class="left">
+				<h3 class="animate-charcter">Welcome back, gamer 🎮!</h3>
+				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 20px;" ALIGN=LEFT><b> More adventures awaits behind these login gates. Ready to get started? 🚀</b></p>
+			</div>
+			<div class="right">
+				<div class="containeTitle" style="margin-left: 200px;">
+					<div class="rowTitle">
 								  <div class="col-md-12 text-center">
-									<h3 class="animate-charcter">Log In</h3>
+									<h3 class="animate-charcter" style="font-size: 40px;">Log In</h3>
 								  </div>
 								</div>
 							  </div>
@@ -306,32 +319,33 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 											<i class="fa fa-key"></i>
 										</span>
 										<label for="password">Password:</label>
-										<input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password">
+										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password">
+										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 129px; top: 188px; cursor: pointer;"></i>
+										<a href="#" id="forgetPass">Forgot Password?</a>
+										<br><br>
 									</div>
-									<br>
 									<!-- Display messages only if there are any -->
 									{% if messages %}
 										{% for message in messages %}
 											<h5>{{ message }}</h5>
 										{% endfor %}
 									{% endif %}
-									<br>
-									<button type="button" class="btn btn-white btn-transition" id="forgetPass">Forgot Password?</button>
-									<input type="submit" id="LogIN" value="Log In">
+									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>
 							</div>
+			</div>
 <!-- Password Reset Pop-up -->
 <div id="passwordResetPopup" class="popup">
     <div class="popup-content">
         <span class="close" id="closePopup">&times;</span>
         <h3>Password Reset</h3>
-        <h6>Enter your email address to reset your password:</h6>
+        <h6>Enter your username to reset your password using your registered email:</h6>
         <form id="passwordResetForm" action="{% url 'custom_password_reset' %}" method="POST">
             {% csrf_token %}
             <div class="input-pair">
-                <label for="email" style="margin-left: 10px;">Email:</label>
-                <input type="email" id="email" class="input-box" name="email" required placeholder="Enter your email" style="margin-left: 10px;">
+                <label for="username" style="margin-left: 10px;">Username:</label>
+                <input type="username" id="Username" class="input-box" name="Username" required placeholder="Enter your username" style="margin-left: 10px;">
             </div>
             <button type="button" id="resetPassword">Reset Password</button>
         </form>
@@ -341,8 +355,8 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 			<div class="popup fail" id="errorPopup">
 				<div class="popup-content">
 					<span class="close" id="closeErrorPopup">&times;</span>
-					<h3 class="error">Email not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-					<h5>Make sure you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+					<h3 class="error">Username not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+					<h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
 				</div>
 			</div>
 
@@ -351,42 +365,42 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     <div class="popup-content">
         <span class="close" id="closePopupSuccess">&times;</span>
         <h3>Password Reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
-        <h5>A password reset link has been sent to your email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
+        <h5>A password reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
 		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
     </div>
 </div>
 <!-- Password Confirm Success Pop-up (hidden by default) -->
 <div id="passwordResetConfirm" class="popup">
     <div class="popup-content">
-        <span class="close" id="closePopupConfirm" style="padding: 30px;">&times;</span>
+        <span class="close" id="closePopupConfirm">&times;</span>
         <h3 style="padding-bottom: 20px;">Set New Password</h3>
-        <h5>Enter your new password:</5>
+        <h5 Align="left" style="margin-left: 20px; margin-bottom: 30px;">Enter your new password:</h5>
         <form id="passwordResetConfirmForm" action="" method="POST">
             {% csrf_token %}
             <div class="input-pair">
                 <label for="password">New Password:</label>
 				<input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
-				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter."></div>
+				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; top:145px; right: 80px; cursor: pointer;"></i></div>
             <div class="input-pair">
                 <label for="password2">Confirm Password:</label>
                 <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 80px; top: 230px; cursor: pointer;"></i>
             </div>
-			<br>
 			{% if messages %}
 			{% for message in messages %}
 				<h5>{{ message }}</h5>
 			{% endfor %}
 		{% endif %}
-			<br>
             <button type="submit" id="setNewPassword">Set New Password</button>
         </form>
     </div>
 </div>
 <!-- Password reset Success Pop-up (hidden by default) -->
 <div id="passwordResetComplete" class="popup">
-    <div class="popup-content Complete" style="padding: 40px;">
+    <div class="popup-content Complete" style="padding: 70px;">
         <span class="close" id="closePopupComplete">&times;</span>
-        <h3>Password has been successfully reset!</h3>
+        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 25px;"></i><br><br>Password has been successfully reset!</h3>
     </div>
 </div>
 
@@ -417,11 +431,12 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 		    // Close the passwordResetComplete popup after 8 seconds
 		setTimeout(function () {
                 document.getElementById('passwordResetComplete').style.display = 'none';
-            }, 8000);
+            }, 10000);
 	}
 	
     document.getElementById('resetPassword').addEventListener('click', function () {
-        email = document.getElementById('email').value;
+		document.getElementById('loader').style.display = 'block';
+        username = document.getElementById('Username').value;
         
         // Get the CSRF token from the cookie
         var csrftoken = getCookie('csrftoken');
@@ -437,6 +452,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 		xhr.onload = function () {
     if (xhr.status === 200) {
         // Password reset was successful, display the success pop-up
+		document.getElementById('loader').style.display = 'none';
         document.getElementById('EmailSentSuccess').style.display = 'block';
         document.getElementById('passwordResetPopup').style.display = 'none';
     } else if (xhr.status === 404) {
@@ -446,7 +462,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     }
 };
 
-        xhr.send('email=' + email);
+        xhr.send('username=' + username);
     });
 
     // Function to get the CSRF token from the cookie
@@ -464,6 +480,18 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
         }
         return cookieValue;
     }
+</script>
+
+<script>
+    document.querySelectorAll('.togglePassword').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            var passwordInput = document.getElementById(this.previousElementSibling.id);
+            var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+            this.classList.toggle('fa-eye');
+        });
+    });
 </script>
 
 

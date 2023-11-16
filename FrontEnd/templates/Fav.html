@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 	<!-- title -->
-	<title>Favourites</title>
+	<title>Favourite Games</title>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -244,11 +244,16 @@ ul li a:hover {
 					</div>
 				</div>
 				<ul class="Realbreadcrumb">
-					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
-					<li class="breadcrumb-item"><a href="{% url 'signup' %}" >Sign Up</a></li>
-					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
-					<li class="breadcrumb-item current"><a href="{% url 'Fav' %}">Favourites</a></li>
-				</ul>
+					{% breadcrumb as breadcrumbs %}
+					{% for breadcrumb in breadcrumbs %}
+						{% if breadcrumb.url %}
+							<li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.label }}</a></li>
+						{% else %}
+							<li class="breadcrumb-item current">{{ breadcrumb.label }}</li>
+						{% endif %}
+					{% endfor %}
+					<li class="breadcrumb-item current"><a href="{% url 'Fav' %}">Favourite Games</a></li>
+				</ul>			
 			</div>
 		</div>
 	</div>
