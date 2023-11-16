@@ -27,9 +27,10 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
     Approved_age_group = models.BooleanField(default=False)
     Age_group = models.CharField(max_length=4, null=True, blank=True)
     Date_joined = models.DateTimeField(auto_now_add=True)
-    
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    last_login = None  
+    @property
+    def is_superuser(self):
+        return False
 
     # Specify unique related_name for groups and user_permissions
     groups = models.ManyToManyField('auth.Group', related_name='User', blank=True)
