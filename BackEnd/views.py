@@ -300,38 +300,19 @@ def clean_name(name):
 
 def clean_description(description):
     # Remove URLs
+    description=description.encode().decode('unicode_escape')
     description_without_urls = re.sub(r'http\S+|www\S+|https\S+', '', description, flags=re.MULTILINE)
 
     # Remove emails
     description_without_emails = re.sub(r'\S+@\S+', '', description_without_urls, flags=re.MULTILINE)
 
-    # Replace consecutive newlines with a space
-    cleaned_description = re.sub(r'\n+', ' ', description_without_emails)
 
-    # Remove non-word-like strings (e.g., u25cfu25cfu25cf)
-    cleaned_description = re.sub(r'\b\w{1,2}\b', '', cleaned_description)
-
-    # Remove words that start or contain numbers
-    cleaned_description = ' '.join(
-        word for word in cleaned_description.split() if not any(char.isdigit() for char in word))
-
-    # Remove special characters, symbols, and extra spaces
-    cleaned_description = re.sub(r'[^a-zA-Z0-9\s.,!?]', '', cleaned_description)
-
-    # Add a space after "facebook.com" and "twitter.com"
-    cleaned_description = re.sub(r'(facebook\.com|twitter\.com)', r'\1 ', cleaned_description)
-
-    # Add periods after sentences if missing
-    cleaned_description = re.sub(r'(?<=[.!?])\s*(?=[A-Z])', '. ', cleaned_description)
-
-    # Capitalize the first letter of each sentence
-    cleaned_description = '. '.join(sentence.capitalize() for sentence in cleaned_description.split('. '))
 
     # Ensure the description ends with a period
-    if not cleaned_description.endswith('.'):
-        cleaned_description += '.'
+    if not description_without_emails.endswith('.'):
+        description_without_emails += '.'
 
-    return cleaned_description
+    return description_without_emails
 
 
 

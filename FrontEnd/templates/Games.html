@@ -845,41 +845,51 @@ function updateGamesContainer(data) {
         window.location.href = `/game_info_page/${selectedGameId}/`;
     });
 
-    var currentPage = data.current_page;
-    var totalPages = data.total_pages;
+   var currentPage = data.current_page;
+var totalPages = data.total_pages;
 
-    var paginationList = $('.pagination-wrap ul');
-    paginationList.empty();
-    paginationList.append(`<li class="page-item"><a href="?page=1" class="page-link" style="display:none;></a></li>`);
+var paginationList = $('.pagination-wrap ul');
+paginationList.empty();
 
-    if (data.previous_page_number) {
-        paginationList.append(`<li class="page-item"><a href="?page=${data.previous_page_number}" class="page-link">Prev</a></li>`);
+// Add previous button
+paginationList.append(`<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a href="#" class="page-link" data-page="${currentPage - 1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>`);
+
+for (var i = 1; i <= totalPages; i++) {
+    var activeClass = (i === currentPage) ? 'active' : '';
+    if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+        paginationList.append(`<li class="page-item ${activeClass}">
+                                <a href="#" class="page-link" data-page="${i}">${i}</a>
+                            </li>`);
+    } else if (i === currentPage - 3 || i === currentPage + 3) {
+       paginationList.append('<li class="page-item disabled"><span class="page-link" style="color: black; border: none; background: none;">...</span></li>');
     }
+}
 
-    for (var i = 1; i <= totalPages; i++) {
-        var activeClass = (i === currentPage) ? 'active' : '';
-        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-            paginationList.append(`<li class="page-item ${activeClass}"><a href="#" class="page-link" data-page="${i}">${i}</a></li>`);
-        } else if (i === currentPage - 3 || i === currentPage + 3) {
-            paginationList.append('<li class="page-item"><span class="page-link" style="color:black;"">...</span></li>');
-        }
-    }
+// Add next button
+paginationList.append(`<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a href="#" class="page-link" data-page="${currentPage + 1}" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>`);
 
-    if (data.next_page_number) {
-        paginationList.append(`<li class="page-item"><a href="?page=${data.next_page_number}" class="page-link">Next</a></li>`);
-    }
-
-    paginationList.append(`<li class="page-item"><a href="?page=${totalPages}" class="page-link" style="display:none;"></a></li>`);
-
-    // Attach click event to pagination links
-    $('.page-link').on('click', function(e) {
-        e.preventDefault();
-        var page = $(this).data('page');
-        makeAjaxRequest(page, page);
-    });
+// Attach click event to pagination links
+$('.page-link').on('click', function (e) {
+    e.preventDefault();
+    var page = $(this).data('page');
+    makeAjaxRequest(page, page);
+});
 }
 
 makeAjaxRequest(1, 1);
+
+
+
+
+
 
 </script>
 </body>
