@@ -150,6 +150,8 @@ ul li{
 ul li a:hover {
   color: #06f7ff;
 }
+		.product-section{
+		height:70%;}
 
 
 
@@ -244,16 +246,12 @@ ul li a:hover {
 					</div>
 				</div>
 				<ul class="Realbreadcrumb">
-					{% breadcrumb as breadcrumbs %}
-					{% for breadcrumb in breadcrumbs %}
-						{% if breadcrumb.url %}
-							<li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.label }}</a></li>
-						{% else %}
-							<li class="breadcrumb-item current">{{ breadcrumb.label }}</li>
-						{% endif %}
-					{% endfor %}
-					<li class="breadcrumb-item current"><a href="{% url 'Fav' %}">Favourite Games</a></li>
-				</ul>			
+
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'Fav' %}" >Favourite Games</a></li>
+
+				  </ul>
+
 			</div>
 		</div>
 	</div>
@@ -274,20 +272,20 @@ ul li a:hover {
 					<div class="single-product-item">
 						<button class="remove-game" data-id="1"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
 						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=1"><img src="{% static 'img/Games/game1.png' %}" alt=""></a>
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
 						</div>
-						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=1" class="cart-btn" style="text-decoration: none;">More info</a>
+						<h3 class="names"></h3>
+						<a href="" class="cart-btn ids" style="text-decoration: none;" onclick="info(event)">More info</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center berry">
 					<div class="single-product-item">
 						<button class="remove-game" data-id="2"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
 						<div class="product-image">
-							<a href="{% url 'game_info_page' %}?img=2"><img src="{% static 'img/Games/game2.png' %}" alt=""></a>
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
 						</div>
-						<h3>Lorem ipsum</h3>
-						<a href="{% url 'game_info_page' %}?img=2" class="cart-btn" style="text-decoration: none;">More info</a>
+						<h3 class="names">Lorem ipsum</h3>
+						<a href="" class="cart-btn ids" style="text-decoration: none;" onclick="info(event)">More info</a>
 					</div>
 				</div>
 			</div>
@@ -296,11 +294,7 @@ ul li a:hover {
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
 						<ul>
-							<li><a href="#">Prev</a></li>
-							<li><a class="active" href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">Next</a></li>
+
 						</ul>
 					</div>
 				</div>
@@ -421,6 +415,96 @@ ul li a:hover {
 	<script src="{% static '/js/jquery.sticker.js' %}"></script>
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function () {
+console.log("Document is ready.");
+    // Function to fetch and display random high-rated games
+    function fetchRandomGames() {
+        var url = '/BackEnd/retrieve_random_high_rated_games/';
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Received data:', data);
+
+                if (data && data.random_high_rated_games_data) {
+                    displayGames(data.random_high_rated_games_data);
+                } else {
+                    console.error('Data format is not as expected:', data);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+            console.log("error")
+
+            }
+        });
+    }
+
+    // Function to dynamically update the HTML with game data
+   function displayGames(games) {
+        console.log(games);
+           var imageElements = document.querySelectorAll('.imgs');
+        var nameElements = document.querySelectorAll('.names');
+        var idElements = document.querySelectorAll('.ids');
+        var urlElements = document.querySelectorAll('.urls');
+
+
+       for (var j = 0, i = 9; i < 11 && i < games.length; i++, j++) {
+         var game = games[i];
+
+        // Select elements by class
+        var imageElement = imageElements[j];
+       var nameElement = nameElements[j];
+       var idElement =idElements[j];
+       urlElement=urlElements[j];
+       console.log(urlElement)
+
+
+       idElement=idElements[j];
+       idElement.setAttribute('data-game-id', game.ID);
+
+        console.log(idElement.getAttribute('data-game-id'));
+
+    imageElement.src=game.Icon_URL;
+    nameElement.innerHTML=game.Name;
+    urlElement.href=game.URL;
+
+
+
+
+
+}
+    }
+
+    // Fetch random games when the page loads
+    fetchRandomGames();
+    console.log("fetchRandomGames function called.");
+});
+</script>
+<script>
+    function info(event) {
+        event.preventDefault(); // Prevent the default link behavior
+
+        // Get the clicked element
+        var clickedElement = event.target;
+
+        // Example: Get the value of the "data-game-id" attribute
+        var gameNewID = clickedElement.getAttribute('data-game-id');
+
+        // Use the attribute value as needed
+        console.log('Clicked Game ID:', gameNewID);
+
+        // Modify the URL
+        var newURL = `/game_info_page/${gameNewID}/`;
+        console.log('New URL:', newURL);
+
+        // Replace the current URL with the new one and trigger a reload
+        window.location.replace(newURL);
+    }
+</script>
 
 </body>
 {% endblock %}

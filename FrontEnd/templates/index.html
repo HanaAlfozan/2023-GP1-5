@@ -298,29 +298,28 @@ console.log("Document is ready.");
     }
 
     // Function to dynamically update the HTML with game data
-  function displayGames(games) {
-  console.log(games)
-    for (var i = 0; i < 3; i++) {
-        var game = games[i];
+ function displayGames(games) {
+        console.log(games);
+           var imageElements = document.querySelectorAll('.imgs');
+        var nameElements = document.querySelectorAll('.names');
 
-        // Select elements by class
-        var imageElement = document.getElementsByClassName('imgs')[i];
-        var nameElement = document.getElementsByClassName('names')[i];
+        for (var i = 3; i < 6 && i < games.length; i++) {
+            var game = games[i];
 
-
-
-        // Update element content
-        imageElement.src = game.Icon_URL;
-        nameElement.textContent = game.Name;
-
+            // Select elements by class
+                var imageElement = document.getElementsByClassName('imgs')[i-3];
+                var nameElement = document.getElementsByClassName('names')[i-3];
+                imageElement.src=game.Icon_URL;
+                nameElement.innerHTML=game.Name
 
 
 
+            console.log('Image Element:', imageElement);
+            console.log('Name Element:', nameElement);
 
 
+        }
     }
-
-}
 
     // Fetch random games when the page loads
     fetchRandomGames();

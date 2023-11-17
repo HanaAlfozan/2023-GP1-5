@@ -359,21 +359,21 @@ def retrieve_random_high_rated_games(request):
     # Retrieve all objects from the GamesList model
     all_games_data = list(GamesList.objects.all())
 
-    # Ensure that the total number of games is at least 3
-    if len(all_games_data) < 3:
+    # Ensure that the total number of games is at least 12
+    if len(all_games_data) < 12:
         return JsonResponse({'error': 'Not enough games available'}, status=400)
 
     # Retrieve all high-rated games with a rating of 4 or more
     high_rated_games = [game for game in all_games_data if is_high_rated(game.Average_User_Rating)]
 
-    # Check if there are at least 3 high-rated games
-    if len(high_rated_games) < 3:
+    # Check if there are at least 12 high-rated games
+    if len(high_rated_games) < 12:
         return JsonResponse({'error': 'Not enough high-rated games available'}, status=400)
 
-    # Retrieve 3 random high-rated games
-    random_high_rated_games = random.sample(high_rated_games, 3)
+    # Retrieve the first 12 high-rated games
+    first_12_high_rated_games = high_rated_games[12:24]
 
-    # Convert the random high-rated games to a list of dictionaries with cleaned names
+    # Convert the first 12 high-rated games to a list of dictionaries with cleaned names
     games_list = [
         {
             'Name': clean_name(game.Name),
@@ -391,7 +391,7 @@ def retrieve_random_high_rated_games(request):
             'Original_Release_Date': game.Original_Release_Date,
             'ID': game.ID,
         }
-        for game in random_high_rated_games
+        for game in first_12_high_rated_games
     ]
 
     # Return a JSON response
