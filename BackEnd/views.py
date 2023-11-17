@@ -302,7 +302,6 @@ def clean_description(description):
     # Remove URLs
     description=description.encode().decode('unicode_escape')
     description_without_urls = re.sub(r'http\S+|www\S+|https\S+', '', description, flags=re.MULTILINE)
-
     # Remove emails
     description_without_emails = re.sub(r'\S+@\S+', '', description_without_urls, flags=re.MULTILINE)
 
@@ -332,6 +331,7 @@ def retrieve_game_info(request):
 
         # Clean the game description
         cleaned_description = clean_description(game.Description)
+        dev = clean_dev(game.Developer)
 
         cleaned_name = clean_name(game.Name)
         # Convert the game object to a dictionary with the cleaned description
@@ -345,7 +345,7 @@ def retrieve_game_info(request):
             'User_Rating_Count': game.User_Rating_Count + '.',
             'Price': game.Price,
             'In_app_Purchases': game.In_app_Purchases,
-            'Developer': game.Developer + '.',
+            'Developer': dev,
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages + '.',
             'Size': str(game.Size),  # Convert DecimalField to string
@@ -403,3 +403,16 @@ def is_high_rated(rating_str):
         return not math.isnan(rating) and rating >= 4.5
     except ValueError:
         return False
+
+def clean_dev(dev):
+    # Remove URLs
+    dev=dev.encode().decode('unicode_escape')
+
+
+
+
+    # Ensure the description ends with a period
+    if not dev.endswith('.'):
+        dev += '.'
+
+    return dev

@@ -161,7 +161,7 @@
 					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
 					<li class="breadcrumb-item"><a href="{% url 'signup' %}" >Sign Up</a></li>
 					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
-					<li class="breadcrumb-item current"><a href="{% url 'game_info_page' game_id=game_id %}">Game Inforomation</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'game_info_page' game_id=game_id %}">Game Information</a></li>
 				 </ul>
 			</div>
 		</div>
@@ -182,6 +182,7 @@
 						<h2 class="name"></h2>
 
 						<p class="disc"></p>
+
 						<div class="single-product-form">
 
 							<p class="genre"></p>
@@ -432,8 +433,28 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update the description element
         var descriptionElement = document.querySelector('.disc');
         if (descriptionElement) {
+            var maxCharacters = 430;
+            var descriptionText = gameData.Description;
 
-            descriptionElement.innerHTML = gameData.Description;
+            if (descriptionText.length > maxCharacters) {
+                var truncatedText = descriptionText.substring(0, maxCharacters) + '...';
+                descriptionElement.innerHTML = truncatedText;
+
+                var readMoreLink = document.createElement('a');
+                readMoreLink.href = '#'; // Add the appropriate link for "read more"
+                readMoreLink.textContent = 'Read more';
+                readMoreLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    descriptionElement.innerHTML = descriptionText;
+                });
+
+                // Append the "Read more" link
+                descriptionElement.insertAdjacentElement('beforeend', readMoreLink);
+            } else {
+                // If the description is not truncated, display the full text
+                descriptionElement.innerHTML = descriptionText;
+            }
+
             descriptionElement.style.textAlign = 'justify';
         }
 
@@ -444,33 +465,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Update the image element
-     var imageElement = document.getElementById('gameImageINFO');
-if (imageElement) {
-    console.log('Image URL:', gameData.Icon_URL); // Log the URL to the console for debugging
-    imageElement.src = gameData.Icon_URL; // Use the actual property from your game data
-}
-            // Update the download element
-    var downloadElement = document.querySelector('.download');
-    if (downloadElement) {
-        downloadElement.href = gameData.URL;
-    }
-
-                  document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + gameData.Languages;
-            document.querySelector('.rDate').innerHTML = '<strong>Release Date:</strong> ' + gameData.Original_Release_Date;
-            document.querySelector('.Developer').innerHTML = '<strong>Developer:</strong> ' + gameData.Developer;
-    // Update the rating element
-    var ratingElement = document.querySelector('.rateC');
-    if (ratingElement) {
-        var ratingText;
-        if (gameData.Average_User_Rating && gameData.Average_User_Rating.toLowerCase() !== 'nan') {
-            ratingText = gameData.Average_User_Rating;
-        } else {
-            ratingText = 'Not Rated';
+        var imageElement = document.getElementById('gameImageINFO');
+        if (imageElement) {
+            console.log('Image URL:', gameData.Icon_URL); // Log the URL to the console for debugging
+            imageElement.src = gameData.Icon_URL; // Use the actual property from your game data
         }
-        ratingElement.innerHTML = '<strong>Rating:</strong> ' + ratingText;
-    }
 
+        // Update the download element
+        var downloadElement = document.querySelector('.download');
+        if (downloadElement) {
+            downloadElement.href = gameData.URL;
+        }
 
+        document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + gameData.Languages;
+        document.querySelector('.rDate').innerHTML = '<strong>Release Date:</strong> ' + gameData.Original_Release_Date;
+        document.querySelector('.Developer').innerHTML = '<strong>Developer:</strong> ' + gameData.Developer;
+
+        // Update the rating element
+        var ratingElement = document.querySelector('.rateC');
+        if (ratingElement) {
+            var ratingText;
+            if (gameData.Average_User_Rating && gameData.Average_User_Rating.toLowerCase() !== 'nan') {
+                ratingText = gameData.Average_User_Rating;
+            } else {
+                ratingText = 'Not Rated';
+            }
+            ratingElement.innerHTML = '<strong>Rating:</strong> ' + ratingText;
+        }
     }
 
     // Extract the game ID from the URL
