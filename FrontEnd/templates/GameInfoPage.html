@@ -231,7 +231,7 @@
 							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
 						</div>
 						<h3 class="names"></h3>
-						<a  href="" class="cart-btn urls" >More info</a>
+						<a  href="" class="cart-btn urls ids" onclick="info(event)" >More info</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center">
@@ -240,7 +240,7 @@
 							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
 						</div>
 						<h3 class="names"></h3>
-						<a  href="" class="cart-btn">More info</a>
+						<a  href="" class="cart-btn ids" onclick="info(event)">More info</a>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 text-center">
@@ -249,7 +249,7 @@
 							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
 						</div>
 						<h3 class="names"></h3>
-						<a  href="" class="cart-btn ">More info</a>
+						<a  href="" class="cart-btn  ids" onclick="info(event)">More info</a>
 					</div>
 				</div>
 			</div>
@@ -289,16 +289,16 @@ console.log("Document is ready.");
         // Select elements by class
         var imageElement = document.getElementsByClassName('imgs')[i];
         var nameElement = document.getElementsByClassName('names')[i];
-        var urlElement = document.getElementsByClassName('urls')[i];
-        var idElement = document.getElementsByClassName('text-center')[i];
+
+        var idElement = document.getElementsByClassName('ids')[i];
 
         // Update element content
         imageElement.src = game.Icon_URL;
         nameElement.textContent = game.Name;
-        urlElement.href = game.URL;
-        urlElement.setAttribute('data-game-id', game.ID);
 
-        console.log(`Element ${i + 1} data-game-id:`, urlElement.getAttribute('data-game-id'));
+        idElement.setAttribute('data-game-id', game.ID);
+
+        console.log(idElement.getAttribute('data-game-id'));
 
 
     }
@@ -482,13 +482,24 @@ if (imageElement) {
 
 </script>
 <script>
-	   function createClickListener() {
-        return function (event) {
-            event.preventDefault(); // Prevent the default link behavior
-            var clickedGameID = this.getAttribute('data-game-id');
-            console.log(clickedGameID)
-            //window.location.href = `/game_info_page/${clickedGameID}/`;
-        };
+    function info(event) {
+        event.preventDefault(); // Prevent the default link behavior
+
+        // Get the clicked element
+        var clickedElement = event.target;
+
+        // Example: Get the value of the "data-game-id" attribute
+        var gameNewID = clickedElement.getAttribute('data-game-id');
+
+        // Use the attribute value as needed
+        console.log('Clicked Game ID:', gameNewID);
+
+        // Modify the URL
+        var newURL = `/game_info_page/${gameNewID}/`;
+        console.log('New URL:', newURL);
+
+        // Replace the current URL with the new one and trigger a reload
+        window.location.replace(newURL);
     }
 </script>
 </body>
