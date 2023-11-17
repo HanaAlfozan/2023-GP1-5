@@ -52,9 +52,11 @@
             border-radius: 4%;
             border-color: #ff069a;
             border-width: 2px;
-            margin: 20% auto -1% auto;
-            display: none;
-            margin-right: -180px;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            top: 140px;
+            right: -420px;
         }
 
         #video-stream {
@@ -63,17 +65,10 @@
             border-color: #ff069a;
             margin-right: -10px;
             display: none;
+            margin: 0;
+            padding: 0;
         }
 
-        #button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-            flex-flow: row;
-            align-content: space-between;
-            justify-content: center;
-        }
 
         .inst-container {
             text-align: center;
@@ -89,21 +84,6 @@
             width: 40%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
             font-size: 1px;
-        }
-
-        .message-container {
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.7);
-            font-family: 'Poppins', sans-serif;
-            width: 90%;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            font-size: 24px;
-            display: none;
-            margin-top: -30px;
-            height: 68px;
-            padding-bottom: -30px;
         }
 
         button.boxed-btn {
@@ -152,106 +132,112 @@
         summary {
             list-style-type: none;
         }
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-content {
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 15% auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  position: relative;
+  padding: 20px;
+}
+
+
     </style>
 <body>
 
-	<!-- header -->
-<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-                            <!--	<a href="{% url 'index' %}"> -->
-                                <a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
-                                </a>
-                            </div>
-						<!-- logo -->
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-
-								<li>
-									<li>
-
-									</li>
-								</li>
-							</ul>
-						</nav>
-
-						<div class="mobile-menu"></div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- end header -->
+    <!-- Header -->
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <div class="site-logo">
+                            <a href="{% url 'index' %}">
+                                <img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header -->
 
     <section id="main-content">
 
-
-
-
-
-
-    <div class="inst-container" id="instructions">
-        <div id="popup">
-            <br>
-        <h4 style="color: #ff069bc0;">Welcome again!</h4>
-        <h6 >It is time for taking the picture, please follow the instructions:</h6>
-
-            <p>Stay still while taking the picture.</p>
-            <p>Make sure the lighting is good.</p>
-            <p>Click on <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> to start taking the picture.</p>
-
-
-             </div>
-    </div>
-
- <!-- End class row -->
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg- text-center">
-
-
-    <br>
-
-    <div id="video-container">
-        <video id="video-stream" autoplay playsinline></video>
-    </div>
-
-    <img id="captured-image" src="" alt="Captured Image" style="display: none;">
-
-</div>
-</div> <!-- End class row -->
-</div> <!-- End class container -->
-<div class="container">
-    {% for message in messages %}
-     <h5>{{message}}</h5>
-    {% endfor %}
-    <div class="row">
-        <div class="col-lg-5 offset-lg-4 text-center">
-
-
-<div id="button-container">
-    <a id="take-snapshot-button" disabled class="boxed-btn" style="display:none;">Take Snapshot</a> <br>
-    <a id="retake-button" class="boxed-btn" style="display: none; " onclick="dis()">Retake</a>
-    <br>
-    <a id="next-button" class="boxed-btn" href="{% url 'Games' %}" style="display: none;">Next</a>
-</div>
-</div>
-</div> <!-- End class row -->
-</div> <!-- End class container -->
-<br> <br>
-
-<div class="message-container" id="message-container" style="display: none; width:100%;  font-family: 'Poppins', sans-serif;"></div>
-
-</section><!-- End class main-content -->
+    
+        <!-- Instructions Container -->
+        <div class="inst-container" id="instructions">
+            <div id="popup">
+                <br>
+                <h4 style="color: #ff069bc0;">Welcome again!</h4>
+                <h6>It is time for taking the picture, please follow the instructions:</h6>
+                <p>Stay still while taking the picture.</p>
+                <p>Make sure the lighting is good.</p>
+                <p>Click on <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> to start taking the picture.</p>
+            </div>
+        </div>
+    
+        <!-- Video Container -->
+        <div class="container" id="video-container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg- text-center">
+                    <br>
+                    <video id="video-stream" autoplay playsinline></video>
+                    <img id="captured-image" src="" alt="Captured Image" style="display: none;">
+                </div>
+            </div> <!-- End class row -->
+        </div> <!-- End class container -->
+    
+                    <div id="button-container">
+                        <a id="take-snapshot-button" disabled class="boxed-btn" style="display:none; width: 20%; font-size: 20px; text-align: center; position: relative; top:150px; left: 600px;">Take Snapshot</a> <br>
+                    </div>
+    </section>
+    
+    <script>
+        // JavaScript to show the classified popup when the classification message is available
+        document.addEventListener("DOMContentLoaded", function () {
+            var classificationMessage = "{{ classification_message }}";
+            if (classificationMessage) {
+                document.getElementById("classification-message-span").innerText = classificationMessage;
+                document.getElementById("classified").style.display = "block";
+                
+                // Hide the camera elements when displaying the classified popup
+                document.getElementById("video-container").style.display = "none";
+                document.getElementById("take-snapshot-button").style.display = "none";
+            }
+    
+            // Event listener for "Take Snapshot" button
+            document.getElementById("take-snapshot-button").addEventListener("click", function () {
+                // Display the classified popup with the dynamic message
+                var messageContainer = document.getElementById("message-container");
+                if (messageContainer) {
+                    // Set the content of the span element
+                    document.getElementById("classification-message-span").innerText = classificationMessage;
+                }
+    
+                // Display the classified popup
+                document.getElementById("classified").style.display = "block";
+                
+                // Hide the camera elements when displaying the classified popup
+                document.getElementById("video-container").style.display = "none";
+                document.getElementById("take-snapshot-button").style.display = "none";
+            });
+        });
+    </script>
   <!-- footer -->
 	<div class="footer-area">
 		<div class="container">
@@ -320,34 +306,38 @@
 	<!-- end copyright -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const startCameraButton = document.getElementById('start-camera-button');
         const takeSnapshotButton = document.getElementById('take-snapshot-button');
         const retakeButton = document.getElementById('retake-button');
         const capturedImage = document.getElementById('captured-image');
         const videoElement = document.getElementById('video-stream');
         const nextButton = document.getElementById('next-button');
+        document.getElementById('start-camera-button').addEventListener('click', function() {
+           hideDiv();
+           startCamera();});
 
         let mediaStream;
         let snapshotDataUrl;
+        const classificationMessageSpan = document.getElementById('classification-message-span');
+        const errorMessageSpan = document.getElementById('error-message-span');
 
-        startCameraButton.addEventListener('click', async () => {
-            try {
-                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        async function startCamera() {
+    try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
 
-                // Display the video stream in the video element
-                videoElement.srcObject = mediaStream;
+        // Display the video stream in the video element
+        videoElement.srcObject = mediaStream;
 
-                // Show the video element and hide the captured image
-                videoElement.style.display = 'block';
-                capturedImage.style.display = 'none';
+        // Show the video element and hide the captured image
+        videoElement.style.display = 'block';
+        capturedImage.style.display = 'none';
 
-                // Enable the "Take Snapshot" button
-                takeSnapshotButton.disabled = false;
-                takeSnapshotButton.style.display = 'block';
-            } catch (error) {
-                console.error('Error accessing camera:', error);
-            }
-        });
+        // Enable the "Take Snapshot" button
+        takeSnapshotButton.disabled = false;
+        takeSnapshotButton.style.display = 'block';
+    } catch (error) {
+        console.error('Error accessing camera:', error);
+    }
+}
 
         takeSnapshotButton.addEventListener('click', () => {
             if (mediaStream) {
@@ -363,58 +353,43 @@
                 var estimatedAgeGroup;
 
                 fetch('/AgeEstimationModel/process_image/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken,
-                    },
-                    body: JSON.stringify({ image_data: snapshotDataUrl }),
-                })
-                .then(response => response.json())
-            .then(result => {
-                if ('error' in result) {
-                    console.error('Error from model:', result.error);
-                    displayMessage('No Face Detected. Please try again.');
-                } else {
-                    console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
-                    displayMessage(`Your Estimated Age Group is: ${result['Estimated Age Group']}`);
-                    fetch('/BackEnd/AssignAgeGroup/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({ image_data: snapshotDataUrl }),
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Response:', result); // Log the entire result object for debugging
+
+            if ('error' in result) {
+                console.error('Error from model:', result.error);
+                // Update the content of the displayMessage
+                classificationMessageSpan.innerText = 'No Face Detected. Please try again.';
+            } else {
+                console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
+                // Update the content of the displayMessage
+                classificationMessageSpan.innerText = `Your Estimated Age Group is: ${result['Estimated Age Group']}`;
+                displayCapturedImage(snapshotDataUrl);
+                fetch('/BackEnd/AssignAgeGroup/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrfToken,
                     },
                     body: JSON.stringify({ 
-                            estimatedAgeGroup: `${result['Estimated Age Group']}`,
-                            previousPage: document.referrer
-                        }),
+                        estimatedAgeGroup: `${result['Estimated Age Group']}`,
+                        previousPage: document.referrer
+                    }),
                 })
-                }
-            })
+            }
+        })
             .catch(error => {
                 console.error('Error processing image:', error);
-                displayMessage('Error processing image. Please try again.');
+                classificationMessageSpan.innerText ='Error processing image. Please try again.';
             });
-
-
-        // Function to display messages in the container
-        function displayMessage(message) {
-            const messageContainer = document.getElementById('message-container');
-            messageContainer.style.display = 'block'; // Show the message container
-            messageContainer.textContent = message; // Set the message content
-        }
-
-
-
-                    // Display the captured image and hide the video element
-                    capturedImage.src = snapshotDataUrl;
-                    capturedImage.style.display = 'block';
-                    videoElement.style.display = 'none';
-
-                    // Show the "Retake" and "Save" buttons
-                    retakeButton.style.display = 'block';
-                    nextButton.style.display = 'block';
-
 
                     // Disable the "Take Snapshot" button
                     takeSnapshotButton.style.display = "none";
@@ -426,11 +401,6 @@
                 capturedImage.src = '';
                 capturedImage.style.display = 'none';
                 videoElement.style.display = 'block';
-
-                // Hide the "Retake" and "Save" and "Next" buttons
-                retakeButton.style.display = 'none';
-                nextButton.style.display = 'none';
-
 
                 // Enable the "Take Snapshot" button
                 takeSnapshotButton.disabled = false;
@@ -444,7 +414,7 @@
 
 
         function hideDiv() {
-          message = document.getElementById('message-container');
+          message = document.getElementById('classified');
             var div = document.getElementById("instructions");
             take=document.getElementById('take-snapshot-button');
             div.style.display = "none";
@@ -454,8 +424,7 @@
               take.style.display="none";
         }
 		function dis() {
-		  message = document.getElementById('message-container');
-		  message.style.display = "none";
+            document.getElementById("classified").style.display = "none";
             var div = document.getElementById("instructions");
             div.style.display = "block";
 
@@ -466,7 +435,39 @@ take=document.getElementById('take-snapshot-button');
 
         }
 
+        function displayCapturedImage(imageDataUrl) {
+    const capturedImageContainer = document.createElement('div');
+    capturedImageContainer.style.position = 'absolute';
+    capturedImageContainer.style.top = '212px';
+    capturedImageContainer.style.right = '397px';
+
+    const capturedImage = document.createElement('img');
+    capturedImage.src = imageDataUrl;
+    capturedImage.alt = 'Captured Image';
+    capturedImage.style.height= '190px';
+    capturedImage.style.maxWidth = '224px'; 
+    capturedImage.style.marginTop = '-6px';
+
+    capturedImageContainer.appendChild(capturedImage);
+    document.getElementById('classified').appendChild(capturedImageContainer);
+        }
+
     </script>
+           <!-- Classification Popup -->
+           <div id="classified" class="Popup" style="display: none;">
+            <div class="popup-content">
+                <h3 style="text-align: left;">Almost There!</h3>
+                <span id="classification-message-span" style="font-size: 20px; font-weight: 700;"></span>
+                <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a></h4>
+                <h4 style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+            </div>
+        </div>
+           <!-- Error Popup -->
+           <div id="error" class="Popup" style="display: none;">
+            <div class="popup-content" style="padding: 100px;">
+                <span id="error-message-span"></span>
+            </div>
+        </div>
 </body>	
 {% endblock %}
 </html>
