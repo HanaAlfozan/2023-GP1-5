@@ -17,7 +17,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.http import HttpResponseNotFound
 from .models import GamesList
 import re
-import codecs
+from django.core.paginator import Paginator, EmptyPage
+import random
+import math
 
 def SignupUser(request):
     if request.method == 'POST':
@@ -209,18 +211,26 @@ def EditNames(request):
 
 
 
+
 def retrieve_all_games(request):
-    # Retrieve all objects from the All_Games model
+    # Retrieve all objects from the GamesList model
     all_games_data = GamesList.objects.all()
 
     # Receive the slice parameter from the request
     slice_number = int(request.GET.get('slice', 0))  # Default to slice 0 if not provided
     items_per_page = 18
-    start_index = slice_number * items_per_page
-    end_index = start_index + items_per_page
-    sliced_games_data = all_games_data[start_index:end_index]
 
-    # Convert the sliced model data to a list of dictionaries with cleaned names
+    # Use Django Paginator to paginate the data
+    paginator = Paginator(all_games_data, items_per_page)
+    page_number = int(request.GET.get('page', 1))  # Default to page 1 if not provided
+
+    try:
+        current_page_data = paginator.page(page_number)
+    except EmptyPage:
+        # If the requested page is out of range, return an empty list
+        current_page_data = []
+
+    # Convert the current page data to a list of dictionaries with cleaned names
     games_list = [
         {
             'Name': clean_name(game.Name),
@@ -238,11 +248,18 @@ def retrieve_all_games(request):
             'Original_Release_Date': game.Original_Release_Date,
             'ID': game.ID,
         }
-        for game in sliced_games_data
+        for game in current_page_data
     ]
 
+    # Include information about the current page and total pages in the JSON response
+    response_data = {
+        'games_data': games_list,
+        'current_page': current_page_data.number,
+        'total_pages': paginator.num_pages,
+    }
+
     # Return a JSON response
-    return JsonResponse({'games_data': games_list})
+    return JsonResponse(response_data)
 def clean_name(name):
     # Decode Unicode escape sequences
     name = name.encode().decode('unicode_escape')
@@ -268,38 +285,18 @@ def clean_name(name):
 
 def clean_description(description):
     # Remove URLs
+    description=description.encode().decode('unicode_escape')
     description_without_urls = re.sub(r'http\S+|www\S+|https\S+', '', description, flags=re.MULTILINE)
-
     # Remove emails
     description_without_emails = re.sub(r'\S+@\S+', '', description_without_urls, flags=re.MULTILINE)
 
-    # Replace consecutive newlines with a space
-    cleaned_description = re.sub(r'\n+', ' ', description_without_emails)
 
-    # Remove non-word-like strings (e.g., u25cfu25cfu25cf)
-    cleaned_description = re.sub(r'\b\w{1,2}\b', '', cleaned_description)
-
-    # Remove words that start or contain numbers
-    cleaned_description = ' '.join(
-        word for word in cleaned_description.split() if not any(char.isdigit() for char in word))
-
-    # Remove special characters, symbols, and extra spaces
-    cleaned_description = re.sub(r'[^a-zA-Z0-9\s.,!?]', '', cleaned_description)
-
-    # Add a space after "facebook.com" and "twitter.com"
-    cleaned_description = re.sub(r'(facebook\.com|twitter\.com)', r'\1 ', cleaned_description)
-
-    # Add periods after sentences if missing
-    cleaned_description = re.sub(r'(?<=[.!?])\s*(?=[A-Z])', '. ', cleaned_description)
-
-    # Capitalize the first letter of each sentence
-    cleaned_description = '. '.join(sentence.capitalize() for sentence in cleaned_description.split('. '))
 
     # Ensure the description ends with a period
-    if not cleaned_description.endswith('.'):
-        cleaned_description += '.'
+    if not description_without_emails.endswith('.'):
+        description_without_emails += '.'
 
-    return cleaned_description
+    return description_without_emails
 
 
 
@@ -319,6 +316,7 @@ def retrieve_game_info(request):
 
         # Clean the game description
         cleaned_description = clean_description(game.Description)
+        dev = clean_dev(game.Developer)
 
         cleaned_name = clean_name(game.Name)
         # Convert the game object to a dictionary with the cleaned description
@@ -332,7 +330,7 @@ def retrieve_game_info(request):
             'User_Rating_Count': game.User_Rating_Count + '.',
             'Price': game.Price,
             'In_app_Purchases': game.In_app_Purchases,
-            'Developer': game.Developer + '.',
+            'Developer': dev,
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages + '.',
             'Size': str(game.Size),  # Convert DecimalField to string
@@ -342,3 +340,64 @@ def retrieve_game_info(request):
     except GamesList.DoesNotExist:
         return JsonResponse({'error': 'Game not found'}, status=404)
 
+def retrieve_random_high_rated_games(request):
+    # Retrieve all objects from the GamesList model
+    all_games_data = list(GamesList.objects.all())
+
+    # Ensure that the total number of games is at least 12
+    if len(all_games_data) < 12:
+        return JsonResponse({'error': 'Not enough games available'}, status=400)
+
+    # Retrieve all high-rated games with a rating of 4 or more
+    high_rated_games = [game for game in all_games_data if is_high_rated(game.Average_User_Rating)]
+
+    # Check if there are at least 12 high-rated games
+    if len(high_rated_games) < 12:
+        return JsonResponse({'error': 'Not enough high-rated games available'}, status=400)
+
+    # Retrieve the first 12 high-rated games
+    first_12_high_rated_games = high_rated_games[12:24]
+
+    # Convert the first 12 high-rated games to a list of dictionaries with cleaned names
+    games_list = [
+        {
+            'Name': clean_name(game.Name),
+            'Icon_URL': game.Icon_URL,
+            'Genres': game.Genres,
+            'URL': game.URL,
+            'Average_User_Rating': game.Average_User_Rating,
+            'User_Rating_Count': game.User_Rating_Count,
+            'Price': game.Price,
+            'In_app_Purchases': game.In_app_Purchases,
+            'Developer': game.Developer,
+            'Age_Rating': game.Age_Rating,
+            'Languages': game.Languages,
+            'Size': str(game.Size),  # Convert DecimalField to string
+            'Original_Release_Date': game.Original_Release_Date,
+            'ID': game.ID,
+        }
+        for game in first_12_high_rated_games
+    ]
+
+    # Return a JSON response
+    return JsonResponse({'random_high_rated_games_data': games_list})
+
+def is_high_rated(rating_str):
+    try:
+        rating = float(rating_str)
+        return not math.isnan(rating) and rating >= 4.5
+    except ValueError:
+        return False
+
+def clean_dev(dev):
+    # Remove URLs
+    dev=dev.encode().decode('unicode_escape')
+
+
+
+
+    # Ensure the description ends with a period
+    if not dev.endswith('.'):
+        dev += '.'
+
+    return dev

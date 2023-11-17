@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'allauth',
     'allauth.account',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -89,7 +92,7 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'GameGeek',
+        'NAME': 'gamegeek',
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': 'localhost'

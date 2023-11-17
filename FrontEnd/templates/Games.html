@@ -221,6 +221,38 @@
   margin-top: 20px;
   margin-right: -50px;
 }
+		.pagination-wrap  ul .page-item.active {
+
+    color: #ff069bc0; /* Choose your desired text color */
+}
+		.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color:#ff069bc0;
+    border-color: #ff069bc0;
+}
+.page-item .page-link:hover {
+
+    color: #fff;
+
+    border-color: #ff069bc0;
+}
+		.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: transparent;
+    border: solid transparent;
+}
+			.site-logo img{
+  width: 200px;
+    height: 100px;
+	position: relative;
+	left: -25px;
+}
 
     </style>
 
@@ -339,7 +371,7 @@
 			  <option>Highest Rating</option>
 			  <option>Lowest Rating</option>
 			  <option>Largest Size</option>
-			  <option>Samllest Size</option>
+			  <option>Smallest Size</option>
 
 			</select>
 			<!-- End Select -->
@@ -672,14 +704,20 @@
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
-						<ul>
-							<li><a href="#">Prev</a></li>
-							<li><a class="active" href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">Next</a></li>
-						</ul>
-					</div>
+    <ul>
+
+        <li><a href="?page={{ games.previous_page_number }}">Prev</a></li>
+
+            {% for i in games.paginator.page_range %}
+            <li class="{% if games.number == i %}active{% endif %}">
+                <a href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+
+        <li><a href="?page={{ games.next_page_number }}">Next</a></li>
+        <li><a href="?page={{ games.paginator.num_pages }}"></a></li>
+    </ul>
+</div>
 				</div>
 			</div>
 		</div>
@@ -774,20 +812,14 @@
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 <script>
-	var selectedGameId;
-	var currentPage = 1;  // Initialize current page
+var selectedGameId;
 
 function makeAjaxRequest(page, slice) {
     $.ajax({
         url: `/BackEnd/retrieve_all_games/?page=${page}&slice=${slice}`,
         type: 'GET',
         dataType: 'json',
-        success: function (data) {
-            // Log the data to the console for testing
-            console.log(data);
-            // Call a function to update the HTML with the retrieved data
-            updateGamesContainer(data.games_data);
-        },
+        success: updateGamesContainer,
         error: function (error) {
             console.error('Error making AJAX request:', error);
         }
@@ -798,9 +830,7 @@ function updateGamesContainer(data) {
     var gamesContainer = $('.GAMES');
     gamesContainer.empty();  // Clear the container
 
-    // Loop through the games in the JSON response and update the HTML
-    for (var i = 0; i < data.length; i++) {
-        var game = data[i];
+    data.games_data.forEach(function (game) {
         var gameHTML = `
             <div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.ID}">
                 <div class="single-product-item">
@@ -813,22 +843,61 @@ function updateGamesContainer(data) {
             </div>
         `;
         gamesContainer.append(gameHTML);
-    }
+    });
 
-    // Set up click event for the "More Info" buttons
     $('.more-info-btn').on('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Get the game ID from the clicked item's data attribute
+        e.preventDefault();
         selectedGameId = $(this).closest('.game-item').data('game-id');
-        // Redirect to the game info page with the selected game ID
         window.location.href = `/game_info_page/${selectedGameId}/`;
     });
+
+   var currentPage = data.current_page;
+var totalPages = data.total_pages;
+
+var paginationList = $('.pagination-wrap ul');
+paginationList.empty();
+
+// Add previous button
+paginationList.append(`<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a href="#" class="page-link" data-page="${currentPage - 1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>`);
+
+for (var i = 1; i <= totalPages; i++) {
+    var activeClass = (i === currentPage) ? 'active' : '';
+    if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+        paginationList.append(`<li class="page-item ${activeClass}">
+                                <a href="#" class="page-link" data-page="${i}">${i}</a>
+                            </li>`);
+    } else if (i === currentPage - 3 || i === currentPage + 3) {
+       paginationList.append('<li class="page-item disabled"><span class="page-link" style="color: black; border: none; background: none;">...</span></li>');
+    }
 }
 
-// Make a request for the second page with slice 3 (games from 20 to 29)
-makeAjaxRequest(1, 1);
-</script>
+// Add next button
+paginationList.append(`<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a href="#" class="page-link" data-page="${currentPage + 1}" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>`);
 
+// Attach click event to pagination links
+$('.page-link').on('click', function (e) {
+    e.preventDefault();
+    var page = $(this).data('page');
+    makeAjaxRequest(page, page);
+});
+}
+
+makeAjaxRequest(1, 1);
+
+
+
+
+
+
+</script>
 </body>
 {% endblock %}
 </html>
