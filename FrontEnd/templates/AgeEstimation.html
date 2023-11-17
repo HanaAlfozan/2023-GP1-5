@@ -342,8 +342,8 @@
                 console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
                 // Update the content of the displayMessage
                 classificationMessageSpan.innerText = `Your Estimated Age Group is: ${result['Estimated Age Group']}`;
-                classified();
-                displayCapturedImage(snapshotDataUrl);
+                classified(result['Estimated Age Group']);
+                displayCapturedImage(snapshotDataUrl, result['Estimated Age Group']);
                 fetch('/BackEnd/AssignAgeGroup/', {
                     method: 'POST',
                     headers: {
@@ -386,11 +386,17 @@
 
 
 
-          function classified(){
+          function classified(result){
+            if(result === '0-3'){
+            document.getElementById("NotAllowed").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+            }
+            else{
             document.getElementById("classified").style.display = "block";
             document.getElementById("video-container").style.display = "none";
             document.getElementById("take-snapshot-button").style.display = "none";
-
+        }
           }
           function error(){
             document.getElementById("error").style.display = "block";
@@ -412,6 +418,7 @@
 		function dis() {
             document.getElementById("classified").style.display = "none";
             document.getElementById("error").style.display = "none";
+            document.getElementById("NotAllowed").style.display = "none";
             var div = document.getElementById("instructions");
             div.style.display = "block";
 
@@ -422,7 +429,7 @@ take=document.getElementById('take-snapshot-button');
 
         }
 
-        function displayCapturedImage(imageDataUrl) {
+        function displayCapturedImage(imageDataUrl , result) {
     const capturedImageContainer = document.createElement('div');
     capturedImageContainer.style.position = 'absolute';
     capturedImageContainer.style.top = '212px';
@@ -436,7 +443,13 @@ take=document.getElementById('take-snapshot-button');
     capturedImage.style.marginTop = '-6px';
 
     capturedImageContainer.appendChild(capturedImage);
-    document.getElementById('classified').appendChild(capturedImageContainer);
+    if(result === '0-3'){
+        document.getElementById('NotAllowed').appendChild(capturedImageContainer);
+    }
+    else{
+        document.getElementById('classified').appendChild(capturedImageContainer);
+    }
+
         }
 
     </script>
@@ -454,6 +467,15 @@ take=document.getElementById('take-snapshot-button');
             <div class="popup-content">
                 <span id="error-message-span" style="font-size: 20px; font-weight: 700;"></span>
                 <h4 style="font-size: 20px; font-weight: inherit;">Make sure following the instructions and feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+            </div>
+        </div>
+
+           <!-- NotAllowed Popup -->
+           <div id="NotAllowed" class="Popup" style="display: none;">
+            <div class="popup-content">
+                <span style="font-size: 20px; font-weight: 700;">Your Estimated Age Group is: 0-3</span>
+                <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Due to your estimited age group, you are not allowed to get an access to Game Geek </h4>
+                <h4 style="font-size: 20px; font-weight: inherit;">If you have not classified correctley, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
 </body>	
