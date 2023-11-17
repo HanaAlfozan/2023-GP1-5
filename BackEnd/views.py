@@ -128,33 +128,18 @@ def AssignAgeGroup(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
             estimated_age_group = data.get('estimatedAgeGroup')
-            prevPage =  data.get('previousPage')
             user_id = request.session.get('user_id')
             user = GGUser.objects.get(User_ID=user_id)
-            CameFromSignUp = 'signup'
-            CameFromLogIn = 'login'
-            if CameFromSignUp in prevPage:
-                try:
-                   user.Age_group = estimated_age_group
-                   user.save()
-                   return JsonResponse({'message': 'Age Group updated successfully'})
-                except GGUser.DoesNotExist:
+            try:
+                user.Age_group = estimated_age_group
+                user.Approved_age_group = estimated_age_group
+                user.save()
+                return JsonResponse({'message': 'Age Group updated successfully'})
+            except GGUser.DoesNotExist:
                    return JsonResponse({'error': 'User not found'}, status=404)
 
-            elif  CameFromLogIn in prevPage:
-                try:
-                    if(user.Age_group == estimated_age_group):
-                       return JsonResponse({'message': 'Age group checked successfully'})
-                    else:
-                       messages.error(request, "Age group Missmatch, try again!")
-                       return redirect('estimate')
-                except GGUser.DoesNotExist:
-                       return JsonResponse({'error': 'User not found'}, status=404)       
-
-
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except GGUser.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)       
 
 def Hello(request):
     user_id = request.session.get('user_id')

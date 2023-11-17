@@ -207,37 +207,6 @@
                     </div>
     </section>
     
-    <script>
-        // JavaScript to show the classified popup when the classification message is available
-        document.addEventListener("DOMContentLoaded", function () {
-            var classificationMessage = "{{ classification_message }}";
-            if (classificationMessage) {
-                document.getElementById("classification-message-span").innerText = classificationMessage;
-                document.getElementById("classified").style.display = "block";
-                
-                // Hide the camera elements when displaying the classified popup
-                document.getElementById("video-container").style.display = "none";
-                document.getElementById("take-snapshot-button").style.display = "none";
-            }
-    
-            // Event listener for "Take Snapshot" button
-            document.getElementById("take-snapshot-button").addEventListener("click", function () {
-                // Display the classified popup with the dynamic message
-                var messageContainer = document.getElementById("message-container");
-                if (messageContainer) {
-                    // Set the content of the span element
-                    document.getElementById("classification-message-span").innerText = classificationMessage;
-                }
-    
-                // Display the classified popup
-                document.getElementById("classified").style.display = "block";
-                
-                // Hide the camera elements when displaying the classified popup
-                document.getElementById("video-container").style.display = "none";
-                document.getElementById("take-snapshot-button").style.display = "none";
-            });
-        });
-    </script>
   <!-- footer -->
 	<div class="footer-area">
 		<div class="container">
@@ -367,11 +336,13 @@
             if ('error' in result) {
                 console.error('Error from model:', result.error);
                 // Update the content of the displayMessage
-                classificationMessageSpan.innerText = 'No Face Detected. Please try again.';
+                errorMessageSpan.innerText = 'No Face Detected. Please try again.';
+                error();
             } else {
                 console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
                 // Update the content of the displayMessage
                 classificationMessageSpan.innerText = `Your Estimated Age Group is: ${result['Estimated Age Group']}`;
+                classified();
                 displayCapturedImage(snapshotDataUrl);
                 fetch('/BackEnd/AssignAgeGroup/', {
                     method: 'POST',
@@ -388,7 +359,8 @@
         })
             .catch(error => {
                 console.error('Error processing image:', error);
-                classificationMessageSpan.innerText ='Error processing image. Please try again.';
+                errorMessageSpan.innerText ='Error processing image. Please try again.';
+                error();
             });
 
                     // Disable the "Take Snapshot" button
@@ -413,6 +385,20 @@
         });
 
 
+
+          function classified(){
+            document.getElementById("classified").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+
+          }
+          function error(){
+            document.getElementById("error").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+
+          }
+
         function hideDiv() {
           message = document.getElementById('classified');
             var div = document.getElementById("instructions");
@@ -425,6 +411,7 @@
         }
 		function dis() {
             document.getElementById("classified").style.display = "none";
+            document.getElementById("error").style.display = "none";
             var div = document.getElementById("instructions");
             div.style.display = "block";
 
@@ -464,8 +451,9 @@ take=document.getElementById('take-snapshot-button');
         </div>
            <!-- Error Popup -->
            <div id="error" class="Popup" style="display: none;">
-            <div class="popup-content" style="padding: 100px;">
-                <span id="error-message-span"></span>
+            <div class="popup-content">
+                <span id="error-message-span" style="font-size: 20px; font-weight: 700;"></span>
+                <h4 style="font-size: 20px; font-weight: inherit;">Make sure following the instructions and feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
 </body>	
