@@ -24,7 +24,7 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
     Accept_conditions = models.BooleanField(default=False)
     First_name = models.CharField(max_length=30)
     Last_name = models.CharField(max_length=30)
-    Approved_age_group = models.BooleanField(default=False)
+    Approved_age_group = models.CharField(max_length=4, null=True, blank=True)
     Age_group = models.CharField(max_length=4, null=True, blank=True)
     Date_joined = models.DateTimeField(auto_now_add=True)
     @property

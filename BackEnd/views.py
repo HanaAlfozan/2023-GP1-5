@@ -80,6 +80,57 @@ def custom_password_reset(request):
 
     return render(request, 'login.html')
 
+def custom_assigining_ageGroup(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        try:
+            user = GGUser.objects.get(Username=username)
+        except GGUser.DoesNotExist:
+            return HttpResponseNotFound('Username not found')
+
+        # Generate a token and uid for the user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email = user.Email
+
+        # Create the reset link for age group assignment
+        reset_link = f"{request.scheme}://{request.get_host()}/assign-age-group/{uid}/{token}/"
+
+        # Send the email with the reset link
+        send_mail(
+            'Assigning Age Group',
+            f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}',
+            'gamegeekwebsite@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        if 'error_message' in request.POST:
+            return HttpResponse(status=400)
+        return HttpResponse(status=200)
+
+    return render(request, 'AgeEstimation.html')
+
+def custom_assigining_ageGroup_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = GGUser.objects.get(User_ID=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+            if request.method == 'POST':
+        # Valid token, allow the user to set a new password
+              ageGroup = request.POST.get('ageGroup')
+              user.Age_group = ageGroup
+              user.Approved_age_group = ageGroup
+              user.save()
+              return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+            return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Password confirm'})
+    else:
+        error_message = 'Unexpected error occured, please try again'
+        return render(request, 'AgeEstimation.html', {'status': 'error', 'message': error_message})
+
+
 
 def custom_password_reset_confirm(request, uidb64, token):
     try:

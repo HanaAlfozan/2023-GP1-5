@@ -35,6 +35,9 @@
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <script>
+        var status = "{{ status }}";
+    </script>
     <style>
         #main-content {
             margin: auto;
@@ -86,7 +89,7 @@
             font-size: 1px;
         }
 
-        button.boxed-btn {
+        button.boxed-btn , #sendButton , #setAgeGroup{
             font-family: 'Poppins', sans-serif;
             display: inline-block;
             background-color: #ff069a;
@@ -97,12 +100,12 @@
             border-radius: 50px;
         }
 
-        button.boxed-btn:hover {
+        button.boxed-btn:hover , #sendButton:hover ,#setAgeGroup:hover {
             background-color: #06f7ff;
             color: #fff;
         }
 
-        button.boxed-btn {
+        button.boxed-btn , #sendButton  , #setAgeGroup{
             -webkit-transition: 0.5s;
             -o-transition: 0.5s;
             transition: 0.5s;
@@ -153,6 +156,22 @@
   position: relative;
   padding: 20px;
 }
+.input-pair {
+    margin-bottom: 30px;
+}
+
+.input-pair label {
+    flex: 0 0 20%; /* Adjust label width as needed */
+    font-weight: 700;
+    text-align:left;
+	font-size: 17px;
+	margin-left: 10px;
+}
+
+.input-pair input {
+	margin-left: 10px;
+}
+
 
 
     </style>
@@ -280,6 +299,7 @@
         const capturedImage = document.getElementById('captured-image');
         const videoElement = document.getElementById('video-stream');
         const nextButton = document.getElementById('next-button');
+    
         document.getElementById('start-camera-button').addEventListener('click', function() {
            hideDiv();
            startCamera();});
@@ -367,6 +387,7 @@
                     takeSnapshotButton.style.display = "none";
                 }
             });
+            
 
             retakeButton.addEventListener('click', () => {
                 // Reset the captured image and show the video element
@@ -383,8 +404,8 @@
                 window.location.href = "/Games/";
             });
         });
-
-
+        
+        var counter = 0;
 
           function classified(result){
             if(result === '0-3'){
@@ -415,18 +436,29 @@
              message.style.display = 'none';
               take.style.display="none";
         }
+
 		function dis() {
             document.getElementById("classified").style.display = "none";
             document.getElementById("error").style.display = "none";
             document.getElementById("NotAllowed").style.display = "none";
             var div = document.getElementById("instructions");
             div.style.display = "block";
+            counter++;
+            if(counter === 3){
+            sendfunc();}
 
-take=document.getElementById('take-snapshot-button');
+
+            take=document.getElementById('take-snapshot-button');
             vv=document.getElementById("video-container");
             vv.style.display="none";
             take.style.display="none";
 
+        }
+        function sendfunc(){
+            document.getElementById("send").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+            document.getElementById("instructions").style.display = "none";
         }
 
         function displayCapturedImage(imageDataUrl , result) {
@@ -451,7 +483,6 @@ take=document.getElementById('take-snapshot-button');
     }
 
         }
-
     </script>
            <!-- Classification Popup -->
            <div id="classified" class="Popup" style="display: none;">
@@ -475,9 +506,133 @@ take=document.getElementById('take-snapshot-button');
             <div class="popup-content">
                 <span style="font-size: 20px; font-weight: 700;">Your Estimated Age Group is: 0-3</span>
                 <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Due to your estimited age group, you are not allowed to get an access to Game Geek </h4>
-                <h4 style="font-size: 20px; font-weight: inherit;">If you have not classified correctley, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+                <h4 style="font-size: 20px; font-weight: inherit;">If you have not classified correctly, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
+
+            <!-- Sned Popup -->
+                   <div id="send" class="Popup" style="display: none;">
+                    <div class="popup-content">
+                        <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you have trouble getting your right estimated age group</h4>
+                        <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! Enter your username to send to your regeistred email in Game Geek to solve the issue</h4>
+                        <form id="passwordResetForm" action="{% url 'custom_assigining_ageGroup' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="input-pair">
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" class="input-box" name="username" required placeholder="Enter your username" style="width: 70%;">
+                            </div>
+                            <button type="button" id="sendButton" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
+                        </form>
+                    </div>
+                </div>
+
+           <!-- Error Popup -->
+           <div id="errorPopUp" class="Popup" style="display: none;">
+            <div class="popup-content">
+                <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occured, please try again! <a class="boxed-btn" onClick="window.location.reload();">Try again</a> </h4>
+            </div>
+        </div>
+
+                   <!-- done Popup -->
+                   <div id="done" class="Popup" style="display: none;">
+                    <div class="popup-content">
+                        <h4 style="font-size: 20px; font-weight: inherit;">You are done, welcome to Game Geek!  <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a> </h4>
+                    </div>
+                </div>
+
+                <!-- Password Confirm Success Pop-up (hidden by default) -->
+<div id="ageGroupConfirm" class="popup">
+    <div class="popup-content" style="max-width: 380px">
+        <h3 style="padding-bottom: 20px;">Set Your Age Group:</h3>
+        <form id="ageGroupConfirmForm" action="" method="POST" style="font-size: 121%; font-weight: 700; line-height: 1.9;">
+            {% csrf_token %}
+            <input type="radio" name="ageGroup" value="+4">
+            <label>+4</label><br>
+            <input type="radio" name="ageGroup" value="+9">
+            <label>+9</label><br>
+            <input type="radio" name="ageGroup" value="+12">
+            <label>+12</label><br>
+            <input type="radio" name="ageGroup" value="+17">
+            <label>+17</label> <br>
+            <button type="submit" id="setAgeGroup" style="width: 74%; font-size: 100%; font-weight: 700; margin-left: 13%; margin-top: 6%;">Set Age Group</button>
+        </form>
+    </div>
+</div>
+<div id="emailSentSuccess" class="popup Success">
+    <div class="popup-content">
+        <h3>Assign age group reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+        <h5>An age group reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your age group.</h5>
+		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
+    </div>
+</div>
+<div class="popup fail" id="ErrorPopup">
+    <div class="popup-content">
+        <span class="close" id="closeErrorPopup">&times;</span>
+        <h3 class="error">Username not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+        <h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance! Or you can <a class="boxed-btn" onClick="window.location.reload();">Try again</a></h5>
+    </div>
+</div>
+<script>
+if (status === 'done') {
+    // Display done pop-up
+    document.getElementById('done').style.display = 'block';
+    document.getElementById("instructions").style.display = "none";
+    document.getElementById('send').style.display = 'none';
+} 
+else if (status === 'error'){
+    // Display error pop-up
+    document.getElementById('send').style.display = 'none';
+    document.getElementById("instructions").style.display = "none";
+    document.getElementById('errorPopUp').style.display = 'block';
+}
+else if (status === 'confirm'){
+    document.getElementById("instructions").style.display = "none";
+    document.getElementById('ageGroupConfirm').style.display = 'block';
+}
+
+document.getElementById('sendButton').addEventListener('click', function () {
+    username = document.getElementById('username').value;
+    
+    // Get the CSRF token from the cookie
+    var csrftoken = getCookie('csrftoken');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "{% url 'custom_assigining_ageGroup' %}", true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    // Set the CSRF token in the request headers
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.onload = function () {
+if (xhr.status === 200) {
+    document.getElementById('emailSentSuccess').style.display = 'block';
+    document.getElementById("instructions").style.display = "none";
+    document.getElementById('send').style.display = 'none';
+} else if (xhr.status === 404) {
+    document.getElementById('send').style.display = 'none';
+    document.getElementById("instructions").style.display = "none";
+    document.getElementById('ErrorPopup').style.display = 'block';
+}
+};
+    xhr.send('username=' + username);
+
+});
+
+// Function to get the CSRF token from the cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 </body>	
 {% endblock %}
 </html>

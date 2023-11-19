@@ -55,4 +55,9 @@ urlpatterns = [
     path('game_info_page/<int:game_id>/', views.game_info_page, name='game_info_page'),
     path('BackEnd/retrieve_game_info/', BackEnd_views.retrieve_game_info, name='retrieve_game_info'),
     path('BackEnd/retrieve_random_high_rated_games/', BackEnd_views.retrieve_random_high_rated_games, name='retrieve_random_high_rated_games'),
+    path('BackEnd/custom_assigining_ageGroup/', BackEnd_views.custom_assigining_ageGroup, name='custom_assigining_ageGroup'),
+    path('assign-age-group/<str:uidb64>/<str:token>/', BackEnd_views.custom_assigining_ageGroup_confirm, name='custom_assigining_ageGroup_confirm'),
+    path('BackEnd/custom_assigining_ageGroup_confirm/', BackEnd_views.custom_assigining_ageGroup_confirm, name='custom_assigining_ageGroup_confirm'),
+
+    
 ]
