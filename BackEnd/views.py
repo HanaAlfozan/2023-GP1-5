@@ -170,7 +170,7 @@ def LoginUser(request):
             login(request, user)
             user_id = user.User_ID
             request.session['user_id'] = user_id
-            return redirect('estimate')
+            return redirect('Games')
         else:
             messages.error(request, 'Invalid username or password')
     return redirect('login')
@@ -184,7 +184,6 @@ def AssignAgeGroup(request):
             user_id = request.session.get('user_id')
             user = GGUser.objects.get(User_ID=user_id)
             try:
-                user.Age_group = estimated_age_group
                 user.Approved_age_group = estimated_age_group
                 user.save()
                 return JsonResponse({'message': 'Age Group updated successfully'})
@@ -201,15 +200,13 @@ def Hello(request):
             user = GGUser.objects.get(User_ID=user_id)
             user_info = {
                 'Username': user.Username,
-                'Age_group': user.Age_group,
+                'Age_group': user.Approved_age_group,
             }
             return JsonResponse(user_info)
         except GGUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=400)
     else:
         return JsonResponse({'error': 'User ID not found in session'}, status=400)
-
-
 
 
 def GetProfileData(request):

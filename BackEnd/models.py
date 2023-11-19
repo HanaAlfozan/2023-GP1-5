@@ -25,7 +25,6 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
     First_name = models.CharField(max_length=30)
     Last_name = models.CharField(max_length=30)
     Approved_age_group = models.CharField(max_length=4, null=True, blank=True)
-    Age_group = models.CharField(max_length=4, null=True, blank=True)
     Date_joined = models.DateTimeField(auto_now_add=True)
     @property
     def is_superuser(self):
