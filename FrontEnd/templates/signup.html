@@ -173,15 +173,15 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 
-.site-logo img{
-	    width: 240px;
-        height: 140px;
-		position: relative;
-		left: 100px;
-	}
-	body img{
-		max-width: 600px;
-	}
+				.site-logo img{
+  width: 200px;
+    height: 100px;
+	position: relative;
+	left: -25px;
+}
+body img{
+  max-width: 600px;
+}
 
 	.input-item {
 		 position: relative;
@@ -219,14 +219,34 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 	
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
-		<div class="col-lg-12 col-sm-12 text-center">
-				<!-- logo -->
-				<div class="site-logo">
-					<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
-					</a>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
+							</a>
+						</div>
+
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+
+								<li>
+									<div class="header-icons">
+
+
+									</div>
+								</li>
+							</ul>
+						</nav>
+						<!-- menu end -->
+					</div>
 				</div>
+			</div>
+		</div>
 	</div>
-</div>
 	<!-- end header -->
 		<div class="hero-area hero-bg" style="background-size: 120%;">
 			<div class="container">
@@ -240,14 +260,9 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 				<h3 class="animate-charcter">Let the fun begin with Game Geek!</h3>
 				<br>
 				<h4 class="note" style="color: #ff069a; letter-spacing: 1px; font-size: 22px;">Important Note for Our Young Gamers🎮</h4>
-				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 16px;" ALIGN=LEFT><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly ensure that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
+				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 16px; text-align:justify;" ALIGN=LEFT><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly ensure that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
 				<br>
-				<div style="margin-right: 60px;">
-					<label for="agree" style="color: #fff; letter-spacing: 1px; font-size: 15px;">I agree to the terms and conditions</label>
-					<input type="checkbox" id="agree" name="Accept_conditions" required>	
-					<br>
-					<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>			
-				</div>
+
 			</div>
 			<div class="right">
 			<div class="containeTitle" style="margin-left: 200px;">
@@ -295,6 +310,12 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 			<h5>{{ message }}</h5>
 		{% endfor %}
 	{% endif %}
+	<div>
+					<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px;"><b>I agree to the terms and conditions</b></label>
+					<input type="checkbox" id="agree" name="Accept_conditions" required>
+					<br>
+					<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
+				</div>
     <input type="submit" id="LogIN" value="Register" style="width: 80%;" onclick="return validateCheckbox();">
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
