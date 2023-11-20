@@ -26,11 +26,13 @@ SECRET_KEY = 'django-insecure-@mbefd1*0+tw%a6))7^eiixdo!h8l7k)c*538-_l7h8!gzsw24
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['afad-188-54-3-196.ngrok-free.app','localhost','127.0.0.1']
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",]
+    "http://127.0.0.1:8000",
+    "https://afad-188-54-3-196.ngrok-free.app",
+]
 
 # Application definition
 
@@ -92,7 +94,7 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'GameGeek',
+        'NAME': 'gamegeek',
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': 'localhost'
@@ -149,3 +151,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
 EMAIL_HOST_USER = 'gamegeekwebsite@gmail.com'
 EMAIL_HOST_PASSWORD = 'wbkufngeeikwxiyl'
+
