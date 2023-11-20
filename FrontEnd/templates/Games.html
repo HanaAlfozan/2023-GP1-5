@@ -52,7 +52,7 @@
 		}
 
 		.single-product-item {
-            margin-right: -5px; 
+            margin-right: -5px;
 		 }
 
         .GAMES {
@@ -61,7 +61,7 @@
 			flex-wrap: wrap;
 			margin-top: -360px;
 			margin-left: 150px;
-		}		
+		}
 
 		.sort{
 			position: relative;
@@ -110,7 +110,7 @@
             border-radius: 4px;
             padding: 20px;
             margin: 0 -10px;
-            width: 130%; 
+            width: 130%;
 			margin-top: -100px;
 			position: relative;
 
@@ -825,6 +825,7 @@ function makeAjaxRequest(page, slice) {
 }
 
 function updateGamesContainer(data) {
+console.log(data)
     var gamesContainer = $('.GAMES');
     gamesContainer.empty();  // Clear the container
 

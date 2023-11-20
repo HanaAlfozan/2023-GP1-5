@@ -20,6 +20,8 @@ import re
 from django.core.paginator import Paginator, EmptyPage
 import random
 import math
+from django.db.models import Case, When, Value, IntegerField
+
 
 def SignupUser(request):
     if request.method == 'POST':
@@ -198,6 +200,7 @@ def Hello(request):
     if user_id is not None:
         try:
             user = GGUser.objects.get(User_ID=user_id)
+
             user_info = {
                 'Username': user.Username,
                 'Age_group': user.Approved_age_group,
@@ -261,10 +264,51 @@ def EditNames(request):
 
 
 def retrieve_all_games(request):
-    # Retrieve all objects from the GamesList model
-    all_games_data = GamesList.objects.all()
 
-    # Receive the slice parameter from the request
+
+    user_id = request.session.get('user_id')
+
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            user_age_group_str = user.Approved_age_group
+
+            # Function to extract the numeric part from age group strings
+            def extract_numeric_part(age_group):
+                return int(age_group[:-1])
+
+            # Convert user age group string to numerical value
+            user_age_group = extract_numeric_part(
+                user_age_group_str) if user_age_group_str and user_age_group_str != 'fals' else 12
+        except GGUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+    # Retrieve objects from the GamesList model suitable for the user's approved age group
+    if user_age_group == 17:
+        # If the user has the highest age group, retrieve all games
+        all_games_data = GamesList.objects.all()
+    else:
+        # Use Case and When to handle age group comparison
+        all_games_data = GamesList.objects.annotate(
+            numeric_age_rating=Case(
+                When(Age_Rating='4+', then=Value(4)),
+                When(Age_Rating='9+', then=Value(9)),
+                When(Age_Rating='12+', then=Value(12)),
+                When(Age_Rating='17+', then=Value(17)),
+                default=Value(0),  # Default case, adjust as needed
+                output_field=IntegerField(),
+            )
+        ).filter(numeric_age_rating__lte=user_age_group)
+
+
+
+
+
+
+
+
     slice_number = int(request.GET.get('slice', 0))  # Default to slice 0 if not provided
     items_per_page = 18
 
@@ -277,6 +321,7 @@ def retrieve_all_games(request):
     except EmptyPage:
         # If the requested page is out of range, return an empty list
         current_page_data = []
+
 
     # Convert the current page data to a list of dictionaries with cleaned names
     games_list = [
@@ -304,6 +349,7 @@ def retrieve_all_games(request):
         'games_data': games_list,
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
+        'Age':user_age_group,
     }
 
     # Return a JSON response
@@ -396,15 +442,8 @@ def retrieve_random_high_rated_games(request):
     if len(all_games_data) < 12:
         return JsonResponse({'error': 'Not enough games available'}, status=400)
 
-    # Retrieve all high-rated games with a rating of 4 or more
-    high_rated_games = [game for game in all_games_data if is_high_rated(game.Average_User_Rating)]
 
-    # Check if there are at least 12 high-rated games
-    if len(high_rated_games) < 12:
-        return JsonResponse({'error': 'Not enough high-rated games available'}, status=400)
-
-    # Retrieve the first 12 high-rated games
-    first_12_high_rated_games = high_rated_games[12:24]
+    first_12_high_rated_games = all_games_data[12:24]
 
     # Convert the first 12 high-rated games to a list of dictionaries with cleaned names
     games_list = [
@@ -430,12 +469,7 @@ def retrieve_random_high_rated_games(request):
     # Return a JSON response
     return JsonResponse({'random_high_rated_games_data': games_list})
 
-def is_high_rated(rating_str):
-    try:
-        rating = float(rating_str)
-        return not math.isnan(rating) and rating >= 4.5
-    except ValueError:
-        return False
+
 
 def clean_dev(dev):
     # Remove URLs
