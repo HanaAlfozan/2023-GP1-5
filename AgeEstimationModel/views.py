@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_protect
 import json
 import cv2
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 # OpenCV Cascade Classifier for face and eye detection
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -23,10 +24,13 @@ def load_custom_model():
     global model
     try:
         # Load the VGG model only once when the server starts
+        # Check TensorFlow version
+
         model = load_model('AgeEstimationModel/Models/AgeEstimation_Model_Best.h5')
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading the model: {e}")
+
 
 # Load the model when the server starts
 load_custom_model()

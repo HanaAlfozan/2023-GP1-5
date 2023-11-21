@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'GameGeek.urls'
@@ -136,8 +137,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Default primary key field type
@@ -152,3 +154,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gamegeekwebsite@gmail.com'
 EMAIL_HOST_PASSWORD = 'wbkufngeeikwxiyl'
 
+STORAGES = {
+
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}

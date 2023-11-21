@@ -475,9 +475,6 @@ def clean_dev(dev):
     # Remove URLs
     dev=dev.encode().decode('unicode_escape')
 
-
-
-
     # Ensure the description ends with a period
     if not dev.endswith('.'):
         dev += '.'
