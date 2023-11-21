@@ -219,7 +219,7 @@ def GetProfileData(request):
             user = GGUser.objects.get(User_ID=user_id)
             profile_data = {
                 'Username': user.Username,
-                'Age_group': user.Age_group,
+                'Age_group': user.Approved_age_group,
                 'First_name': user.First_name,
                 'Last_name': user.Last_name,
                 'Email': user.Email,

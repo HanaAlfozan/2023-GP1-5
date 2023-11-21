@@ -26,12 +26,12 @@ SECRET_KEY = 'django-insecure-@mbefd1*0+tw%a6))7^eiixdo!h8l7k)c*538-_l7h8!gzsw24
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['afad-188-54-3-196.ngrok-free.app','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
-    "https://afad-188-54-3-196.ngrok-free.app",
+
 ]
 
 # Application definition
@@ -137,9 +137,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 
 # Default primary key field type
@@ -153,10 +153,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
 EMAIL_HOST_USER = 'gamegeekwebsite@gmail.com'
 EMAIL_HOST_PASSWORD = 'wbkufngeeikwxiyl'
-
-STORAGES = {
-
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
