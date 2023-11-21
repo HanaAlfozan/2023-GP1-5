@@ -34,9 +34,8 @@ CORS_ALLOWED_ORIGINS = [
      "https://web-production-ac0f.up.railway.app",
 
 ]
-CORS_ORIGIN_WHITELIST = [
-    "https://web-production-ac0f.up.railway.app",
-]
+CORS_ORIGIN_WHITELIST = ["https://web-production-ac0f.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://web-production-ac0f.up.railway.app"]
 
 # Application definition
 
