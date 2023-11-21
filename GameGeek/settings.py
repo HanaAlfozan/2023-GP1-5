@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
+    "https://web-production-ac0f.up.railway.app/"
 
 ]
 

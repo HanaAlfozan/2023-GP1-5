@@ -427,14 +427,14 @@ body img{
         <div class="profile-container labels-container">
 			<div class="input-container">
 				<label for="Fname">First Name:</label>
-				<input type="text" id="Fname" name="Fname" value="" readonly>
-				<button class="edit-button" onclick="toggleEditMode(this)">Edit</button>
+				<input type="text" id="Fname" name="Fname" value="" onkeydown ="updateButtonTextFname()">
+				<button class="edit-button" onclick="toggleEditMode(this)">Save</button>
 			</div>
 		
 			<div class="input-container">
 				<label for="Lname">Last Name:</label>
-				<input type="text" id="Lname" name="Lname" value="" readonly>
-				<button class="edit-button" onclick="toggleEditMode(this)">Edit</button>
+				<input type="text" id="Lname" name="Lname" value="" onkeydown ="updateButtonTextLname()">
+				<button class="edit-button" onclick="toggleEditMode(this)">Save</button>
 			</div>
             <div class="input-container-read">
                 <label for="email" style="font-weight: bolder;">Email:</label>
@@ -568,47 +568,50 @@ $(document).ready(function() {
             }
             return cookieValue;
         }
-        function toggleEditMode(button) {
-            const input = button.previousElementSibling;
-            if (input.getAttribute('readonly') === 'readonly') {
-                // Enable editing
-                input.removeAttribute('readonly');
-                input.style.border = '1px solid aqua';
-                button.textContent = 'Save';
-            } else {
-                // Save changes and disable editing
-                input.setAttribute('readonly', 'readonly');
-                input.style.border = 'none';
-                button.textContent = 'Edit';
+        var originalButtonText = 'Save';
 
-                var updatedData = {
-                    First_name: $('#Fname').val(),
-                    Last_name: $('#Lname').val()
-                };
+function toggleEditMode(button) {
+  if (button.textContent === 'Save') { 
+    button.textContent = 'Saved!'; 
 
-				var csrfToken = getCookie('csrftoken');
-                var headers = {
-                    'X-CSRFToken': csrfToken
-				};
-
-                $.ajax({
-                    url: '/BackEnd/EditNames/',
-                    type: 'POST',
-                    headers: headers, 
-                    data: updatedData,
-                    success: function(response) {
-                        if (response.error) {
-                            console.error('Error:', response.error);
-                        } else {
-                            console.log('Success:', response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
+    var updatedData = {
+      First_name: $('#Fname').val(),
+      Last_name: $('#Lname').val()
+    };
+    var csrfToken = getCookie('csrftoken');
+    var headers = {
+      'X-CSRFToken': csrfToken
+    };
+    $.ajax({
+      url: '/BackEnd/EditNames/',
+      type: 'POST',
+      headers: headers,
+      data: updatedData,
+      success: function(response) {
+        if (response.error) {
+          console.error('Error:', response.error);
+        } else {
+          console.log('Success:', response.message);
         }
+      },
+      error: function(xhr, status, error) {
+        console.error('Error:', error);
+      }
+    });
+  } else {
+    button.textContent = originalButtonText; 
+  }
+}
+function updateButtonTextFname() {
+  var button = document.querySelector('#Fname').nextElementSibling;
+  button.textContent = originalButtonText;
+}
+
+function updateButtonTextLname() {
+  var button = document.querySelector('#Lname').nextElementSibling;
+  button.textContent = originalButtonText;
+}
+
     </script>
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
