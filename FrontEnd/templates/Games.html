@@ -218,8 +218,7 @@
 }
 
 .pagination-wrap {
-  margin-top: 20px;
-  margin-right: -50px;
+margin-left:20%;
 }
 		.pagination-wrap  ul .page-item.active {
 
@@ -253,6 +252,10 @@
 	position: relative;
 	left: -25px;
 }
+		.edg{
+		border-radius:0;
+		}
+
 
     </style>
 
@@ -332,7 +335,9 @@
 	</div>
 	<!-- end header -->
 
-		<div class="breadcrumb-section breadcrumb-bg">
+
+
+	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 text-center">
@@ -344,14 +349,17 @@
 							<span class="pink">is met</span>
 						</p>
 					</div>
+
 				</div>
-				<ul class="Realbreadcrumb">
-					<li class="breadcrumb-item current"><a href="{% url 'Games' %}">All Games</a></li>
-				  </ul>
+
+
 			</div>
 		</div>
 	</div>
-	  
+		<ul class="Realbreadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'Games' %}">All Games</a></li>
+				</ul>
 
 
 	<!-- games -->
@@ -704,7 +712,7 @@
 					<div class="pagination-wrap">
     <ul>
 
-        <li><a href="?page={{ games.previous_page_number }}">Prev</a></li>
+        <li><a href="?page={{ games.previous_page_number }}" class="edg">Prev</a></li>
 
             {% for i in games.paginator.page_range %}
             <li class="{% if games.number == i %}active{% endif %}">
@@ -713,7 +721,7 @@
             {% endfor %}
 
         <li><a href="?page={{ games.next_page_number }}">Next</a></li>
-        <li><a href="?page={{ games.paginator.num_pages }}"></a></li>
+        <li><a href="?page={{ games.paginator.num_pages }}" class="edg"></a></li>
     </ul>
 </div>
 				</div>
