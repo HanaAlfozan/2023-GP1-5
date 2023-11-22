@@ -17,7 +17,8 @@ RUN apt-get update && \
 COPY . .
 
 # Install the Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip setuptools && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Expose a port if your application listens on a specific port
 # EXPOSE <port_number>
