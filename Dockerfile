@@ -10,12 +10,17 @@ COPY requirements.txt .
 COPY . .
 
 # Combine apt-get update, install dependencies, and clean up in a single RUN command
-RUN apt-get update && \
-    apt-get install -y python3-opencv postgresql-client && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --no-cache-dir --upgrade pip setuptools && \
-    pip install --no-cache-dir -r requirements.txt
+# Install apt dependencies
+RUN set -e \
+    && apt-get update \
+    && apt-get install -y python3-opencv postgresql-client \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip and install Python dependencies
+RUN set -e \
+    && pip install --no-cache-dir --upgrade pip setuptools \
+    && pip install --no-cache-dir -r requirements.txt
 
 # Expose a port if your application listens on a specific port
 # EXPOSE <port_number>
