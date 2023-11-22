@@ -49,8 +49,40 @@
 			}
 	
 			return true;
+		}	  
+		function validateEmail(email) {
+		  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		  var messageSpan = document.getElementById("emailMessage");
+		  
+		  if (!emailRegex.test(email)) {
+			messageSpan.innerHTML = 'Please enter a valid email address (such as user@example.com)';
+			messageSpan.style.visibility = 'visible';
+				return false;
+			} else {
+				messageSpan.innerHTML = ""; 
+				messageSpan.style.visibility = 'hidden';
+
+			}
+	
+			return true;
 		}
-	</script>
+		function validatePassword(pass) {
+		  const passRegex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+		  var messageSpan = document.getElementById("passMessage");
+		  
+		  if (!passRegex.test(pass)) {
+			messageSpan.innerHTML = 'Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.';
+			messageSpan.style.visibility = 'visible';
+
+				return false;
+			} else {
+				messageSpan.innerHTML = ""; 
+				messageSpan.style.visibility = 'hidden';
+			}
+	
+			return true;
+		}
+	  </script>
 	<style>
 		.games{
 			color: #fff;
@@ -287,20 +319,24 @@ body img{
 		<span class="input-item">
 			<i class="fa fa-envelope"></i>
 		</span>
-        <label for="email">Email:</label>
-		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-		oninvalid="this.setCustomValidity('Enter a valid email address (such as user@example.com)')">
+		<label for="email">Email:</label>
+		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)">
     </div>
-    <div class="input-pair">
+	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 35%;"></span>
+    <div class="input-pair" style="padding-top: 3%;">
 		<span class="input-item">
 			<i class="fa fa-key"></i>
 		</span>
         <label for="password">Password:</label>
-        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password" onblur="validatePassword(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
         title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
 		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>
 	 </div>
-    <div class="input-pair">
+	 <span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 49%; left: 34%; max-width: 55%;"></span>
+    <div class="input-pair" style="padding-top: 8%;">
+		<span class="input-item" style="top: -26%;">
+			<i class="fa fa-key"></i>
+		</span>
         <label for="confirm_password">Confirm Password:</label>
         <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
 		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>	</div>
