@@ -6,15 +6,19 @@ WORKDIR /app
 
 # Copy the requirements.txt file to the container
 COPY requirements.txt .
+
+# Combine the apt-get update and install commands
+RUN apt-get update && \
+    apt-get install -y python3-opencv postgresql-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy the application code to the container
 COPY . .
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3-opencv postgresql-client
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+
 # Expose a port if your application listens on a specific port
 # EXPOSE <port_number>
 
