@@ -69,14 +69,18 @@
 		function validatePassword(pass) {
 		  const passRegex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 		  var messageSpan = document.getElementById("passMessage");
+		  var divCP = document.getElementById("cp");
+		  var messageEmail = document.getElementById("emailMessage");
 		  
 		  if (!passRegex.test(pass)) {
 			messageSpan.innerHTML = 'Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.';
 			messageSpan.style.visibility = 'visible';
+			divCP.style.paddingTop = '8%';
+			messageEmail.style.top = '35%';
 
 				return false;
 			} else {
-				messageSpan.innerHTML = ""; 
+				divCP.style.paddingTop = '0';
 				messageSpan.style.visibility = 'hidden';
 			}
 	
@@ -322,7 +326,7 @@ body img{
 		<label for="email">Email:</label>
 		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)">
     </div>
-	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 35%;"></span>
+	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 37%;"></span>
     <div class="input-pair" style="padding-top: 3%;">
 		<span class="input-item">
 			<i class="fa fa-key"></i>
@@ -333,7 +337,7 @@ body img{
 		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>
 	 </div>
 	 <span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 49%; left: 34%; max-width: 55%;"></span>
-    <div class="input-pair" style="padding-top: 8%;">
+    <div class="input-pair" id="cp">
 		<span class="input-item" style="top: -26%;">
 			<i class="fa fa-key"></i>
 		</span>

@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,17 +31,8 @@ ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
-     "https://web-production-ac0f.up.railway.app",
 
 ]
-CORS_ORIGIN_WHITELIST = ["https://web-production-ac0f.up.railway.app"]
-CSRF_TRUSTED_ORIGINS = ["https://web-production-ac0f.up.railway.app"]
-DATABASE_URL = 'postgresql://postgres:123456@localhost:5432/GameGeek'
-
-DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL),
-}
-
 
 # Application definition
 
@@ -101,14 +91,14 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-if not DATABASES['default']:
-  DATABASES = {
-     'default': {
+
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'GameGeek',
         'USER': 'postgres',
         'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'HOST': 'localhost'
     }
 }
 # Password validation
@@ -145,8 +135,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
 
 
 # Default primary key field type
@@ -156,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_PORT = 587 
+EMAIL_USE_TLS = True 
 EMAIL_HOST_USER = 'gamegeekwebsite@gmail.com'
 EMAIL_HOST_PASSWORD = 'wbkufngeeikwxiyl'
