@@ -10,6 +10,7 @@ COPY requirements.txt .
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y python3-opencv
+RUN apt-get update && apt-get install -y postgresql-client
 
 # Copy the application code to the container
 COPY . .
