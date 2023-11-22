@@ -101,7 +101,8 @@ DATABASES = {
         'NAME': 'GameGeek',
         'USER': 'postgres',
         'PASSWORD': '123456',
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 # Password validation
