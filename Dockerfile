@@ -13,7 +13,7 @@ COPY . .
 # Install apt dependencies
 RUN set -e \
     && apt-get update \
-    && apt-get install -y python3-opencv postgresql-client \
+    && apt-get install -y python3-opencv postgresql-client libpq-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
