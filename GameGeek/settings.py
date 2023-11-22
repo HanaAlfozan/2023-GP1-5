@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +37,12 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ORIGIN_WHITELIST = ["https://web-production-ac0f.up.railway.app"]
 CSRF_TRUSTED_ORIGINS = ["https://web-production-ac0f.up.railway.app"]
-DATABASE_URL = ["postgresql://postgres:123456@localhost:5432/GameGeek"]
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
+}
 
 
 # Application definition
@@ -96,9 +102,9 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
+if not DATABASES['default']:
+  DATABASES = {
+     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'GameGeek',
         'USER': 'postgres',
