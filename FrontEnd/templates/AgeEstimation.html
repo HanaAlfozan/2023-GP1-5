@@ -384,7 +384,6 @@ body img{
                 // Update the content of the displayMessage
                 classificationMessageSpan.innerText = `Your Estimated Age Group is: ${result['Estimated Age Group']}`;
                 classified(result['Estimated Age Group']);
-                displayCapturedImage(snapshotDataUrl, result['Estimated Age Group']);
                 fetch('/BackEnd/AssignAgeGroup/', {
                     method: 'POST',
                     headers: {
@@ -393,7 +392,6 @@ body img{
                     },
                     body: JSON.stringify({ 
                         estimatedAgeGroup: `${result['Estimated Age Group']}`,
-                        previousPage: document.referrer
                     }),
                 })
             }
@@ -487,29 +485,6 @@ body img{
             document.getElementById("take-snapshot-button").style.display = "none";
             document.getElementById("instructions").style.display = "none";
             document.getElementById('ErrorPopup').style.display = 'none';
-        }
-
-        function displayCapturedImage(imageDataUrl , result) {
-    const capturedImageContainer = document.createElement('div');
-    capturedImageContainer.style.position = 'absolute';
-    capturedImageContainer.style.top = '212px';
-    capturedImageContainer.style.right = '397px';
-
-    const capturedImage = document.createElement('img');
-    capturedImage.src = imageDataUrl;
-    capturedImage.alt = 'Captured Image';
-    capturedImage.style.height= '190px';
-    capturedImage.style.maxWidth = '224px'; 
-    capturedImage.style.marginTop = '-6px';
-
-    capturedImageContainer.appendChild(capturedImage);
-    if(result === '0-3'){
-        document.getElementById('NotAllowed').appendChild(capturedImageContainer);
-    }
-    else{
-        document.getElementById('classified').appendChild(capturedImageContainer);
-    }
-
         }
     </script>
            <!-- Classification Popup -->
