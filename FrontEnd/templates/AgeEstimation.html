@@ -169,8 +169,7 @@
 	margin-left: 10px;
 }
 
-
-						.site-logo img{
+.site-logo img{
   width: 200px;
     height: 100px;
 	position: relative;
@@ -179,6 +178,7 @@
 body img{
   max-width: 600px;
 }
+
 
 
     </style>
@@ -459,6 +459,7 @@ body img{
 		function dis() {
             document.getElementById("classified").style.display = "none";
             document.getElementById("error").style.display = "none";
+            document.getElementById("errorPopUp").style.display = "none";
             document.getElementById("NotAllowed").style.display = "none";
             var div = document.getElementById("instructions");
             div.style.display = "block";
@@ -484,7 +485,6 @@ body img{
             document.getElementById("video-container").style.display = "none";
             document.getElementById("take-snapshot-button").style.display = "none";
             document.getElementById("instructions").style.display = "none";
-            document.getElementById('ErrorPopup').style.display = 'none';
         }
     </script>
            <!-- Classification Popup -->
@@ -492,7 +492,7 @@ body img{
             <div class="popup-content">
                 <h3 style="text-align: left;">Almost There!</h3>
                 <span id="classification-message-span" style="font-size: 20px; font-weight: 700;"></span>
-                <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a></h4>
+                <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a></h4>
                 <h4 style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
@@ -508,7 +508,7 @@ body img{
            <div id="NotAllowed" class="Popup" style="display: none;">
             <div class="popup-content">
                 <span style="font-size: 20px; font-weight: 700;">Your Estimated Age Group is: 0-3</span>
-                <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Due to your estimited age group, you are not allowed to get an access to Game Geek </h4>
+                <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Due to your estimited age group, you are not allowed to get an access to Game Geek </h4>
                 <h4 style="font-size: 20px; font-weight: inherit;">If you have not classified correctly, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
@@ -516,23 +516,17 @@ body img{
             <!-- Sned Popup -->
                    <div id="send" class="Popup" style="display: none;">
                     <div class="popup-content">
-                        <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you have trouble getting your right estimated age group</h4>
-                        <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! Enter your username to send to your regeistred email in Game Geek to solve the issue</h4>
-                        <form id="passwordResetForm" action="{% url 'custom_assigining_ageGroup' %}" method="POST">
+                        <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
+                        <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
                             {% csrf_token %}
-                            <div class="input-pair">
-                                <label for="username">Username:</label>
-                                <input type="text" id="username" class="input-box" name="username" required placeholder="Enter your username" style="width: 70%;">
-                            </div>
-                            <button type="button" id="sendButton" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
-                        </form>
+                            <button type="button" id="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
                     </div>
                 </div>
 
            <!-- Error Popup -->
            <div id="errorPopUp" class="Popup" style="display: none;">
             <div class="popup-content">
-                <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occured, please try again! <a class="boxed-btn" onClick="window.location.reload();">Try again</a> </h4>
+                <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occured, please try again! <a class="boxed-btn" onClick="dis()">Try again</a> </h4>
             </div>
         </div>
 
@@ -547,16 +541,22 @@ body img{
 <div id="ageGroupConfirm" class="popup">
     <div class="popup-content" style="max-width: 380px">
         <h3 style="padding-bottom: 20px;">Set Your Age Group:</h3>
-        <form id="ageGroupConfirmForm" action="" method="POST" style="font-size: 121%; font-weight: 700; line-height: 1.9;">
+        <form id="ageGroupConfirmForm" action="" method="POST" style="font-size: 125%; font-weight: 700; line-height: 1.9;">
             {% csrf_token %}
+            <div id=formContent style="font-size: larger;">
+            <label>
             <input type="radio" name="ageGroup" value="+4">
-            <label>+4</label><br>
+            +4</label><br>
+            <label>  
             <input type="radio" name="ageGroup" value="+9">
-            <label>+9</label><br>
+            +9</label><br>
+            <label>
             <input type="radio" name="ageGroup" value="+12">
-            <label>+12</label><br>
+            +12</label><br>
+            <label>
             <input type="radio" name="ageGroup" value="+17">
-            <label>+17</label> <br>
+            +17</label> <br>
+            </div>
             <button type="submit" id="setAgeGroup" style="width: 74%; font-size: 100%; font-weight: 700; margin-left: 13%; margin-top: 6%;">Set Age Group</button>
         </form>
     </div>
@@ -565,14 +565,8 @@ body img{
     <div class="popup-content">
         <h3>Assign age group reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
         <h5>An age group reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your age group.</h5>
-		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
-    </div>
-</div>
-<div class="popup fail" id="ErrorPopup">
-    <div class="popup-content">
-        <span class="close" id="closeErrorPopup">&times;</span>
-        <h3 class="error">Username not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-        <h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance! Or you can <a class="boxed-btn" onClick="Try()">Try again</a></h5>
+		<h7>If you haven't received an email, please ensure that yout registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
+        <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
     </div>
 </div>
 <script>
@@ -592,34 +586,29 @@ else if (status === 'confirm'){
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
 }
+function sendRequest() {
+var csrftoken = getCookie('csrftoken');
+var xhr = new XMLHttpRequest();
+xhr.open('POST', "{% url 'custom_assigining_ageGroup' %}", true);
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-document.getElementById('sendButton').addEventListener('click', function () {
-    username = document.getElementById('username').value;
-    
-    // Get the CSRF token from the cookie
-    var csrftoken = getCookie('csrftoken');
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', "{% url 'custom_assigining_ageGroup' %}", true);
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+// Set the CSRF token and session ID in the request headers
+xhr.setRequestHeader("X-CSRFToken", csrftoken);
 
-    // Set the CSRF token in the request headers
-    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-    xhr.onload = function () {
-if (xhr.status === 200) {
-    document.getElementById('emailSentSuccess').style.display = 'block';
-    document.getElementById("instructions").style.display = "none";
-    document.getElementById('send').style.display = 'none';
-} else if (xhr.status === 404) {
-    document.getElementById('send').style.display = 'none';
-    document.getElementById("instructions").style.display = "none";
-    document.getElementById('ErrorPopup').style.display = 'block';
-}
+xhr.onload = function () {
+    if (xhr.status === 200) {
+        document.getElementById('emailSentSuccess').style.display = 'block';
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById('send').style.display = 'none';
+    } else if (xhr.status === 404) {
+        document.getElementById('send').style.display = 'none';
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById('errorPopUp').style.display = 'block';
+    }
 };
-    xhr.send('username=' + username);
-
-});
-
+xhr.send();
+}
 // Function to get the CSRF token from the cookie
 function getCookie(name) {
     var cookieValue = null;

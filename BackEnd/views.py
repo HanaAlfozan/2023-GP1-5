@@ -84,11 +84,14 @@ def custom_password_reset(request):
 
 def custom_assigining_ageGroup(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        try:
-            user = GGUser.objects.get(Username=username)
-        except GGUser.DoesNotExist:
-            return HttpResponseNotFound('Username not found')
+        user_id = request.session.get('user_id')
+        if user_id:
+            try:
+                user = GGUser.objects.get(User_ID=user_id)
+                email = user.Email
+                # Continue with your logic using the email
+            except GGUser.DoesNotExist:
+                return HttpResponseNotFound('User not found')
 
         # Generate a token and uid for the user
         token = default_token_generator.make_token(user)
@@ -123,11 +126,10 @@ def custom_assigining_ageGroup_confirm(request, uidb64, token):
             if request.method == 'POST':
         # Valid token, allow the user to set a new password
               ageGroup = request.POST.get('ageGroup')
-              user.Age_group = ageGroup
               user.Approved_age_group = ageGroup
               user.save()
               return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
-            return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Password confirm'})
+            return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Assign confirm'})
     else:
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'AgeEstimation.html', {'status': 'error', 'message': error_message})
