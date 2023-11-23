@@ -138,6 +138,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   position: relative;
   left: -370px;
   top: 200px;
+
 }
 
 
@@ -240,7 +241,22 @@ body img{
 			padding-top: 0px;
 
 		}
+		#important{
+		padding:2% 0%;
+		border-radius:50px;
 
+
+		}
+.gradient-hr {
+  border: none;
+  border-top: 2px solid transparent; /* Set a transparent border on top of hr */
+  background-image: linear-gradient(-225deg, #2ae2e1 0%, #ff069a 29%, #06f7ff 67%, #fff 100%);
+  height: 2px; /* Set the height of the hr element */
+  margin: 10px 0; /* Adjust the margin to position the hr element below the div */
+  width:64%;
+  margin-left:18%;
+  position:absolute;
+}
 
 
 	</style>
@@ -298,16 +314,18 @@ body img{
 			<div class="left">
 				<h3 class="animate-charcter">Let the fun begin with Game Geek!</h3>
 				<br>
-				<h4 class="note" style="color: #ff069a; letter-spacing: 1px; font-size: 22px;">Important Note for Our Young Gamers🎮</h4>
-				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 16px; text-align:center;" ALIGN=LEFT><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly ensure that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
+
+				<h4 class="note" style="color: #ff069a; letter-spacing: 1px; font-size: 22px;" id="note">Important Note for Our Young Gamers🎮</h4>
+				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 16px; text-align:center;" ALIGN=LEFT id="hey"><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly <b style="background-color:#ff069a; border-radius:50px;padding:1%;">ensure</b> that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
 				<br>
+
 
 			</div>
 			<div class="right">
 			<div class="containeTitle" style="margin-left: 200px;">
 								<div class="rowTitle">
 								  <div class="col-md-12 text-center">
-									<h3 class="animate-charcter" style="font-size: 40px;">Sign Up</h3>
+									<h3 class="animate-charcter" style="font-size: 50px;">Sign Up</h3>
 								  </div>
 								</div>
 							  </div>
@@ -354,7 +372,7 @@ body img{
 		{% endfor %}
 	{% endif %}
 	<div>
-					<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px;"><b>I agree to the terms and conditions</b></label>
+					<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px;" ><b id="terms">I agree to the terms and conditions</b></label>
 					<input type="checkbox" id="agree" name="Accept_conditions" required>
 					<br>
 					<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
@@ -375,7 +393,30 @@ body img{
         });
     });
 </script>
+<script>
+    // Get references to the text and other div elements
+    const hoverText = document.getElementById('terms');
+    const otherDiv = document.getElementById('hey');
+    const hrElement = document.createElement('hr');
 
+
+    hoverText.addEventListener('mouseover', function() {
+otherDiv.style.border = '2px solid transparent';  // Set a transparent border
+  otherDiv.style.borderImage = 'linear-gradient(-225deg, #2ae2e1 0%, #ff069a 29%, #06f7ff 67%, #fff 100%)';
+  otherDiv.style.borderImageSlice = '1'; // You may need to adjust this value based on your needs
+
+  otherDiv.style.background = 'rgba(255, 255, 255, 0.1)';
+
+      console.log('mouseover');
+    });
+
+    hoverText.addEventListener('mouseout', function() {
+      otherDiv.style.border = 'none';
+      otherDiv.style.background = 'none';
+
+       console.log('mouseout');
+    });
+  </script>
 
 
     </div>
