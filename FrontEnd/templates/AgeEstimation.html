@@ -136,22 +136,26 @@
 .popup {
   display: none;
   position: fixed;
-  top: 0;
-  left: 50;
+  top: -20%;
+ margin:10% 0%;
   width: 100%;
   height: 100%;
+  padding:10% 5%;
 }
 
 .popup-content {
   background-color: rgba(255, 255, 255, 0.7);
   max-width: 600px;
-  margin: 15% auto;
-  padding: 10px;
+  margin: 10% auto 0 auto;
+  padding: 3%;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-  position: relative;
+
   padding: 20px;
+  width: 40%;
+
+
 }
 .input-pair {
     margin-bottom: 30px;
@@ -223,7 +227,7 @@ body img{
         <div class="inst-container" id="instructions">
             <div id="popup">
                 <br>
-                <h4 style="color: #ff069bc0;">Welcome again!</h4>
+                <h4 style="color: #ff069bc0;">Almost There!</h4>
                 <h6>It is time for taking the picture, please follow the instructions:</h6>
                 <p>Stay still while taking the picture.</p>
                 <p>Make sure the lighting is good.</p>
@@ -491,9 +495,9 @@ body img{
            <div id="classified" class="Popup" style="display: none;">
             <div class="popup-content">
                 <h3 style="text-align: left;">Almost There!</h3>
-                <span id="classification-message-span" style="font-size: 20px; font-weight: 700;"></span>
-                <h4 style="max-width: 380px; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a></h4>
-                <h4 style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+                <span id="classification-message-span" ></span>
+                <h4 >If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a></h4>
+                <h4 style=>Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
            <!-- Error Popup -->
