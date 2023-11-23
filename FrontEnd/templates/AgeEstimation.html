@@ -136,22 +136,26 @@
 .popup {
   display: none;
   position: fixed;
-  top: 0;
-  left: 50;
+  top: -20%;
+ margin:10% 0%;
   width: 100%;
   height: 100%;
+  padding:10% 5%;
 }
 
 .popup-content {
   background-color: rgba(255, 255, 255, 0.7);
   max-width: 600px;
-  margin: 15% auto;
-  padding: 10px;
+  margin: 10% auto 0 auto;
+  padding: 3%;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-  position: relative;
+
   padding: 20px;
+  width: 40%;
+
+
 }
 .input-pair {
     margin-bottom: 30px;
@@ -223,7 +227,7 @@ body img{
         <div class="inst-container" id="instructions">
             <div id="popup">
                 <br>
-                <h4 style="color: #ff069bc0;">Welcome again!</h4>
+                <h4 style="color: #ff069bc0;">Almost There!</h4>
                 <h6>It is time for taking the picture, please follow the instructions:</h6>
                 <p>Stay still while taking the picture.</p>
                 <p>Make sure the lighting is good.</p>
@@ -561,7 +565,7 @@ body img{
         </form>
     </div>
 </div>
-<div id="emailSentSuccess" class="popup Success">
+<div id="emailSentSuccess" class="popup Success" style="width: 106%;">
     <div class="popup-content">
         <h3>Assign age group reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
         <h5>An age group reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your age group.</h5>
