@@ -162,9 +162,9 @@
     border: 0;
     background-color: transparent;
     font-weight: 700;
-	font-size: 15px;
-	left: 20px;
-    width: 90px;
+	font-size: 19px;
+    width: 10%;
+    top: -26%;
 
 }
 
@@ -429,14 +429,12 @@ body img{
         <div class="profile-container labels-container">
 			<div class="input-container">
 				<label for="Fname">First Name:</label>
-				<input type="text" id="Fname" name="Fname" value="" onkeydown ="updateButtonTextFname()">
-				<button class="edit-button" onclick="toggleEditMode(this)">Save</button>
+				<input type="text" id="Fname" name="Fname" value="" onkeydown ="updateButton()">
 			</div>
 		
 			<div class="input-container">
 				<label for="Lname">Last Name:</label>
-				<input type="text" id="Lname" name="Lname" value="" onkeydown ="updateButtonTextLname()">
-				<button class="edit-button" onclick="toggleEditMode(this)">Save</button>
+				<input type="text" id="Lname" name="Lname" value="" onkeydown ="updateButton()">
 			</div>
             <div class="input-container-read">
                 <label for="email" style="font-weight: bolder;">Email:</label>
@@ -459,6 +457,7 @@ body img{
             </div>
         </div>
     </section>
+    <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);">Save</button>
 </div>
 <script>
 $(document).ready(function() {
@@ -604,15 +603,11 @@ function toggleEditMode(button) {
     button.textContent = originalButtonText; 
   }
 }
-function updateButtonTextFname() {
-  var button = document.querySelector('#Fname').nextElementSibling;
-  button.textContent = originalButtonText;
+function updateButton(){
+    var b = document.getElementById('Ebutton');
+    b.textContent = originalButtonText;
 }
 
-function updateButtonTextLname() {
-  var button = document.querySelector('#Lname').nextElementSibling;
-  button.textContent = originalButtonText;
-}
 
     </script>
 	<!-- jquery -->

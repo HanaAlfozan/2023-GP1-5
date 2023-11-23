@@ -421,7 +421,7 @@ body img{
 <div id="passwordResetComplete" class="popup">
     <div class="popup-content Complete" style="padding: 70px;">
         <span class="close" id="closePopupComplete">&times;</span>
-        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 25px;"></i><br><br>Password has been successfully reset!</h3>
+        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 35px;"></i><br><br>Password has been successfully reset!</h3>
     </div>
 </div>
 
@@ -449,10 +449,6 @@ body img{
         document.getElementById('passwordResetComplete').style.display = 'block';
         document.getElementById('errorPopup').style.display = 'none';
 
-		    // Close the passwordResetComplete popup after 8 seconds
-		setTimeout(function () {
-                document.getElementById('passwordResetComplete').style.display = 'none';
-            }, 10000);
 	}
 	
     document.getElementById('resetPassword').addEventListener('click', function () {
@@ -477,7 +473,8 @@ body img{
         document.getElementById('EmailSentSuccess').style.display = 'block';
         document.getElementById('passwordResetPopup').style.display = 'none';
     } else if (xhr.status === 404) {
-        // Email not found, display the error pop-up
+        // User name not found, display the error pop-up
+		document.getElementById('loader').style.display = 'none';
         document.getElementById('passwordResetPopup').style.display = 'none';
         document.getElementById('errorPopup').style.display = 'block';
     }

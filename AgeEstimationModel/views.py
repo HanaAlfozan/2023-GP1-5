@@ -16,7 +16,7 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
 
 # Define class labels
-class_labels = ['0-3', '12+', '17+', '4+', '9+']
+class_labels = ['0-3', '4+', '9+', '12+', '17+']
 
 model = None
 

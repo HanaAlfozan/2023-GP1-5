@@ -481,6 +481,13 @@ body img{
             document.getElementById("take-snapshot-button").style.display = "none";
             document.getElementById("instructions").style.display = "none";
         }
+        function Try(){
+            document.getElementById("send").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+            document.getElementById("instructions").style.display = "none";
+            document.getElementById('ErrorPopup').style.display = 'none';
+        }
 
         function displayCapturedImage(imageDataUrl , result) {
     const capturedImageContainer = document.createElement('div');
@@ -590,7 +597,7 @@ body img{
     <div class="popup-content">
         <span class="close" id="closeErrorPopup">&times;</span>
         <h3 class="error">Username not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-        <h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance! Or you can <a class="boxed-btn" onClick="window.location.reload();">Try again</a></h5>
+        <h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance! Or you can <a class="boxed-btn" onClick="Try()">Try again</a></h5>
     </div>
 </div>
 <script>
