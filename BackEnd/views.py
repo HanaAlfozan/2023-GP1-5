@@ -277,7 +277,10 @@ def retrieve_all_games(request):
 
             # Function to extract the numeric part from age group strings
             def extract_numeric_part(age_group):
-                return int(age_group[:-1])
+                match = re.search(r'\d+', age_group)
+                if match:
+                    return int(match.group())
+                return 0
 
             # Convert user age group string to numerical value
             user_age_group = extract_numeric_part(
@@ -445,7 +448,7 @@ def retrieve_random_high_rated_games(request):
         return JsonResponse({'error': 'Not enough games available'}, status=400)
 
 
-    first_12_high_rated_games = all_games_data[12:24]
+    first_12_high_rated_games = all_games_data[24:36]
 
     # Convert the first 12 high-rated games to a list of dictionaries with cleaned names
     games_list = [

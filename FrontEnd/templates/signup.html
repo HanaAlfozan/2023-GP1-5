@@ -123,13 +123,15 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     text-align: center;
     width: 55%;
 	margin-left: 200px;
+	height:400%;
 
 }
 
 .right {
   position: relative;
   left: 250px;
-  top:-340px
+  top:-340px;
+
 }
 
 .left{
@@ -357,7 +359,7 @@ body img{
 					<br>
 					<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
 				</div>
-    <input type="submit" id="LogIN" value="Register" style="width: 80%;" onclick="return validateCheckbox();">
+    <input type="submit" id="LogIN" value="Join US" style="width: 80%;" onclick="return validateCheckbox();">
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
