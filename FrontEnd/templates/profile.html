@@ -164,7 +164,7 @@
     font-weight: 700;
 	font-size: 19px;
     width: 10%;
-    top: -26%;
+    top: -21%;
 
 }
 
@@ -223,7 +223,7 @@
 
 
     .input-container-read label {
-		width: 170px;
+		width: 171px;
         font-weight: bolder;
         font-size: larger;
     }
@@ -457,7 +457,7 @@ body img{
             </div>
         </div>
     </section>
-    <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);">Save</button>
+    <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);" disabled>Save</button>
 </div>
 <script>
 $(document).ready(function() {
@@ -570,6 +570,21 @@ $(document).ready(function() {
             return cookieValue;
         }
         var originalButtonText = 'Save';
+
+document.getElementById('Fname').addEventListener('input', enableButton);
+document.getElementById('Lname').addEventListener('input', enableButton);
+
+function enableButton() {
+  var fname = document.getElementById('Fname').value;
+  var lname = document.getElementById('Lname').value;
+  var button = document.getElementById('Ebutton');
+
+  if (fname.trim().length > 0 || lname.trim().length > 0) {
+    button.disabled = false;
+  } else {
+    button.disabled = true;
+  }
+}        
 
 function toggleEditMode(button) {
   if (button.textContent === 'Save') { 
