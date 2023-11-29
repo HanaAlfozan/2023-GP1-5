@@ -89,6 +89,29 @@
 body img{
   max-width: 600px;
 }
+.popup {
+  display: none;
+  position: fixed;
+  top: -20%;
+ margin:10% 0%;
+  width: 100%;
+  height: 100%;
+  padding:10% 5%;
+  left: 0%;
+}
+
+.popup-content {
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 10% auto 0 auto;
+  padding: 3%;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  width: 40%;
+
+}
 
 
 	</style>
@@ -158,6 +181,7 @@ body img{
 											}
 										},
 										error: function(xhr, status, error) {
+											document.getElementById("errorPopUp").style.display = "block";
 											console.error('Error:', error);
 										}
 									});

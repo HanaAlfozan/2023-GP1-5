@@ -155,27 +155,18 @@
         }
 
 	.edit-button{
-    --border-radius: 50px;
+    --border-radius: 10px;
     --border-width: 2px;
-
     position: relative;
-
-
+    appearance: none;
     font-weight: 700;
 	font-size: 19px;
     width: 10%;
-      border: 3px solid transparent;
-    border-image: conic-gradient(
-        #c5c5c5,
-        #ff069a,
-        aqua
-    ) 1;
-    border-image-slice: 1;
+    border: 0;
+    background-color: transparent;
+    font-weight: 700;
+	font-size: 19px;
     margin-top:15%;
-
-
-
-
 }
 
 .edit-button::after {
@@ -189,7 +180,11 @@
     height: 100%;
     padding: var(--border-width);
     border-radius: var(--border-radius);
-
+    background-image: conic-gradient(
+        #c5c5c5,
+        #ff069a,
+        aqua
+    );
     mask-image: var(--m-i), var(--m-i);
     mask-origin: var(--m-o);
     mask-clip: var(--m-o);
@@ -229,7 +224,7 @@
 
 
     .input-container-read label {
-		width: 170px;
+		width: 171px;
         font-weight: bolder;
         font-size: larger;
     }
@@ -293,10 +288,6 @@ body img{
   max-width: 600px;
 }
 
-
-	</style>
-
-	<style>
 		.games{
 			color: #fff;
 		}
@@ -316,6 +307,29 @@ body img{
 		  summary {
     list-style-type: none; /* For non-Chrome browsers */
        }
+       .popup {
+  display: none;
+  position: fixed;
+  top: -20%;
+ margin:10% 0%;
+  width: 100%;
+  height: 100%;
+  padding:10% 5%;
+  left: 0%;
+}
+
+.popup-content {
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 10% auto 0 auto;
+  padding: 3%;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  width: 40%;
+
+}
 
 
 	</style>
@@ -345,6 +359,13 @@ body img{
 						<!-- logo -->
 
 						<!-- menu start -->
+                        
+            <!-- Error Popup -->
+           <div id="errorPopUp" class="Popup" style="display: none;">
+            <div class="popup-content">
+                <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occured, please try again! <a id="next-button" class="boxed-btn" href="{% url 'index' %}">Try again</a> </h4>
+            </div>
+        </div>
 						<nav class="main-menu">
 							<ul>
 
@@ -389,6 +410,7 @@ body img{
 										}
 									},
 									error: function(xhr, status, error) {
+                                        document.getElementById("errorPopUp").style.display = "block";
 										console.error('Error:', error);
 									}
 								});
@@ -465,7 +487,7 @@ body img{
         </div>
 
     </section>
-    <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);">Save</button>
+    <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);" disabled>Save</button>
 </div>
 <script>
 $(document).ready(function() {
@@ -579,6 +601,21 @@ $(document).ready(function() {
         }
         var originalButtonText = 'Save';
 
+document.getElementById('Fname').addEventListener('input', enableButton);
+document.getElementById('Lname').addEventListener('input', enableButton);
+
+function enableButton() {
+  var fname = document.getElementById('Fname').value;
+  var lname = document.getElementById('Lname').value;
+  var button = document.getElementById('Ebutton');
+
+  if (fname.trim().length > 0 || lname.trim().length > 0) {
+    button.disabled = false;
+  } else {
+    button.disabled = true;
+  }
+}        
+
 function toggleEditMode(button) {
   if (button.textContent === 'Save') { 
     button.textContent = 'Saved!'; 
@@ -615,6 +652,7 @@ function updateButton(){
     var b = document.getElementById('Ebutton');
     b.textContent = originalButtonText;
 }
+
 
 
     </script>
