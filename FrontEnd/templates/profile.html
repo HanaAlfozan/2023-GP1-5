@@ -155,16 +155,26 @@
         }
 
 	.edit-button{
-    --border-radius: 10px;
+    --border-radius: 50px;
     --border-width: 2px;
-    appearance: none;
+
     position: relative;
-    border: 0;
-    background-color: transparent;
+
+
     font-weight: 700;
 	font-size: 19px;
     width: 10%;
-    top: -26%;
+      border: 3px solid transparent;
+    border-image: conic-gradient(
+        #c5c5c5,
+        #ff069a,
+        aqua
+    ) 1;
+    border-image-slice: 1;
+    margin-top:15%;
+
+
+
 
 }
 
@@ -179,11 +189,7 @@
     height: 100%;
     padding: var(--border-width);
     border-radius: var(--border-radius);
-    background-image: conic-gradient(
-        #c5c5c5,
-        #ff069a,
-        aqua
-    );
+
     mask-image: var(--m-i), var(--m-i);
     mask-origin: var(--m-o);
     mask-clip: var(--m-o);
@@ -427,15 +433,7 @@ body img{
 <div class="profile-sec">
     <section class="d-flex">
         <div class="profile-container labels-container">
-			<div class="input-container">
-				<label for="Fname">First Name:</label>
-				<input type="text" id="Fname" name="Fname" value="" onkeydown ="updateButton()">
-			</div>
-		
-			<div class="input-container">
-				<label for="Lname">Last Name:</label>
-				<input type="text" id="Lname" name="Lname" value="" onkeydown ="updateButton()">
-			</div>
+
             <div class="input-container-read">
                 <label for="email" style="font-weight: bolder;">Email:</label>
                 <input type="text" id="email" name="email" value="" readonly>
@@ -444,6 +442,15 @@ body img{
                 <label for="joined-on" style="font-weight: bolder;">Date joined:</label>
                 <input type="text" id="joined-on" name="joined-on" value="" readonly>
             </div>
+			<div class="input-container">
+				<label for="Fname">First Name:</label>
+				<input type="text" id="Fname" name="Fname" value="" onkeydown ="updateButton()">
+			</div>
+
+			<div class="input-container">
+				<label for="Lname">Last Name:</label>
+				<input type="text" id="Lname" name="Lname" value="" onkeydown ="updateButton()">
+			</div>
         </div>
         <div class="separator"></div>
         <div class="profile-container user-info-container">
@@ -456,6 +463,7 @@ body img{
                 </div>
             </div>
         </div>
+
     </section>
     <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);">Save</button>
 </div>

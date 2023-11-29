@@ -59,7 +59,7 @@ class GamesList(models.Model):
     Size = models.DecimalField(max_digits=10, decimal_places=2)
     Genres = models.TextField()
     Original_Release_Date = models.TextField()
-    Subtitle_Description = models.TextField()
+
     ID = models.AutoField(primary_key=True)
 
     def __str__(self):

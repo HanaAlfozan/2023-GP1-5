@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = 'Import data from CSV file'
 
     def handle(self, *args, **options):
-        csv_file_path = "data/new3.csv"
+        csv_file_path = "data/preprocessed_Dataset.csv"
 
         with open(csv_file_path, 'r') as csv_file:
             reader = csv.DictReader(csv_file)
