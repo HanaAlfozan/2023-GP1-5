@@ -178,12 +178,12 @@ body img{
 						<div class="contact-form">
 							<form method="POST" id="fruitkha-contact" onsubmit="handleSubmit(event)">
 								<p>
-								  <input type="text" placeholder="Name" name="name" id="name" class="required-input" required>
-								  <input type="email" placeholder="Email" name="email" id="email" class="required-input" required>
+
+
+								  <input type="text" placeholder="Subject" name="subject" id="subject" class="required-input" required>
 								</p>
 								<p>
-								  <input type="tel" placeholder="Phone" name="phone" id="phone" class="required-input" required>
-								  <input type="text" placeholder="Subject" name="subject" id="subject" class="required-input" required>
+
 								</p>
 								<p><textarea name="message" id="message" cols="30" rows="10" placeholder="Message" class="required-input" required></textarea></p>
 								<input type="hidden" name="token" value="FsWga4&@f6aw" />
@@ -202,9 +202,48 @@ body img{
 					  submitButton.value = "Sent!";
 					}
 				  </script>
+	<script>
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Optionally, you can change the button text to "Sending..."
+        var submitButton = document.getElementById("submitButton");
+        submitButton.value = "Sending...";
+
+        // Get form data
+        var formData = new FormData(document.getElementById("fruitkha-contact"));
+
+        // Make an asynchronous POST request to your Django view
+        fetch("/BackEnd/send_email/", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Response data:", data);
+
+            var formStatus = document.getElementById("form_status");
+
+            // Optionally, you can reset the form or perform other actions
+            if (data.status === "success") {
+            submitButton.value = "Done!";
+                document.getElementById("fruitkha-contact").reset();
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        })
+        .finally(() => {
+            // Optionally, you can reset the button text after a delay
+            setTimeout(() => {
+                submitButton.value = "Submit";
+            }, 3000); // Change 3000 to the desired delay in milliseconds
+        });
+    }
+</script>
 			</div>
 		</div>
-	</div>
+
 	<!-- end contact form -->
 
 	<!-- footer -->

@@ -58,6 +58,7 @@ urlpatterns = [
     path('BackEnd/custom_assigining_ageGroup/', BackEnd_views.custom_assigining_ageGroup, name='custom_assigining_ageGroup'),
     path('assign-age-group/<str:uidb64>/<str:token>/', BackEnd_views.custom_assigining_ageGroup_confirm, name='custom_assigining_ageGroup_confirm'),
     path('BackEnd/custom_assigining_ageGroup_confirm/', BackEnd_views.custom_assigining_ageGroup_confirm, name='custom_assigining_ageGroup_confirm'),
+    path('BackEnd/send_email/', BackEnd_views.send_email, name='send_email'),
 
     
 ]

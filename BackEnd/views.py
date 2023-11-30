@@ -21,6 +21,10 @@ from django.core.paginator import Paginator, EmptyPage
 import random
 import math
 from django.db.models import Case, When, Value, IntegerField
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
 
 
 def SignupUser(request):
@@ -485,3 +489,53 @@ def clean_dev(dev):
         dev += '.'
 
     return dev
+
+
+@csrf_exempt  # Only use this decorator for simplicity in the example; use a proper CSRF protection method in production
+def send_email(request):
+    if request.method == 'POST':
+        # Extract user data from session
+        user_id = request.session.get('user_id')
+
+        if user_id is not None:
+            try:
+                user = GGUser.objects.get(User_ID=user_id)
+                email = user.Email
+                username = user.Username
+
+                # Debugging output
+                print(f"User ID: {user_id}, Username: {username}, Email: {email}")
+
+            except GGUser.DoesNotExist:
+                return JsonResponse({'error': 'User not found'})
+        else:
+            return JsonResponse({'error': 'User not authenticated'})
+
+        # Extract form data
+        subject = request.POST.get('subject', '')
+        message = request.POST.get('message', '')
+
+        # Perform any additional validation or processing as needed
+
+        # Construct email message
+        email_body = f"User name: {username}\nEmail: {email}\nSubject: {subject}\nMessage: {message}"
+
+        # Replace these values with your own
+        recipient_email = 'reemo.m.2002@gmail.com'
+
+        # Use the provided email or a default one if not provided
+        sender_email1 = 'reemalmusharraf@gmail.com'
+
+        # Construct email message
+        try:
+            send_mail(subject, email_body, sender_email1, [recipient_email])
+            response_data = {'status': 'success', 'message': [email,username,subject,email_body,recipient_email,sender_email1]}
+        except Exception as e:
+            print(f"Error sending email: {e}")
+            response_data = {'status': 'error', 'message': 'Error sending email'}
+
+        # Return a JSON response indicating success or failure
+        return JsonResponse(response_data)
+
+    # If the form is not valid or the request method is not POST
+    return JsonResponse({'status': 'error', 'message': 'Invalid form submission'})
