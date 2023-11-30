@@ -26,7 +26,7 @@ def load_custom_model():
         # Load the VGG model only once when the server starts
         # Check TensorFlow version
 
-        model = load_model('AgeEstimationModel/Models/Facial_Age_Estimation_Model_E2.h5')
+        model = load_model('AgeEstimationModel/Models/Facial_Age_Group_Estimation_Model.h5')
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading the model: {e}")
