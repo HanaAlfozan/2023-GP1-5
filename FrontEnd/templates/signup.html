@@ -283,20 +283,6 @@ body img{
 							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
 							</a>
 						</div>
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-
-								<li>
-									<div class="header-icons">
-
-
-									</div>
-								</li>
-							</ul>
-						</nav>
-						<!-- menu end -->
 					</div>
 				</div>
 			</div>
@@ -345,7 +331,7 @@ body img{
 			<i class="fa fa-envelope"></i>
 		</span>
 		<label for="email">Email:</label>
-		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)">
+		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)" style="margin-left: 10%">
     </div>
 	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 37%;"></span>
     <div class="input-pair" style="padding-top: 3%;">
@@ -359,7 +345,7 @@ body img{
 	 </div>
 	 <span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 49%; left: 34%; max-width: 55%;"></span>
     <div class="input-pair" id="cp">
-		<span class="input-item" style="top: -26%;">
+		<span class="input-item" style="top: -18px;">
 			<i class="fa fa-key"></i>
 		</span>
         <label for="confirm_password">Confirm Password:</label>

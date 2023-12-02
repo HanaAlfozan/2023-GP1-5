@@ -35,6 +35,34 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+	<script>
+		function validatePassword(pass) {
+		  const passRegex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+		  var messageSpan = document.getElementById("passMessage");
+		  var divCP = document.getElementById("cp");
+		  var eye = document.getElementById("eye");
+
+
+		  
+		  if (!passRegex.test(pass)) {
+			messageSpan.innerHTML = 'Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.';
+			messageSpan.style.visibility = 'visible';
+			divCP.style.paddingTop = '8%';
+			eye.style.top ='283px';
+
+
+				return false;
+			} else {
+				messageSpan.style.visibility = 'hidden';
+				divCP.style.paddingTop = '0';
+				eye.style.top ='236px';
+
+
+			}
+	
+			return true;
+		}
+	</script>
 	<style>
 		.games{
 			color: #fff;
@@ -314,7 +342,7 @@ body img{
 
 		<div class="container">
 			<div class="left">
-				<h3 class="animate-charcter">Welcome back, gamer 🎮!</h3>
+				<h3 class="animate-charcter">Welcome back <br> gamer 🎮!</h3>
 				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 20px; text-align:center;" ALIGN=LEFT><b> More adventures awaits behind these login gates. Ready to get started? 🚀</b></p>
 			</div>
 			<div class="right">
@@ -343,7 +371,7 @@ body img{
 										<label for="password">Password:</label>
 										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password">
 										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 129px; top: 198px; cursor: pointer;"></i>
-										<a href="#" id="forgetPass">Forgot Password?</a>
+										<a href="#" id="forgetPass" style="left: 5%;">Forgot Password?</a>
 										<br><br>
 									</div>
 									<!-- Display messages only if there are any -->
@@ -401,13 +429,15 @@ body img{
             {% csrf_token %}
             <div class="input-pair">
                 <label for="password">New Password:</label>
-				<input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+				<input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password" onblur="validatePassword(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
 				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
-				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; top:145px; right: 80px; cursor: pointer;"></i></div>
-            <div class="input-pair">
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; top:148px; right: 80px; cursor: pointer;"></i>
+			</div>
+			<span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 44%; left: 1%; max-width: 97%; text-align: -moz-left;"></span>
+            <div class="input-pair" id="cp">
                 <label for="password2">Confirm Password:</label>
                 <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
-				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 80px; top: 230px; cursor: pointer;"></i>
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 80px; top: 236px; cursor: pointer;" id="eye"></i>
             </div>
 			{% if messages %}
 			{% for message in messages %}
