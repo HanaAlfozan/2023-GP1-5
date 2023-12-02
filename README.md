@@ -14,18 +14,14 @@ for each user based on their age group. The following markup and programming lan
 
 Launching Instructions:
 
-  1- Data Augmentation and Labeling: Begin by augmenting and labeling the facial images dataset.
+  1- Data Cleaning and Labeling: Begin by cleaning and labeling the facial images dataset.
 
-  2- Model Training: Proceed to train several classification models using machine learning technology in Python. These models should be trained on the augmented facial images dataset.
+  2- Model Training: Train a custom CNN classification model on the facial images dataset using machine learning technology. The goal is to train the model to detect users' image faces and classifies them into five different groups: toddlers (0-3), +4, +9, +12, and +17.
 
-  3- Face Detection and Age Group Classification: Train several models to detect users' image faces and categorize them into five different groups: toddlers (0-3), +4, +9, +12, and +17.
-
-  4- Model Evaluation: Assess the performance of all trained models, and select the one with the best results.
-
-  5- Data PreProcessing: Preform preprocessing techniques to AppStore dataset such as data cleaning and encoding.
+  3- Data PreProcessing: Preform preprocessing techniques to AppStore dataset such as data cleaning and encoding.
   
-  6- Integration with AppStore Dataset: Integrate the chosen classification model with the AppStore dataset.
+  4- Integration with AppStore Dataset: Integrate the custom CNN model with the AppStore dataset.
 
-  7- Website Creation: Start working on website's interfaces and features such as filtering and sorting.
+  5- Website Creation: Start working on website's interfaces and features such as filtering and sorting.
 
-  8- Launch the System: In this step, the system will be launched after integrating the age group estimation model, the Appstore dataset and the created website. This system will display suitable games for each user, taking into account their age group and preferences.
+  6- Launch the System: In this step, the system will be launched after integrating the age group estimation model, the Appstore dataset and the created website. This system will display suitable games for each user, taking into account their age group and preferences.
