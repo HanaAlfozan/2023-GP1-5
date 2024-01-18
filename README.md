@@ -14,18 +14,54 @@ for each user based on their age group. The following markup and programming lan
 
 Launching Instructions:
 
-  1- Data Augmentation and Labeling: Begin by augmenting and labeling the facial images dataset.
+Instructions for Running Game Geek Website in the localhost:
 
-  2- Model Training: Proceed to train several classification models using machine learning technology in Python. These models should be trained on the augmented facial images dataset.
+1-Download an Integrated Development Environment (IDE):
+Choose and download an IDE such as Visual Studio or PyCharm.
 
-  3- Face Detection and Age Group Classification: Train several models to detect users' image faces and categorize them into five different groups: toddlers (0-3), +4, +9, +12, and +17.
 
-  4- Model Evaluation: Assess the performance of all trained models, and select the one with the best results.
+2-Download and Set Up PostgreSQL Database:
 
-  5- Data PreProcessing: Preform preprocessing techniques to AppStore dataset such as data cleaning and encoding.
-  
-  6- Integration with AppStore Dataset: Integrate the chosen classification model with the AppStore dataset.
 
-  7- Website Creation: Start working on website's interfaces and features such as filtering and sorting.
+3-Download PostgreSQL and pgAdmin.
+Create a new PostgreSQL database named "GameGeek."
 
-  8- Launch the System: In this step, the system will be launched after integrating the age group estimation model, the Appstore dataset and the created website. This system will display suitable games for each user, taking into account their age group and preferences.
+
+4-Create and Activate a Virtual Environment:
+Create a virtual environment using the command suitable for your operating system.
+Activate the virtual environment.
+
+
+5-Install Django Framework :
+Install Django within the virtual environment using the command:
+->pip install django
+
+
+6-Install Required Libraries:
+Install the required libraries listed in the requirements.txt file in the Virtual Environment:
+->pip install -r requirements.txt
+
+
+7-Verify Librarys Installations:
+Double-check and ensure all the required libraries are successfully installed .
+
+
+8-Migrate the Database:
+Run the following commands to apply migrations and set up the database:
+->python manage.py makemigrations
+->python manage.py migrate
+
+
+9-Load Games Dataset , Users Dataset:
+Load the games dataset :
+->python manage.py import_data
+Load Users dataset :
+->python manage.py import_users data/Users.csv
+
+
+10-Run the Development Server:
+Start the development server using the command:
+->python manage.py runserver
+
+
+These steps assume you have already cloned the Game Geek repository and have navigated to the project directory. If you encounter any issues during the process, refer to the documentation or seek assistance.
