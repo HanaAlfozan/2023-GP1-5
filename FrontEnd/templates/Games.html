@@ -395,14 +395,17 @@ margin-left:20%;
 			<!-- Select -->
 			<select>
 			  <option selected disabled>Sort by</option>
+			  <option>Game's Name (Alphabetically)</option>
 			  <option>Newest Games</option>
-			  <option>Highest Price</option>
-			  <option>Lowest Price</option>
+			  <option>Oldest Games</option>
+			  <option>Highest Age Rating</option>
+			  <option>Lowest Age Rating</option>
+			  <option>Highest Rating Count</option>
+			  <option>Lowest Rating Count</option>
 			  <option>Highest Rating</option>
 			  <option>Lowest Rating</option>
 			  <option>Largest Size</option>
 			  <option>Smallest Size</option>
-
 			</select>
 			<!-- End Select -->
 		</div>
@@ -631,6 +634,27 @@ margin-left:20%;
 						  </div>
 						   </details>
 					    </details>
+						<details class="category">
+							<summary>Rating Count</summary>
+							<div class="border-bottom pb-4 mb-4">
+								<div class="d-grid gap-2">
+									<div class="InformationDrawer_content">
+										<section class="RangeFilter_container">
+											<div class="RangeFilter_row">
+												<div class="RangeFilter_inputs">
+													<div>
+														<div class="NumberInput_inputContainer">
+															<input type="range" min="Below 5" max="3032734" value="0" step="1" id="ratingRange">
+														</div>
+													</div>
+												</div>
+											</div>
+										</section>
+									</div>
+								</div>
+							</div>
+						</details>	
+										
 						<div class="d-grid">
 							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
 						</div>

@@ -93,7 +93,6 @@ def custom_assigining_ageGroup(request):
             try:
                 user = GGUser.objects.get(User_ID=user_id)
                 email = user.Email
-                # Continue with your logic using the email
             except GGUser.DoesNotExist:
                 return HttpResponseNotFound('User not found')
 
@@ -150,7 +149,6 @@ def custom_password_reset_confirm(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         # Valid token, allow the user to set a new password
         if request.method == 'POST':
-            # Process the form to set a new password
             password = request.POST['password']
             confirm_password = request.POST['password2']
             if password == confirm_password:

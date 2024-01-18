@@ -23,8 +23,7 @@ model = None
 def load_custom_model():
     global model
     try:
-        # Load the VGG model only once when the server starts
-        # Check TensorFlow version
+        # Load the model only once when the server starts
 
         model = load_model('AgeEstimationModel/Models/Facial_Age_Group_Estimation_Model.h5')
         print("Model loaded successfully.")
