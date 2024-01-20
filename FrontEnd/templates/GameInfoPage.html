@@ -160,7 +160,27 @@
 										console.error('Error:', error);
 									}
 								});
+								document.getElementById('errorContainer').style.display = 'none';
 							});
+		function addToFavorites(gameId) {
+            $.ajax({
+                url: `/BackEnd/add_to_favorites/${gameId}/`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log('Added to Favorites:', data);
+                    if (data.error) {
+                        console.error('Error adding to favorites:', data.error);
+						document.getElementById('errorContainer').style.display = 'block';
+						var errorMessageDiv = document.getElementById('errorContainer');
+						errorMessageDiv.innerHTML = '<p style="color: red;">You already saved this game!</p>';
+                    }
+                },
+                error: function (error) {
+                    console.error('Error making AJAX request:', error);
+                }
+            });
+        }
 							</script>					</div>
 				</div>
 			</div>
@@ -225,19 +245,18 @@
 
 							<a href="#" class="cart-btn" id="favBtn"><i class="fas fa-regular fa-heart"></i> <span id="favText">Add to Favourite Games</span></a>
 							<a href="javascript:void(0); " class="cart-btn download" id="copyBtn"><i class="fas fa-solid fa-link "></i><span id="copyText">Go to The Download Page!</span></a>
+							<div id="errorContainer"></div>
 							<script>
                                 const favBtn = document.getElementById('favBtn');
                                 const favText = document.getElementById('favText');
 
                                 favBtn.addEventListener('click', function (event) {
                                 event.preventDefault(); // Prevent the default link behavior
-
+								var gameId = window.location.pathname.split('/').filter(Boolean).pop();
+								addToFavorites(gameId);
                                     if (favText.textContent === 'Add to Favourite Games') {
                                         favText.textContent = 'Saved to Favourite Games!';
-                                    } else {
-										if (favText.textContent === 'Saved to Favourite Games!')
-                                        favText.textContent = 'Add to Favourite Games';
-									}});
+                                    }});
 							</script>
 						</div>
 					</div>

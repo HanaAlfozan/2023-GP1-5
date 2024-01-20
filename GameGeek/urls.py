@@ -59,6 +59,7 @@ urlpatterns = [
     path('assign-age-group/<str:uidb64>/<str:token>/', BackEnd_views.custom_assigining_ageGroup_confirm, name='custom_assigining_ageGroup_confirm'),
     path('BackEnd/custom_assigining_ageGroup_confirm/', BackEnd_views.custom_assigining_ageGroup_confirm, name='custom_assigining_ageGroup_confirm'),
     path('BackEnd/send_email/', BackEnd_views.send_email, name='send_email'),
-
-    
+    path('BackEnd/add_to_favorites/<int:game_id>/', BackEnd_views.add_to_favorites, name='add_to_favorites'),
+    path('BackEnd/remove_favorite/<int:game_id>/', BackEnd_views.remove_favorite, name='remove_favorite'),
+    path('BackEnd/favorite_games/', BackEnd_views.favorite_games, name='favorite_games'),    
 ]

@@ -64,3 +64,17 @@ class GamesList(models.Model):
 
     def __str__(self):
         return self.Name
+    
+
+class Favorite(models.Model):
+    User_ID = models.ForeignKey(GGUser, on_delete=models.CASCADE)
+    Game_ID = models.ForeignKey(GamesList, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['User_ID', 'Game_ID'], name='composite_primary_key'),
+        ]
+
+    def __str__(self):
+        return f"{self.User_ID.Username}'s favorite: {self.Game_ID.Name}"
+

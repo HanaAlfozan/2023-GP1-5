@@ -1,4 +1,3 @@
-from .models import GGUser
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -15,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.http import HttpResponseNotFound
-from .models import GamesList
+from .models import GamesList, Favorite, GGUser
 import re
 from django.core.paginator import Paginator, EmptyPage
 import random
@@ -400,11 +399,6 @@ def clean_description(description):
     return description_without_emails
 
 
-
-
-
-
-
 def retrieve_game_info(request):
     # Retrieve the game ID from the request parameters
     game_id = request.GET.get('ID')
@@ -537,3 +531,71 @@ def send_email(request):
 
     # If the form is not valid or the request method is not POST
     return JsonResponse({'status': 'error', 'message': 'Invalid form submission'})
+
+@csrf_exempt
+def add_to_favorites(request, game_id):
+    if request.method == 'GET':
+        try:
+            user_id = request.session.get('user_id')
+
+            # Check if the user exists
+            user = GGUser.objects.get(User_ID=user_id)
+
+            # Check if the game exists
+            game = GamesList.objects.get(ID=game_id)
+
+            # Check if the game is already in favorites
+            if Favorite.objects.filter(User_ID=user, Game_ID=game).exists():
+                return JsonResponse({'success': False, 'error': 'Game is already in favorites'})
+
+            # Add the game to favorites
+            Favorite.objects.create(User_ID=user, Game_ID=game)
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def favorite_games(request):
+    user_id = request.session.get('user_id')
+    if user_id:
+        user_favorites = Favorite.objects.filter(User_ID=user_id)
+        games_data = [{'id': favorite.Game_ID.ID,
+                       'icon_url': favorite.Game_ID.Icon_URL,
+                       'name': favorite.Game_ID.Name,
+                       'url': favorite.Game_ID.URL} for favorite in user_favorites]
+        return JsonResponse({'games': games_data})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+
+@csrf_exempt
+def remove_favorite(request, game_id):
+    if request.method == 'GET':
+        try:
+            user_id = request.session.get('user_id')
+
+            # Check if the user is logged in
+            if not user_id:
+                return JsonResponse({'success': False, 'error': 'User not logged in'})
+
+            # Check if the game is in the user's favorites
+            favorite = Favorite.objects.filter(User_ID=user_id, Game_ID=game_id).first()
+            if favorite:
+                favorite.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'Game not found in favorites'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
