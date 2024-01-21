@@ -23,6 +23,7 @@ from django.db.models import Case, When, Value, IntegerField
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 
 
 
@@ -599,3 +600,56 @@ def remove_favorite(request, game_id):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@require_http_methods(["GET"])
+def ExtractPrice(request):
+    games_list = GamesList.objects.all()
+    unique_prices = games_list.values_list('Price', flat=True).distinct()
+    
+    # Convert the unique prices to a list
+    price_list = list(unique_prices)
+    
+    # Return the price_list as a JSON response
+    return JsonResponse({'prices': price_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractGenre(request):
+    games_list = GamesList.objects.all()
+    all_genres = [genre.strip() for Genres in games_list.values_list('Genres', flat=True) for genre in Genres.split(',')]
+    unique_genere = list(set(all_genres))
+    return JsonResponse({'genres': unique_genere}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractLanguage(request):
+    games_list = GamesList.objects.all()
+    all_languages = [language.strip() for languages in games_list.values_list('Languages', flat=True) for language in languages.split(',')]
+    unique_languages = list(set(all_languages))
+    return JsonResponse({'languages': unique_languages}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractInAppPurchases(request):
+    games_list = GamesList.objects.all()
+    unique_InAppPurchase = games_list.values_list('In_app_Purchases', flat=True).distinct()
+    InAppPurchases_list = list(unique_InAppPurchase)
+    return JsonResponse({'InAppPurchases': InAppPurchases_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractSize(request):
+    games_list = GamesList.objects.all()
+    unique_Size = games_list.values_list('Size', flat=True).distinct()
+    Size_list = list(unique_Size)
+    return JsonResponse({'Size': Size_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractRating(request):
+    games_list = GamesList.objects.all()
+    unique_Rating = games_list.values_list('Average_User_Rating', flat=True).distinct()
+    Rating_list = list(unique_Rating)
+    return JsonResponse({'Rating': Rating_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractRatingCount(request):
+    games_list = GamesList.objects.all()
+    unique_Rating_Count = games_list.values_list('User_Rating_Count', flat=True).distinct()
+    Rating_Count_list = list(unique_Rating_Count)
+    return JsonResponse({'Rating_Count': Rating_Count_list}, safe=False)

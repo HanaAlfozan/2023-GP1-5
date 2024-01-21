@@ -12,6 +12,7 @@
 	<title>All Games</title>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
@@ -435,100 +436,134 @@ margin-left:20%;
 					<i class="bi bi-filter" id="filter-icon"></i>
 					Filters</h5>
 					
-					  <details class="category">
-						  <summary>Genre</summary>
-						  <div class="border-bottom pb-4 mb-4">			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Strategy">
-									  <label class="form-check-label">Strategy</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Puzzle">
-									  <label class="form-check-label">Puzzle</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Board">
-									  <label class="form-check-label">Board</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Action">
-									  <label class="form-check-label">Action</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Entertainment">
-									  <label class="form-check-label">Entertainment</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
-			  
-					  <details class="category">
-						  <summary>Price</summary>
-						  <div class="border-bottom pb-4 mb-4">			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Free - Price">
-									  <label class="form-check-label">Free</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Paid - Price">
-									  <label class="form-check-label">Paid</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
+					<details class="category">
+						<summary>Genre</summary>
+						<div class="border-bottom pb-4 mb-4">
+							<div class="d-grid gap-2" id="genre-options-container">
+							</div>
+						</div>
+					</details>
+					
+					<script>
+						$(document).ready(function () {
+							$.ajax({
+								url: '/BackEnd/ExtractGenre/',
+								type: 'GET',
+								dataType: 'json',
+								success: function (data) {
+									data.genres.forEach(function (genre) {
+										$('#genre-options-container').append(`
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="${genre}">
+												<label class="form-check-label">${genre}</label>
+											</div>
+										`);
+									});
+									attachEventListeners();
+								},
+								error: function () {
+									console.error('Failed to fetch genre options.');
+								}
+							});
+						});
+					</script>
 			  
 					  <details class="category">
-						  <summary>Language</summary>
-						  <div class="border-bottom pb-4 mb-4">
+						<summary>Price</summary>
+						<div class="border-bottom pb-4 mb-4">
+							<div class="d-grid gap-2" id="price-options-container">
+							</div>
+						</div>
+					</details>
+					
+					<script>
+						$(document).ready(function () {
+							$.ajax({
+								url: '/BackEnd/ExtractPrice/',
+								type: 'GET',
+								dataType: 'json',
+								success: function (data) {
+									data.prices.forEach(function (price) {
+										$('#price-options-container').append(`
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="${price} - Price">
+												<label class="form-check-label">${price}</label>
+											</div>
+										`);
+									});
+									attachEventListeners();
+								},
+								error: function () {
+									console.error('Failed to fetch price options.');
+								}
+							});
+						});
+					</script>
+			  
+			  <details class="category">
+				<summary>Language</summary>
+				<div class="border-bottom pb-4 mb-4">
+					<div class="d-grid gap-2" id="language-options-container">
+					</div>
+				</div>
+			</details>
+			
+			<script>
+				$(document).ready(function () {
+					$.ajax({
+						url: '/BackEnd/ExtractLanguage/',
+						type: 'GET',
+						dataType: 'json',
+						success: function (data) {
+							data.languages.forEach(function (language) {
+								$('#language-options-container').append(`
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="${language}">
+										<label class="form-check-label">${language}</label>
+									</div>
+								`);
+							});
+							attachEventListeners();
+						},
+						error: function () {
+							console.error('Failed to fetch language options.');
+						}
+					});
+				});
+			</script>
+			  
 
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Arabic">
-									  <label class="form-check-label">Arabic</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="English">
-									  <label class="form-check-label">English</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="French">
-									  <label class="form-check-label">French</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Dutch">
-									  <label class="form-check-label">Dutch</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
-			  
 					  <details class="category">
-						  <summary>In-App Purchases</summary>
-						  <div class="border-bottom pb-4 mb-4">
-			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Yes - In-App Purchases">
-									  <label class="form-check-label">Yes</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="No - In-App Purchases ">
-									  <label class="form-check-label">No</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
+						<summary>In-App Purchases</summary>
+						<div class="border-bottom pb-4 mb-4">
+							<div class="d-grid gap-2" id="InAppPurchase-options-container">
+							</div>
+						</div>
+					</details>
+					
+					<script>
+						$(document).ready(function () {
+							$.ajax({
+								url: '/BackEnd/ExtractInAppPurchases/',
+								type: 'GET',
+								dataType: 'json',
+								success: function (data) {
+									data.InAppPurchases.forEach(function (InAppPurchase) {
+										$('#InAppPurchase-options-container').append(`
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="${InAppPurchase} - InAppPurchase">
+												<label class="form-check-label">${InAppPurchase}</label>
+											</div>
+										`);
+									});
+									attachEventListeners();
+								},
+								error: function () {
+									console.error('Failed to fetch InAppPurchase options.');
+								}
+							});
+						});
+					</script>
 
 
 					  <details class="category">
@@ -662,6 +697,7 @@ margin-left:20%;
 					</div>
 					
 					<script>
+						function attachEventListeners(){
 						const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 						const resultsForText = document.getElementById('resultsForText');
 						const clearFiltersButton = document.getElementById('clearFilters');
@@ -727,7 +763,9 @@ margin-left:20%;
 								checkbox.checked = false;
 							});
 							updateSelectedFilters();
-						}
+						}}
+					
+						
 					</script>
 			</div>
 		  </div>
