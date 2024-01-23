@@ -68,7 +68,9 @@ urlpatterns = [
     path('BackEnd/ExtractInAppPurchases/', BackEnd_views.ExtractInAppPurchases, name='ExtractInAppPurchases'),  
     path('BackEnd/ExtractSize/', BackEnd_views.ExtractSize, name='ExtractSize'),  
     path('BackEnd/ExtractRating/', BackEnd_views.ExtractRating, name='ExtractRating'),  
-    path('BackEnd/ExtractRatingCount/', BackEnd_views.ExtractRatingCount, name='ExtractRatingCount'),  
+    path('BackEnd/ExtractRatingCount/', BackEnd_views.ExtractRatingCount, name='ExtractRatingCount'),
+    path('BackEnd/sort_by/' ,BackEnd_views.sort_by,name='sort_by'),
+
 
 
 

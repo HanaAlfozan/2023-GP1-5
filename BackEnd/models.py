@@ -58,7 +58,7 @@ class GamesList(models.Model):
     Languages = models.TextField()
     Size = models.DecimalField(max_digits=10, decimal_places=2)
     Genres = models.TextField()
-    Original_Release_Date = models.TextField()
+    Original_Release_Date = models.DateField()
 
     ID = models.AutoField(primary_key=True)
 

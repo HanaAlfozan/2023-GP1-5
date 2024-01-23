@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- title -->
 	<title>All Games</title>
 
@@ -392,24 +392,24 @@ margin-left:20%;
 
 
 						
-		<div class="sort">
-			<!-- Select -->
-			<select>
-			  <option selected disabled>Sort by</option>
-			  <option>Game's Name (Alphabetically)</option>
-			  <option>Newest Games</option>
-			  <option>Oldest Games</option>
-			  <option>Highest Age Rating</option>
-			  <option>Lowest Age Rating</option>
-			  <option>Highest Rating Count</option>
-			  <option>Lowest Rating Count</option>
-			  <option>Highest Rating</option>
-			  <option>Lowest Rating</option>
-			  <option>Largest Size</option>
-			  <option>Smallest Size</option>
-			</select>
-			<!-- End Select -->
-		</div>
+<div class="sort">
+    <!-- Select -->
+    <select id="sortSelect" onchange="handleSortChange()">
+        <option selected disabled>Sort by</option>
+        <option>Game's Name (Alphabetically)</option>
+        <option>Newest Games</option>
+        <option>Oldest Games</option>
+        <option>Highest Age Rating</option>
+        <option>Lowest Age Rating</option>
+        <option>Highest Rating Count</option>
+        <option>Lowest Rating Count</option>
+        <option>Highest Rating</option>
+        <option>Lowest Rating</option>
+        <option>Largest Size</option>
+        <option>Smallest Size</option>
+    </select>
+    <!-- End Select -->
+</div>
 
 		<div class="container">
 
@@ -904,6 +904,32 @@ margin-left:20%;
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 <script>
+
+var sortedGames;
+
+    // Function to handle the sort change
+    function handleSortChange() {
+        // Get the selected option
+        var selectedOption = document.getElementById('sortSelect').value;
+
+        // Make an AJAX request to BackEnd/sort_by/
+        $.ajax({
+            url: '/BackEnd/sort_by/',
+            method: 'GET',
+            data: {
+                order_by: selectedOption,
+                order_direction: 'asc'
+            },
+             success: function(response) {
+            console.log(response);
+            makeAjaxRequest(1,1)
+
+        },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
 var selectedGameId;
 
 function makeAjaxRequest(page, slice) {
@@ -911,7 +937,10 @@ function makeAjaxRequest(page, slice) {
         url: `/BackEnd/retrieve_all_games/?page=${page}&slice=${slice}`,
         type: 'GET',
         dataType: 'json',
-        success: updateGamesContainer,
+         success: function(response) {
+console.log(response)
+            updateGamesContainer(response);
+        },
         error: function (error) {
             console.error('Error making AJAX request:', error);
         }
@@ -919,7 +948,7 @@ function makeAjaxRequest(page, slice) {
 }
 
 function updateGamesContainer(data) {
-console.log(data)
+
     var gamesContainer = $('.GAMES');
     gamesContainer.empty();  // Clear the container
 
@@ -984,8 +1013,6 @@ $('.page-link').on('click', function (e) {
 }
 
 makeAjaxRequest(1, 1);
-
-
 
 
 
