@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from datetime import date
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, Username, Email, Password=None, Accept_conditions=False, **extra_fields):
@@ -58,7 +59,7 @@ class GamesList(models.Model):
     Languages = models.TextField()
     Size = models.DecimalField(max_digits=10, decimal_places=2)
     Genres = models.TextField()
-    Original_Release_Date = models.TextField()
+    Original_Release_Date = models.DateField()
 
     ID = models.AutoField(primary_key=True)
 
@@ -72,9 +73,23 @@ class Favorite(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['User_ID', 'Game_ID'], name='composite_primary_key'),
+            models.UniqueConstraint(fields=['User_ID', 'Game_ID'], name='unique_favorite_constraint'),
         ]
 
     def __str__(self):
         return f"{self.User_ID.Username}'s favorite: {self.Game_ID.Name}"
+    
+    
+class Visited(models.Model):
+    User_ID = models.ForeignKey(GGUser, on_delete=models.CASCADE)
+    Game_ID = models.ForeignKey(GamesList, on_delete=models.CASCADE)
+    Visited_date = models.DateField(default=date.today) 
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['User_ID', 'Game_ID'], name='unique_visited_constraint'),
+        ]
+
+    def __str__(self):
+        return f"{self.User_ID.Username}'s visited: {self.Game_ID.Name}"
 

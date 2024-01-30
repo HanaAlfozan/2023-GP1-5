@@ -76,6 +76,7 @@
         -webkit-background-clip: text;
 }
 
+<<<<<<< HEAD
 .single-product-item {
   position: relative;
   margin-right: 1%;
@@ -91,6 +92,9 @@
 	height:100%;}
 
 .site-logo img{
+=======
+	.site-logo img{
+>>>>>>> 7f6c21d9427e0dc17a39cd13187ec05a09eb53cb
   width: 200px;
     height: 100px;
 	position: relative;
@@ -194,8 +198,51 @@ body img{
 										console.error('Error:', error);
 									}
 								});
+								$('#VisitedGamesContainer').removeAttr('style');
+								// Function to generate HTML for a single game
+								function generateGameHtml(game) {
+									return `
+									<div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.id}">
+											<div class="single-product-item">
+												<div class="product-image">
+													<a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
+												</div>
+												<h3 class="names">${game.name}</h3>
+												<h6 >Viaited Date: ${game.visited_date}</h6>
+												<a href="#" class="cart-btn more-info-btn">More info</a>
+												
+											</div>
+										</div>`;
+										
+								}
+								$('#VisitedGamesContainer').on('click', '.more-info-btn', function(e) {
+									e.preventDefault();
+									selectedGameId = $(this).closest('.game-item').data('game-id');
+									window.location.href = `/game_info_page/${selectedGameId}/`;
+								});
+								
+								$.ajax({
+									url: '/BackEnd/visited_games/',
+									type: 'GET',
+									dataType: 'json',
+									success: function(data) {
+										if ('games' in data) {
+											var gamesHtml = '';
+											$.each(data.games, function(index, game) {
+												gamesHtml += generateGameHtml(game);
+											});
+											$('#VisitedGamesContainer').html(gamesHtml);
+										} else {
+											console.error('Error getting visited games:', data.error);
+										}
+									},
+									error: function(error) {
+										console.error('Error getting visited games:', error);
+									}
+								});
 							});
-							</script>					</div>
+							</script>					
+					</div>
 				</div>
 			</div>
 		</div>
@@ -234,6 +281,7 @@ body img{
                 </div>
             </div>
 
+<<<<<<< HEAD
 			<div class="row product-lists" style="height:auto; ">
 				<div class="col-lg-4 col-md-6 text-center strawberry">
 					<div class="single-product-item">
@@ -370,24 +418,26 @@ body img{
 				
 			</div> new one -->
 
+=======
+			<div class="row product-lists" id="VisitedGamesContainer">
+				<!-- Games will be dynamically added here -->
+			</div>
+			
+						
+>>>>>>> 7f6c21d9427e0dc17a39cd13187ec05a09eb53cb
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
 						<ul>
 
 						</ul>
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end games -->
-
-	<!-- logo carousel -->
 	
-	<!-- end logo carousel -->
-
 	<!-- footer -->
 	<div class="footer-area">
 		<div class="container">
@@ -476,96 +526,6 @@ body img{
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-$(document).ready(function () {
-console.log("Document is ready.");
-    // Function to fetch and display random high-rated games
-    function fetchRandomGames() {
-        var url = '/BackEnd/retrieve_random_high_rated_games/';
-
-        $.ajax({
-            url: url,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                console.log('Received data:', data);
-
-                if (data && data.random_high_rated_games_data) {
-                    displayGames(data.random_high_rated_games_data);
-                } else {
-                    console.error('Data format is not as expected:', data);
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-            console.log("error")
-
-            }
-        });
-    }
-
-    // Function to dynamically update the HTML with game data
-   function displayGames(games) {
-        console.log(games);
-           var imageElements = document.querySelectorAll('.imgs');
-        var nameElements = document.querySelectorAll('.names');
-        var idElements = document.querySelectorAll('.ids');
-        var urlElements = document.querySelectorAll('.urls');
-
-
-       for (var j = 0, i = 6; i < 9 && i < games.length; i++, j++) {
-         var game = games[i];
-
-        // Select elements by class
-        var imageElement = imageElements[j];
-       var nameElement = nameElements[j];
-       var idElement =idElements[j];
-       urlElement=urlElements[j]
-;
-
-
-       idElement=idElements[j];
-       idElement.setAttribute('data-game-id', game.ID);
-
-        console.log(idElement.getAttribute('data-game-id'));
-
-    imageElement.src=game.Icon_URL;
-    nameElement.innerHTML=game.Name;
-    urlElement.href=game.URL;
-
-
-
-
-
-}
-    }
-
-    // Fetch random games when the page loads
-    fetchRandomGames();
-    console.log("fetchRandomGames function called.");
-});
-</script>
-<script>
-    function info(event) {
-        event.preventDefault(); // Prevent the default link behavior
-
-        // Get the clicked element
-        var clickedElement = event.target;
-
-        // Example: Get the value of the "data-game-id" attribute
-        var gameNewID = clickedElement.getAttribute('data-game-id');
-
-        // Use the attribute value as needed
-        console.log('Clicked Game ID:', gameNewID);
-
-        // Modify the URL
-        var newURL = `/game_info_page/${gameNewID}/`;
-        console.log('New URL:', newURL);
-
-        // Replace the current URL with the new one and trigger a reload
-        window.location.replace(newURL);
-    }
-</script>
-
 </body>
 {% endblock %}
 </html>

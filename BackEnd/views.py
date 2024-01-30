@@ -14,18 +14,18 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.http import HttpResponseNotFound
-from .models import GamesList, Favorite, GGUser
+from .models import GamesList, Favorite, GGUser, Visited
 import re
+from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
-import random
-import math
-from django.db.models import Case, When, Value, IntegerField
+from django.db.models import Case, When, Value, IntegerField, CharField, FloatField, F
+from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-
-
-
+from django.views.decorators.http import require_http_methods
+from django.db.models import Value, IntegerField, Case, When
+from django.db.models.functions import Cast
 def SignupUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
@@ -267,7 +267,7 @@ def EditNames(request):
 
 
 def retrieve_all_games(request):
-
+    sorted_games = cache.get('games_list', [])
 
     user_id = request.session.get('user_id')
 
@@ -292,7 +292,9 @@ def retrieve_all_games(request):
         return JsonResponse({'error': 'User not authenticated'})
 
     # Retrieve objects from the GamesList model suitable for the user's approved age group
-    if user_age_group == 17:
+    if sorted_games is not None and sorted_games:
+        all_games_data = sorted_games
+    elif user_age_group == 17:
         # If the user has the highest age group, retrieve all games
         all_games_data = GamesList.objects.all()
     else:
@@ -308,13 +310,6 @@ def retrieve_all_games(request):
             )
         ).filter(numeric_age_rating__lte=user_age_group)
 
-
-
-
-
-
-
-
     slice_number = int(request.GET.get('slice', 0))  # Default to slice 0 if not provided
     items_per_page = 18
 
@@ -328,34 +323,42 @@ def retrieve_all_games(request):
         # If the requested page is out of range, return an empty list
         current_page_data = []
 
-
     # Convert the current page data to a list of dictionaries with cleaned names
-    games_list = [
-        {
-            'Name': clean_name(game.Name),
-            'Icon_URL': game.Icon_URL,
-            'Genres': game.Genres,
-            'URL': game.URL,
-            'Average_User_Rating': game.Average_User_Rating,
-            'User_Rating_Count': game.User_Rating_Count,
-            'Price': game.Price,
-            'In_app_Purchases': game.In_app_Purchases,
-            'Developer': game.Developer,
-            'Age_Rating': game.Age_Rating,
-            'Languages': game.Languages,
-            'Size': str(game.Size),  # Convert DecimalField to string
-            'Original_Release_Date': game.Original_Release_Date,
-            'ID': game.ID,
-        }
-        for game in current_page_data
-    ]
+        # Conditionally choose how to construct games_list
 
+
+    games_list = []
+
+    # Conditionally choose how to construct games_list
+    if all(isinstance(game, GamesList) for game in current_page_data):
+        # If all_games_data comes from the model
+        games_list = [
+            {
+                'Name': clean_name(game.Name),
+                'Icon_URL': game.Icon_URL,
+                'URL': game.URL,
+                'ID': game.ID,
+            }
+            for game in current_page_data
+        ]
+    else:
+        # If all_games_data is a list of dictionaries
+        games_list = [
+            {
+                'Name': clean_name(game.get('Name', '')),  # Use get to handle missing keys
+                'Icon_URL': game.get('Icon_URL', ''),
+                'URL': game.get('URL', ''),
+                'ID': game.get('ID', ''),
+            }
+            for game in current_page_data
+        ]
     # Include information about the current page and total pages in the JSON response
     response_data = {
         'games_data': games_list,
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
-        'Age':user_age_group,
+        'Age': user_age_group,
+        'sorted': sorted_games,
     }
 
     # Return a JSON response
@@ -429,7 +432,7 @@ def retrieve_game_info(request):
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages + '.',
             'Size': str(game.Size),  # Convert DecimalField to string
-            'Original_Release_Date': game.Original_Release_Date + '.',
+            'Original_Release_Date': game.Original_Release_Date ,
         }
         return JsonResponse({'games_data': game_info})
     except GamesList.DoesNotExist:
@@ -532,6 +535,138 @@ def send_email(request):
     # If the form is not valid or the request method is not POST
     return JsonResponse({'status': 'error', 'message': 'Invalid form submission'})
 
+
+from django.db.models import Case, When, Value, IntegerField
+from django.db.models.functions import Cast
+
+
+def get_order_field(order_by_field, order_direction):
+    order_mapping = {
+        'Game\'s Name (Alphabetically)': 'Name',
+        'Newest Games': '-Original_Release_Date',
+        'Oldest Games': 'Original_Release_Date',
+        'Highest Age Rating': '-Age_Rating',
+        'Lowest Age Rating': 'Age_Rating',
+        'Highest Rating Count': '-User_Rating_Count',
+        'Lowest Rating Count': 'User_Rating_Count',
+        'Highest Rating': '-Average_User_Rating',
+        'Lowest Rating': 'Average_User_Rating',
+        'Largest Size': '-Size',
+        'Smallest Size': 'Size',
+        # Add other mappings as needed
+    }
+    order_field = order_mapping.get(order_by_field, 'Name')
+    return '-' + order_field if order_direction == 'desc' else order_field
+
+
+
+
+
+def annotate_age_rating(queryset):
+    age_rating_annotation = Cast(Case(
+        When(Age_Rating='4+', then=Value(4)),
+        When(Age_Rating='9+', then=Value(9)),
+        When(Age_Rating='12+', then=Value(12)),
+        When(Age_Rating='17+', then=Value(17)),
+        default=Value(0),
+        output_field=IntegerField(),
+    ), IntegerField())
+    return queryset.annotate(numeric_age_rating=age_rating_annotation)
+
+def convert_rating_count(value):
+    try:
+        # Convert to int, handling 'below 5' as a special case
+        if value.lower() == 'below 5':
+            return 0
+        else:
+            # Check if the value is in the format 'xxx.0' and convert to int
+            return int(float(value))
+    except ValueError:
+        return 0
+
+def convert_rating(value):
+    try:
+        # Convert to int, handling 'Inapplicable' as a special case
+        if value.lower() == 'inapplicable':
+            return 0
+        else:
+            # Check if the value is in the format 'xxx.0' and convert to int
+            return int(float(value))
+    except ValueError:
+        return 0
+
+
+def sort_by(request):
+    # Default ordering
+    order_by_field = request.GET.get('order_by', 'Name')
+    order_direction = request.GET.get('order_direction', 'asc')
+
+    # Get the corresponding field for ordering
+    order_field = get_order_field(order_by_field, order_direction)
+
+    # Fetch the sorted queryset
+    game_queryset = GamesList.objects.all()
+
+    if order_by_field in ('Newest Games', 'Oldest Games'):
+        game_queryset = game_queryset.order_by(order_field)
+    elif order_by_field in ('Highest Age Rating', 'Lowest Age Rating'):
+        game_queryset = annotate_age_rating(game_queryset)
+        order_field = '-numeric_age_rating' if order_by_field == 'Highest Age Rating' else 'numeric_age_rating'
+        game_queryset = game_queryset.order_by(order_field)
+    elif order_by_field in ('Highest Rating', 'Lowest Rating', 'Highest Rating Count', 'Lowest Rating Count'):
+        game_queryset = game_queryset.order_by(order_field)
+    else:
+        # Explicitly handle alphabetical sorting
+        if order_direction == 'asc':
+            game_queryset = game_queryset.order_by(order_field, 'Name')
+        else:
+            game_queryset = game_queryset.order_by(f'{order_field}', '-Name')
+
+    # Convert rating count and serialize the queryset to JSON
+    games_list = [
+        {
+            'Name': game.Name,
+            'rating':game.Age_Rating,
+            'Average_User_Rating': convert_rating(game.Average_User_Rating),
+            'User_Rating_Count': convert_rating_count(game.User_Rating_Count),
+            'Original_Release_Date': game.Original_Release_Date,
+            'Size': game.Size,
+
+            'Icon_URL': game.Icon_URL,
+            'Genres': game.Genres,
+            'URL': game.URL,
+            'Price': game.Price,
+            'In_app_Purchases': game.In_app_Purchases,
+            'Developer': game.Developer,
+            'Age_Rating': game.Age_Rating,
+            'Languages': game.Languages,
+
+            'ID': game.ID,
+        }
+        for game in game_queryset
+    ]
+
+    # Order the games_list based on user's selection
+    if order_by_field in ('Highest Rating', 'Lowest Rating'):
+        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating' else (order_direction == 'asc')
+        games_list = sorted(games_list, key=lambda x: x['Average_User_Rating'], reverse=reverse_order)
+
+    # Order the games_list by User_Rating_Count based on user's selection
+    elif order_by_field in ('Highest Rating Count', 'Lowest Rating Count'):
+        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating Count' else (order_direction == 'asc')
+        games_list = sorted(games_list, key=lambda x: x['User_Rating_Count'], reverse=reverse_order)
+
+    cache.set('games_list', games_list)
+    response_data = {
+        'message': 'The games are:',
+        'games': games_list,
+        'order_by_field': order_by_field,
+        'order_direction': order_direction,
+    }
+
+    return JsonResponse(response_data)
+
+
 @csrf_exempt
 def add_to_favorites(request, game_id):
     if request.method == 'GET':
@@ -599,3 +734,156 @@ def remove_favorite(request, game_id):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@require_http_methods(["GET"])
+def ExtractPrice(request):
+    games_list = GamesList.objects.all()
+    unique_prices = games_list.values_list('Price', flat=True).distinct()
+    price_list = list(unique_prices)
+    return JsonResponse({'prices': price_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractGenre(request):
+    games_list = GamesList.objects.all()
+    all_genres = [genre.strip() for Genres in games_list.values_list('Genres', flat=True) for genre in Genres.split(',')]
+    unique_genere = list(set(all_genres))
+    return JsonResponse({'genres': unique_genere}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractLanguage(request):
+    games_list = GamesList.objects.all()
+    all_languages = [language.strip() for languages in games_list.values_list('Languages', flat=True) for language in languages.split(',')]
+    unique_languages = list(set(all_languages))
+    return JsonResponse({'languages': unique_languages}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractInAppPurchases(request):
+    games_list = GamesList.objects.all()
+    unique_InAppPurchase = games_list.values_list('In_app_Purchases', flat=True).distinct()
+    InAppPurchases_list = list(unique_InAppPurchase)
+    return JsonResponse({'InAppPurchases': InAppPurchases_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractSize(request):
+    games_list = GamesList.objects.all()
+    unique_Size = games_list.values_list('Size', flat=True).distinct()
+    Size_list = list(unique_Size)
+    return JsonResponse({'Size': Size_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractRating(request):
+    games_list = GamesList.objects.all()
+    unique_Rating = games_list.values_list('Average_User_Rating', flat=True).distinct()
+    Rating_list = list(unique_Rating)
+    return JsonResponse({'Rating': Rating_list}, safe=False)
+
+@require_http_methods(["GET"])
+def ExtractRatingCount(request):
+    games_list = GamesList.objects.all()
+    unique_Rating_Count = games_list.values_list('User_Rating_Count', flat=True).distinct()
+    Rating_Count_list = list(unique_Rating_Count)
+    return JsonResponse({'Rating_Count': Rating_Count_list}, safe=False)
+
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+from django.db.models import Q
+from .models import GamesList
+from django.views.decorators.http import require_http_methods
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+@require_http_methods(["GET"])
+def filter_games_multiple(request):
+    categories = request.GET.keys()
+
+    # Set the number of games per page
+    games_per_page = 18
+
+    if not categories:
+        # No categories selected, return all games
+        all_games = GamesList.objects.all()
+        filtered_games = all_games
+    else:
+        # Start with an initial Q object
+        q_objects = Q()
+
+        for category in categories:
+            values = request.GET.getlist(category)
+            category_q = Q()
+            for value in values:
+                category_q &= Q(**{f'{category[:-2]}__icontains': value})
+            q_objects &= category_q
+
+        filtered_games = GamesList.objects.filter(q_objects)
+
+    # Use Django Paginator to paginate the games
+    paginator = Paginator(filtered_games, games_per_page)
+    page = request.GET.get('page', 1)
+
+    try:
+        games_list = paginator.page(page)
+    except PageNotAnInteger:
+        games_list = paginator.page(1)
+    except EmptyPage:
+        games_list = paginator.page(paginator.num_pages)
+
+    # Convert queryset to a list of dictionaries
+    games_data = [model_to_dict(game) for game in games_list]
+
+    return JsonResponse({'games_data': games_data, 'current_page': games_list.number, 'total_pages': paginator.num_pages}, safe=False)
+
+
+def visited_games(request):
+    user_id = request.session.get('user_id')
+
+    if user_id:
+        visited_games = Visited.objects.filter(User_ID=user_id)
+        games_data = [
+                {
+                    'id': visited_game.Game_ID.ID,
+                    'name': visited_game.Game_ID.Name,
+                    'url': visited_game.Game_ID.URL,
+                    'icon_url': visited_game.Game_ID.Icon_URL,
+                    'visited_date': visited_game.Visited_date.strftime('%Y-%m-%d') if visited_game.Visited_date else None,
+                }
+                for visited_game in visited_games
+            ]
+        return JsonResponse({'games': games_data})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+    
+
+from datetime import date
+
+@csrf_exempt
+def save_visited_game(request, game_id):
+    if request.method == 'POST':
+        try:
+            user_id = request.session.get('user_id')
+            user = GGUser.objects.get(User_ID=user_id)
+            game = GamesList.objects.get(ID=game_id)
+
+            # Check if the user has already visited this game
+            visited_game, created = Visited.objects.get_or_create(User_ID=user, Game_ID=game)
+
+            # If the game is already visited, update the visited date
+            if not created:
+                # Update the visited date with the current day, month, and year
+                today = date.today()
+                visited_game.visited_date = today
+                visited_game.save()
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+

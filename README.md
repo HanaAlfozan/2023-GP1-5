@@ -42,7 +42,7 @@ Install the required libraries listed in the requirements.txt file in the Virtua
 ->pip install -r requirements.txt
 
 
-7-Verify Librarys Installations:
+7-Verify Libraries Installations:
 Double-check and ensure all the required libraries are successfully installed .
 
 

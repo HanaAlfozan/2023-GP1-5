@@ -61,5 +61,17 @@ urlpatterns = [
     path('BackEnd/send_email/', BackEnd_views.send_email, name='send_email'),
     path('BackEnd/add_to_favorites/<int:game_id>/', BackEnd_views.add_to_favorites, name='add_to_favorites'),
     path('BackEnd/remove_favorite/<int:game_id>/', BackEnd_views.remove_favorite, name='remove_favorite'),
-    path('BackEnd/favorite_games/', BackEnd_views.favorite_games, name='favorite_games'),    
+    path('BackEnd/favorite_games/', BackEnd_views.favorite_games, name='favorite_games'),
+    path('BackEnd/ExtractPrice/', BackEnd_views.ExtractPrice, name='ExtractPrice'),  
+    path('BackEnd/ExtractGenre/', BackEnd_views.ExtractGenre, name='ExtractGenre'),  
+    path('BackEnd/ExtractLanguage/', BackEnd_views.ExtractLanguage, name='ExtractLanguage'),  
+    path('BackEnd/ExtractInAppPurchases/', BackEnd_views.ExtractInAppPurchases, name='ExtractInAppPurchases'),  
+    path('BackEnd/ExtractSize/', BackEnd_views.ExtractSize, name='ExtractSize'),  
+    path('BackEnd/ExtractRating/', BackEnd_views.ExtractRating, name='ExtractRating'),  
+    path('BackEnd/ExtractRatingCount/', BackEnd_views.ExtractRatingCount, name='ExtractRatingCount'),
+    path('BackEnd/sort_by/' ,BackEnd_views.sort_by,name='sort_by'),
+    path('BackEnd/filter_by_multiple/', BackEnd_views.filter_games_multiple, name='filter_games_multiple'), 
+    path('BackEnd/visited_games/', BackEnd_views.visited_games, name='visited_games'),     
+    path('BackEnd/save_visited_game/<int:game_id>/', BackEnd_views.save_visited_game, name='save_visited_game'),     
+
 ]

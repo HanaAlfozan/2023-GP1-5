@@ -7,11 +7,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- title -->
 	<title>All Games</title>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
@@ -306,12 +307,11 @@ margin-left:20%;
 							</div>
 							<nav class="main-menu">
 								<ul>
-									
 									<li><a href=#>Games</a>
 										<ul class="sub-menu">
 											<li><a href="{% url 'Games' %}">All Games</a></li>
 											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
-											<li><a href="{% url 'History' %}">Downloaded Games</a></li>
+											<li><a href="{% url 'History' %}">Visited Store Games</a></li>
 											
 										</ul>
 									</li>
@@ -349,6 +349,7 @@ margin-left:20%;
 									}
 								});
 							});
+
 							</script>
 							
 
@@ -391,24 +392,24 @@ margin-left:20%;
 
 
 						
-		<div class="sort">
-			<!-- Select -->
-			<select>
-			  <option selected disabled>Sort by</option>
-			  <option>Game's Name (Alphabetically)</option>
-			  <option>Newest Games</option>
-			  <option>Oldest Games</option>
-			  <option>Highest Age Rating</option>
-			  <option>Lowest Age Rating</option>
-			  <option>Highest Rating Count</option>
-			  <option>Lowest Rating Count</option>
-			  <option>Highest Rating</option>
-			  <option>Lowest Rating</option>
-			  <option>Largest Size</option>
-			  <option>Smallest Size</option>
-			</select>
-			<!-- End Select -->
-		</div>
+<div class="sort">
+    <!-- Select -->
+    <select id="sortSelect" onchange="handleSortChange()">
+        <option selected disabled>Sort by</option>
+        <option>Game's Name (Alphabetically)</option>
+        <option>Newest Games</option>
+        <option>Oldest Games</option>
+        <option>Highest Age Rating</option>
+        <option>Lowest Age Rating</option>
+        <option>Highest Rating Count</option>
+        <option>Lowest Rating Count</option>
+        <option>Highest Rating</option>
+        <option>Lowest Rating</option>
+        <option>Largest Size</option>
+        <option>Smallest Size</option>
+    </select>
+    <!-- End Select -->
+</div>
 
 		<div class="container">
 
@@ -435,233 +436,53 @@ margin-left:20%;
 					<i class="bi bi-filter" id="filter-icon"></i>
 					Filters</h5>
 					
-					  <details class="category">
-						  <summary>Genre</summary>
-						  <div class="border-bottom pb-4 mb-4">			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Strategy">
-									  <label class="form-check-label">Strategy</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Puzzle">
-									  <label class="form-check-label">Puzzle</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Board">
-									  <label class="form-check-label">Board</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Action">
-									  <label class="form-check-label">Action</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Entertainment">
-									  <label class="form-check-label">Entertainment</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
-			  
-					  <details class="category">
-						  <summary>Price</summary>
-						  <div class="border-bottom pb-4 mb-4">			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Free - Price">
-									  <label class="form-check-label">Free</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Paid - Price">
-									  <label class="form-check-label">Paid</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
-			  
-					  <details class="category">
-						  <summary>Language</summary>
-						  <div class="border-bottom pb-4 mb-4">
-
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Arabic">
-									  <label class="form-check-label">Arabic</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="English">
-									  <label class="form-check-label">English</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="French">
-									  <label class="form-check-label">French</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Dutch">
-									  <label class="form-check-label">Dutch</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
-			  
-					  <details class="category">
-						  <summary>In-App Purchases</summary>
-						  <div class="border-bottom pb-4 mb-4">
-			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="Yes - In-App Purchases">
-									  <label class="form-check-label">Yes</label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="No - In-App Purchases ">
-									  <label class="form-check-label">No</label>
-								  </div>
-							  </div>
-						  </div>
-					  </details>
-
-
-					  <details class="category">
-						<summary>Size</summary>
+					<details class="category">
+						<summary>Genre</summary>
 						<div class="border-bottom pb-4 mb-4">
-			
-							<div class="d-grid gap-2">
-								<div class="InformationDrawer_content">
-									<section class="RangeFilter_container">
-									  <div class="RangeFilter_row">
-										<div class="RangeFilter_inputs">
-										  <div>
-											<div class="NumberInput_inputContainer">
-											  <input class="NumberInput" autocomplete="off" type="number" value="" name="" style=" padding: 5px; width: 70px; margin-bottom: 0px;">
-											  <span class="style=font-size: 14px;">Mega Bytes</span>
-											</div>
-										  </div>
-										  <span class="sizeRange">to</span>
-										  <div>
-											<div class="NumberInput_inputContainer">
-											  <input class="NumberInput" autocomplete="off" type="number" value="" name=""  style=" padding: 5px; width: 70px; margin-bottom: 0px;">
-											  <span style="font-size: 14px;">Mega Bytes</span>
-											</div>
-										  </div>
-										</div>
-									  </div>
-									</section>
-								  </div>
+							<div class="d-grid gap-2" id="Genres-options-container">
 							</div>
 						</div>
 					</details>
-			  
-					  <details class="category">
-						  <summary>Rating</summary>
-						  <div class="border-bottom pb-4 mb-4">
-			  
-							  <div class="d-grid gap-2">
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="1 start" id="1starCheckbox">
-									  <label class="form-check-label" for="1starCheckbox">
-										  <span class="d-flex gap-1">
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star"></span>
-											  <span class="fa fa-star"></span>
-											  <span class="fa fa-star"></span>
-											  <span class="fa fa-star"></span>
-										  </span>
-									  </label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="2 stars" id="2starCheckbox">
-									  <label class="form-check-label" for="2starCheckbox">
-										  <span class="d-flex gap-1">
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star"></span>
-											  <span class="fa fa-star"></span>
-											  <span class="fa fa-star"></span>
-										  </span>
-									  </label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="3 stars" id="3starCheckbox">
-									  <label class="form-check-label" for="3starCheckbox">
-										  <span class="d-flex gap-1">
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star"></span>
-											  <span class="fa fa-star"></span>
-										  </span>
-									  </label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="4 stars" id="4starCheckbox">
-									  <label class="form-check-label" for="4starCheckbox">
-										  <span class="d-flex gap-1">
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star"></span>
-										  </span>
-									  </label>
-								  </div>
-			  
-								  <div class="form-check">
-									  <input class="form-check-input" type="checkbox" value="5 start" id="5starCheckbox">
-									  <label class="form-check-label" for="5starCheckbox">
-										  <span class="d-flex gap-1">
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-											  <span class="fa fa-star checked"></span>
-										  </span>
-									  </label>
-								  </div>
-							  </div>
-						  </div>
-						   </details>
-					    </details>
-						<details class="category">
-							<summary>Rating Count</summary>
-							<div class="border-bottom pb-4 mb-4">
-								<div class="d-grid gap-2">
-									<div class="InformationDrawer_content">
-										<section class="RangeFilter_container">
-											<div class="RangeFilter_row">
-												<div class="RangeFilter_inputs">
-													<div>
-														<div class="NumberInput_inputContainer">
-															<input type="range" min="Below 5" max="3032734" value="0" step="1" id="ratingRange">
-														</div>
-													</div>
-												</div>
-											</div>
-										</section>
-									</div>
-								</div>
-							</div>
-						</details>	
-										
-						<div class="d-grid">
-							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
-						</div>
-					  </div>	
-					</div>
 					
 					<script>
+    $(document).ready(function () {
+        function updateGamesByMultipleCategories(categories) {
+            var requestData = {};
+            categories.forEach(function (category) {
+                requestData[`${category}[]`] = getSelectedCheckboxValues(`#${category}-options-container input[type="checkbox"]`);
+            });
+
+            $.ajax({
+                url: '/BackEnd/filter_by_multiple/',
+                type: 'GET',
+                data: requestData,
+                dataType: 'json',
+                success: function (response) {
+                    updateGamesContainer(response);
+                },
+                error: function (error) {
+                    console.error('Error fetching games:', error);
+                }
+            });
+        }
+
+        function getSelectedCheckboxValues(selector) {
+            return $(selector + ':checked').map(function () {
+                return $(this).val();
+            }).get();
+        }
+
+        function attachEventListeners() {
+            const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            categoryCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    var category = $(this).data('category');
+                    updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Size', 'User_Rating_Count', 'Average_User_Rating', 'Languages']);
+                });
+            });
+        }
+
+		function EventListeners(){
 						const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 						const resultsForText = document.getElementById('resultsForText');
 						const clearFiltersButton = document.getElementById('clearFilters');
@@ -707,28 +528,249 @@ margin-left:20%;
 									container.appendChild(removeButton);
 					
 									resultsForText.appendChild(container);
+
 								});
 							} else {
 								resultsForText.style.display = 'none';
 								resultsForText.textContent = '';
 							}
+
 						}
 					
 						function removeFilter(value) {
 							const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
 							if (checkbox) {
 								checkbox.checked = false;
+								const event = new Event('change', { bubbles: true });
+								checkbox.dispatchEvent(event);
 							}
 							updateSelectedFilters();
+
 						}
 					
 						function clearAllFilters() {
-							genreCheckboxes.forEach(checkbox => {
-								checkbox.checked = false;
-							});
-							updateSelectedFilters();
-						}
-					</script>
+							window.location.reload();
+
+						}}
+
+        // Extract Genre
+        $.ajax({
+            url: '/BackEnd/ExtractGenre/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                data.genres.forEach(function (genre) {
+                    $('#Genres-options-container').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${genre}" data-category="Genres">
+                            <label class="form-check-label">${genre}</label>
+                        </div>
+                    `);
+                });
+                attachEventListeners();
+				EventListeners();
+            },
+            error: function () {
+                console.error('Failed to fetch genre options.');
+            }
+        });
+
+        // Extract Price
+        $.ajax({
+            url: '/BackEnd/ExtractPrice/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                data.prices.forEach(function (price) {
+                    $('#Price-options-container').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${price}" data-category="Price">
+                            <label class="form-check-label">${price}</label>
+                        </div>
+                    `);
+                });
+                attachEventListeners();
+				EventListeners();
+            },
+            error: function () {
+                console.error('Failed to fetch price options.');
+            }
+        });
+
+        // Extract Language
+        $.ajax({
+            url: '/BackEnd/ExtractLanguage/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                data.languages.forEach(function (language) {
+                    $('#Languages-options-container').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${language}" data-category="Languages">
+                            <label class="form-check-label">${language}</label>
+                        </div>
+                    `);
+                });
+                attachEventListeners();
+				EventListeners();
+            },
+            error: function () {
+                console.error('Failed to fetch language options.');
+            }
+        });
+
+		$.ajax({
+			url: '/BackEnd/ExtractInAppPurchases/',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				data.InAppPurchases.forEach(function (InAppPurchase) {
+					$('#In_app_Purchases-options-container').append(`
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="${InAppPurchase}" data-category="In_app_Purchases">
+							<label class="form-check-label">${InAppPurchase}</label>
+						</div>
+					`);
+				});
+				attachEventListeners();
+				EventListeners();
+			},
+			error: function () {
+				console.error('Failed to fetch InAppPurchase options.');
+			}
+		});
+
+		$.ajax({
+			url: '/BackEnd/ExtractSize/',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+			    data.Size.forEach(function (Sizes) {
+					$('#Size-options-container').append(`
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="${Sizes}" data-category="Size">
+							<label class="form-check-label">${Sizes}</label>
+						</div>
+					`);
+			    });
+				attachEventListeners();
+				EventListeners();
+			},
+			error: function () {
+				console.error('Failed to fetch size options.');
+			}
+		});
+
+		$.ajax({
+			url: '/BackEnd/ExtractRating/',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				data.Rating.forEach(function (Ratings) {
+					$('#Average_User_Rating-options-container').append(`
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="${Ratings}" data-category="Average_User_Rating">
+							<label class="form-check-label">${Ratings}</label>
+						</div>
+					`);
+				});
+				attachEventListeners();
+				EventListeners();
+			},
+			error: function () {
+				console.error('Failed to fetch rating options.');
+			}
+		});
+
+		$.ajax({
+			url: '/BackEnd/ExtractRatingCount/',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+			data.Rating_Count.forEach(function (Rating_Counts) {
+				$('#User_Rating_Count-options-container').append(`
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="${Rating_Counts}" data-category="User_Rating_Count">
+						<label class="form-check-label">${Rating_Counts}</label>
+					</div>
+					`);
+				});
+				attachEventListeners();
+				EventListeners();
+			},
+			error: function () {
+				console.error('Failed to fetch rating count options.');
+			}
+		});
+    });
+	
+	</script>
+
+			  
+					  <details class="category">
+						<summary>Price</summary>
+						<div class="border-bottom pb-4 mb-4">
+							<div class="d-grid gap-2" id="Price-options-container">
+							</div>
+						</div>
+					</details>
+
+			  
+			  <details class="category">
+				<summary>Language</summary>
+				<div class="border-bottom pb-4 mb-4">
+					<div class="d-grid gap-2" id="Languages-options-container">
+					</div>
+				</div>
+			</details>
+			
+			  
+
+					  <details class="category">
+						<summary>In-App Purchases</summary>
+						<div class="border-bottom pb-4 mb-4">
+							<div class="d-grid gap-2" id="In_app_Purchases-options-container">
+							</div>
+						</div>
+					</details>
+					
+
+
+					  <details class="category">
+						<summary>Size</summary>
+						<div class="border-bottom pb-4 mb-4">
+							<div class="d-grid gap-2" id="Size-options-container">
+							</div>
+						</div>
+					</details>
+					
+
+			  
+						<details class="category">
+							<summary>Rating</summary>
+							<div class="border-bottom pb-4 mb-4">
+								<div class="d-grid gap-2" id="Average_User_Rating-options-container">
+								</div>
+							</div>
+						</details>
+						
+					    </details>
+						<details class="category">
+							<summary>Rating Count</summary>
+							<div class="border-bottom pb-4 mb-4">
+								<div class="d-grid gap-2" id="User_Rating_Count-options-container">
+								</div>
+							</div>
+						</details>
+						
+										
+						<div class="d-grid">
+							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
+						</div>
+					  </div>	
+					</div>
+					
+
 			</div>
 		  </div>
 		  <!-- End Navbar Collapse -->
@@ -866,6 +908,32 @@ margin-left:20%;
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 <script>
+
+var sortedGames;
+
+    // Function to handle the sort change
+    function handleSortChange() {
+        // Get the selected option
+        var selectedOption = document.getElementById('sortSelect').value;
+
+        // Make an AJAX request to BackEnd/sort_by/
+        $.ajax({
+            url: '/BackEnd/sort_by/',
+            method: 'GET',
+            data: {
+                order_by: selectedOption,
+                order_direction: 'asc'
+            },
+             success: function(response) {
+            console.log(response);
+            makeAjaxRequest(1,1)
+
+        },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
 var selectedGameId;
 
 function makeAjaxRequest(page, slice) {
@@ -873,7 +941,10 @@ function makeAjaxRequest(page, slice) {
         url: `/BackEnd/retrieve_all_games/?page=${page}&slice=${slice}`,
         type: 'GET',
         dataType: 'json',
-        success: updateGamesContainer,
+         success: function(response) {
+console.log(response)
+            updateGamesContainer(response);
+        },
         error: function (error) {
             console.error('Error making AJAX request:', error);
         }
@@ -881,7 +952,7 @@ function makeAjaxRequest(page, slice) {
 }
 
 function updateGamesContainer(data) {
-console.log(data)
+
     var gamesContainer = $('.GAMES');
     gamesContainer.empty();  // Clear the container
 
@@ -946,8 +1017,6 @@ $('.page-link').on('click', function (e) {
 }
 
 makeAjaxRequest(1, 1);
-
-
 
 
 
