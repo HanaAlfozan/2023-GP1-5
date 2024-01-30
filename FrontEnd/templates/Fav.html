@@ -39,10 +39,77 @@
 
 	<style>
 
+.favoriteGamesContainer {
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+    margin-top: 1%;
+    margin-left: 5%;
+    position: relative;
+   justify-content: flex-start;
+
+  
+   
+}
+
+.empty-message {
+        text-align: center;
+        padding: 17%; 
+        margin-top: 20%; 
+        margin-right: 20%;
+        font-size: 120%; 
+        color: #ff069a; 
+        font-family: "Poppins", sans-serif;
+
+}
+
+    .removal-message {
+      color: #ff069a;
+      font-size: 120%;
+      margin-bottom: 15%;
+      font-family: "Poppins", sans-serif;
+
+    }
+
+   .undo-remove {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ff069a;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    width: 50%;
+    margin-left: 8px;
+    margin-top: 10px;
+    border: none; 
+}
+
+.undo-remove:hover {
+  background-color: #06f7ff;
+}
+
+.Undo-container{
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 100%;
+  margin: 20% auto 20% auto;
+  border: 1px solid #ffffff;
+  border-radius: 5%;
+  box-shadow: 0 0 10px rgba(190, 190, 190, 0.7);
+  padding: 20%;
+  width: 100%;
+}
+
+.removal-message strong {
+  font-weight: bold;
+  color: #ff069a; /* Bold text color */
+}
+
+
+	/* deema section above*/
 
 .single-product-item {
-    position: relative;
-	margin: 10px;
+  position: relative;
+  margin-right: 1%;
 }
 
 .remove-game {
@@ -68,6 +135,8 @@
 
 .games{
 	color: #fff;
+	font-weight: 400;
+
 }
 
 .innerList{
@@ -84,11 +153,11 @@ display: none;
 }
 
 #footer{
-    justify-content: space-between;
+justify-content: space-between;
   padding-right: 0px;
   margin-left: -183px;
   margin-right: -371px;
-  margin-top: -52px;
+  margin-top: -52px; 
 }
 
 summary {
@@ -131,8 +200,12 @@ ul li{
 }
 
 .footer-area {
-  padding: 37px 0px;
+ /* padding: 37px 0px;
+  padding-top: 60px;*/
+
+  padding: 30px 0px;
   padding-top: 60px;
+  position: relative; /* Ensure relative positioning */
 }
 
 .get-in-touch ul  {
@@ -150,14 +223,27 @@ ul li{
 ul li a:hover {
   color: #06f7ff;
 }
-		.product-section{
-		height:70%;}
-	.site-logo img{
+
+.product-section{
+ height:auto;
+ overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  flex-grow: 1; /* Allow the container to grow and take up available space */
+  min-height: calc(100vh - 100%);
+}
+
+
+
+.container {
+		height:100%;
+	}
+
+.site-logo img{
   width: 200px;
     height: 100px;
 	position: relative;
 	left: -25px;
 }
+
 body img{
   max-width: 600px;
 }
@@ -199,7 +285,7 @@ body img{
     </div>
     <!--PreLoader Ends-->
 	
-	<!-- header -->
+	<!-- header With JS-->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -238,84 +324,154 @@ body img{
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
 						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
-						<script>
-							$(document).ready(function() {
-								// Fetch user data and display welcome message
-								$.ajax({
-									url: '/BackEnd/Hello/',
-									type: 'GET',
-									success: function(data) {
-										if (data.error) {
-											console.error('Error:', data.error);
-										} else {
-											$('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
-										}
-									},
-									error: function(xhr, status, error) {
-										document.getElementById("errorPopUp").style.display = "block";
-										console.error('Error:', error);
-									}
-								});
-						
-								// Function to generate HTML for a single game
-								function generateGameHtml(game) {
-									return `
-										<div class="col-lg-4 col-md-6 text-center strawberry">
-											<div class="single-product-item">
-												<button class="remove-game" data-id="${game.id}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
-												<div class="product-image">
-													<a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
-												</div>
-												<h3 class="names">${game.name}</h3>
-												<a href="${game.url}" class="cart-btn ids" style="text-decoration: none;">More info</a>
-											</div>
-										</div>`;
-								}
-						
-								// AJAX request to get favorite games
-								$.ajax({
-									url: '/BackEnd/favorite_games/',
-									type: 'GET',
-									dataType: 'json',
-									success: function(data) {
-										if ('games' in data) {
-											var gamesHtml = '';
-											$.each(data.games, function(index, game) {
-												gamesHtml += generateGameHtml(game);
-											});
-											$('#favoriteGamesContainer').html(gamesHtml);
-										} else {
-											console.error('Error getting favorite games:', data.error);
-										}
-									},
-									error: function(error) {
-										console.error('Error getting favorite games:', error);
-									}
-								});
-							});
-						
-							// Handle remove game button click
-							$(document).on('click', '.remove-game', function() {
-								var button = $(this);
-								var gameId = button.data('id');
-						
-								// AJAX request to remove the game
-								$.ajax({
-									url: `/BackEnd/remove_favorite/${gameId}/`,
-									type: 'GET',
-									dataType: 'json',
-									success: function(data) {
-										console.log('Game removed successfully:', data);
-										
-										// Update the UI as needed (e.g., remove the game from the DOM)
-										button.closest('.single-product-item').remove();
-									},
-									error: function(error) {
-										console.error('Error removing game:', error);
-									}
-								});
-							});
-						</script>
+
+                 <script>
+                        $(document).ready(function() {
+                            // Fetch user data and display welcome message
+                            $.ajax({
+                                url: '/BackEnd/Hello/',
+                                type: 'GET',
+                                success: function(data) {
+                                    if (data.error) {
+                                        console.error('Error:', data.error);
+                                    } else {
+                                        $('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    document.getElementById("errorPopUp").style.display = "block";
+                                    console.error('Error:', error);
+                                }
+                            });
+                        
+                            // Function to generate HTML for a single game
+                            function generateGameHtml(game) {
+                                return `
+                                    <div class="col-lg-4 col-md-6 text-center strawberry" data-id="${game.id}">
+                                        <div class="single-product-item">
+                                            <button class="remove-game" data-id="${game.id}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
+                                            <div class="product-image">
+                                                <a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
+                                            </div>
+                                            <h3 class="names">${game.name}</h3>
+                                            <a href="${game.url}" class="cart-btn ids" style="text-decoration: none;">More info</a>
+                                        </div>
+                                    </div>`;
+                            }
+                        
+                            // Function to update the order of the games
+                            function updateOrder() {
+                                $('.favoriteGamesContainer .strawberry').each(function(index) {
+                                    $(this).data('order', index + 1);
+                                });
+                        
+                                // Sort by order and re-append to maintain the correct order
+                                var container = $('.favoriteGamesContainer');
+                                container.find('.strawberry').sort(function(a, b) {
+                                    return $(a).data('order') - $(b).data('order');
+                                }).appendTo(container);
+                            }
+                        
+                            // AJAX request to get favorite games
+                            $.ajax({
+                                url: '/BackEnd/favorite_games/',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data) {
+                                    if ('games' in data) {
+                                        var gamesHtml = '';
+                                        $.each(data.games, function(index, game) {
+                                            gamesHtml += generateGameHtml(game);
+                                        });
+                                        $('.favoriteGamesContainer').html(gamesHtml);
+                                        // Set order based on position in the container
+                                        updateOrder();
+                                        // Show or hide the message based on whether the container is empty
+                                        if ($('.favoriteGamesContainer').children().length === 0) {
+                                            $('.favoriteGamesContainer').html('<p class="empty-message">There are no favourite games added yet. Discover and add your favourite games!</p>');
+                                        }
+                                    } else {
+                                        console.error('Error getting favorite games:', data.error);
+                                        // Show or hide the message based on whether the container is empty
+                                        if ($('.favoriteGamesContainer').children().length === 0) {
+                                            $('.favoriteGamesContainer').html('<p class="empty-message">There are no favourite games added yet. Discover and add your favourite games!</p>');
+                                        }
+                                    }
+                                },
+                                error: function(error) {
+                                    console.error('Error getting favorite games:', error);
+                                    // Show or hide the message based on whether the container is empty
+                                    if ($('.favoriteGamesContainer').children().length === 0) {
+                                        $('.favoriteGamesContainer').html('<p class="empty-message">There are no favourite games added yet. Discover and add your favourite games!</p>');
+                                    }
+                                }
+                            });
+                        
+                            // Handle "More info" button click
+                            $(document).on('click', '.ids', function(e) {
+                                e.preventDefault();
+                                var gameId = $(this).closest('.strawberry').data('id');
+                                window.location.href = `/game_info_page/${gameId}/`;
+                            });
+                        
+                            // Handle remove game button click
+                            $(document).on('click', '.remove-game', function() {
+                                var button = $(this);
+                                var gameContainer = button.closest('.strawberry');
+                                var undoButton = $('<button class="undo-remove">Undo</button>');
+                                var gameId = button.data('id');
+                                var gameName = gameContainer.find('.names').text(); // Get the game name
+                        
+                                // Display removal message
+                                var removalMessage = $('<p class="removal-message">Successfully removed the <strong>' + gameName + '</strong> game from your favourite games</p>');
+                        
+                                // Display Undo button in button-container
+                                var buttonContainer = $('<div class="Undo-container"></div>');
+                                buttonContainer.append(removalMessage, undoButton);
+                                gameContainer.find('.single-product-item').hide().after(buttonContainer);
+                        
+                                // Set a timeout to remove the Undo button and delete the game after 2 minutes (120000 milliseconds)
+                                var timeoutId = setTimeout(function() {
+                                    // If Undo button wasn't clicked, delete the game
+                                    if (!undoButton.data('undo-clicked')) {
+                                        gameContainer.remove();
+                                        updateOrder();
+                        
+                                        // Show or hide the message based on whether the container is empty
+                                        if ($('.favoriteGamesContainer').children().length === 0) {
+                                            $('.favoriteGamesContainer').html('<p class="empty-message">No favorite games added yet. Discover and add your favorite games!</p>');
+                                        }
+                        
+                                        // AJAX request to remove the game from the database
+                                        $.ajax({
+                                            url: `/BackEnd/remove_favorite/${gameId}/`,
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            success: function(data) {
+                                                console.log('Game removed successfully from the database:', data);
+                                            },
+                                            error: function(error) {
+                                                console.error('Error removing game from the database:', error);
+                                            }
+                                        });
+                                    }
+                                }, 8000);
+                        
+                                // Handle Undo button click
+                                undoButton.on('click', function() {
+                                    undoButton.data('undo-clicked', true);
+                        
+                                    // Remove removal message and button-container
+                                    removalMessage.remove();
+                                    buttonContainer.remove();
+                        
+                                    gameContainer.find('.single-product-item').show();
+                                    clearTimeout(timeoutId); // Clear the timeout when Undo button is clicked
+                                });
+                            });
+                        });
+                     </script>
+                        
 						
 					</div>
 				</div>
@@ -349,26 +505,24 @@ body img{
 	<!-- end breadcrumb section -->
 
 	<!-- games -->
-	<div class="product-section mt-150 mb-150">
+	<div class="product-section mt-150 mb-150"> <!--all sections-->
 		<div class="container">
 
-			<div class="row">
-                <div class="col-md-12">
-                  
-                </div>
-            </div>
+			<!--<div class="row">
+                <div class="col-md-12">  </div>
+            </div>-- delete it -->
 
-			<div class="row product-lists" id="favoriteGamesContainer">
+			<div class="favoriteGamesContainer" >
 				<!-- Games will be dynamically added here -->
 			</div>
 			
 						
-			<div class="row">
+			<!--<div class="row">
 				<div class="col-lg-12 text-center">
-					<div class="pagination-wrap">
+					<div class="pagination-wrap">-
 						<ul>
 
-						</ul>
+						</ul>-->
 					</div>
 				</div>
 			</div>

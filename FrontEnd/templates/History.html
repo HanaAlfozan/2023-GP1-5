@@ -37,6 +37,16 @@
 
 
 	<style>
+
+.VisitedGamesContainer{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+    margin-top: 1%;
+    margin-left: 5%;
+    position: relative;
+   justify-content: flex-start;
+}
 		.games{
 			color: #fff;
 		}
@@ -65,14 +75,28 @@
         background-clip: text;
         -webkit-background-clip: text;
 }
-		.container {
-		height:100%;}
-	.site-logo img{
+
+.single-product-item {
+  position: relative;
+  margin-right: 1%;
+}
+.product-section{
+ height:auto;
+ overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  flex-grow: 1; /* Allow the container to grow and take up available space */
+  min-height: calc(100vh - 100%);
+}
+
+.container {
+	height:100%;}
+
+.site-logo img{
   width: 200px;
     height: 100px;
 	position: relative;
 	left: -25px;
 }
+
 body img{
   max-width: 600px;
 }
@@ -201,7 +225,7 @@ body img{
 					<li class="breadcrumb-item current"><a href="{% url 'History' %}">Downloaded Games</a></li>
 				</ul>
 	<!-- games -->
-	<div class="product-section mt-150 mb-150" style="height:70%">
+	<div class="product-section mt-150 mb-150">
 		<div class="container">
 
 			<div class="row">
@@ -210,7 +234,7 @@ body img{
                 </div>
             </div>
 
-			<div class="row product-lists" style="height:auto;">
+			<div class="row product-lists" style="height:auto; ">
 				<div class="col-lg-4 col-md-6 text-center strawberry">
 					<div class="single-product-item">
 						<div class="product-image">
@@ -255,7 +279,96 @@ body img{
 				</div>
 			</div>
 
+		<!---	<div class="VisitedGamesContainer">
+				<!-- Games will be dynamically added here 
 
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
+						</div>
+						<h3 class="names"></h3>
+						
+						<a href="" class="cart-btn ids" onclick="info(event)" >More info</a>
+						<br>
+						<div>
+							<h6 >Downloaded Date: 10/12/2023</h6>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
+						</div>
+						<h3 class="names"></h3>
+						
+						<a href="" class="cart-btn ids" onclick="info(event)" >More info</a>
+						<br>
+						<div>
+							<h6 >Downloaded Date: 10/12/2023</h6>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
+						</div>
+						<h3 class="names"></h3>
+						
+						<a href="" class="cart-btn ids" onclick="info(event)" >More info</a>
+						<br>
+						<div>
+							<h6 style="margin-left: 55px; margin-top: 20px; font-size: 15px">Downloaded Date: 10/12/2023</h6>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
+						</div>
+						<h3 class="names"></h3>
+						
+						<a href="" class="cart-btn ids" onclick="info(event)" >More info</a>
+						<br>
+						<div>
+							<h6 >Downloaded Date: 10/12/2023</h6>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
+						</div>
+						<h3 class="names"></h3>
+						
+						<a href="" class="cart-btn ids" onclick="info(event)" >More info</a>
+						<br>
+						<div>
+							<h6 >Downloaded Date: 10/12/2023</h6>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="" class="urls"><img src="" alt="" class="imgs"></a>
+						</div>
+						<h3 class="names"></h3>
+						
+						<a href="" class="cart-btn ids" onclick="info(event)" >More info</a>
+						<br>
+						<div>
+							<h6 style="margin-left: 55px; margin-top: 20px; font-size: 15px">Downloaded Date: 10/12/2023</h6>
+						</div>
+					</div>
+				</div>
+
+				
+			</div> new one -->
 
 			<div class="row">
 				<div class="col-lg-12 text-center">
