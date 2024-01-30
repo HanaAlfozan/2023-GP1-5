@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.http import HttpResponseNotFound
-from .models import GamesList, Favorite, GGUser
+from .models import GamesList, Favorite, GGUser, Visited
 import re
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
@@ -536,10 +536,8 @@ def send_email(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid form submission'})
 
 
-from django.http import JsonResponse
 from django.db.models import Case, When, Value, IntegerField
 from django.db.models.functions import Cast
-from .models import GamesList  # Replace with your actual model
 
 
 def get_order_field(order_by_field, order_direction):
@@ -669,12 +667,6 @@ def sort_by(request):
     return JsonResponse(response_data)
 
 
-
-
-
-
-
-
 @csrf_exempt
 def add_to_favorites(request, game_id):
     if request.method == 'GET':
@@ -747,11 +739,7 @@ def remove_favorite(request, game_id):
 def ExtractPrice(request):
     games_list = GamesList.objects.all()
     unique_prices = games_list.values_list('Price', flat=True).distinct()
-    
-    # Convert the unique prices to a list
     price_list = list(unique_prices)
-    
-    # Return the price_list as a JSON response
     return JsonResponse({'prices': price_list}, safe=False)
 
 @require_http_methods(["GET"])
@@ -795,3 +783,107 @@ def ExtractRatingCount(request):
     unique_Rating_Count = games_list.values_list('User_Rating_Count', flat=True).distinct()
     Rating_Count_list = list(unique_Rating_Count)
     return JsonResponse({'Rating_Count': Rating_Count_list}, safe=False)
+
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+from django.db.models import Q
+from .models import GamesList
+from django.views.decorators.http import require_http_methods
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+@require_http_methods(["GET"])
+def filter_games_multiple(request):
+    categories = request.GET.keys()
+
+    # Set the number of games per page
+    games_per_page = 18
+
+    if not categories:
+        # No categories selected, return all games
+        all_games = GamesList.objects.all()
+        filtered_games = all_games
+    else:
+        # Start with an initial Q object
+        q_objects = Q()
+
+        for category in categories:
+            values = request.GET.getlist(category)
+            category_q = Q()
+            for value in values:
+                category_q &= Q(**{f'{category[:-2]}__icontains': value})
+            q_objects &= category_q
+
+        filtered_games = GamesList.objects.filter(q_objects)
+
+    # Use Django Paginator to paginate the games
+    paginator = Paginator(filtered_games, games_per_page)
+    page = request.GET.get('page', 1)
+
+    try:
+        games_list = paginator.page(page)
+    except PageNotAnInteger:
+        games_list = paginator.page(1)
+    except EmptyPage:
+        games_list = paginator.page(paginator.num_pages)
+
+    # Convert queryset to a list of dictionaries
+    games_data = [model_to_dict(game) for game in games_list]
+
+    return JsonResponse({'games_data': games_data, 'current_page': games_list.number, 'total_pages': paginator.num_pages}, safe=False)
+
+
+def visited_games(request):
+    user_id = request.session.get('user_id')
+
+    if user_id:
+        visited_games = Visited.objects.filter(User_ID=user_id)
+        games_data = [
+                {
+                    'id': visited_game.Game_ID.ID,
+                    'name': visited_game.Game_ID.Name,
+                    'url': visited_game.Game_ID.URL,
+                    'icon_url': visited_game.Game_ID.Icon_URL,
+                    'visited_date': visited_game.Visited_date.strftime('%Y-%m-%d') if visited_game.Visited_date else None,
+                }
+                for visited_game in visited_games
+            ]
+        return JsonResponse({'games': games_data})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+    
+
+from datetime import date
+
+@csrf_exempt
+def save_visited_game(request, game_id):
+    if request.method == 'POST':
+        try:
+            user_id = request.session.get('user_id')
+            user = GGUser.objects.get(User_ID=user_id)
+            game = GamesList.objects.get(ID=game_id)
+
+            # Check if the user has already visited this game
+            visited_game, created = Visited.objects.get_or_create(User_ID=user, Game_ID=game)
+
+            # If the game is already visited, update the visited date
+            if not created:
+                # Update the visited date with the current day, month, and year
+                today = date.today()
+                visited_game.visited_date = today
+                visited_game.save()
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+

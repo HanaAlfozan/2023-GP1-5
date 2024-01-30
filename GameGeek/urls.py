@@ -70,10 +70,8 @@ urlpatterns = [
     path('BackEnd/ExtractRating/', BackEnd_views.ExtractRating, name='ExtractRating'),  
     path('BackEnd/ExtractRatingCount/', BackEnd_views.ExtractRatingCount, name='ExtractRatingCount'),
     path('BackEnd/sort_by/' ,BackEnd_views.sort_by,name='sort_by'),
+    path('BackEnd/filter_by_multiple/', BackEnd_views.filter_games_multiple, name='filter_games_multiple'), 
+    path('BackEnd/visited_games/', BackEnd_views.visited_games, name='visited_games'),     
+    path('BackEnd/save_visited_game/<int:game_id>/', BackEnd_views.save_visited_game, name='save_visited_game'),     
 
-
-
-
-
-      
 ]

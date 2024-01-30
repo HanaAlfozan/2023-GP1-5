@@ -260,17 +260,23 @@ body img{
 								// Function to generate HTML for a single game
 								function generateGameHtml(game) {
 									return `
-										<div class="col-lg-4 col-md-6 text-center strawberry">
+									<div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.id}">
 											<div class="single-product-item">
 												<button class="remove-game" data-id="${game.id}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
 												<div class="product-image">
 													<a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
 												</div>
 												<h3 class="names">${game.name}</h3>
-												<a href="${game.url}" class="cart-btn ids" style="text-decoration: none;">More info</a>
+												<a href="#" class="cart-btn more-info-btn">More info</a>
+
 											</div>
 										</div>`;
 								}
+								$('#favoriteGamesContainer').on('click', '.more-info-btn', function(e) {
+									e.preventDefault();
+									selectedGameId = $(this).closest('.game-item').data('game-id');
+									window.location.href = `/game_info_page/${selectedGameId}/`;
+								});
 						
 								// AJAX request to get favorite games
 								$.ajax({

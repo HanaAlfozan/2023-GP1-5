@@ -244,14 +244,15 @@
 							<p class="purch"></p>
 
 							<a href="#" class="cart-btn" id="favBtn"><i class="fas fa-regular fa-heart"></i> <span id="favText">Add to Favourite Games</span></a>
-							<a href="javascript:void(0); " class="cart-btn download" id="copyBtn"><i class="fas fa-solid fa-link "></i><span id="copyText">Go to The Download Page!</span></a>
+							<a href="javascript:void(0);" class="cart-btn download" id="copyBtn"><i class="fas fa-solid fa-link"></i><span id="copyText">Go to The Download Page!</span></a>
+
 							<div id="errorContainer"></div>
 							<script>
                                 const favBtn = document.getElementById('favBtn');
                                 const favText = document.getElementById('favText');
 
                                 favBtn.addEventListener('click', function (event) {
-                                event.preventDefault(); // Prevent the default link behavior
+                                event.preventDefault();
 								var gameId = window.location.pathname.split('/').filter(Boolean).pop();
 								addToFavorites(gameId);
                                     if (favText.textContent === 'Add to Favourite Games') {
@@ -310,7 +311,6 @@
 <script>
 $(document).ready(function () {
 console.log("Document is ready.");
-    // Function to fetch and display random high-rated games
     function fetchRandomGames() {
         var url = '/BackEnd/retrieve_random_high_rated_games/';
 
@@ -333,7 +333,6 @@ console.log("Document is ready.");
         });
     }
 
-    // Function to dynamically update the HTML with game data
   function displayGames(games) {
     for (var i = 0; i < 3; i++) {
         var game = games[i];
@@ -356,8 +355,6 @@ console.log("Document is ready.");
     }
 
 }
-
-    // Fetch random games when the page loads
     fetchRandomGames();
     console.log("fetchRandomGames function called.");
 });
@@ -522,12 +519,6 @@ document.addEventListener('DOMContentLoaded', function () {
             imageElement.src = gameData.Icon_URL; // Use the actual property from your game data
         }
 
-        // Update the download element
-        var downloadElement = document.querySelector('.download');
-        if (downloadElement) {
-            downloadElement.href = gameData.URL;
-        }
-
         document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + gameData.Languages;
         document.querySelector('.rDate').innerHTML = '<strong>Release Date:</strong> ' + gameData.Original_Release_Date+'.';
         document.querySelector('.Developer').innerHTML = '<strong>Developer:</strong> ' + gameData.Developer;
@@ -536,8 +527,50 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.purch').innerHTML = '<strong>In app Purchases:</strong> ' + gameData.In_app_Purchases+'.';
 
 
+		document.getElementById('copyBtn').addEventListener('click', function() {
+			saveVisitedGame();
+		});
 
+		function saveVisitedGame() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/BackEnd/save_visited_game/' + window.location.pathname.split('/').filter(Boolean).pop() + '/');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+			xhr.onload = function() {
+				if (xhr.status === 200) {
+					var response = JSON.parse(xhr.responseText);
+					if (response.success) {
+						console.log('Game visited and saved successfully.');
+					} else {
+						console.log('Game already visited -> date changed.');
+					}
+				}
+			};
+			xhr.send();
+			updateDownloadElement(gameData.URL);
+		}
 
+		function updateDownloadElement(url) {
+			var downloadElement = document.querySelector('.download');
+			if (downloadElement) {
+				downloadElement.href = url;
+			}
+		}
+			
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
         // Update the rating element
         var ratingElement = document.querySelector('.rateC');
         if (ratingElement) {
