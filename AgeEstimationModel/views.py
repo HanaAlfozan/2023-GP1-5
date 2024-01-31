@@ -8,12 +8,9 @@ import base64
 from django.views.decorators.csrf import csrf_protect
 import json
 import cv2
-import matplotlib.pyplot as plt
-import tensorflow as tf
 
-# OpenCV Cascade Classifier for face and eye detection
+# OpenCV Cascade Classifier for face detection
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
 
 # Define class labels
 class_labels = ['0-3', '4+', '9+', '12+', '17+']
@@ -24,15 +21,24 @@ def load_custom_model():
     global model
     try:
         # Load the model only once when the server starts
-
         model = load_model('AgeEstimationModel/Models/Facial_Age_Group_Estimation_Model.h5')
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading the model: {e}")
 
-
 # Load the model when the server starts
 load_custom_model()
+
+def preprocess_image(image_array, target_size=(224, 224)):
+    # Resize image to target size
+    image_array = cv2.resize(image_array, target_size)
+    # Convert to RGB
+    image_array = cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB)
+    # Convert to NumPy array
+    img_array = np.expand_dims(image_array, axis=0)
+    # Rescale pixel values to [0, 1]
+    img_array = img_array.astype('float32') / 255.0
+    return img_array
 
 @csrf_protect
 def process_image(request):
@@ -49,33 +55,26 @@ def process_image(request):
                 image = Image.open(image_data)
                 
                 # Use OpenCV to detect faces in the image
-                image = np.array(image)
-                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                image_array = np.array(image)
+                gray = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
                 faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
                 if len(faces) > 0:
                     # Assuming only one face is detected, crop and resize the image
                     x, y, w, h = faces[0]
-                    face_image = image[y:y+h, x:x+w]
-                    face_image = cv2.resize(face_image, (224, 224))
-                    face_image = preprocess_input(face_image)
+                    face_image = image_array[y:y+h, x:x+w]
+                    face_image_preprocessed = preprocess_image(face_image)
 
                     # Check if the model is loaded successfully
                     if model is not None:
                         # Preprocess the image and make predictions using your VGG model
-                        predictions = model.predict(np.expand_dims(face_image, axis=0))
+                        predictions = model.predict(face_image_preprocessed)
                         
                         # Assuming predictions is a numpy array
                         predicted_class_index = np.argmax(predictions)
                         predicted_class_label = class_labels[predicted_class_index]
                         
-                        '''
-                        # Display the processed image using matplotlib
-                        plt.imshow(cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB))
-                        plt.axis('off')
-                        plt.show()
-                        '''
-                       # Include the predicted class label in the response
+                        # Include the predicted class label in the response
                         response_data = {
                             'Estimated Age Group': predicted_class_label
                         }

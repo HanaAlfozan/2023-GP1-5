@@ -410,6 +410,15 @@ body img{
 				</div>
 			</div>
 
+<!-- Unexpected error occured, please try again (hidden by default) -->
+<div class="popup fail" id="UnexpectederrorPopup">
+	<div class="popup-content">
+		<span class="close" id="closeUnexpectedErrorPopup">&times;</span>
+		<h3 class="error">Unexpected error occured &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+		<h5>Please try again and reload the page!</h5>
+	</div>
+</div>			
+
 <!-- Password sent Success Pop-up (hidden by default) -->
 <div id="EmailSentSuccess" class="popup Success">
     <div class="popup-content">
@@ -470,7 +479,7 @@ body img{
         document.getElementById('EmailSentSuccess').style.display = 'none';
         document.getElementById('passwordResetConfirm').style.display = 'none';
         document.getElementById('passwordResetComplete').style.display = 'none';
-        document.getElementById('errorPopup').style.display = 'block';
+        document.getElementById('UnexpectederrorPopup').style.display = 'block';
 	}
 	else if(status === 'reset'){
 			// Display reset pop-up
@@ -478,7 +487,7 @@ body img{
         document.getElementById('EmailSentSuccess').style.display = 'none';
         document.getElementById('passwordResetConfirm').style.display = 'none';
         document.getElementById('passwordResetComplete').style.display = 'block';
-        document.getElementById('errorPopup').style.display = 'none';
+        document.getElementById('UnexpectederrorPopup').style.display = 'none';
 
 	}
 	
@@ -643,6 +652,11 @@ body img{
 
     document.getElementById("closeErrorPopup").addEventListener("click", function() {
         var successPopup = document.getElementById("errorPopup");
+        successPopup.style.display = "none";
+    });
+	
+	document.getElementById("closeUnexpectedErrorPopup").addEventListener("click", function() {
+        var successPopup = document.getElementById("UnexpectederrorPopup");
         successPopup.style.display = "none";
     });
 
