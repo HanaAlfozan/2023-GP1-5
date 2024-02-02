@@ -158,7 +158,7 @@
                         <ul>
                             <li>
                                 <div class="header-icons">
-                                    <a class="boxed-btn" id="login-btn" href="{% url 'login' %}" style="font-size: 20px;">Log In</a>
+                                    <a class="boxed-btn" id="login-btn" href="{% url 'login' %}" style="font-size: 20px;">         Log In   </a>
                                 </div>
                             </li>
                         </ul>
@@ -245,107 +245,7 @@
 	<!-- end features list section -->
 
 	<!-- product section -->
-	<div class="product-section mt-150 mb-150">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="section-title">	
-						<h3><span class="pink-text">Popular</span> Games</h3>
-						<p>Discover the most popular games!</p>
-					</div>
-				</div>
-			</div>
 
-			<div class="row">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a><img src="" alt="" class="imgs"></a>
-						</div>
-						<h3 class="names" ></h3>
-					
-						
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a><img src="" alt="" class="imgs"></a>
-						</div>
-						<h3 class="names"></h3>
-						
-						
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a><img src="" alt="" class="imgs"></a>
-						</div>
-						<h3 class="names" ></h3>
-						
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-	<script>
-		$(document).ready(function () {
-console.log("Document is ready.");
-    // Function to fetch and display random high-rated games
-    function fetchRandomGames() {
-        var url = '/BackEnd/retrieve_random_high_rated_games/';
-
-        $.ajax({
-            url: url,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                console.log('Received data:', data);
-
-                if (data && data.random_high_rated_games_data) {
-                    displayGames(data.random_high_rated_games_data);
-                } else {
-                    console.error('Data format is not as expected:', data);
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-
-            }
-        });
-    }
-
-    // Function to dynamically update the HTML with game data
- function displayGames(games) {
-        console.log(games);
-           var imageElements = document.querySelectorAll('.imgs');
-        var nameElements = document.querySelectorAll('.names');
-
-        for (var i = 3; i < 6 && i < games.length; i++) {
-            var game = games[i];
-
-            // Select elements by class
-                var imageElement = document.getElementsByClassName('imgs')[i-3];
-                var nameElement = document.getElementsByClassName('names')[i-3];
-                imageElement.src=game.Icon_URL;
-                nameElement.innerHTML=game.Name
-
-
-
-            console.log('Image Element:', imageElement);
-            console.log('Name Element:', nameElement);
-
-
-        }
-    }
-
-    // Fetch random games when the page loads
-    fetchRandomGames();
-    console.log("fetchRandomGames function called.");
-});
-	</script>
 	<!-- end product section -->
 
 	<!-- cart banner section -->

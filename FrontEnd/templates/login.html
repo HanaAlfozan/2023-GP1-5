@@ -180,7 +180,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   }
 }
 
-#forgetPass{
+#forgetPass ,#forgetUser{
 			font-family: 'Poppins', sans-serif;
             color: #333;
 			font-weight: 700;
@@ -190,7 +190,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 			position: relative;
             top: 10px;
 		}
-	#forgetPass:hover {
+	#forgetPass:hover ,#forgetUser:hover {
          color: #06f7ff;
 		}
 		.input-item {
@@ -242,7 +242,7 @@ body img{
   color: red;
 }
 
-#resetPassword , #setNewPassword{
+#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername{
   background-color: #06f7ff;
   color: white;
   border: none;
@@ -257,7 +257,7 @@ body img{
   border-radius: 50px;
 }
 
-#resetPassword:hover , #setNewPassword:hover {
+#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover {
   background-color: #ff069a;
 
 }
@@ -363,6 +363,7 @@ body img{
 										</span>
 										<label for="username">Username:</label>
 										<input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
+                                        <a href="#" id="forgetUser" style="left: 5%;">Forgot Username?</a>
 									</div>
 									<div class="input-pair">
 										<span class="input-item">
@@ -370,7 +371,7 @@ body img{
 										</span>
 										<label for="password">Password:</label>
 										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password">
-										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 129px; top: 198px; cursor: pointer;"></i>
+										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 129px; top: 225px; cursor: pointer;"></i>
 										<a href="#" id="forgetPass" style="left: 5%;">Forgot Password?</a>
 										<br><br>
 									</div>
@@ -391,13 +392,37 @@ body img{
         <span class="close" id="closePopup">&times;</span>
         <h3>Password Reset</h3>
         <h6>Enter your username to reset your password using your registered email:</h6>
-        <form id="passwordResetForm" action="{% url 'custom_password_reset' %}" method="POST">
+        <form id="passwordResetForm" action="{% url 'custom_password_reset' %}"  data-form-type="password" method="POST">
             {% csrf_token %}
             <div class="input-pair">
                 <label for="username" style="margin-left: 10px;">Username:</label>
                 <input type="username" id="Username" class="input-box" name="Username" required placeholder="Enter your username" style="margin-left: 10px;">
             </div>
             <button type="button" id="resetPassword">Reset Password</button>
+        </form>
+    </div>
+</div>
+<!-- Username Reset Pop-up -->
+<div id="usernameResetPopup" class="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopupUser">&times;</span>
+        <h3>Username Reset</h3>
+        <h6>Enter your email along with the firstname and lastname to reset your username :</h6>
+        <form id="usernameResetForm" action="{% url 'custom_username_reset' %}" data-form-type="username" method="POST">
+            {% csrf_token %}
+            <div class="input-pair">
+                <label for="username" style="margin-left: 10px;">Email:</label>
+                <input type="email" id="Email" class="input-box" name="Email" required placeholder="Enter your email">
+            </div>
+			<div class="input-pair">
+                <label for="username" style="margin-left: 10px;">Firstname:</label>
+                <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your firstname" >
+            </div>
+			<div class="input-pair">
+                <label for="username" style="margin-left: 10px;">Lastname:</label>
+                <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your lastname">
+            </div>
+            <button type="button" id="resetUser">Reset Username</button>
         </form>
     </div>
 </div>
@@ -409,23 +434,46 @@ body img{
 					<h5>Make sure you entered the correct username registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
 				</div>
 			</div>
-
-<!-- Unexpected error occured, please try again (hidden by default) -->
-<div class="popup fail" id="UnexpectederrorPopup">
-	<div class="popup-content">
-		<span class="close" id="closeUnexpectedErrorPopup">&times;</span>
-		<h3 class="error">Unexpected error occured &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-		<h5>Please try again and reload the page!</h5>
-	</div>
-</div>			
+<!-- Username Reset failed Pop-up (hidden by default) -->
+			<div class="popup fail" id="errorPopupUser">
+				<div class="popup-content">
+					<span class="close" id="closeErrorPopupUser">&times;</span>
+					<h3 class="error">User not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+					<h5>Make sure you entered the correct Email along with the First name and Last name registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+				</div>
+			</div>
 
 <!-- Password sent Success Pop-up (hidden by default) -->
 <div id="EmailSentSuccess" class="popup Success">
     <div class="popup-content">
         <span class="close" id="closePopupSuccess">&times;</span>
         <h3>Password Reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
-        <h5>A password reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
+        <h5>A password reset link has been sent to your registered email address. Please check your inbox, including your spam folder, and follow the link to reset your password.</h5>
 		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
+    </div>
+</div>
+
+<!-- Username sent Success Pop-up (hidden by default) -->
+<div id="EmailSentSuccessUser" class="popup Success">
+    <div class="popup-content">
+        <span class="close" id="closePopupSuccessUser">&times;</span>
+        <h3>Username Reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+        <h5>A Username reset link has been sent to your registered email address. Please check your inbox, including your spam folder, and follow the link to reset your Username.</h5>
+		<h7>If you haven't received an email, please ensure that you entered the correct information address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
+    </div>
+</div>
+<!-- Password reset Success Pop-up (hidden by default) -->
+<div id="passwordResetComplete" class="popup">
+    <div class="popup-content Complete" style="padding: 70px;">
+        <span class="close" id="closePopupComplete">&times;</span>
+        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 35px;"></i><br><br>Password has been successfully reset!</h3>
+    </div>
+</div>
+<!-- Username reset Success Pop-up (hidden by default) -->
+<div id="UsernameResetComplete" class="popup">
+    <div class="popup-content Complete" style="padding: 70px;">
+        <span class="close" id="closePopupCompleteUser">&times;</span>
+        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 35px;"></i><br><br>Username has been successfully reset!</h3>
     </div>
 </div>
 <!-- Password Confirm Success Pop-up (hidden by default) -->
@@ -448,46 +496,93 @@ body img{
                 <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
 				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 80px; top: 236px; cursor: pointer;" id="eye"></i>
             </div>
+
 			{% if messages %}
+
 			{% for message in messages %}
 				<h5>{{ message }}</h5>
+
 			{% endfor %}
+
 		{% endif %}
             <button type="submit" id="setNewPassword">Set New Password</button>
         </form>
     </div>
 </div>
-<!-- Password reset Success Pop-up (hidden by default) -->
-<div id="passwordResetComplete" class="popup">
-    <div class="popup-content Complete" style="padding: 70px;">
-        <span class="close" id="closePopupComplete">&times;</span>
-        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 35px;"></i><br><br>Password has been successfully reset!</h3>
+
+<!-- Username Confirm Success Pop-up (hidden by default) -->
+<div id="UsernameResetConfirm" class="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopupConfirmUser">&times;</span>
+        <h3 style="padding-bottom: 20px;">Set New Username</h3>
+        <h5 Align="left" style="margin-left: 20px; margin-bottom: 30px;">Enter your new Username:</h5>
+        <form id="UsernameResetConfirmForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="input-pair">
+                <label for="password">New Username:</label>
+				<input type="text" id="newusername" class="input-box" name="newusername" required placeholder="Enter your Username"  pattern="^[a-zA-Z][a-zA-Z0-9]*$" title="Username must not contain spaces and not start with numbers.""
+
+
+			</div>
+			<span id="usernameMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 44%; left: 1%; max-width: 97%; text-align: -moz-left;"></span>
+
+
+			{% if messages %}
+
+			{% for message in messages %}
+				<h5>{{ message }}</h5>
+				 console.log("{{ messages }}");
+			{% endfor %}
+
+		{% endif %}
+            <button type="submit" id="setNewUsername">Set New Username</button>
+        </form>
     </div>
 </div>
 
+
+
 <script>
     var status = "{{ status }}";
+    console.log(status)
+
+
+
     if (status === 'confirm') {
         // Display passwordResetConfirm pop-up
+ console.log(status)
         document.getElementById('passwordResetConfirm').style.display = 'block';
         document.getElementById('EmailSentSuccess').style.display = 'none';
         document.getElementById('passwordResetComplete').style.display = 'none';
+
+
+
+
     } 
 	else if (status === 'error'){
 		// Display error pop-up
+
         document.getElementById('passwordResetPopup').style.display = 'none';
         document.getElementById('EmailSentSuccess').style.display = 'none';
         document.getElementById('passwordResetConfirm').style.display = 'none';
         document.getElementById('passwordResetComplete').style.display = 'none';
-        document.getElementById('UnexpectederrorPopup').style.display = 'block';
+        document.getElementById('errorPopup').style.display = 'block';
+
+
+
+
+
+
+
 	}
 	else if(status === 'reset'){
 			// Display reset pop-up
+
 		document.getElementById('passwordResetPopup').style.display = 'none';
         document.getElementById('EmailSentSuccess').style.display = 'none';
         document.getElementById('passwordResetConfirm').style.display = 'none';
         document.getElementById('passwordResetComplete').style.display = 'block';
-        document.getElementById('UnexpectederrorPopup').style.display = 'none';
+        document.getElementById('errorPopup').style.display = 'none';
 
 	}
 	
@@ -509,6 +604,7 @@ body img{
 		xhr.onload = function () {
     if (xhr.status === 200) {
         // Password reset was successful, display the success pop-up
+
 		document.getElementById('loader').style.display = 'none';
         document.getElementById('EmailSentSuccess').style.display = 'block';
         document.getElementById('passwordResetPopup').style.display = 'none';
@@ -551,7 +647,50 @@ body img{
         });
     });
 </script>
+<script>
+	//Username Reset
+	var status = "{{ status }}";
+	if(status === 'confirmUser'){
+	document.getElementById('UsernameResetConfirm').style.display = 'block';
+        document.getElementById('EmailSentSuccessUser').style.display = 'none';
 
+
+	}
+	else if(status ==='resetUser'){
+	document.getElementById('UsernameResetComplete').style.display = 'block';
+	}
+	document.getElementById('resetUser').addEventListener('click', function() {
+    // Get form data
+    var formData = new FormData(document.getElementById('usernameResetForm'));
+     document.getElementById('loader').style.display = 'block';
+    // Make an AJAX request
+     var status = "{{ status }}";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url 'custom_username_reset' %}', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                		// Display reset pop-up
+console.log(status)
+         document.getElementById('loader').style.display = 'none';
+		document.getElementById('EmailSentSuccessUser').style.display = 'block';
+       document.getElementById('usernameResetPopup').style.display='none';
+
+        document.getElementById('errorPopup').style.display = 'none';
+                console.log(xhr.responseText);
+            } else {
+                // Handle error response
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('errorPopupUser').style.display = 'block';
+                document.getElementById('usernameResetPopup').style.display='none';
+                console.log(xhr.responseText);
+            }
+        }
+    };
+    xhr.send(formData);
+});
+</script>
 
 
 											  
@@ -639,9 +778,22 @@ body img{
         var popup = document.getElementById("passwordResetPopup");
         popup.style.display = "block";
     });
+    //username
+       document.getElementById("forgetUser").addEventListener("click", function() {
+        var popup = document.getElementById("usernameResetPopup");
+        popup.style.display = "block";
+    });
 
     document.getElementById("closePopup").addEventListener("click", function() {
         var popup = document.getElementById("passwordResetPopup");
+        popup.style.display = "none";
+    });
+
+
+
+    //usernamePopup
+     document.getElementById("closePopupUser").addEventListener("click", function() {
+        var popup = document.getElementById("usernameResetPopup");
         popup.style.display = "none";
     });
 
@@ -649,14 +801,19 @@ body img{
         var successPopup = document.getElementById("EmailSentSuccess");
         successPopup.style.display = "none";
     });
+    //username success popup
+    document.getElementById("closePopupSuccessUser").addEventListener("click", function() {
+        var successPopup = document.getElementById("EmailSentSuccessUser");
+        successPopup.style.display = "none";
+        });
 
     document.getElementById("closeErrorPopup").addEventListener("click", function() {
         var successPopup = document.getElementById("errorPopup");
         successPopup.style.display = "none";
     });
-	
-	document.getElementById("closeUnexpectedErrorPopup").addEventListener("click", function() {
-        var successPopup = document.getElementById("UnexpectederrorPopup");
+//error close popup user
+document.getElementById("closeErrorPopupUser").addEventListener("click", function() {
+        var successPopup = document.getElementById("errorPopupUser");
         successPopup.style.display = "none";
     });
 
@@ -664,9 +821,18 @@ body img{
         var successPopup = document.getElementById("passwordResetConfirm");
         successPopup.style.display = "none";
     });
-
+    //username close popup confirm
+  document.getElementById("closePopupConfirmUser").addEventListener("click", function() {
+        var successPopup = document.getElementById("UsernameResetConfirm");
+        successPopup.style.display = "none";
+    });
     document.getElementById("closePopupComplete").addEventListener("click", function() {
         var successPopup = document.getElementById("passwordResetComplete");
+        successPopup.style.display = "none";
+    });
+    //username reset complete
+    document.getElementById("closePopupCompleteUser").addEventListener("click", function() {
+        var successPopup = document.getElementById("UsernameResetComplete");
         successPopup.style.display = "none";
     });
 

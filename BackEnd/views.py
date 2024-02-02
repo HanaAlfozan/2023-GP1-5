@@ -29,6 +29,8 @@ from django.db.models.functions import Cast
 def SignupUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
+        firstname = request.POST['firstname']
+        lastname=request.POST['lastname']
         email = request.POST['Email']
         password = request.POST['Password']
         confirm_password = request.POST['confirm_password']
@@ -40,6 +42,8 @@ def SignupUser(request):
             else:
                 user = GGUser.objects.create_user(
                     Username=username,
+                    First_name=firstname,
+                    Last_name=lastname,
                     Email=email,
                     Password=password,
                     Accept_conditions=Accept_conditions
@@ -84,6 +88,41 @@ def custom_password_reset(request):
         return HttpResponse(status=200) 
 
     return render(request, 'login.html')
+
+def custom_username_reset(request):
+    Email = request.POST.get('Email', '')
+    firstname = request.POST.get('firstname', '')
+    lastname = request.POST.get('lastname', '')
+
+    try:
+        user = GGUser.objects.get(Email=Email, First_name=firstname, Last_name=lastname)
+
+        # Generate a token and uid for the user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email = user.Email
+
+        # Create the reset link
+        reset_link = f"{request.scheme}://{request.get_host()}/reset-username/{uid}/{token}/"
+
+        # Send the email with the reset link
+        send_mail(
+            'Username Reset',
+            f'Dear Gamer, use the following link to reset your Username: {reset_link}',
+            'gamegeekwebsite@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+
+        if 'error_message' in request.POST:
+            return JsonResponse({'error': 'Invalid request'}, status=400)
+
+        return JsonResponse({'success': True})
+
+    except GGUser.DoesNotExist:
+        return JsonResponse({'error': 'Username not found'}, status=404)
+
+
 
 def custom_assigining_ageGroup(request):
     if request.method == 'POST':
@@ -155,12 +194,31 @@ def custom_password_reset_confirm(request, uidb64, token):
               user.save()
               return render(request, 'login.html', {'status': 'reset', 'message': 'Password reset'})
             else:
-              messages.error(request, "Password Mismatch!")  
+              messages.error(request, "Password Mismatch!")
         return render(request, 'login.html', {'status': 'confirm', 'message': 'Password confirm'})
     else:
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
 
+def custom_username_reset_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = GGUser.objects.get(User_ID=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        # Valid token, allow the user to set a new password
+        if request.method == 'POST':
+            newusername = request.POST['newusername']
+            user.Username=newusername
+            user.save()
+            return render(request, 'login.html', {'status': 'resetUser', 'message': 'Username reset'})
+
+        return render(request, 'login.html', {'status': 'confirmUser', 'message': 'Username confirm'})
+    else:
+        error_message = 'Unexpected error occured, please try again'
+        return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
 
 def LoginUser(request):
     if request.method == 'POST':
