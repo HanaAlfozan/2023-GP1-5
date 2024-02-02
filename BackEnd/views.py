@@ -264,12 +264,19 @@ def EditNames(request):
         return JsonResponse({'error': 'Invalid request method. POST expected'}, status=400)
 
 
+from django.core.cache import cache
+from django.forms.models import model_to_dict
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Case, When, Value, IntegerField
 
-
+@require_http_methods(["GET"])
 def retrieve_all_games(request):
     sorted_games = cache.get('games_list', [])
-
+    filtered_categories = cache.get('filtered_games', [])
     user_id = request.session.get('user_id')
+    items_per_page = 15
+    all_games_data = []
 
     if user_id is not None:
         try:
@@ -292,15 +299,39 @@ def retrieve_all_games(request):
         return JsonResponse({'error': 'User not authenticated'})
 
     # Retrieve objects from the GamesList model suitable for the user's approved age group
-    if sorted_games is not None and sorted_games:
-        all_games_data = sorted_games
-    elif user_age_group == 17:
-        # If the user has the highest age group, retrieve all games
-        all_games_data = GamesList.objects.all()
+    if sorted_games and len(filtered_categories) == 0:
+        print("here is sorted_games")
+        all_games_data = sorted_games 
+
+
+    # Check if there are filtered categories in the cache
+    elif filtered_categories:
+        print('HERE HERE filtered_categories')
+        all_games_data = filtered_categories
+        print(f'The length of filtered_categories is: {len(filtered_categories)}')
+        print(f'The length of sorted_games is: {len(sorted_games)}') 
+        print(f'The length of all_games_data (313) is: {len(all_games_data)}') 
+
+        if sorted_games:
+            all_games_ids = {game['ID'] for game in all_games_data}
+            print(f'Before reordering, the ID of the first game is: {all_games_data[0]["ID"]}')
+            filtered_sorted_games = [game for game in sorted_games if game['ID'] in all_games_ids]
+            print(f'After reordering, the ID of the first game is: {filtered_sorted_games[0]["ID"]}')
+            all_games_data = filtered_sorted_games
+            print(f'The length of all_games_data (317) is: {len(all_games_data)}') 
+
+
+
     else:
+        if user_age_group == 17:
+        # If the user has the highest age group, retrieve all games
+            all_games_data = GamesList.objects.all()
+            print('HEREEE EVERTHING')
+        else:
         # Use Case and When to handle age group comparison
-        all_games_data = GamesList.objects.annotate(
-            numeric_age_rating=Case(
+            print('HERE 123')
+            all_games_data = GamesList.objects.annotate(
+                numeric_age_rating=Case(
                 When(Age_Rating='4+', then=Value(4)),
                 When(Age_Rating='9+', then=Value(9)),
                 When(Age_Rating='12+', then=Value(12)),
@@ -308,14 +339,17 @@ def retrieve_all_games(request):
                 default=Value(0),  # Default case, adjust as needed
                 output_field=IntegerField(),
             )
-        ).filter(numeric_age_rating__lte=user_age_group)
+        ).filter(numeric_age_rating__lte=user_age_group) 
+      
+
+################################AFTER HANDLING ALL CASES NOW DIVIDE THE GAMES########################################
 
     slice_number = int(request.GET.get('slice', 0))  # Default to slice 0 if not provided
-    items_per_page = 18
 
     # Use Django Paginator to paginate the data
+    #all_games_data = all_games_data.order_by('Name') 
     paginator = Paginator(all_games_data, items_per_page)
-    page_number = int(request.GET.get('page', 1))  # Default to page 1 if not provided
+    page_number = int(request.GET.get('page', 1)) 
 
     try:
         current_page_data = paginator.page(page_number)
@@ -323,15 +357,9 @@ def retrieve_all_games(request):
         # If the requested page is out of range, return an empty list
         current_page_data = []
 
-    # Convert the current page data to a list of dictionaries with cleaned names
-        # Conditionally choose how to construct games_list
-
-
     games_list = []
 
-    # Conditionally choose how to construct games_list
     if all(isinstance(game, GamesList) for game in current_page_data):
-        # If all_games_data comes from the model
         games_list = [
             {
                 'Name': clean_name(game.Name),
@@ -358,11 +386,17 @@ def retrieve_all_games(request):
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
-        'sorted': sorted_games,
     }
 
     # Return a JSON response
+    #cache.clear()
     return JsonResponse(response_data)
+
+
+
+
+
+
 def clean_name(name):
     # Decode Unicode escape sequences
     name = name.encode().decode('unicode_escape')
@@ -486,7 +520,7 @@ def clean_dev(dev):
     return dev
 
 
-@csrf_exempt  # Only use this decorator for simplicity in the example; use a proper CSRF protection method in production
+@csrf_exempt
 def send_email(request):
     if request.method == 'POST':
         # Extract user data from session
@@ -631,7 +665,6 @@ def sort_by(request):
             'User_Rating_Count': convert_rating_count(game.User_Rating_Count),
             'Original_Release_Date': game.Original_Release_Date,
             'Size': game.Size,
-
             'Icon_URL': game.Icon_URL,
             'Genres': game.Genres,
             'URL': game.URL,
@@ -640,7 +673,6 @@ def sort_by(request):
             'Developer': game.Developer,
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages,
-
             'ID': game.ID,
         }
         for game in game_queryset
@@ -658,14 +690,11 @@ def sort_by(request):
 
     cache.set('games_list', games_list)
     response_data = {
-        'message': 'The games are:',
-        'games': games_list,
         'order_by_field': order_by_field,
         'order_direction': order_direction,
     }
 
     return JsonResponse(response_data)
-
 
 @csrf_exempt
 def add_to_favorites(request, game_id):
@@ -763,12 +792,6 @@ def ExtractInAppPurchases(request):
     InAppPurchases_list = list(unique_InAppPurchase)
     return JsonResponse({'InAppPurchases': InAppPurchases_list}, safe=False)
 
-@require_http_methods(["GET"])
-def ExtractSize(request):
-    games_list = GamesList.objects.all()
-    unique_Size = games_list.values_list('Size', flat=True).distinct()
-    Size_list = list(unique_Size)
-    return JsonResponse({'Size': Size_list}, safe=False)
 
 @require_http_methods(["GET"])
 def ExtractRating(request):
@@ -777,60 +800,71 @@ def ExtractRating(request):
     Rating_list = list(unique_Rating)
     return JsonResponse({'Rating': Rating_list}, safe=False)
 
-@require_http_methods(["GET"])
-def ExtractRatingCount(request):
-    games_list = GamesList.objects.all()
-    unique_Rating_Count = games_list.values_list('User_Rating_Count', flat=True).distinct()
-    Rating_Count_list = list(unique_Rating_Count)
-    return JsonResponse({'Rating_Count': Rating_Count_list}, safe=False)
-
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
 from .models import GamesList
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_http_methods
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.exceptions import FieldError
+
+from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Q
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
+from .models import GamesList
+
+from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Q
+from .models import GamesList
 
 @require_http_methods(["GET"])
 def filter_games_multiple(request):
-    categories = request.GET.keys()
+    # Extract valid categories from GET parameters
+    valid_categories = {'Genres', 'Languages', 'In_app_Purchases', 'Price', 'Average_User_Rating'}
+    categories = {key.rstrip('[]') for key in request.GET.keys() if key.rstrip('[]') in valid_categories}
 
-    # Set the number of games per page
-    games_per_page = 18
+    # Initialize filtered queryset
+    filtered_games_queryset = GamesList.objects.all()
 
-    if not categories:
-        # No categories selected, return all games
-        all_games = GamesList.objects.all()
-        filtered_games = all_games
-    else:
+    if categories:
         # Start with an initial Q object
         q_objects = Q()
 
         for category in categories:
-            values = request.GET.getlist(category)
+            values = request.GET.getlist(f'{category}[]')
             category_q = Q()
             for value in values:
-                category_q &= Q(**{f'{category[:-2]}__icontains': value})
-            q_objects &= category_q
+                category_q |= Q(**{f'{category}__icontains': value})
+            q_objects &= category_q  # Use AND to filter by multiple categories
 
-        filtered_games = GamesList.objects.filter(q_objects)
+        # Apply the filtered categories to the queryset
+        filtered_games_queryset = filtered_games_queryset.filter(q_objects)
 
-    # Use Django Paginator to paginate the games
-    paginator = Paginator(filtered_games, games_per_page)
-    page = request.GET.get('page', 1)
-
-    try:
-        games_list = paginator.page(page)
-    except PageNotAnInteger:
-        games_list = paginator.page(1)
-    except EmptyPage:
-        games_list = paginator.page(paginator.num_pages)
+    # Sort the filtered games based on default ordering (by Name)
+    filtered_games_queryset = filtered_games_queryset.order_by('Name')
 
     # Convert queryset to a list of dictionaries
-    games_data = [model_to_dict(game) for game in games_list]
+    games_list = [
+        {
+            'Name': clean_name(game.Name),
+            'Icon_URL': game.Icon_URL,
+            'URL': game.URL,
+            'ID': game.ID,
+        }
+        for game in filtered_games_queryset
+    ]
 
-    return JsonResponse({'games_data': games_data, 'current_page': games_list.number, 'total_pages': paginator.num_pages}, safe=False)
+    cache.set('filtered_games', games_list)
+    # Include filtered categories in the response
+    response_data = {
+        'filtered_games': games_list,
+    }
+
+    return JsonResponse(response_data, safe=False)
 
 
 def visited_games(request):

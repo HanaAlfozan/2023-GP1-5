@@ -174,7 +174,7 @@
 		}
 		.result-text {
 		position: relative;
-		top:-80px;
+		top:-93px;
 		left: 90px;
 		font-size: 16px;
         font-weight: bold;
@@ -199,7 +199,7 @@
 
 .checkbox-container {
 		position: relative;
-		top:-80px;
+		top:-94px;
 		left: 100px;
 		display: inline-flex;
         align-items: center;
@@ -458,7 +458,11 @@ margin-left:20%;
                 data: requestData,
                 dataType: 'json',
                 success: function (response) {
+					makeAjaxRequest(1, 1);
                     updateGamesContainer(response);
+					console.log(response);
+
+
                 },
                 error: function (error) {
                     console.error('Error fetching games:', error);
@@ -476,9 +480,11 @@ margin-left:20%;
             const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
             categoryCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function () {
-                    var category = $(this).data('category');
-                    updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Size', 'User_Rating_Count', 'Average_User_Rating', 'Languages']);
-                });
+					clearTimeout(this.timeoutId);
+					this.timeoutId = setTimeout(() => {
+						var category = $(this).data('category');
+                        updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages']);}, 300);
+				});
             });
         }
 
@@ -640,26 +646,6 @@ margin-left:20%;
 			}
 		});
 
-		$.ajax({
-			url: '/BackEnd/ExtractSize/',
-			type: 'GET',
-			dataType: 'json',
-			success: function (data) {
-			    data.Size.forEach(function (Sizes) {
-					$('#Size-options-container').append(`
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="${Sizes}" data-category="Size">
-							<label class="form-check-label">${Sizes}</label>
-						</div>
-					`);
-			    });
-				attachEventListeners();
-				EventListeners();
-			},
-			error: function () {
-				console.error('Failed to fetch size options.');
-			}
-		});
 
 		$.ajax({
 			url: '/BackEnd/ExtractRating/',
@@ -679,27 +665,6 @@ margin-left:20%;
 			},
 			error: function () {
 				console.error('Failed to fetch rating options.');
-			}
-		});
-
-		$.ajax({
-			url: '/BackEnd/ExtractRatingCount/',
-			type: 'GET',
-			dataType: 'json',
-			success: function (data) {
-			data.Rating_Count.forEach(function (Rating_Counts) {
-				$('#User_Rating_Count-options-container').append(`
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="${Rating_Counts}" data-category="User_Rating_Count">
-						<label class="form-check-label">${Rating_Counts}</label>
-					</div>
-					`);
-				});
-				attachEventListeners();
-				EventListeners();
-			},
-			error: function () {
-				console.error('Failed to fetch rating count options.');
 			}
 		});
     });
@@ -734,17 +699,6 @@ margin-left:20%;
 						</div>
 					</details>
 					
-
-
-					  <details class="category">
-						<summary>Size</summary>
-						<div class="border-bottom pb-4 mb-4">
-							<div class="d-grid gap-2" id="Size-options-container">
-							</div>
-						</div>
-					</details>
-					
-
 			  
 						<details class="category">
 							<summary>Rating</summary>
@@ -753,17 +707,7 @@ margin-left:20%;
 								</div>
 							</div>
 						</details>
-						
-					    </details>
-						<details class="category">
-							<summary>Rating Count</summary>
-							<div class="border-bottom pb-4 mb-4">
-								<div class="d-grid gap-2" id="User_Rating_Count-options-container">
-								</div>
-							</div>
-						</details>
-						
-										
+				
 						<div class="d-grid">
 							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
 						</div>
@@ -926,7 +870,7 @@ var sortedGames;
             },
              success: function(response) {
             console.log(response);
-            makeAjaxRequest(1,1)
+            makeAjaxRequest(1,1);
 
         },
             error: function(error) {
