@@ -401,8 +401,7 @@ margin-left:20%;
         <option>Oldest Games</option>
         <option>Highest Age Rating</option>
         <option>Lowest Age Rating</option>
-        <option>Highest Rating Count</option>
-        <option>Lowest Rating Count</option>
+
         <option>Highest Rating</option>
         <option>Lowest Rating</option>
         <option>Largest Size</option>
@@ -869,7 +868,8 @@ var sortedGames;
                 order_direction: 'asc'
             },
              success: function(response) {
-            console.log(response);
+             console.log(response);
+
             makeAjaxRequest(1,1);
 
         },
