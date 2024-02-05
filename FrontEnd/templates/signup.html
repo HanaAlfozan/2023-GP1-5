@@ -331,16 +331,16 @@ body img{
 		<span class="input-item">
 			<i class="fa fa-user-circle"></i>
 		</span>
-        <label for="username">Firstname:</label>
-        <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your First name" onblur="validateFname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Username should not start with a number and no spaces allowed" style="width: 58%;">
+        <label for="firstname">Firstname:</label>
+        <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your First name" onblur="validateFname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Firstname should not start with a number and no spaces allowed" style="width: 58%;">
     </div>
 	<span id="firstname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 29.5%;"></span>
 	<div class="input-pair">
 		<span class="input-item">
 			<i class="fa fa-user-circle"></i>
 		</span>
-        <label for="username">Lastname:</label>
-        <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your Last name" onblur="validateLname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Username should not start with a number and no spaces allowed" style="width: 58%;">
+        <label for="lastname">Lastname:</label>
+        <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your Last name" onblur="validateLname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Lastname should not start with a number and no spaces allowed" style="width: 58%;">
     </div>
 	<span id="lastname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 39.5%;"></span>
     <div class="input-pair">
@@ -395,9 +395,7 @@ body img{
             usernameError.textContent = '';
         }
     }
-</script>
-		<script>
-    function validateFname(Fname) {
+	  function validateFname(username) {
         var usernameError = document.getElementById('firstname-error');
         var usernamePattern = /^[A-Za-z][A-Za-z0-9]*$/;
 
@@ -407,9 +405,7 @@ body img{
             usernameError.textContent = '';
         }
     }
-</script>
-				<script>
-    function validateLname(Lname) {
+	  function validateLname(username) {
         var usernameError = document.getElementById('lastname-error');
         var usernamePattern = /^[A-Za-z][A-Za-z0-9]*$/;
 
@@ -419,6 +415,7 @@ body img{
             usernameError.textContent = '';
         }
     }
+
 </script>
 <script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
