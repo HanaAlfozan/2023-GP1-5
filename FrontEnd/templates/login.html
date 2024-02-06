@@ -667,7 +667,7 @@ body img{
      var status = "{{ status }}";
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{% url custom_username_reset %}', true);
+    xhr.open('POST', "{% url 'custom_username_reset' %}", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
