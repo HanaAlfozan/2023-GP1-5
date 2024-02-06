@@ -967,6 +967,7 @@ from datetime import date
 
 @csrf_exempt
 def save_visited_game(request, game_id):
+    print('in saved method')
     if request.method == 'POST':
         try:
             user_id = request.session.get('user_id')
@@ -975,13 +976,18 @@ def save_visited_game(request, game_id):
 
             # Check if the user has already visited this game
             visited_game, created = Visited.objects.get_or_create(User_ID=user, Game_ID=game)
+            print("Visited game:", visited_game)
+            print("Created:", created)
 
             # If the game is already visited, update the visited date
             if not created:
                 # Update the visited date with the current day, month, and year
                 today = date.today()
-                visited_game.visited_date = today
+                print('printing the date', today)
+                visited_game.Visited_date = today
                 visited_game.save()
+                print('printing the visited_game.visited_date', visited_game.visited_date)
+
 
             return JsonResponse({'success': True})
 
