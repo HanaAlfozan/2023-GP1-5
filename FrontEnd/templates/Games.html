@@ -284,12 +284,21 @@ margin-left:20%;
         color: #ff069a;
         cursor: pointer;
     }
+.view-more:hover, .view-less:hover {
+        color: #06f7ff;
+        cursor: pointer;
+    }
+
+ .view-less:hover {
+        color: #06f7ff;
+        cursor: pointer;
+    }
 
     </style>
 
 </head>
 <body>
-	
+
 	<!--PreLoader-->
     <div class="loader">
         <div class="loader-inner">
@@ -297,7 +306,7 @@ margin-left:20%;
         </div>
     </div>
     <!--PreLoader Ends-->
-	
+
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
@@ -316,7 +325,7 @@ margin-left:20%;
 											<li><a href="{% url 'Games' %}">All Games</a></li>
 											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
 											<li><a href="{% url 'History' %}">Visited Store Games</a></li>
-											
+
 										</ul>
 									</li>
 									<li><a href="{% url 'profile' %}">Profile</a>
@@ -325,7 +334,7 @@ margin-left:20%;
 
 								<li>
 									<div class="header-icons">
-									
+
 										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
 									</div>
 								</li>
@@ -355,7 +364,7 @@ margin-left:20%;
 							});
 
 							</script>
-							
+
 
 					</div>
 				</div>
@@ -385,13 +394,17 @@ margin-left:20%;
 			</div>
 		</div>
 	</div>
+		<ul class="Realbreadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'index' %}" >Home</a></li>
+					<li class="breadcrumb-item current"><a href="{% url 'Games' %}">All Games</a></li>
+				</ul>
 
 
 	<!-- games -->
 	<div class="product-section mt-150 mb-150">
 
 
-						
+
 <div class="sort">
     <!-- Select -->
     <select id="sortSelect" onchange="handleSortChange()">
@@ -417,7 +430,7 @@ margin-left:20%;
 			<div class="AppliedFilters">
 				<div id="resultsForText" class="result-text"></div>
 			</div>
-		<!-- End of AppliedFilters -->	
+		<!-- End of AppliedFilters -->
 <div class="row product-lists">
 
 <!-- Card Grid -->
@@ -425,16 +438,16 @@ margin-left:20%;
 	<div class="row">
 	  <div class="col-lg-3">
 		<!-- Navbar -->
-		<div class="navbar-expand-lg mb-5">  
+		<div class="navbar-expand-lg mb-5">
 		  <!-- Navbar Collapse -->
 		  <div id="navbarVerticalNavMenuEg2" class="collapse navbar-collapse">
 			<div class="w-100">
 				<div class="filter-container">
-					
+
 				    <h5 id="Ftitle">
 					<i class="bi bi-filter" id="filter-icon"></i>
 					Filters</h5>
-					
+
 					<details class="category">
 						<summary>Genre</summary>
 						<div class="border-bottom pb-4 mb-4">
@@ -442,7 +455,7 @@ margin-left:20%;
 							</div>
 						</div>
 					</details>
-	<script>
+<script>
     $(document).ready(function () {
 
         function updateGamesByMultipleCategories(categories) {
@@ -589,7 +602,7 @@ margin-left:20%;
 
         // Function to append rating checkboxes to a container with star icons
         function appendRatingCheckboxes(container) {
-            const stars = '<span style="color: yellow;">&#9733;</span>'; // &#9733; is the HTML code for a star character
+            const stars = '<span style="color: orange;">&#9733;</span>'; // &#9733; is the HTML code for a star character
 
             for (let rating = 1; rating <= 5; rating++) {
                 container.append(`
@@ -676,20 +689,22 @@ margin-left:20%;
             }
         });
 
-        // Event listener for "View more" option
-        $('.filter-container').on('click', '.view-more', function () {
+        // Event listener for "View more" and "View less" options
+        $('.filter-container').on('click', '.view-more, .view-less', function () {
             const container = $(this).closest('.category').find('.d-grid');
-            container.find('.form-check').show();
-            container.append('<div class="view-less" style="color: pink;">View less</div>'); // Add "View less" option
-            $(this).remove(); // Remove the "View more" option after displaying all checkboxes
-        });
+            const checkboxes = container.find('.form-check');
 
-        // Event listener for "View less" option
-        $('.filter-container').on('click', '.view-less', function () {
-            const container = $(this).closest('.category').find('.d-grid');
-            container.find('.form-check').slice(10).hide(); // Hide checkboxes after the first 10
-            container.find('.view-more').show(); // Show the "View more" option
-            $(this).remove(); // Remove the "View less" option
+            if ($(this).hasClass('view-more')) {
+                // Clicked on "View more"
+                checkboxes.show();
+                container.append('<div class="view-less" ">View less</div>'); // Add "View less" option
+                $(this).hide(); // Hide the "View more" option after displaying all checkboxes
+            } else if ($(this).hasClass('view-less')) {
+                // Clicked on "View less"
+                checkboxes.slice(10).hide(); // Hide checkboxes after the first 10
+                container.find('.view-more').show(); // Show the "View more" option
+                $(this).remove(); // Remove the "View less" option
+            }
         });
 
         // Event listener for rating checkboxes
@@ -698,14 +713,23 @@ margin-left:20%;
             updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
         });
     });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const summaries = document.querySelectorAll('summary');
+
+    summaries.forEach(summary => {
+      summary.addEventListener('click', function() {
+        // Hide all other details
+        summaries.forEach(otherSummary => {
+          if (otherSummary !== summary) {
+            otherSummary.parentElement.removeAttribute('open');
+          }
+        });
+      });
+    });
+  });
 </script>
 
-
-
-
-
-
-			  
 					  <details class="category">
 						<summary>Price</summary>
 						<div class="border-bottom pb-4 mb-4">
@@ -714,7 +738,7 @@ margin-left:20%;
 						</div>
 					</details>
 
-			  
+
 			  <details class="category">
 				<summary>Language</summary>
 				<div class="border-bottom pb-4 mb-4">
@@ -722,8 +746,8 @@ margin-left:20%;
 					</div>
 				</div>
 			</details>
-			
-			  
+
+
 
 					  <details class="category">
 						<summary>In-App Purchases</summary>
@@ -732,8 +756,8 @@ margin-left:20%;
 							</div>
 						</div>
 					</details>
-					
-			  
+
+
 						<details class="category">
 							<summary>Rating</summary>
 							<div class="border-bottom pb-4 mb-4">
@@ -741,13 +765,13 @@ margin-left:20%;
 								</div>
 							</div>
 						</details>
-				
+
 						<div class="d-grid">
 							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
 						</div>
-					  </div>	
+					  </div>
 					</div>
-					
+
 
 			</div>
 		  </div>
@@ -838,20 +862,20 @@ margin-left:20%;
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'Games' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'Fav' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'History' %}">Visited Store Games</a></li>
+									<li class="dash"><a href="{% url 'History' %}">Downloaded Games</a></li>
 								</ul></details>
 								<li class="dash"><a href="{% url 'profile' %}">Profile</a></li>
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
 							</ul>
-						
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-	
+
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -864,7 +888,7 @@ margin-left:20%;
 		</div>
 	</div>
 	<!-- end copyright -->
-	
+
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<!-- bootstrap -->
