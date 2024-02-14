@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = 'Import data from CSV file'
 
     def handle(self, *args, **options):
-        csv_file_path = "data/output2.csv"
+        csv_file_path = "data/Games_DataSet.csv"
 
         with open(csv_file_path, 'r') as csv_file:
             reader = csv.DictReader(csv_file)
@@ -22,9 +22,10 @@ class Command(BaseCommand):
                     Description=row['Description'],
                     Developer=row['Developer'],
                     Age_Rating=row['Age Rating'],
-                    Languages=row['Languages'],
+
                     Size=row['Size'],
                     Genres=row['Genres'],
-                    Original_Release_Date=row['Original Release Date']
+                    Original_Release_Date=row['Original Release Date'],
+                Languages = row['Languages'],
                 )
                 games.save()

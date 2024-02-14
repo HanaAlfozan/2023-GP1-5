@@ -664,6 +664,23 @@ def annotate_age_rating(queryset):
         output_field=IntegerField(),
     ), IntegerField())
     return queryset.annotate(numeric_age_rating=age_rating_annotation)
+def annotate_rating(queryset):
+    average_user_rating_annotation = Cast(Case(
+        When(Average_User_Rating='"Inapplicable"', then=Value(0.0)),
+        When(Average_User_Rating='1.0', then=Value(1.0)),
+        When(Average_User_Rating='1.5', then=Value(1.5)),
+        When(Average_User_Rating='2.0', then=Value(2.0)),
+        When(Average_User_Rating='2.5', then=Value(2.5)),
+        When(Average_User_Rating='3.0', then=Value(3.0)),
+        When(Average_User_Rating='3.5', then=Value(3.5)),
+        When(Average_User_Rating='4.0', then=Value(4.0)),
+        When(Average_User_Rating='4.5', then=Value(4.5)),
+        When(Average_User_Rating='5.0', then=Value(5.0)),
+        default=Value(-1.0),
+        output_field=FloatField(),
+    ), FloatField())
+
+    return queryset.annotate(age_rating=average_user_rating_annotation)
 
 def convert_rating_count(value):
     try:
@@ -688,16 +705,60 @@ def convert_rating(value):
         return 0
 
 
+
 def sort_by(request):
     # Default ordering
+    user_id = request.session.get('user_id')
+    user_age=''
+    user_age_group=0
+    game_queryset=[]
+
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            user_age = user.Approved_age_group
+
+            # Function to extract the numeric part from age group strings
+            def extract_numeric_part(age_group):
+                match = re.search(r'\d+', age_group)
+                if match:
+                    return int(match.group())
+                return 0
+
+            # Convert user age group string to numerical value
+            user_age_group = extract_numeric_part(
+                user_age) if user_age and user_age != 'fals' else 12
+        except GGUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+    # Retrieve objects from the GamesList model suitable for the user's approved age group
+
+    if user_age_group == 17:
+        # If the user has the highest age group, retrieve all games
+        game_queryset = GamesList.objects.all()
+    else:
+        # Use Case and When to handle age group comparison
+        game_queryset = GamesList.objects.annotate(
+            numeric_age_rating=Case(
+                When(Age_Rating='4+', then=Value(4)),
+                When(Age_Rating='9+', then=Value(9)),
+                When(Age_Rating='12+', then=Value(12)),
+                When(Age_Rating='17+', then=Value(17)),
+                default=Value(0),  # Default case, adjust as needed
+                output_field=IntegerField(),
+            )
+        ).filter(numeric_age_rating__lte=user_age_group)
+
     order_by_field = request.GET.get('order_by', 'Name')
     order_direction = request.GET.get('order_direction', 'asc')
+
 
     # Get the corresponding field for ordering
     order_field = get_order_field(order_by_field, order_direction)
 
-    # Fetch the sorted queryset
-    game_queryset = GamesList.objects.all()
+
 
     if order_by_field in ('Newest Games', 'Oldest Games'):
         game_queryset = game_queryset.order_by(order_field)
@@ -705,8 +766,11 @@ def sort_by(request):
         game_queryset = annotate_age_rating(game_queryset)
         order_field = '-numeric_age_rating' if order_by_field == 'Highest Age Rating' else 'numeric_age_rating'
         game_queryset = game_queryset.order_by(order_field)
-    elif order_by_field in ('Highest Rating', 'Lowest Rating', 'Highest Rating Count', 'Lowest Rating Count'):
+    elif order_by_field in ('Highest Rating', 'Lowest Rating'):
+        order_field = '-age_rating' if order_by_field == 'Highest Rating' else 'age_rating'
+        game_queryset=annotate_rating(game_queryset)
         game_queryset = game_queryset.order_by(order_field)
+
     else:
         # Explicitly handle alphabetical sorting
         if order_direction == 'asc':
@@ -719,10 +783,11 @@ def sort_by(request):
         {
             'Name': game.Name,
             'rating':game.Age_Rating,
-            'Average_User_Rating': convert_rating(game.Average_User_Rating),
+            'Average_User_Rating': game.Average_User_Rating,
             'User_Rating_Count': convert_rating_count(game.User_Rating_Count),
             'Original_Release_Date': game.Original_Release_Date,
             'Size': game.Size,
+
             'Icon_URL': game.Icon_URL,
             'Genres': game.Genres,
             'URL': game.URL,
@@ -731,23 +796,14 @@ def sort_by(request):
             'Developer': game.Developer,
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages,
+
             'ID': game.ID,
         }
         for game in game_queryset
     ]
-
-    # Order the games_list based on user's selection
-    if order_by_field in ('Highest Rating', 'Lowest Rating'):
-        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating' else (order_direction == 'asc')
-        games_list = sorted(games_list, key=lambda x: x['Average_User_Rating'], reverse=reverse_order)
-
-    # Order the games_list by User_Rating_Count based on user's selection
-    elif order_by_field in ('Highest Rating Count', 'Lowest Rating Count'):
-        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating Count' else (order_direction == 'asc')
-        games_list = sorted(games_list, key=lambda x: x['User_Rating_Count'], reverse=reverse_order)
-
     cache.set('games_list', games_list)
     response_data = {
+        'message': 'The games are:',
         'order_by_field': order_by_field,
         'order_direction': order_direction,
     }
@@ -865,7 +921,49 @@ def filter_games_multiple(request):
     categories = {key.rstrip('[]') for key in request.GET.keys() if key.rstrip('[]') in valid_categories}
 
     # Initialize filtered queryset
-    filtered_games_queryset = GamesList.objects.all()
+    user_id = request.session.get('user_id')
+    user_age = ''
+    user_age_group = 0
+    filtered_games_queryset=[]
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            user_age = user.Approved_age_group
+
+            # Function to extract the numeric part from age group strings
+            def extract_numeric_part(age_group):
+                match = re.search(r'\d+', age_group)
+                if match:
+                    return int(match.group())
+                return 0
+
+            # Convert user age group string to numerical value
+            user_age_group = extract_numeric_part(
+                user_age) if user_age and user_age != 'fals' else 12
+        except GGUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+    # Retrieve objects from the GamesList model suitable for the user's approved age group
+
+    if user_age_group == 17:
+        # If the user has the highest age group, retrieve all games
+        filtered_games_queryset = GamesList.objects.all()
+    else:
+        # Use Case and When to handle age group comparison
+        filtered_games_queryset = GamesList.objects.annotate(
+            numeric_age_rating=Case(
+                When(Age_Rating='4+', then=Value(4)),
+                When(Age_Rating='9+', then=Value(9)),
+                When(Age_Rating='12+', then=Value(12)),
+                When(Age_Rating='17+', then=Value(17)),
+                default=Value(0),  # Default case, adjust as needed
+                output_field=IntegerField(),
+            )
+        ).filter(numeric_age_rating__lte=user_age_group)
+
+
 
     if categories:
         # Start with an initial Q object

@@ -280,25 +280,12 @@ margin-left:20%;
 
 }
 
-		    .view-more, .view-less {
-        color: #ff069a;
-        cursor: pointer;
-    }
-.view-more:hover, .view-less:hover {
-        color: #06f7ff;
-        cursor: pointer;
-    }
-
- .view-less:hover {
-        color: #06f7ff;
-        cursor: pointer;
-    }
 
     </style>
 
 </head>
 <body>
-
+	
 	<!--PreLoader-->
     <div class="loader">
         <div class="loader-inner">
@@ -306,7 +293,7 @@ margin-left:20%;
         </div>
     </div>
     <!--PreLoader Ends-->
-
+	
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
@@ -325,7 +312,7 @@ margin-left:20%;
 											<li><a href="{% url 'Games' %}">All Games</a></li>
 											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
 											<li><a href="{% url 'History' %}">Visited Store Games</a></li>
-
+											
 										</ul>
 									</li>
 									<li><a href="{% url 'profile' %}">Profile</a>
@@ -334,7 +321,7 @@ margin-left:20%;
 
 								<li>
 									<div class="header-icons">
-
+									
 										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
 									</div>
 								</li>
@@ -364,7 +351,7 @@ margin-left:20%;
 							});
 
 							</script>
-
+							
 
 					</div>
 				</div>
@@ -404,7 +391,7 @@ margin-left:20%;
 	<div class="product-section mt-150 mb-150">
 
 
-
+						
 <div class="sort">
     <!-- Select -->
     <select id="sortSelect" onchange="handleSortChange()">
@@ -430,7 +417,7 @@ margin-left:20%;
 			<div class="AppliedFilters">
 				<div id="resultsForText" class="result-text"></div>
 			</div>
-		<!-- End of AppliedFilters -->
+		<!-- End of AppliedFilters -->	
 <div class="row product-lists">
 
 <!-- Card Grid -->
@@ -438,16 +425,16 @@ margin-left:20%;
 	<div class="row">
 	  <div class="col-lg-3">
 		<!-- Navbar -->
-		<div class="navbar-expand-lg mb-5">
+		<div class="navbar-expand-lg mb-5">  
 		  <!-- Navbar Collapse -->
 		  <div id="navbarVerticalNavMenuEg2" class="collapse navbar-collapse">
 			<div class="w-100">
 				<div class="filter-container">
-
+					
 				    <h5 id="Ftitle">
 					<i class="bi bi-filter" id="filter-icon"></i>
 					Filters</h5>
-
+					
 					<details class="category">
 						<summary>Genre</summary>
 						<div class="border-bottom pb-4 mb-4">
@@ -455,17 +442,13 @@ margin-left:20%;
 							</div>
 						</div>
 					</details>
-<script>
+					
+					<script>
     $(document).ready(function () {
-
         function updateGamesByMultipleCategories(categories) {
             var requestData = {};
             categories.forEach(function (category) {
-                if (category === 'Rating') {
-                    requestData[`${category}[]`] = getSelectedRatingValues(`#${category}-options-container input[type="checkbox"]`);
-                } else {
-                    requestData[`${category}[]`] = getSelectedCheckboxValues(`#${category}-options-container input[type="checkbox"]`);
-                }
+                requestData[`${category}[]`] = getSelectedCheckboxValues(`#${category}-options-container input[type="checkbox"]`);
             });
 
             $.ajax({
@@ -474,9 +457,11 @@ margin-left:20%;
                 data: requestData,
                 dataType: 'json',
                 success: function (response) {
-                    makeAjaxRequest(1, 1);
+					makeAjaxRequest(1, 1);
                     updateGamesContainer(response);
-                    console.log(response);
+					console.log(response);
+
+
                 },
                 error: function (error) {
                     console.error('Error fetching games:', error);
@@ -490,129 +475,88 @@ margin-left:20%;
             }).get();
         }
 
-        function getSelectedRatingValues(selector) {
-            return $(selector + ':checked').map(function () {
-                return parseFloat($(this).val());
-            }).get();
-        }
-
         function attachEventListeners() {
             const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
             categoryCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function () {
-                    clearTimeout(this.timeoutId);
-                    this.timeoutId = setTimeout(() => {
-                        var category = $(this).data('category');
-                        updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
-                    }, 300);
-                });
+					clearTimeout(this.timeoutId);
+					this.timeoutId = setTimeout(() => {
+						var category = $(this).data('category');
+                        updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages']);}, 300);
+				});
             });
         }
 
-        function EventListeners() {
-            const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-            const resultsForText = document.getElementById('resultsForText');
-            const clearFiltersButton = document.getElementById('clearFilters');
+		function EventListeners(){
+						const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+						const resultsForText = document.getElementById('resultsForText');
+						const clearFiltersButton = document.getElementById('clearFilters');
+					
+						genreCheckboxes.forEach(checkbox => {
+							checkbox.addEventListener('change', updateSelectedFilters);
+						});
+					
+						clearFiltersButton.addEventListener('click', clearAllFilters);
+					
+						resultsForText.addEventListener('click', (event) => {
+							if (event.target.classList.contains('remove-button')) {
+								const value = event.target.getAttribute('data-value');
+								removeFilter(value);
+							}
+						});
+					
+						function updateSelectedFilters() {
+							const selectedFilterValues = Array.from(genreCheckboxes)
+								.filter(checkbox => checkbox.checked)
+								.map(checkbox => checkbox.value);
+					
+							resultsForText.innerHTML = '';
+					
+							if (selectedFilterValues.length > 0) {
+								resultsForText.style.display = 'inline';
+								resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
+					
+								selectedFilterValues.forEach(value => {
+									const container = document.createElement('span');
+									container.className = 'checkbox-container';
+					
+									const checkboxValue = document.createElement('span');
+									checkboxValue.className = 'checkbox-value';
+									checkboxValue.textContent = value;
+					
+									const removeButton = document.createElement('span');
+									removeButton.className = 'remove-button';
+									removeButton.textContent = 'X';
+									removeButton.setAttribute('data-value', value);
+					
+									container.appendChild(checkboxValue);
+									container.appendChild(removeButton);
+					
+									resultsForText.appendChild(container);
 
-            genreCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedFilters);
-            });
+								});
+							} else {
+								resultsForText.style.display = 'none';
+								resultsForText.textContent = '';
+							}
 
-            clearFiltersButton.addEventListener('click', clearAllFilters);
+						}
+					
+						function removeFilter(value) {
+							const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
+							if (checkbox) {
+								checkbox.checked = false;
+								const event = new Event('change', { bubbles: true });
+								checkbox.dispatchEvent(event);
+							}
+							updateSelectedFilters();
 
-            resultsForText.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-button')) {
-                    const value = event.target.getAttribute('data-value');
-                    removeFilter(value);
-                }
-            });
+						}
+					
+						function clearAllFilters() {
+							window.location.reload();
 
-            function updateSelectedFilters() {
-                const selectedFilterValues = Array.from(genreCheckboxes)
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value);
-
-                resultsForText.innerHTML = '';
-
-                if (selectedFilterValues.length > 0) {
-                    resultsForText.style.display = 'inline';
-                    resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
-
-                    selectedFilterValues.forEach(value => {
-                        const container = document.createElement('span');
-                        container.className = 'checkbox-container';
-
-                        const checkboxValue = document.createElement('span');
-                        checkboxValue.className = 'checkbox-value';
-                        checkboxValue.textContent = value;
-
-                        const removeButton = document.createElement('span');
-                        removeButton.className = 'remove-button';
-                        removeButton.textContent = 'X';
-                        removeButton.setAttribute('data-value', value);
-
-                        container.appendChild(checkboxValue);
-                        container.appendChild(removeButton);
-
-                        resultsForText.appendChild(container);
-
-                    });
-                } else {
-                    resultsForText.style.display = 'none';
-                    resultsForText.textContent = '';
-                }
-
-            }
-
-            function removeFilter(value) {
-                const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
-                if (checkbox) {
-                    checkbox.checked = false;
-                    const event = new Event('change', { bubbles: true });
-                    checkbox.dispatchEvent(event);
-                }
-                updateSelectedFilters();
-
-            }
-
-            function clearAllFilters() {
-                window.location.reload();
-            }
-        }
-
-        // Function to append checkboxes to a container with "View more" option
-        function appendCheckboxesWithViewMore(container, checkboxes) {
-            checkboxes.forEach(function (option, index) {
-                container.append(`
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
-                        <label class="form-check-label">${option}</label>
-                    </div>
-                `);
-
-                // Display only the first 10 checkboxes initially
-                if (index === 9) {
-                    container.append('<div class="view-more">View more</div>');
-                }
-            });
-
-            // Hide checkboxes after the first 10
-            container.find('.form-check').slice(10).hide();
-        }
-
-        // Function to append rating checkboxes to a container with star icons
-        function appendRatingCheckboxes(container) {
-            const stars = '<span style="color: orange;">&#9733;</span>'; // &#9733; is the HTML code for a star character
-
-            for (let rating = 1; rating <= 5; rating++) {
-                container.append(`
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="${rating}" data-category="${container.attr('id')}">
-                        <label class="form-check-label">${stars.repeat(rating)}</label>
-                    </div>
-                `);
-            }
-        }
+						}}
 
         // Extract Genre
         $.ajax({
@@ -620,9 +564,16 @@ margin-left:20%;
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                appendCheckboxesWithViewMore($('#Genres-options-container'), data.genres);
+                data.genres.forEach(function (genre) {
+                    $('#Genres-options-container').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${genre}" data-category="Genres">
+                            <label class="form-check-label">${genre}</label>
+                        </div>
+                    `);
+                });
                 attachEventListeners();
-                EventListeners();
+				EventListeners();
             },
             error: function () {
                 console.error('Failed to fetch genre options.');
@@ -635,9 +586,16 @@ margin-left:20%;
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                appendCheckboxesWithViewMore($('#Price-options-container'), data.prices);
+                data.prices.forEach(function (price) {
+                    $('#Price-options-container').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${price}" data-category="Price">
+                            <label class="form-check-label">${price}</label>
+                        </div>
+                    `);
+                });
                 attachEventListeners();
-                EventListeners();
+				EventListeners();
             },
             error: function () {
                 console.error('Failed to fetch price options.');
@@ -650,86 +608,69 @@ margin-left:20%;
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                appendCheckboxesWithViewMore($('#Languages-options-container'), data.languages);
+                data.languages.forEach(function (language) {
+                    $('#Languages-options-container').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${language}" data-category="Languages">
+                            <label class="form-check-label">${language}</label>
+                        </div>
+                    `);
+                });
                 attachEventListeners();
-                EventListeners();
+				EventListeners();
             },
             error: function () {
                 console.error('Failed to fetch language options.');
             }
         });
 
-        // Extract In-App Purchases
-        $.ajax({
-            url: '/BackEnd/ExtractInAppPurchases/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendCheckboxesWithViewMore($('#In_app_Purchases-options-container'), data.InAppPurchases);
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch In-App Purchase options.');
-            }
-        });
+		$.ajax({
+			url: '/BackEnd/ExtractInAppPurchases/',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				data.InAppPurchases.forEach(function (InAppPurchase) {
+					$('#In_app_Purchases-options-container').append(`
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="${InAppPurchase}" data-category="In_app_Purchases">
+							<label class="form-check-label">${InAppPurchase}</label>
+						</div>
+					`);
+				});
+				attachEventListeners();
+				EventListeners();
+			},
+			error: function () {
+				console.error('Failed to fetch InAppPurchase options.');
+			}
+		});
 
-        // Extract Rating
-        $.ajax({
-            url: '/BackEnd/ExtractRating/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendRatingCheckboxes($('#Average_User_Rating-options-container'));
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch rating options.');
-            }
-        });
 
-        // Event listener for "View more" and "View less" options
-        $('.filter-container').on('click', '.view-more, .view-less', function () {
-            const container = $(this).closest('.category').find('.d-grid');
-            const checkboxes = container.find('.form-check');
-
-            if ($(this).hasClass('view-more')) {
-                // Clicked on "View more"
-                checkboxes.show();
-                container.append('<div class="view-less" ">View less</div>'); // Add "View less" option
-                $(this).hide(); // Hide the "View more" option after displaying all checkboxes
-            } else if ($(this).hasClass('view-less')) {
-                // Clicked on "View less"
-                checkboxes.slice(10).hide(); // Hide checkboxes after the first 10
-                container.find('.view-more').show(); // Show the "View more" option
-                $(this).remove(); // Remove the "View less" option
-            }
-        });
-
-        // Event listener for rating checkboxes
-        $('.filter-container').on('change', '#Average_User_Rating-options-container input[type="checkbox"]', function () {
-            const container = $(this).closest('.category').find('.d-grid');
-            updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
-        });
+		$.ajax({
+			url: '/BackEnd/ExtractRating/',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				data.Rating.forEach(function (Ratings) {
+					$('#Average_User_Rating-options-container').append(`
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="${Ratings}" data-category="Average_User_Rating">
+							<label class="form-check-label">${Ratings}</label>
+						</div>
+					`);
+				});
+				attachEventListeners();
+				EventListeners();
+			},
+			error: function () {
+				console.error('Failed to fetch rating options.');
+			}
+		});
     });
+	
+	</script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const summaries = document.querySelectorAll('summary');
-
-    summaries.forEach(summary => {
-      summary.addEventListener('click', function() {
-        // Hide all other details
-        summaries.forEach(otherSummary => {
-          if (otherSummary !== summary) {
-            otherSummary.parentElement.removeAttribute('open');
-          }
-        });
-      });
-    });
-  });
-</script>
-
+			  
 					  <details class="category">
 						<summary>Price</summary>
 						<div class="border-bottom pb-4 mb-4">
@@ -738,7 +679,7 @@ margin-left:20%;
 						</div>
 					</details>
 
-
+			  
 			  <details class="category">
 				<summary>Language</summary>
 				<div class="border-bottom pb-4 mb-4">
@@ -746,8 +687,8 @@ margin-left:20%;
 					</div>
 				</div>
 			</details>
-
-
+			
+			  
 
 					  <details class="category">
 						<summary>In-App Purchases</summary>
@@ -756,8 +697,8 @@ margin-left:20%;
 							</div>
 						</div>
 					</details>
-
-
+					
+			  
 						<details class="category">
 							<summary>Rating</summary>
 							<div class="border-bottom pb-4 mb-4">
@@ -765,13 +706,13 @@ margin-left:20%;
 								</div>
 							</div>
 						</details>
-
+				
 						<div class="d-grid">
 							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
 						</div>
-					  </div>
+					  </div>	
 					</div>
-
+					
 
 			</div>
 		  </div>
@@ -868,14 +809,14 @@ margin-left:20%;
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
 							</ul>
-
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-
+	
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -888,7 +829,7 @@ margin-left:20%;
 		</div>
 	</div>
 	<!-- end copyright -->
-
+	
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<!-- bootstrap -->
