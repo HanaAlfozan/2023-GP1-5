@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = 'Import data from CSV file'
 
     def handle(self, *args, **options):
-        csv_file_path = "data/Games_DataSet.csv"
+        csv_file_path = "data/temp3.csv"
 
         with open(csv_file_path, 'r') as csv_file:
             reader = csv.DictReader(csv_file)
