@@ -355,12 +355,18 @@ def retrieve_all_games(request):
             return JsonResponse({'error': 'User not found'})
     else:
         return JsonResponse({'error': 'User not authenticated'})
+    
+    print(f"Value of filtered_categories: {filtered_categories}")
 
     # Retrieve objects from the GamesList model suitable for the user's approved age group
     if sorted_games and len(filtered_categories) == 0:
         print("here is sorted_games")
         all_games_data = sorted_games 
-
+        
+    elif filtered_categories == -1:
+        print("Nothing to ret") 
+        cache.clear()
+        return    
 
     # Check if there are filtered categories in the cache
     elif filtered_categories:
@@ -376,11 +382,10 @@ def retrieve_all_games(request):
             filtered_sorted_games = [game for game in sorted_games if game['ID'] in all_games_ids]
             print(f'After reordering, the ID of the first game is: {filtered_sorted_games[0]["ID"]}')
             all_games_data = filtered_sorted_games
-            print(f'The length of all_games_data (317) is: {len(all_games_data)}') 
+            print(f'The length of all_games_data (317) is: {len(all_games_data)}')      
 
 
-
-    else:
+    elif len(filtered_categories) == 0:
         if user_age_group == 17:
         # If the user has the highest age group, retrieve all games
             all_games_data = GamesList.objects.all()
@@ -447,7 +452,7 @@ def retrieve_all_games(request):
     }
 
     # Return a JSON response
-    #cache.clear()
+    cache.clear()
     return JsonResponse(response_data)
 
 
@@ -924,6 +929,7 @@ def filter_games_multiple(request):
     user_id = request.session.get('user_id')
     user_age = ''
     user_age_group = 0
+    response_data=''
     filtered_games_queryset=[]
     if user_id is not None:
         try:
@@ -986,25 +992,29 @@ def filter_games_multiple(request):
         # Apply the filtered categories to the queryset
         filtered_games_queryset = filtered_games_queryset.filter(q_objects)
 
-    # Sort the filtered games based on default ordering (by Name)
-    filtered_games_queryset = filtered_games_queryset.order_by('Name')
-
-    # Convert queryset to a list of dictionaries
-    games_list = [
-        {
-            'Name': clean_name(game.Name),
-            'Icon_URL': game.Icon_URL,
-            'URL': game.URL,
-            'ID': game.ID,
-        }
-        for game in filtered_games_queryset
-    ]
-
-    cache.set('filtered_games', games_list)
-    # Include filtered categories in the response
-    response_data = {
-        'filtered_games': games_list,
-    }
+        if filtered_games_queryset.exists():
+            print('There are results')
+            games_list = [
+                {
+                    'Name': clean_name(game.Name),
+                    'Icon_URL': game.Icon_URL,
+                    'URL': game.URL,
+                    'ID': game.ID,
+            }
+            for game in filtered_games_queryset
+        ]
+            cache.set('filtered_games', games_list)
+            # Include filtered categories in the response
+            response_data = {
+                'filtered_games': games_list,
+                }
+        
+        else:
+            print('Nothing')   
+            cache.set('filtered_games', 'Nothing')
+            response_data = {
+                'filtered_games': -1,
+                } 
 
     return JsonResponse(response_data, safe=False)
 
