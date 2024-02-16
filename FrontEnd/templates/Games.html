@@ -174,7 +174,7 @@
 		}
 		.result-text {
 		position: relative;
-		top:-93px;
+		top:-90px;
 		left: 90px;
 		font-size: 16px;
         font-weight: bold;
@@ -295,7 +295,9 @@ margin-left:20%;
     }
 
     </style>
-
+    <script>
+        
+    </script>
 </head>
 <body>
 
@@ -343,9 +345,9 @@ margin-left:20%;
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
 						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
-
 						<script>
 							$(document).ready(function() {
+            
 								$.ajax({
 									url: '/BackEnd/Hello/',
 									type: 'GET',
@@ -360,9 +362,8 @@ margin-left:20%;
 										document.getElementById("errorPopUp").style.display = "block";
 										console.error('Error:', error);
 									}
-								});
+								});                                
 							});
-
 							</script>
 
 
@@ -410,7 +411,6 @@ margin-left:20%;
         <option>Oldest Games</option>
         <option>Highest Age Rating</option>
         <option>Lowest Age Rating</option>
-
         <option>Highest Rating</option>
         <option>Lowest Rating</option>
         <option>Largest Size</option>
@@ -452,7 +452,36 @@ margin-left:20%;
 						</div>
 					</details>
 <script>
+    let checkboxKey;
+    let isChecked;
+    var sortedGames;
+    var selectedOption;
+
     $(document).ready(function () {
+        function storeCheckboxState() {
+            $('input[type="checkbox"]').each(function () {
+                checkboxKey = $(this).attr('id');
+                isChecked = $(this).prop('checked');
+                localStorage.setItem(checkboxKey, isChecked);
+                //alert(localStorage.getItem(checkboxKey));
+        });
+        //alert('Stored data in localStorage: ' + JSON.stringify(localStorage));
+
+    }
+        function attachEventListeners() {
+           // alert('in attachEventListeners');
+            const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            categoryCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    clearTimeout(this.timeoutId);
+                    this.timeoutId = setTimeout(() => {
+                        var category = $(this).data('category');
+                        updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
+                    }, 300);
+                    storeCheckboxState();
+                });
+            });
+        }
 
         function updateGamesByMultipleCategories(categories) {
             var requestData = {};
@@ -471,7 +500,7 @@ margin-left:20%;
                 dataType: 'json',
                 success: function (response) {
                     makeAjaxRequest(1, 1);
-                    updateGamesContainer(response);
+                    //updateGamesContainer(response);
                     console.log(response);
                 },
                 error: function (error) {
@@ -480,6 +509,7 @@ margin-left:20%;
             });
         }
 
+        
         function getSelectedCheckboxValues(selector) {
             return $(selector + ':checked').map(function () {
                 return $(this).val();
@@ -492,97 +522,14 @@ margin-left:20%;
             }).get();
         }
 
-        function attachEventListeners() {
-            const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-            categoryCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    clearTimeout(this.timeoutId);
-                    this.timeoutId = setTimeout(() => {
-                        var category = $(this).data('category');
-                        updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
-                    }, 300);
-                });
-            });
-        }
-
-        function EventListeners() {
-            const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-            const resultsForText = document.getElementById('resultsForText');
-            const clearFiltersButton = document.getElementById('clearFilters');
-
-            genreCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedFilters);
-            });
-
-            clearFiltersButton.addEventListener('click', clearAllFilters);
-
-            resultsForText.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-button')) {
-                    const value = event.target.getAttribute('data-value');
-                    removeFilter(value);
-                }
-            });
-
-            function updateSelectedFilters() {
-                const selectedFilterValues = Array.from(genreCheckboxes)
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value);
-
-                resultsForText.innerHTML = '';
-
-                if (selectedFilterValues.length > 0) {
-                    resultsForText.style.display = 'inline';
-                    resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
-
-                    selectedFilterValues.forEach(value => {
-                        const container = document.createElement('span');
-                        container.className = 'checkbox-container';
-
-                        const checkboxValue = document.createElement('span');
-                        checkboxValue.className = 'checkbox-value';
-                        checkboxValue.textContent = value;
-
-                        const removeButton = document.createElement('span');
-                        removeButton.className = 'remove-button';
-                        removeButton.textContent = 'X';
-                        removeButton.setAttribute('data-value', value);
-
-                        container.appendChild(checkboxValue);
-                        container.appendChild(removeButton);
-
-                        resultsForText.appendChild(container);
-
-                    });
-                } else {
-                    resultsForText.style.display = 'none';
-                    resultsForText.textContent = '';
-                }
-
-            }
-
-            function removeFilter(value) {
-                const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
-                if (checkbox) {
-                    checkbox.checked = false;
-                    const event = new Event('change', { bubbles: true });
-                    checkbox.dispatchEvent(event);
-                }
-                updateSelectedFilters();
-
-            }
-
-            function clearAllFilters() {
-                window.location.reload();
-            }
-        }
-
         // Function to append checkboxes to a container with "View more" option
         function appendCheckboxesWithViewMore(container, checkboxes) {
             checkboxes.forEach(function (option, index) {
+                const checkboxId = `${container.attr('id')}-checkbox-${index}`;
                 container.append(`
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
-                        <label class="form-check-label">${option}</label>
+                        <input  id="${checkboxId}" class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
+                        <label for="${checkboxId}"  class="form-check-label">${option}</label>
                     </div>
                 `);
 
@@ -594,6 +541,7 @@ margin-left:20%;
 
             // Hide checkboxes after the first 10
             container.find('.form-check').slice(10).hide();
+
         }
 
         // Function to append rating checkboxes to a container with star icons
@@ -685,6 +633,8 @@ margin-left:20%;
             }
         });
 
+        
+
         // Event listener for "View more" and "View less" options
         $('.filter-container').on('click', '.view-more, .view-less', function () {
             const container = $(this).closest('.category').find('.d-grid');
@@ -708,6 +658,25 @@ margin-left:20%;
             const container = $(this).closest('.category').find('.d-grid');
             updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
         });
+        
+
+function clearAllFilters() {
+    $('input[type="checkbox"]').each(function () {
+    checkboxKey = $(this).attr('id');
+    isChecked = $(this).prop('checked');
+    localStorage.removeItem(checkboxKey);
+});
+    //alert(localStorage.getItem(checkboxKey));
+    $('input[type="checkbox"]').removeAttr('checked');
+    $("#sortSelect").prop('selectedIndex', 0);
+    handleSortChange();
+    updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
+    EventListeners();
+    $("#sortSelect").prop('selectedIndex', 0);
+
+}
+$('#clearFilters').on('click', clearAllFilters);
+
     });
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -723,7 +692,25 @@ margin-left:20%;
         });
       });
     });
-  });
+
+
+    setTimeout(function() {
+        //alert("the length is " + $('input[type="checkbox"]').length);
+        $('input[type="checkbox"]').each(function () {
+            checkboxKey = $(this).attr('id');
+            isChecked =  JSON.parse(localStorage.getItem(checkboxKey)) || false;
+            //$(this).prop('checked', isChecked);
+            $(this).prop('checked', isChecked).change();
+            //alert(localStorage.getItem(checkboxKey));
+            });
+            //alert(690);
+            //attachEventListeners();
+            //updateSelectedFilters();
+            EventListeners();
+        }, 250); 
+
+
+    });
 </script>
 
 					  <details class="category">
@@ -767,8 +754,6 @@ margin-left:20%;
 						</div>
 					  </div>
 					</div>
-
-
 			</div>
 		  </div>
 		  <!-- End Navbar Collapse -->
@@ -907,12 +892,12 @@ margin-left:20%;
 	<script src="{% static '/js/main.js' %}"></script>
 <script>
 
-var sortedGames;
-
     // Function to handle the sort change
     function handleSortChange() {
         // Get the selected option
-        var selectedOption = document.getElementById('sortSelect').value;
+        selectedOption = document.getElementById('sortSelect').value;
+        if(selectedOption === 'Sort by')
+        selectedOption = 'Oldest Games'
 
         // Make an AJAX request to BackEnd/sort_by/
         $.ajax({
@@ -1014,11 +999,83 @@ $('.page-link').on('click', function (e) {
     makeAjaxRequest(page, page);
 });
 }
-
 makeAjaxRequest(1, 1);
 
+function EventListeners() {
+            //  alert('in EventListeners');
+            const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            //alert(genreCheckboxes.length);
+            const resultsForText = document.getElementById('resultsForText');
+            const clearFiltersButton = document.getElementById('clearFilters');
+
+            genreCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectedFilters);
+            });
 
 
+            resultsForText.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-button')) {
+                    const value = event.target.getAttribute('data-value');
+                    removeFilter(value);
+                }
+            });
+
+            if(genreCheckboxes.length == 71){
+                   updateSelectedFilters();
+                    }
+
+            function updateSelectedFilters() {
+                const selectedFilterValues = Array.from(genreCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+
+                resultsForText.innerHTML = '';
+
+                if (selectedFilterValues.length > 0) {
+                   // alert('hi');
+                    resultsForText.style.display = 'inline';
+                    resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
+
+                    selectedFilterValues.forEach(value => {
+                        const container = document.createElement('span');
+                        container.className = 'checkbox-container';
+
+                        const checkboxValue = document.createElement('span');
+                        checkboxValue.className = 'checkbox-value';
+                        checkboxValue.textContent = value;
+
+                        const removeButton = document.createElement('span');
+                        removeButton.className = 'remove-button';
+                        removeButton.textContent = 'X';
+                        removeButton.setAttribute('data-value', value);
+
+                        container.appendChild(checkboxValue);
+                        container.appendChild(removeButton);
+
+                        resultsForText.appendChild(container);
+
+                    });
+                } else {
+                   // alert('bye');
+                    resultsForText.style.display = 'none';
+                    resultsForText.textContent = '';
+                }
+
+            }
+
+            function removeFilter(value) {
+                const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
+                if (checkbox) {
+                    checkbox.checked = false;
+                    const event = new Event('change', { bubbles: true });
+                    checkbox.dispatchEvent(event);
+                }
+                updateSelectedFilters();
+
+            }
+
+
+        }
 
 </script>
 </body>
