@@ -74,5 +74,8 @@ urlpatterns = [
     path('BackEnd/filter_by_multiple/', BackEnd_views.filter_games_multiple, name='filter_games_multiple'), 
     path('BackEnd/visited_games/', BackEnd_views.visited_games, name='visited_games'),     
     path('BackEnd/save_visited_game/<int:game_id>/', BackEnd_views.save_visited_game, name='save_visited_game'),     
-
+    path('BackEnd/CompareAgeGroups/', BackEnd_views.CompareAgeGroups, name='CompareAgeGroups'),   
+    path('BackEnd/SendEmailForWrongEstimation/', BackEnd_views.SendEmailForWrongEstimation, name='SendEmailForWrongEstimation'),    
+    path('redirect-age-group/<str:uidb64>/<str:token>/', BackEnd_views.RedirectingToGames, name='RedirectingToGames'),
+ 
 ]

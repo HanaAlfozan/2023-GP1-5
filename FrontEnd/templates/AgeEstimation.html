@@ -12,10 +12,10 @@
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>Age Estimations</title>
+	<title>Age Estimation</title>
 	<!-- favicon -->
     <link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:00,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
@@ -37,6 +37,9 @@
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <script>
         var status = "{{ status }}";
+        var url = document.referrer;
+        var parts = url.split('/');
+        var PageName = parts[parts.length - 2];
     </script>
     <style>
         #main-content {
@@ -386,13 +389,14 @@ body img{
             } else {
                 console.log('Your Estimated Age Group is:', result['Estimated Age Group']);
                 // Update the content of the displayMessage
+                AgeGroupResult = result['Estimated Age Group'];
                 classificationMessageSpan.innerText = `Your Estimated Age Group is: ${result['Estimated Age Group']}`;
                 classified(result['Estimated Age Group']);
                 fetch('/BackEnd/AssignAgeGroup/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken,
+                        'X-CSRFToken': getCookie('csrftoken'),
                     },
                     body: JSON.stringify({ 
                         estimatedAgeGroup: `${result['Estimated Age Group']}`,
@@ -440,6 +444,46 @@ body img{
             document.getElementById("classified").style.display = "block";
             document.getElementById("video-container").style.display = "none";
             document.getElementById("take-snapshot-button").style.display = "none";
+
+            if (PageName === 'signup') {
+                //alert('hello from signup');
+                var container = document.getElementById('containerDive');
+                var htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
+                container.innerHTML = htmlContent;
+            } else if (PageName === 'login') {
+               // alert('im here in login');
+                var csrftoken = getCookie('csrftoken');
+                // Encode data as x-www-form-urlencoded format   
+                var formData = new URLSearchParams();
+                formData.append('estimatedAgeGroup', AgeGroupResult);
+                // Send the request
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/BackEnd/CompareAgeGroups/', true);
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    var container = document.getElementById('containerDive');
+                    var htmlContent = '';
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            document.getElementById('retakeHeading').style.display = 'none';
+                            var response = JSON.parse(xhr.responseText);
+                            if(response.message === 'Matching'){
+                            htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your estimated age is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
+                            container.innerHTML = htmlContent;
+                            console.log(xhr.responseText);}
+                            else if(response.message === 'Not Matching'){
+                                htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your registered age group not matching your current estimated age group. Feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>';
+                                container.innerHTML = htmlContent;
+                            }
+                        }else {
+                            // Request failed, handle error
+                            alert('error');
+                        }
+                    }
+                };
+                xhr.send(formData);
+            }
         }
           }
           function error(){
@@ -469,7 +513,11 @@ body img{
             div.style.display = "block";
             counter++;
             if(counter === 3){
-            sendfunc();}
+                if(PageName === 'signup')
+                sendfunc();
+                else if(PageName === 'login')
+                loginfunc();
+            }
 
 
             take=document.getElementById('take-snapshot-button');
@@ -484,22 +532,50 @@ body img{
             document.getElementById("take-snapshot-button").style.display = "none";
             document.getElementById("instructions").style.display = "none";
         }
+        function loginfunc(){
+             var sendloginPopup = document.getElementById('sendlogin');
+             var sendRequestTrigger = document.getElementById('sendRequestTrigger');
+                if (sendloginPopup && sendRequestTrigger) {
+                    document.getElementById("sendlogin").style.display = "block";
+                    document.getElementById("send").style.display = "none";
+                    document.getElementById("video-container").style.display = "none";
+                    document.getElementById("take-snapshot-button").style.display = "none";
+                    document.getElementById("instructions").style.display = "none";
+                    var csrftoken = getCookie('csrftoken');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', "{% url 'SendEmailForWrongEstimation' %}", true);
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    /*
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            agGroup = response.agGroup;
+                        } else if (xhr.status === 404) {     
+                        }
+                    };*/
+                    xhr.send();
+
+                }
+        }
         function Try(){
             document.getElementById("send").style.display = "block";
             document.getElementById("video-container").style.display = "none";
             document.getElementById("take-snapshot-button").style.display = "none";
             document.getElementById("instructions").style.display = "none";
         }
-    </script>
+    </script>;
            <!-- Classification Popup -->
            <div id="classified" class="Popup" style="display: none;">
             <div class="popup-content">
                 <h3 style="text-align: left;">Almost There!</h3>
                 <span id="classification-message-span" style="font-size: 20px; font-weight: 700;"></span>
-                <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a></h4>
-                <h4 style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+                <div id="containerDive"></div>
+                <h4 id="retakeHeading" style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
             </div>
         </div>
+
            <!-- Error Popup -->
            <div id="error" class="Popup" style="display: none;">
             <div class="popup-content">
@@ -526,6 +602,17 @@ body img{
                             <button type="button" id="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
                     </div>
                 </div>
+
+            <!-- login send Popup -->
+            <div id="sendlogin" class="Popup" style="display: none;">
+                <div class="popup-content">
+                    <div id="sendRequestTrigger" style="display: none;"></div>
+                    <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
+                    <h4 style="font-size: 20px; font-weight: inherit;">We have sent to your registered email address with Game Geek to help you resolve this issue.</h4>
+                    <h7>If you haven't received an email, please ensure that yout registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
+                    <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
+                </div>
+            </div>
 
            <!-- Error Popup -->
            <div id="errorPopUp" class="Popup" style="display: none;">

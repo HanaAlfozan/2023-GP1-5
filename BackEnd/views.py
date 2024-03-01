@@ -26,6 +26,12 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.db.models import Value, IntegerField, Case, When
 from django.db.models.functions import Cast
+from django.views.decorators.csrf import csrf_protect
+from django.db import IntegrityError
+from django.contrib.auth.models import User
+from django.contrib import messages
+
+@csrf_protect
 def SignupUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
@@ -40,16 +46,14 @@ def SignupUser(request):
             if GGUser.objects.filter(Username=username).exists():
                 messages.error(request, "Username Already Exists!")
             else:
-                user = GGUser.objects.create_user(
-                    Username=username,
-                    First_name=firstname,
-                    Last_name=lastname,
-                    Email=email,
-                    Password=password,
-                    Accept_conditions=Accept_conditions
-                )
-                user_id = user.User_ID
-                request.session['user_id'] = user_id
+                request.session['user_data'] = {
+                    'username': username,
+                    'firstname': firstname,
+                    'lastname': lastname,
+                    'email': email,
+                    'password': password,
+                    'Accept_conditions': Accept_conditions,
+                    }
                 return redirect('estimate')
 
         else:
@@ -57,6 +61,49 @@ def SignupUser(request):
 
     return redirect('signup')
 
+
+
+    
+def AssignAgeGroup(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            estimated_age_group = data.get('estimatedAgeGroup')
+            
+            # Retrieve user data from session
+            user_data = request.session.get('user_data')
+            if user_data:
+                username = user_data['username']
+                firstname = user_data['firstname']
+                lastname = user_data['lastname']
+                email = user_data['email']
+                password = user_data['password']
+                Accept_conditions = user_data['Accept_conditions']
+
+                try:
+                    user = GGUser.objects.create_user(
+                        Username=username,
+                        First_name=firstname,
+                        Last_name=lastname,
+                        Email=email,
+                        Password=password,
+                        Accept_conditions=Accept_conditions,
+                        Approved_age_group=estimated_age_group
+                    )
+                    user_id = user.User_ID
+                    request.session['user_id'] = user_id
+                    return JsonResponse({'message': 'User created and age group assigned successfully'})
+                
+                except IntegrityError:
+                    return JsonResponse({'error': 'Username already exists'}, status=400)
+            
+            else:
+                return JsonResponse({'error': 'User data not found in session'}, status=404)
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+    
+    return HttpResponse()    
 
 def custom_password_reset(request):
     if request.method == 'POST':
@@ -220,6 +267,7 @@ def custom_username_reset_confirm(request, uidb64, token):
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
 
+@csrf_protect
 def LoginUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
@@ -233,28 +281,86 @@ def LoginUser(request):
             login(request, user)
             user_id = user.User_ID
             request.session['user_id'] = user_id
-            return redirect('Games')
+            return redirect('estimate')
         else:
             messages.error(request, 'Invalid username or password')
     return redirect('login')
- 
+   
 
-def AssignAgeGroup(request):
+
+def CompareAgeGroups(request):
+    print('hi from CompareAgeGroups') 
     if request.method == 'POST':
+        user_id = request.session.get('user_id')
         try:
-            data = json.loads(request.body.decode('utf-8'))
-            estimated_age_group = data.get('estimatedAgeGroup')
-            user_id = request.session.get('user_id')
+            # Parse form-urlencoded data
+            estimated_age_group = request.POST.get('estimatedAgeGroup')
+            print('here is the received age group:', estimated_age_group)
             user = GGUser.objects.get(User_ID=user_id)
             try:
-                user.Approved_age_group = estimated_age_group
-                user.save()
-                return JsonResponse({'message': 'Age Group updated successfully'})
+                if user.Approved_age_group == estimated_age_group:
+                    print('Matching')
+                    return JsonResponse({'message': 'Matching'})
+                else:
+                    print('Not Matching')
+                    return JsonResponse({'message': 'Not Matching'})
             except GGUser.DoesNotExist:
-                   return JsonResponse({'error': 'User not found'}, status=404)
+                return JsonResponse({'error': 'User not found'}, status=404)
 
-        except GGUser.DoesNotExist:
-                return JsonResponse({'error': 'User not found'}, status=404)       
+        except Exception as e:
+            print(e)
+            return JsonResponse({'error': 'An error occurred'}, status=500)
+        
+
+def SendEmailForWrongEstimation(request):
+    if request.method == 'POST':
+        user_id = request.session.get('user_id')
+        if user_id:
+            try:
+                user = GGUser.objects.get(User_ID=user_id)
+                email = user.Email
+            except GGUser.DoesNotExist:
+                return HttpResponseNotFound('User not found')
+
+        # Generate a token and uid for the user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email = user.Email
+        agGroup = user.Approved_age_group
+
+        # Create the reset link for age group assignment
+        reset_link = f"{request.scheme}://{request.get_host()}/redirect-age-group/{uid}/{token}/"
+
+        # Send the email with the reset link
+        send_mail(
+            'Redirect Link to Your Assigned Age Group',
+            f'Dear Gamer, we noticed that you attempted to log into your account, but it seems there is an issue verifying your assigned age group. Therefore, you have been granted access with your below-age-group by default. You can find the link below to be redirected to your account with your assigned age group: {reset_link}',
+            'gamegeekwebsite@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        if 'error_message' in request.POST:
+            return HttpResponse(status=400)
+        return JsonResponse({'agGroup': agGroup}, status=200)  
+    
+def RedirectingToGames(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = GGUser.objects.get(User_ID=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+            if request.method == 'POST':
+                user_id = user.User_ID
+                request.session['user_id'] = user_id
+            return render(request, 'Games.html')
+
+    else:
+        error_message = 'Unexpected error occured, please try again'
+        return render(request, 'index.html', {'status': 'error', 'message': error_message})
+         
+ 
 
 def Hello(request):
     user_id = request.session.get('user_id')
@@ -355,18 +461,12 @@ def retrieve_all_games(request):
             return JsonResponse({'error': 'User not found'})
     else:
         return JsonResponse({'error': 'User not authenticated'})
-    
-    print(f"Value of filtered_categories: {filtered_categories}")
 
     # Retrieve objects from the GamesList model suitable for the user's approved age group
     if sorted_games and len(filtered_categories) == 0:
         print("here is sorted_games")
         all_games_data = sorted_games 
-        
-    elif filtered_categories == -1:
-        print("Nothing to ret") 
-        cache.clear()
-        return    
+
 
     # Check if there are filtered categories in the cache
     elif filtered_categories:
@@ -382,10 +482,11 @@ def retrieve_all_games(request):
             filtered_sorted_games = [game for game in sorted_games if game['ID'] in all_games_ids]
             print(f'After reordering, the ID of the first game is: {filtered_sorted_games[0]["ID"]}')
             all_games_data = filtered_sorted_games
-            print(f'The length of all_games_data (317) is: {len(all_games_data)}')      
+            print(f'The length of all_games_data (317) is: {len(all_games_data)}') 
 
 
-    elif len(filtered_categories) == 0:
+
+    else:
         if user_age_group == 17:
         # If the user has the highest age group, retrieve all games
             all_games_data = GamesList.objects.all()
@@ -452,7 +553,7 @@ def retrieve_all_games(request):
     }
 
     # Return a JSON response
-    cache.clear()
+    #cache.clear()
     return JsonResponse(response_data)
 
 
@@ -669,23 +770,6 @@ def annotate_age_rating(queryset):
         output_field=IntegerField(),
     ), IntegerField())
     return queryset.annotate(numeric_age_rating=age_rating_annotation)
-def annotate_rating(queryset):
-    average_user_rating_annotation = Cast(Case(
-        When(Average_User_Rating='"Inapplicable"', then=Value(0.0)),
-        When(Average_User_Rating='1.0', then=Value(1.0)),
-        When(Average_User_Rating='1.5', then=Value(1.5)),
-        When(Average_User_Rating='2.0', then=Value(2.0)),
-        When(Average_User_Rating='2.5', then=Value(2.5)),
-        When(Average_User_Rating='3.0', then=Value(3.0)),
-        When(Average_User_Rating='3.5', then=Value(3.5)),
-        When(Average_User_Rating='4.0', then=Value(4.0)),
-        When(Average_User_Rating='4.5', then=Value(4.5)),
-        When(Average_User_Rating='5.0', then=Value(5.0)),
-        default=Value(-1.0),
-        output_field=FloatField(),
-    ), FloatField())
-
-    return queryset.annotate(age_rating=average_user_rating_annotation)
 
 def convert_rating_count(value):
     try:
@@ -710,60 +794,16 @@ def convert_rating(value):
         return 0
 
 
-
 def sort_by(request):
     # Default ordering
-    user_id = request.session.get('user_id')
-    user_age=''
-    user_age_group=0
-    game_queryset=[]
-
-    if user_id is not None:
-        try:
-            user = GGUser.objects.get(User_ID=user_id)
-            user_age = user.Approved_age_group
-
-            # Function to extract the numeric part from age group strings
-            def extract_numeric_part(age_group):
-                match = re.search(r'\d+', age_group)
-                if match:
-                    return int(match.group())
-                return 0
-
-            # Convert user age group string to numerical value
-            user_age_group = extract_numeric_part(
-                user_age) if user_age and user_age != 'fals' else 12
-        except GGUser.DoesNotExist:
-            return JsonResponse({'error': 'User not found'})
-    else:
-        return JsonResponse({'error': 'User not authenticated'})
-
-    # Retrieve objects from the GamesList model suitable for the user's approved age group
-
-    if user_age_group == 17:
-        # If the user has the highest age group, retrieve all games
-        game_queryset = GamesList.objects.all()
-    else:
-        # Use Case and When to handle age group comparison
-        game_queryset = GamesList.objects.annotate(
-            numeric_age_rating=Case(
-                When(Age_Rating='4+', then=Value(4)),
-                When(Age_Rating='9+', then=Value(9)),
-                When(Age_Rating='12+', then=Value(12)),
-                When(Age_Rating='17+', then=Value(17)),
-                default=Value(0),  # Default case, adjust as needed
-                output_field=IntegerField(),
-            )
-        ).filter(numeric_age_rating__lte=user_age_group)
-
     order_by_field = request.GET.get('order_by', 'Name')
     order_direction = request.GET.get('order_direction', 'asc')
-
 
     # Get the corresponding field for ordering
     order_field = get_order_field(order_by_field, order_direction)
 
-
+    # Fetch the sorted queryset
+    game_queryset = GamesList.objects.all()
 
     if order_by_field in ('Newest Games', 'Oldest Games'):
         game_queryset = game_queryset.order_by(order_field)
@@ -771,11 +811,8 @@ def sort_by(request):
         game_queryset = annotate_age_rating(game_queryset)
         order_field = '-numeric_age_rating' if order_by_field == 'Highest Age Rating' else 'numeric_age_rating'
         game_queryset = game_queryset.order_by(order_field)
-    elif order_by_field in ('Highest Rating', 'Lowest Rating'):
-        order_field = '-age_rating' if order_by_field == 'Highest Rating' else 'age_rating'
-        game_queryset=annotate_rating(game_queryset)
+    elif order_by_field in ('Highest Rating', 'Lowest Rating', 'Highest Rating Count', 'Lowest Rating Count'):
         game_queryset = game_queryset.order_by(order_field)
-
     else:
         # Explicitly handle alphabetical sorting
         if order_direction == 'asc':
@@ -788,11 +825,10 @@ def sort_by(request):
         {
             'Name': game.Name,
             'rating':game.Age_Rating,
-            'Average_User_Rating': game.Average_User_Rating,
+            'Average_User_Rating': convert_rating(game.Average_User_Rating),
             'User_Rating_Count': convert_rating_count(game.User_Rating_Count),
             'Original_Release_Date': game.Original_Release_Date,
             'Size': game.Size,
-
             'Icon_URL': game.Icon_URL,
             'Genres': game.Genres,
             'URL': game.URL,
@@ -801,14 +837,23 @@ def sort_by(request):
             'Developer': game.Developer,
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages,
-
             'ID': game.ID,
         }
         for game in game_queryset
     ]
+
+    # Order the games_list based on user's selection
+    if order_by_field in ('Highest Rating', 'Lowest Rating'):
+        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating' else (order_direction == 'asc')
+        games_list = sorted(games_list, key=lambda x: x['Average_User_Rating'], reverse=reverse_order)
+
+    # Order the games_list by User_Rating_Count based on user's selection
+    elif order_by_field in ('Highest Rating Count', 'Lowest Rating Count'):
+        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating Count' else (order_direction == 'asc')
+        games_list = sorted(games_list, key=lambda x: x['User_Rating_Count'], reverse=reverse_order)
+
     cache.set('games_list', games_list)
     response_data = {
-        'message': 'The games are:',
         'order_by_field': order_by_field,
         'order_direction': order_direction,
     }
@@ -926,57 +971,7 @@ def filter_games_multiple(request):
     categories = {key.rstrip('[]') for key in request.GET.keys() if key.rstrip('[]') in valid_categories}
 
     # Initialize filtered queryset
-    user_id = request.session.get('user_id')
-    user_age = ''
-    user_age_group = 0
-    response_data=''
-    filtered_games_queryset=[]
-    if user_id is not None:
-        try:
-            user = GGUser.objects.get(User_ID=user_id)
-            user_age = user.Approved_age_group
-
-            # Function to extract the numeric part from age group strings
-            def extract_numeric_part(age_group):
-                match = re.search(r'\d+', age_group)
-                if match:
-                    return int(match.group())
-                return 0
-
-            # Convert user age group string to numerical value
-            user_age_group = extract_numeric_part(
-                user_age) if user_age and user_age != 'fals' else 12
-        except GGUser.DoesNotExist:
-            return JsonResponse({'error': 'User not found'})
-    else:
-        return JsonResponse({'error': 'User not authenticated'})
-
-    # Retrieve objects from the GamesList model suitable for the user's approved age group
-
-    if user_age_group == 17:
-        # If the user has the highest age group, retrieve all games
-        filtered_games_queryset = GamesList.objects.all()
-    else:
-        # Use Case and When to handle age group comparison
-        filtered_games_queryset = GamesList.objects.annotate(
-            numeric_age_rating=Case(
-                When(Age_Rating='4+', then=Value(4)),
-                When(Age_Rating='9+', then=Value(9)),
-                When(Age_Rating='12+', then=Value(12)),
-                When(Age_Rating='17+', then=Value(17)),
-                default=Value(0),  # Default case, adjust as needed
-                output_field=IntegerField(),
-            )
-        ).filter(numeric_age_rating__lte=user_age_group)
-
-    if 'Average_User_Rating' in categories:
-
-        rating_values = request.GET.getlist('Average_User_Rating[]')
-        rating_values = [float(value) for value in rating_values if value.isdigit()]
-        if rating_values:
-            filtered_games_queryset = filtered_games_queryset.filter(Average_User_Rating__in=rating_values)
-        else:
-            filtered_games_queryset = filtered_games_queryset.filter(Average_User_Rating=5.0)
+    filtered_games_queryset = GamesList.objects.all()
 
     if categories:
         # Start with an initial Q object
@@ -992,29 +987,25 @@ def filter_games_multiple(request):
         # Apply the filtered categories to the queryset
         filtered_games_queryset = filtered_games_queryset.filter(q_objects)
 
-        if filtered_games_queryset.exists():
-            print('There are results')
-            games_list = [
-                {
-                    'Name': clean_name(game.Name),
-                    'Icon_URL': game.Icon_URL,
-                    'URL': game.URL,
-                    'ID': game.ID,
-            }
-            for game in filtered_games_queryset
-        ]
-            cache.set('filtered_games', games_list)
-            # Include filtered categories in the response
-            response_data = {
-                'filtered_games': games_list,
-                }
-        
-        else:
-            print('Nothing')   
-            cache.set('filtered_games', 'Nothing')
-            response_data = {
-                'filtered_games': -1,
-                } 
+    # Sort the filtered games based on default ordering (by Name)
+    filtered_games_queryset = filtered_games_queryset.order_by('Name')
+
+    # Convert queryset to a list of dictionaries
+    games_list = [
+        {
+            'Name': clean_name(game.Name),
+            'Icon_URL': game.Icon_URL,
+            'URL': game.URL,
+            'ID': game.ID,
+        }
+        for game in filtered_games_queryset
+    ]
+
+    cache.set('filtered_games', games_list)
+    # Include filtered categories in the response
+    response_data = {
+        'filtered_games': games_list,
+    }
 
     return JsonResponse(response_data, safe=False)
 
