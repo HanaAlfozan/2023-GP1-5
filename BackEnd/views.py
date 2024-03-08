@@ -815,73 +815,8 @@ def sort_by(request):
 
     return JsonResponse(response_data)
 
-@csrf_exempt
-def add_to_favorites(request, game_id):
-    if request.method == 'GET':
-        try:
-            user_id = request.session.get('user_id')
 
-            # Check if the user exists
-            user = GGUser.objects.get(User_ID=user_id)
-
-            # Check if the game exists
-            game = GamesList.objects.get(ID=game_id)
-
-            # Check if the game is already in favorites
-            if Favorite.objects.filter(User_ID=user, Game_ID=game).exists():
-                return JsonResponse({'success': False, 'error': 'Game is already in favorites'})
-
-            # Add the game to favorites
-            Favorite.objects.create(User_ID=user, Game_ID=game)
-
-            return JsonResponse({'success': True})
-
-        except GGUser.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'User does not exist'})
-
-        except GamesList.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Game does not exist'})
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
-
-def favorite_games(request):
-    user_id = request.session.get('user_id')
-    if user_id:
-        user_favorites = Favorite.objects.filter(User_ID=user_id)
-        games_data = [{'id': favorite.Game_ID.ID,
-                       'icon_url': favorite.Game_ID.Icon_URL,
-                       'name': favorite.Game_ID.Name,
-                       'url': favorite.Game_ID.URL} for favorite in user_favorites]
-        return JsonResponse({'games': games_data})
-    else:
-        return JsonResponse({'error': 'User not authenticated'})
-
-
-@csrf_exempt
-def remove_favorite(request, game_id):
-    if request.method == 'GET':
-        try:
-            user_id = request.session.get('user_id')
-
-            # Check if the user is logged in
-            if not user_id:
-                return JsonResponse({'success': False, 'error': 'User not logged in'})
-
-            # Check if the game is in the user's favorites
-            favorite = Favorite.objects.filter(User_ID=user_id, Game_ID=game_id).first()
-            if favorite:
-                favorite.delete()
-                return JsonResponse({'success': True})
-            else:
-                return JsonResponse({'success': False, 'error': 'Game not found in favorites'})
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+## -----------Extracters  methods --------------------------
 
 @require_http_methods(["GET"])
 def ExtractPrice(request):
@@ -1019,6 +954,79 @@ def filter_games_multiple(request):
     return JsonResponse(response_data, safe=False)
 
 
+## -----------favourite games methods --------------------------
+
+@csrf_exempt
+def add_to_favorites(request, game_id):
+    if request.method == 'GET':
+        try:
+            user_id = request.session.get('user_id')
+
+            # Check if the user exists
+            user = GGUser.objects.get(User_ID=user_id)
+
+            # Check if the game exists
+            game = GamesList.objects.get(ID=game_id)
+
+            # Check if the game is already in favorites
+            if Favorite.objects.filter(User_ID=user, Game_ID=game).exists():
+                return JsonResponse({'success': False, 'error': 'Game is already in favorites'})
+
+            # Add the game to favorites
+            Favorite.objects.create(User_ID=user, Game_ID=game)
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def favorite_games(request):
+    user_id = request.session.get('user_id')
+    if user_id:
+        user_favorites = Favorite.objects.filter(User_ID=user_id)
+        games_data = [{'id': favorite.Game_ID.ID,
+                       'icon_url': favorite.Game_ID.Icon_URL,
+                       'name': favorite.Game_ID.Name,
+                       'url': favorite.Game_ID.URL} for favorite in user_favorites]
+        return JsonResponse({'games': games_data})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+
+@csrf_exempt
+def remove_favorite(request, game_id):
+    if request.method == 'GET':
+        try:
+            user_id = request.session.get('user_id')
+
+            # Check if the user is logged in
+            if not user_id:
+                return JsonResponse({'success': False, 'error': 'User not logged in'})
+
+            # Check if the game is in the user's favorites
+            favorite = Favorite.objects.filter(User_ID=user_id, Game_ID=game_id).first()
+            if favorite:
+                favorite.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'Game not found in favorites'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+## -----------visitied games methods --------------------------
+
 def visited_games(request):
     user_id = request.session.get('user_id')
 
@@ -1072,4 +1080,82 @@ def save_visited_game(request, game_id):
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+#--------------------recently viewed game -----------------------------
+from django.shortcuts import get_object_or_404
 
+
+def add_to_recently_viewed(request, game_id):
+    user_id = request.session.get('user_id')
+
+    if user_id:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            game = get_object_or_404(GamesList, ID=game_id)
+
+            recently_viewed_games = request.session.get('recently_viewed_games', [])
+
+            # Remove the game if it already exists in the list
+            if game_id in recently_viewed_games:
+                recently_viewed_games.remove(game_id)
+
+            # Add the new game to the list
+            recently_viewed_games.insert(0, game_id)
+
+            # Keep only the first 4 unique games while maintaining order
+            recently_viewed_games = list(dict.fromkeys(recently_viewed_games))
+
+            # Assign order based on the index
+            recently_viewed_games = [
+                {"id": game_id, "order": i} for i, game_id in enumerate(recently_viewed_games)
+            ]
+
+            # Sort the games based on their order in the session
+            recently_viewed_games.sort(key=lambda x: x["order"])
+
+            # Limit the length to 4
+            recently_viewed_games = recently_viewed_games[:4]
+
+            request.session['recently_viewed_games'] = [game["id"] for game in recently_viewed_games]
+            request.session.modified = True
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+    return JsonResponse({'success': False, 'error': 'User not authenticated'})
+
+
+
+def recently_viewed_games(request):
+    user_id = request.session.get('user_id')
+
+    if user_id:
+        recently_viewed_game_ids = request.session.get('recently_viewed_games', [])
+        recently_viewed_games = GamesList.objects.filter(ID__in=recently_viewed_game_ids)
+
+        # Assign order based on the index
+        recently_viewed_games = [
+            {"id": game.ID, "order": recently_viewed_game_ids.index(game.ID)}
+            for game in recently_viewed_games
+        ]
+
+        # Sort the games based on their order in the session
+        recently_viewed_games.sort(key=lambda x: x["order"])
+
+        recently_viewed_games_data = [
+            {
+                'id': game["id"],
+                'name': GamesList.objects.get(ID=game["id"]).Name,
+                'url': GamesList.objects.get(ID=game["id"]).URL,
+                'icon_url': GamesList.objects.get(ID=game["id"]).Icon_URL,
+            }
+            for game in recently_viewed_games
+        ]
+
+        return JsonResponse({'games': recently_viewed_games_data})
+
+    return JsonResponse({'error': 'User not authenticated'})

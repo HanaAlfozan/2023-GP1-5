@@ -9,6 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
+
 	<!-- title -->
 	<title>Sign Up</title>
 
@@ -88,7 +89,79 @@
 			return true;
 		}
 	  </script>
+
 	<style>
+
+/*
+@media (max-width: 767px) { /* work a littile bit*/
+    /* Adjust styles for smaller screens 
+    .form-container form {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .right, .left {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin-left: 0;
+    }
+
+    .site-logo img {
+        width: 150px;
+        height: 75px;
+        left: 0;
+    }
+}
+*/
+
+/*
+container {
+    width: 100%;
+     padding-right: 15px;
+    padding-left: 15px; 
+    margin-right: auto; 
+     margin-left: auto; 
+}*/
+
+#hey{
+	padding: 10px; 
+	 margin: 0; 
+	 max-width: 500%; 
+	 margin-left: 1%; 
+	 font-size: 110%; 
+	 text-align:center;
+  letter-spacing: 3%;
+  line-height: 2;
+}
+
+/*
+.Boxes{
+	margin:10% ;
+}*/
+
+.row .Main-row {
+	margin-left: -25%;
+	margin-right: -25%;
+	margin-top: 10%;
+	justify-content: center; /* Center the columns */
+
+}
+
+
+@media (max-width: 900px) {
+    .row.Main-row .col-lg-6.col-md-6.text-center {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+.hero-area div {
+  height:auto
+}
+
 		.games{
 			color: #fff;
 		}
@@ -108,10 +181,13 @@
 
 		  summary {
     list-style-type: none; /* For non-Chrome browsers */}
-.hero-area{
 
+
+.hero-area{
 background: rgb(21,22,51);
 background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
+height:auto
+
 		}
 
 
@@ -121,29 +197,29 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     padding: 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-    width: 55%;
-	margin-left: 200px;
-	height:400%;
+    width: 95%;
+	/*margin-left: 100px;
+	margin-right: 100px;*/
+	height:auto;
 
 }
 
 .right {
-  position: relative;
-  left: 250px;
-  top:-340px;
-
+  margin:10% ;
+  margin-top:15%;
 }
 
 .left{
-  position: relative;
-  left: -370px;
-  top: 200px;
-
+  margin:10% ;
+ /* margin-left: -15%;*/
+  margin-top: 40%;
 }
 
 
 .form-container {
      background-color: transparent;
+	 /*width: 100%;*/
+
 }
 
 .hero-area {
@@ -185,7 +261,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 
-		.animate-charcter {
+		.animate-charcter { /*signUp*/
   text-transform: uppercase;
   background-image: linear-gradient(
      -225deg,
@@ -213,7 +289,7 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 
-				.site-logo img{
+.site-logo img{
   width: 200px;
     height: 100px;
 	position: relative;
@@ -247,6 +323,7 @@ body img{
 
 
 		}
+		
 .gradient-hr {
   border: none;
   border-top: 2px solid transparent; /* Set a transparent border on top of hr */
@@ -273,50 +350,64 @@ body img{
     <!--PreLoader Ends-->
 	
 	<!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
-							</a>
-						</div>
+<div class="top-header-area" id="sticker">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 text-center">
+				<div class="main-menu-wrap">
+					<!-- logo -->
+					<div class="site-logo">
+						<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
+						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 	<!-- end header -->
-		<div class="hero-area hero-bg" style="background-size: 120%;">
-			<div class="container">
+
+<div class="hero-area hero-bg" style="background-size: 120%;">
+	<div class="container">
 				<div class="row">
 					<div class="col-lg-9 offset-lg-2 text-center">
 						<div class="hero-text">
 							<div class="hero-text-tablecell">
 	<div class="contact-from-section mt-150 mb-150">
 		<div class="container">
-			<div class="left">
+			<div class="row Main-row">
+				<div class="col-lg-6 col-md-6 text-center">
+
+				<!--<div class="col-lg-9 offset-lg-2 text-center">-->
+					<div class="left">
+					<!----<div class="Boxes">-->
 				<h3 class="animate-charcter">Let the fun begin with Game Geek!</h3>
 				<br>
-
 				<h4 class="note" style="color: #ff069a; letter-spacing: 1px; font-size: 22px;" id="note">Important Note for Our Young Gamers🎮</h4>
-				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 16px; text-align:center;" ALIGN=LEFT id="hey"><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly <b style="background-color:#ff069a; border-radius:50px;padding:1%;">ensure</b> that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
+				<p style="color: #fff; letter-spacing: 1px;" id="hey"><b>Hey there! If you're 16 or younger, we just want to make sure you have an amazing time on Game Geek with a bit of extra support.  Kindly <b style="background-color:#ff069a; border-radius:50px;padding:1%;">ensure</b> that you have permission from an adult before registering. Happy gaming! 🚀</b></p>
 				<br>
+				<!--</div> --end of Left-->
+
+              </div>
+			  </div>
+
+			  <div class="col-lg-6 col-md-6 text-center">
+				<!--<div class="Boxes">-->
+
+			<!--<div class="col-lg-9 offset-lg-2 text-center">-->
+				<div class="right">
 
 
-			</div>
-			<div class="right">
-			<div class="containeTitle" style="margin-left: 200px;">
-								<div class="rowTitle">
-								  <div class="col-md-12 text-center">
-									<h3 class="animate-charcter" style="font-size: 50px;">Sign Up</h3>
-								  </div>
-								</div>
-							  </div>
+				<div class="containeTitle">
+					<div class="rowTitle">
+						<div class="col-md-12 text-center">
+							<h3 class="animate-charcter" style="font-size: 50px;">Sign Up</h3>
+						</div>
+					</div>
+				</div>
 
-    <div class="form-container">
+           <div class="form-container">
+
 <form action="{% url 'SignupUser' %}" method="POST">
     {% csrf_token %}
     <div class="input-pair">
@@ -326,7 +417,9 @@ body img{
         <label for="username">Username:</label>
         <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username" onblur="validateUsername(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Username should not start with a number and no spaces allowed" style="width: 58%;">
     </div>
-	<span id="username-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 19.5%;"></span>
+	<span id="username-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 19.5%;"></span> <!-- these for error messages-->
+	<!--end of username-->
+
 	<div class="input-pair">
 		<span class="input-item">
 			<i class="fa fa-user-circle"></i>
@@ -335,6 +428,8 @@ body img{
         <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your First name" onblur="validateFname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Firstname should not start with a number and no spaces allowed" style="width: 58%;">
     </div>
 	<span id="firstname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 29.5%;"></span>
+	<!--end of Firstname-->
+
 	<div class="input-pair">
 		<span class="input-item">
 			<i class="fa fa-user-circle"></i>
@@ -343,7 +438,9 @@ body img{
         <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your Last name" onblur="validateLname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Lastname should not start with a number and no spaces allowed" style="width: 58%;">
     </div>
 	<span id="lastname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 39.5%;"></span>
-    <div class="input-pair">
+   <!--end of Lastname-->
+
+	<div class="input-pair">
 		<span class="input-item">
 			<i class="fa fa-envelope"></i>
 		</span>
@@ -351,6 +448,7 @@ body img{
 		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)" style="margin-left: 10%">
     </div>
 	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top:50%;"></span>
+	<!--end of email-->
     <div class="input-pair" style="padding-top: 3%;">
 		<span class="input-item">
 			<i class="fa fa-key"></i>
@@ -361,29 +459,38 @@ body img{
 		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>
 	 </div>
 	 <span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 60.5%; left: 35%; max-width: 55%;"></span>
-    <div class="input-pair" id="cp">
+   <!--end of Password-->
+
+	 <div class="input-pair" id="cp">
 		<span class="input-item" style="top: -18px;">
 			<i class="fa fa-key"></i>
 		</span>
         <label for="confirm_password">Confirm Password:</label>
         <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
-		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>	</div>
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>	
+	</div>
 	<!-- Display messages only if there are any -->
 	{% if messages %}
 		{% for message in messages %}
 			<h5>{{ message }}</h5>
 		{% endfor %}
 	{% endif %}
+     <!--end of confirm pass-->
+
 	<div>
-					<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px;" ><b id="terms">I agree to the terms and conditions</b></label>
-					<input type="checkbox" id="agree" name="Accept_conditions" required>
-					<br>
-					<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
-				</div>
+		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px;" ><b id="terms">I agree to the terms and conditions</b></label>
+		<input type="checkbox" id="agree" name="Accept_conditions" required>
+		<br>
+		<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
+	</div>
+
     <input type="submit" id="LogIN" value="Join US" style="width: 80%;" onclick="return validateCheckbox();">
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
+		   </div>
+</div>
+
 <script>
     function validateUsername(username) {
         var usernameError = document.getElementById('username-error');
@@ -454,16 +561,16 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
   </script>
 
 
-    </div>
-</div>
-</div>
-	</div>
+												<!--</div> <!--end of form-containe-->
+											</div> <!--end of right-->
+										</div><!--end of container-->
+								</div><!--end of contact-from-section mt-150 mb-150">-->
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+					</div> <!--end of hero-text-->
+				</div> <!--end of col-->
+			</div><!--end of row-->
+	</div><!--end of container-->
+</div> <!--end of hero-->
 
 
 	<!-- footer -->

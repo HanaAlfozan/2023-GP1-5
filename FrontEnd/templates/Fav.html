@@ -38,7 +38,6 @@
 
 
 	<style>
-
 .favoriteGamesContainer {
 
 	display: flex;
@@ -47,10 +46,7 @@
     margin-top: 1%;
     margin-left: 5%;
     position: relative;
-   justify-content: flex-start;
-
-  
-   
+   justify-content: flex-start; 
 }
 
 .empty-message {
@@ -61,7 +57,6 @@
         font-size: 120%; 
         color: #ff069a; 
         font-family: "Poppins", sans-serif;
-
 }
 
     .removal-message {
@@ -104,8 +99,6 @@
   color: #ff069a; /* Bold text color */
 }
 
-
-	/* deema section above*/
 
 .single-product-item {
   position: relative;
@@ -231,8 +224,6 @@ ul li a:hover {
   min-height: calc(100vh - 100%);
 }
 
-
-
 .container {
 		height:100%;
 	}
@@ -270,10 +261,9 @@ body img{
   width: 40%;
 
 }
-
-
-
 	</style>
+
+
 </head>
 <body>
 	
@@ -326,7 +316,9 @@ body img{
 						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
 
                  <script>
+                    
                         $(document).ready(function() {
+ 							//------------------------------Hello Username:                                                       
                             // Fetch user data and display welcome message
                             $.ajax({
                                 url: '/BackEnd/Hello/',
@@ -344,30 +336,31 @@ body img{
                                 }
                             });
                         
+							//------------------------------ retrieve the favorite games
                             // Function to generate HTML for a single game
                             function generateGameHtml(game) {
                                 return `
-                                    <div class="col-lg-4 col-md-6 text-center strawberry" data-id="${game.id}">
+                                    <div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.id}">
                                         <div class="single-product-item">
-                                            <button class="remove-game" data-id="${game.id}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
+                                            <button class="remove-game" data-game-id="${game.id}"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
                                             <div class="product-image">
                                                 <a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
                                             </div>
                                             <h3 class="names">${game.name}</h3>
-                                            <a href="${game.url}" class="cart-btn ids" style="text-decoration: none;">More info</a>
+                                            <a href="${game.url}" class="cart-btn more-info-btn" style="text-decoration: none;">More info</a>
                                         </div>
                                     </div>`;
                             }
                         
                             // Function to update the order of the games
                             function updateOrder() {
-                                $('.favoriteGamesContainer .strawberry').each(function(index) {
+                                $('.favoriteGamesContainer .game-item').each(function(index) {
                                     $(this).data('order', index + 1);
                                 });
                         
                                 // Sort by order and re-append to maintain the correct order
                                 var container = $('.favoriteGamesContainer');
-                                container.find('.strawberry').sort(function(a, b) {
+                                container.find('.game-item').sort(function(a, b) {
                                     return $(a).data('order') - $(b).data('order');
                                 }).appendTo(container);
                             }
@@ -406,18 +399,13 @@ body img{
                                     }
                                 }
                             });
+
                         
-                            // Handle "More info" button click
-                            $(document).on('click', '.ids', function(e) {
-                                e.preventDefault();
-                                var gameId = $(this).closest('.strawberry').data('id');
-                                window.location.href = `/game_info_page/${gameId}/`;
-                            });
-                        
+							//------------------------------ remove game from the favorite games
                             // Handle remove game button click
                             $(document).on('click', '.remove-game', function() {
                                 var button = $(this);
-                                var gameContainer = button.closest('.strawberry');
+                                var gameContainer = button.closest('.game-item');
                                 var undoButton = $('<button class="undo-remove">Undo</button>');
                                 var gameId = button.data('id');
                                 var gameName = gameContainer.find('.names').text(); // Get the game name
@@ -469,10 +457,56 @@ body img{
                                     clearTimeout(timeoutId); // Clear the timeout when Undo button is clicked
                                 });
                             });
+
+                         //----------------------------------------- More Info button
+                              // Function to get the value of a cookie by name
+                                function getCookie(name) {
+                                    var cookieValue = null;
+                                    if (document.cookie && document.cookie !== '') {
+                                        var cookies = document.cookie.split(';');
+                                        for (var i = 0; i < cookies.length; i++) {
+                                            var cookie = cookies[i].trim();
+                                            // Check if this cookie string begins with the name we want
+                                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    return cookieValue;
+                                }
+
+                                // Handle "More info" button click
+                                $(document).on('click', '.more-info-btn', function (e) {
+                                    e.preventDefault();
+                                    var gameId = $(this).closest('.game-item').data('game-id');
+                                    window.location.href = `/game_info_page/${gameId}/`;
+
+                                    // Add the game to recently viewed when "More Info" is clicked
+                                    addToRecentlyViewed(gameId);
+                                });
+
+                                // Function to add the game to recently viewed
+                                function addToRecentlyViewed(gameId) {
+                                    $.ajax({
+                                        url: `/BackEnd/add_to_recently_viewed/${gameId}/`,
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        headers: {
+                                            'X-CSRFToken': getCookie('csrftoken'),  // Include the CSRF token
+                                        },
+                                        success: function (data) {
+                                            console.log('Added to Recently Viewed:', data);
+                                            // You can handle success as needed
+                                        },
+                                        error: function (error) {
+                                            console.error('Error making AJAX request:', error);
+                                        }
+                                    });
+                                  }
+                                
                         });
-                     </script>
-                        
-						
+                     </script>	
 					</div>
 				</div>
 			</div>
@@ -488,9 +522,9 @@ body img{
 					<div class="breadcrumb-text">
 						<h1>Favourite Games</h1>
 						<p>
-						<span class="blue">Where</span>
-							<span class="black"> Happiness</span>
-							<span class="pink">is met</span>
+                            <span class="blue">Where</span>
+                            <span class="black"> Happiness</span>
+                            <span class="pink">is met</span>
 						</p>
 					</div>
 				</div>
@@ -501,13 +535,12 @@ body img{
 		<ul class="Realbreadcrumb">
 					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
 					<li class="breadcrumb-item current"><a href="{% url 'Fav' %}">Favourite Games</a></li>
-				</ul>
+		</ul>
 	<!-- end breadcrumb section -->
 
 	<!-- games -->
 	<div class="product-section mt-150 mb-150"> <!--all sections-->
 		<div class="container">
-
 			<!--<div class="row">
                 <div class="col-md-12">  </div>
             </div>-- delete it -->
@@ -517,7 +550,7 @@ body img{
 			</div>
 			
 						
-			<div class="row">
+			<!--<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
 						<ul>
@@ -525,10 +558,12 @@ body img{
 						</ul>
 					</div>
 				</div>
-			</div>
+			</div> -->
+
 		</div>
 	</div>
 	<!-- end games -->
+
 	<!-- footer -->
 	<div class="footer-area">
 		<div class="container">
@@ -595,7 +630,6 @@ body img{
 		</div>
 	</div>
 	<!-- end copyright -->
-	
 	
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
