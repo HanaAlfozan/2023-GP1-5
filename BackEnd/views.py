@@ -484,15 +484,16 @@ def retrieve_all_games(request):
 
         print('HERE HERE filtered_categories')
 
-        all_games_data = [
+        all_games_data =  games_list = [
             {
-                'Name': clean_name(game.get('Name', '')),  # Use get to handle missing keys
+                'Name': game.get('Name', ''),  # Use get to handle missing keys
                 'Icon_URL': game.get('Icon_URL', ''),
                 'URL': game.get('URL', ''),
                 'ID': game.get('ID', ''),
             }
-            for game in filtered_categories  # Iterate over the list filtered_categories
+            for game in filtered_categories
         ]
+
 
         print(f'The length of filtered_categories is: {len(filtered_categories)}')
         print(f'The length of sorted_games is: {len(sorted_games)}')
@@ -573,7 +574,7 @@ def retrieve_all_games(request):
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
         'filter_status':status,
-        'filtered_categories':filtered_categories,
+        'filtered_categories':games_list,
 
     }
   # Return a JSON response
@@ -910,21 +911,8 @@ def sort_by(request):
     games_list = [
         {
             'Name': game.Name,
-            'rating':game.Age_Rating,
-            'Average_User_Rating': game.Average_User_Rating,
-            'User_Rating_Count': convert_rating_count(game.User_Rating_Count),
-            'Original_Release_Date': game.Original_Release_Date,
-            'Size': game.Size,
-
             'Icon_URL': game.Icon_URL,
-            'Genres': game.Genres,
             'URL': game.URL,
-            'Price': game.Price,
-            'In_app_Purchases': game.In_app_Purchases,
-            'Developer': game.Developer,
-            'Age_Rating': game.Age_Rating,
-            'Languages': game.Languages,
-
             'ID': game.ID,
         }
         for game in game_queryset
@@ -1051,7 +1039,7 @@ def filter_games_multiple(request):
     # Convert queryset to a list of dictionaries
     games_list = [
         {
-            'Name': clean_name(game.Name),
+            'Name': game.Name,
             'Icon_URL': game.Icon_URL,
             'URL': game.URL,
             'ID': game.ID,
