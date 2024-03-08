@@ -235,7 +235,7 @@
 									$(document).on('click', '.more-info-btn', function (e) {
                                     e.preventDefault();
                                     var gameId = $(this).closest('.game-item').data('id');
-                                    window.location.href = `/game_info_page/${gameId}/`;
+                                    window.location.href = `/game_info_page/${game-Id}/`;
 
                                     // Add the game to recently viewed when "More Info" is clicked
                                     addToRecentlyViewed(gameId);

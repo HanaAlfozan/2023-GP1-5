@@ -596,7 +596,43 @@ margin-left:20%;
         left: 95px;
     }
 }
+.modal {
 
+  position: fixed; /* Stay in place */
+
+  padding-top: 20%; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+     display:none;
+
+}
+
+/* Modal Content */
+.modal-content {
+
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 20%;
+    background-color: #fff;
+
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+#filter-btn{
+font-family: 'Poppins', sans-serif;
+background-color: #ff069a;
+ color: #fff;
+padding: 2%;
+    border-radius: 50px;
+     border: none; /* This removes the border */
+
+
+}
     </style>
 
 </head>
@@ -700,6 +736,18 @@ margin-left:20%;
 	<!-- games -->
 	<div class="product-section mt-150 mb-150">
 
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+
+    <p style="text-align:center;"><b>No games found for the selected filter.</b></p>
+	  <button id="filter-btn">OK</button>
+  </div>
+
+</div>
+	<!-- games -->
+	<div class="product-section mt-150 mb-150">
 
 <div class="sort">
     <!-- Select -->
@@ -878,12 +926,21 @@ $.ajax({
     }
 });
 
-// Extract Language
-$.ajax({
-    url: '/BackEnd/ExtractLanguage/',
-    type: 'GET',
-    dataType: 'json',
-    success: function (data) {
+
+       // Extract Language
+        $.ajax({
+            url: '/BackEnd/ExtractLanguage/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+        // Move "Others" language to the end of the array
+        data.languages.sort(function(a, b) {
+            if (a === "Others") return 1;
+            if (b === "Others") return -1;
+            return 0;
+        });
+
+        // Append checkboxes with view more options
         appendCheckboxesWithViewMore($('#Languages-options-container'), data.languages);
         attachEventListeners();
         EventListeners();
@@ -892,6 +949,7 @@ $.ajax({
         console.error('Failed to fetch language options.');
     }
 });
+
 
 // Extract In-App Purchases
 $.ajax({
@@ -966,8 +1024,14 @@ EventListeners();
 
 }
 $('#clearFilters').on('click', clearAllFilters);
-
+$('#filter-btn').on('click', function() {
+    clearAllFilters();
+    $('#myModal').css('display', 'none'); // Set otherElement to display: none
 });
+$('#login-btn').on('click', clearAllFilters);
+    });
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
 const summaries = document.querySelectorAll('summary');
@@ -1057,7 +1121,7 @@ $('input[type="checkbox"]').each(function () {
 						<h3></h3>
 						<form id="gameInfoForm">
 						<input type="hidden" id="gameIdInput" name="game_id">
-						<button type="button" id="moreInfoButton">More info</button>
+						<button type="button" id="moreInfoButton class=cart-btn more-info-btn">More info</button>
 						</form>
 					</div>
 				</div>
@@ -1254,6 +1318,13 @@ function makeAjaxRequest(page, slice) {
          success: function(response) {
 console.log(response)
             updateGamesContainer(response);
+
+            if(response.filter_status === "no games satisfies the filter") {
+            document.getElementById('myModal').style.display = 'block';
+
+
+
+            }
         },
         error: function (error) {
             console.error('Error making AJAX request:', error);
@@ -1268,7 +1339,7 @@ function updateGamesContainer(data) {
 
     data.games_data.forEach(function (game) {
         var gameHTML = `
-            <div class="col-lg-4 col-md-6 text-center strawberry" data-game-id="${game.ID}">
+            <div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.ID}">
                 <div class="single-product-item">
                     <div class="product-image">
                         <a href="${game.URL}"><img src="${game.Icon_URL}" alt=""></a>
