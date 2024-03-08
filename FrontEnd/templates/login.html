@@ -520,7 +520,7 @@ body img{
             {% csrf_token %}
             <div class="input-pair">
                 <label for="password">New Username:</label>
-				<input type="text" id="newusername" class="input-box" name="newusername" required placeholder="Enter your Username"  pattern="^[a-zA-Z][a-zA-Z0-9]*$" title="Username must not contain spaces and not start with numbers.""
+				<input type="text" id="newusername" class="input-box" name="newusername" required placeholder="Enter your Username"  pattern="^[a-zA-Z][a-zA-Z0-9]*$" title="Username must not contain spaces and not start with numbers.">
 
 
 			</div>
@@ -745,7 +745,7 @@ console.log(status)
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'index' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'index' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'index' %}">Downloaded Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Visited Store Games</a></li>
 								</ul></details>
 							<li class="dash"><a href="{% url 'index' %}">Profile</a></li>
 							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>

@@ -6,13 +6,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- title -->
 	<title>All Games</title>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="{% static 'img/Games/GGicon.png' %}">
 	<!-- google font -->
@@ -39,37 +37,129 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-	<style>   
+	<style>  
+    
+    .filter-container {
+            display: block;
+			border: 0.2px solid #aaa;
+            border-radius: 4px;
+            padding: 20px;
+			position: relative !important;
+            max-width: 250px;
+            margin: auto;
+            left: -39% !important;
+            top: -94px !important;
+
+        }
+
 	    .checked {
 	      color: orange;
 		}
-
-        .product-lists {
-            margin-left: 20%; /* Adjust the value as needed to move it more to the right */
-        }
-
-		.container.content-space-1 {
-            margin-left: -350px; /* Set the left margin to 0 to move it to the left */
-            padding-left: 0; /* Set the left padding to 0 to move it to the left */
-		}
-
-		.single-product-item {
-            margin-right: -5px;
-		 }
 
         .GAMES {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
-			margin-top: -360px;
-			margin-left: 150px;
+			margin-top: -40%;
+			margin-left: 18%;
+            position: relative;
+            
 		}
+
+        @media screen and (max-width: 1024px) {
+    .container {
+        margin-top: -40%;
+        margin-left: 4%;
+    }
+}
+
+@media screen and (max-width: 970px) {
+    .container {
+        margin-left: 10%;
+        margin-top: -50%;
+    }
+}
+
+
+        @media screen and (max-width: 820px) {
+    .container {
+        margin-top: -50%;
+        margin-left: 13%;
+        max-width: 720px;
+    }
+}
+
+        @media screen and (max-width: 768px) {
+    .container {
+        margin-top: -60%;
+        /*margin-left: 13%;*/
+        max-width: 552px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .container {
+        margin-top: -102%;
+        margin-left: 4%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        margin-top: -108%;
+        margin-left: 24%;
+        max-width: 326px;
+    }
+}
+
+
+@media screen and (max-width: 414px) {
+    .container {
+        margin-top: -117%;
+        margin-left: 16%;
+        width: 381px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .container {
+        margin-top: -143%;
+        margin-left: 20%;
+        width: 720px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .container {
+        margin-top: -132%;
+        margin-left: 27%;
+        max-width: 720px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .container {
+        margin-top: -164%;
+        margin-left: 34%;
+        width:400px
+    }
+}
+
+@media screen and (max-width: 200px) {
+    .container {
+        margin-top: -295%;
+        margin-left: 34%;
+    }
+}
+
 
 		.sort{
 			position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             top: -106px;
-			left: 28px;
-            width: 2129px;
+			left: 10px;
 }
 
 		option{
@@ -82,21 +172,21 @@
 			border: none;
 			border: 0.5px solid;
 			cursor: inherit;
-			width: 12%;
+			width: 20%;
 			cursor: pointer;
 			font-size: 16px;
 			font-weight: 600;
 			border-radius:5px;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat;
-            background-position: right 0.7rem top 50%;
-            background-size: 0.65rem auto;
+            background-position: right 1rem top 50%;
+            background-size: 0.8rem auto;
 		}
 
 		.category summary {
 			font-weight: bold;
 			padding: 0.5em;
-			margin-top: -10px;
+			margin-top: -2%;
 		}
 
 		#filter{
@@ -107,27 +197,71 @@
 			font-size: 20px;
 		}
 
-		.filter-container {
-			border: 0.2px solid #aaa;
-            border-radius: 4px;
-            padding: 20px;
-            margin: 0 -10px;
-            width: 130%;
-			margin-top: -100px;
-			position: relative;
-
-        }
-
 		#clearFilters{
 			font-family: 'Poppins', sans-serif;
             background-color: #ff069a;
             color: #fff;
             padding: 10px 20px;
 			border-radius: 20px;
-            width: 180px;
-			margin-left: 10px;
-			margin-top: 10px;
+            width: 100%;
+            max-width: 200px;
+			margin-left: -7%;
+			margin-top: 5%;
 		}
+
+        @media screen and (max-width: 1024px) {
+            .filter-container{
+            width: 20%;
+    }
+}
+
+        @media screen and (max-width: 820px) {
+         .filter-container{
+            width: 20%; 
+    }
+}
+        
+        @media screen and (max-width: 768px) {
+            .filter-container {
+                width: 20%; 
+    }
+}
+    @media screen and (max-width: 480px) {
+        .filter-container{
+            width: 35%;
+            left: -135px !important; 
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .filter-container {
+            width: 33%; 
+            left: -34% !important; 
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .filter-container {
+            width: 38%;
+            left: -29% !important; 
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .filter-container {
+            width: 44%;
+            left: -26% !important; 
+    }
+}
+
+@media screen and (max-width: 280px) {
+        .filter-container {
+            width: 50%;
+            left: -23% !important; 
+    }
+}
+
+
 		.games{
 			color: #fff;
 		}
@@ -166,7 +300,13 @@
 		}
 
 		.AppliedFilters{
-			position: absolute;
+			position: sticky;
+            display: block;
+            max-width: 950px;
+            padding: 10px;
+            margin-bottom: 0px;
+            /*left: 7%;
+            top: 46%;*/
 
 		}
 		input[type="checkbox"]{
@@ -174,8 +314,8 @@
 		}
 		.result-text {
 		position: relative;
-		top:-90px;
-		left: 90px;
+        top: -232px;
+        left: 21%;
 		font-size: 16px;
         font-weight: bold;
     }
@@ -199,8 +339,8 @@
 
 .checkbox-container {
 		position: relative;
-		top:-89px;
-		left: 100px;
+        top: -230px;
+        left: 195px;
 		display: inline-flex;
         align-items: center;
         margin: 5px;
@@ -222,7 +362,7 @@ margin-left:20%;
 }
 		.pagination-wrap  ul .page-item.active {
 
-    color: #ff069bc0; /* Choose your desired text color */
+    color: #ff069bc0;
 }
 		.page-item.active .page-link {
     z-index: 3;
@@ -305,10 +445,160 @@ margin-left:20%;
 
 }
 
+@media screen and (max-width: 1280px) {
+    .result-text {
+        top: -229px;
+
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .checkbox-container {
+        left: 158px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .result-text {
+        left: 15%;
+
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .checkbox-container {
+        top: -230px;
+        left: 125px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .AppliedFilters {
+        max-width: 800px;
+    }
+}
+
+@media screen and (max-width: 853px) {
+    .result-text {
+        left: 22%;
+        top: -244px;
+
+    }
+}
+
+@media screen and (max-width: 853px) {
+    .checkbox-container {
+        top: -243px;
+        left: 108px;
+    }
+}
+
+@media screen and (max-width: 853px) {
+    .AppliedFilters {
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .result-text {
+        left: 23%;
+        top: -318px;
+
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .checkbox-container {
+        top: -316px;
+        left: 76px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .AppliedFilters {
+        max-width: 350px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .result-text {
+        left: 30%;
+        top: -247px;
+
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .checkbox-container {
+        top: -247px;
+        left: 86px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .AppliedFilters {
+        max-width: 320px;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .result-text {
+        left: 30%;
+        top: -256px;
+
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .checkbox-container {
+        top: -256px;
+        left: 74px;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .AppliedFilters {
+        max-width: 250px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .result-text {
+        left: 31%;
+        top: -268px;
+
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .checkbox-container {
+        top: -265px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .AppliedFilters {
+        max-width: 250px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .result-text {
+        left: 42%;
+        top: -257px;
+
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .checkbox-container {
+        top: -257px;
+        left: 95px;
+    }
+}
+
     </style>
-    <script>
-        
-    </script>
+
 </head>
 <body>
 
@@ -407,10 +697,8 @@ margin-left:20%;
 		</div>
 	</div>
 
-
 	<!-- games -->
 	<div class="product-section mt-150 mb-150">
-
 
 
 <div class="sort">
@@ -430,361 +718,336 @@ margin-left:20%;
     <!-- End Select -->
 </div>
 
-		<div class="container">
+        <div class="product-lists">
+        <div class="filter-container">
 
+            <h5 id="Ftitle">
+            <i class="bi bi-filter" id="filter-icon"></i>
+            Filters</h5>
 
-		<!-- AppliedFilters -->
-			<div class="AppliedFilters">
-				<div id="resultsForText" class="result-text"></div>
-			</div>
-		<!-- End of AppliedFilters -->
-<div class="row product-lists">
-
-<!-- Card Grid -->
-<div class="container content-space-1">
-	<div class="row">
-	  <div class="col-lg-3">
-		<!-- Navbar -->
-		<div class="navbar-expand-lg mb-5">
-		  <!-- Navbar Collapse -->
-		  <div id="navbarVerticalNavMenuEg2" class="collapse navbar-collapse">
-			<div class="w-100">
-				<div class="filter-container">
-
-				    <h5 id="Ftitle">
-					<i class="bi bi-filter" id="filter-icon"></i>
-					Filters</h5>
-
-					<details class="category">
-						<summary>Genre</summary>
-						<div class="border-bottom pb-4 mb-4">
-							<div class="d-grid gap-2" id="Genres-options-container">
-							</div>
-						</div>
-					</details>
+            <details class="category">
+                <summary>Genre</summary>
+                <div class="border-bottom pb-4 mb-4">
+                    <div class="d-grid gap-2" id="Genres-options-container">
+                    </div>
+                </div>
+            </details>
 <script>
-    let checkboxKey;
-    let isChecked;
-    var sortedGames;
-    var selectedOption;
+let checkboxKey;
+let isChecked;
+var sortedGames;
+var selectedOption;
 
-    $(document).ready(function () {
-        function storeCheckboxState() {
-            $('input[type="checkbox"]').each(function () {
-                checkboxKey = $(this).attr('id');
-                isChecked = $(this).prop('checked');
-                localStorage.setItem(checkboxKey, isChecked);
-                //alert(localStorage.getItem(checkboxKey));
+$(document).ready(function () {
+function storeCheckboxState() {
+    $('input[type="checkbox"]').each(function () {
+        checkboxKey = $(this).attr('id');
+        isChecked = $(this).prop('checked');
+        localStorage.setItem(checkboxKey, isChecked);
+        //alert(localStorage.getItem(checkboxKey));
+});
+//alert('Stored data in localStorage: ' + JSON.stringify(localStorage));
+
+}
+function attachEventListeners() {
+   // alert('in attachEventListeners');
+    const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = setTimeout(() => {
+                var category = $(this).data('category');
+                updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
+            }, 300);
+            storeCheckboxState();
         });
-        //alert('Stored data in localStorage: ' + JSON.stringify(localStorage));
+    });
+}
 
+function updateGamesByMultipleCategories(categories) {
+    var requestData = {};
+    categories.forEach(function (category) {
+        if (category === 'Rating') {
+            requestData[`${category}[]`] = getSelectedRatingValues(`#${category}-options-container input[type="checkbox"]`);
+        } else {
+            requestData[`${category}[]`] = getSelectedCheckboxValues(`#${category}-options-container input[type="checkbox"]`);
+        }
+    });
+
+    $.ajax({
+        url: '/BackEnd/filter_by_multiple/',
+        type: 'GET',
+        data: requestData,
+        dataType: 'json',
+        success: function (response) {
+            //alert(response.filtered_games );
+            if (response.filtered_games != -1) {
+                //alert('i.m in');
+                makeAjaxRequest(1, 1);
+            //updateGamesContainer(response);
+        } else if(response.filtered_games == -1)  {
+            //alert('NOTHING');
+            console.error('Error: Empty response received.');
+            $('.GAMES').html('<p class="empty-message">There are no games to ba dispalyed based on the selected filters.</p>');
+            $('.paginationList').hide();
+
+        }
+        },
+        error: function (error) {
+            console.error('Error fetching games:', error);
+        }
+    });
+}
+
+
+function getSelectedCheckboxValues(selector) {
+    return $(selector + ':checked').map(function () {
+        return $(this).val();
+    }).get();
+}
+
+function getSelectedRatingValues(selector) {
+    return $(selector + ':checked').map(function () {
+        return parseFloat($(this).val());
+    }).get();
+}
+
+// Function to append checkboxes to a container with "View more" option
+function appendCheckboxesWithViewMore(container, checkboxes) {
+    checkboxes.forEach(function (option, index) {
+        const checkboxId = `${container.attr('id')}-checkbox-${index}`;
+        container.append(`
+            <div class="form-check">
+                <input  id="${checkboxId}" class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
+                <label for="${checkboxId}"  class="form-check-label">${option}</label>
+            </div>
+        `);
+
+        // Display only the first 10 checkboxes initially
+        if (index === 9) {
+            container.append('<div class="view-more">View more</div>');
+        }
+    });
+
+    // Hide checkboxes after the first 10
+    container.find('.form-check').slice(10).hide();
+
+}
+
+// Function to append rating checkboxes to a container with star icons
+function appendRatingCheckboxes(container) {
+    const stars = '<span style="color: orange;">&#9733;</span>'; // &#9733; is the HTML code for a star character
+
+    for (let rating = 1; rating <= 5; rating++) {
+        container.append(`
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="${rating}" data-category="${container.attr('id')}">
+                <label class="form-check-label">${stars.repeat(rating)}</label>
+            </div>
+        `);
     }
-        function attachEventListeners() {
-           // alert('in attachEventListeners');
-            const categoryCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-            categoryCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    clearTimeout(this.timeoutId);
-                    this.timeoutId = setTimeout(() => {
-                        var category = $(this).data('category');
-                        updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
-                    }, 300);
-                    storeCheckboxState();
-                });
-            });
-        }
+}
 
-        function updateGamesByMultipleCategories(categories) {
-            var requestData = {};
-            categories.forEach(function (category) {
-                if (category === 'Rating') {
-                    requestData[`${category}[]`] = getSelectedRatingValues(`#${category}-options-container input[type="checkbox"]`);
-                } else {
-                    requestData[`${category}[]`] = getSelectedCheckboxValues(`#${category}-options-container input[type="checkbox"]`);
-                }
-            });
+// Extract Genre
+$.ajax({
+    url: '/BackEnd/ExtractGenre/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        appendCheckboxesWithViewMore($('#Genres-options-container'), data.genres);
+        attachEventListeners();
+        EventListeners();
+    },
+    error: function () {
+        console.error('Failed to fetch genre options.');
+    }
+});
 
-            $.ajax({
-                url: '/BackEnd/filter_by_multiple/',
-                type: 'GET',
-                data: requestData,
-                dataType: 'json',
-                success: function (response) {
-                    //alert(response.filtered_games );
-                    if (response.filtered_games != -1) {
-                        //alert('i.m in');
-                        makeAjaxRequest(1, 1);
-                    //updateGamesContainer(response);
-                } else if(response.filtered_games == -1)  {
-                    //alert('NOTHING');
-                    console.error('Error: Empty response received.');
-                    $('.GAMES').html('<p class="empty-message">There are no games to ba dispalyed based on the selected filters.</p>');
-                    $('.paginationList').hide();
+// Extract Price
+$.ajax({
+    url: '/BackEnd/ExtractPrice/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        appendCheckboxesWithViewMore($('#Price-options-container'), data.prices);
+        attachEventListeners();
+        EventListeners();
+    },
+    error: function () {
+        console.error('Failed to fetch price options.');
+    }
+});
 
-                }
-                },
-                error: function (error) {
-                    console.error('Error fetching games:', error);
-                }
-            });
-        }
+// Extract Language
+$.ajax({
+    url: '/BackEnd/ExtractLanguage/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        appendCheckboxesWithViewMore($('#Languages-options-container'), data.languages);
+        attachEventListeners();
+        EventListeners();
+    },
+    error: function () {
+        console.error('Failed to fetch language options.');
+    }
+});
 
-        
-        function getSelectedCheckboxValues(selector) {
-            return $(selector + ':checked').map(function () {
-                return $(this).val();
-            }).get();
-        }
+// Extract In-App Purchases
+$.ajax({
+    url: '/BackEnd/ExtractInAppPurchases/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        appendCheckboxesWithViewMore($('#In_app_Purchases-options-container'), data.InAppPurchases);
+        attachEventListeners();
+        EventListeners();
+    },
+    error: function () {
+        console.error('Failed to fetch In-App Purchase options.');
+    }
+});
 
-        function getSelectedRatingValues(selector) {
-            return $(selector + ':checked').map(function () {
-                return parseFloat($(this).val());
-            }).get();
-        }
+// Extract Rating
+$.ajax({
+    url: '/BackEnd/ExtractRating/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        appendRatingCheckboxes($('#Average_User_Rating-options-container'));
+        attachEventListeners();
+        EventListeners();
+    },
+    error: function () {
+        console.error('Failed to fetch rating options.');
+    }
+});
 
-        // Function to append checkboxes to a container with "View more" option
-        function appendCheckboxesWithViewMore(container, checkboxes) {
-            checkboxes.forEach(function (option, index) {
-                const checkboxId = `${container.attr('id')}-checkbox-${index}`;
-                container.append(`
-                    <div class="form-check">
-                        <input  id="${checkboxId}" class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
-                        <label for="${checkboxId}"  class="form-check-label">${option}</label>
-                    </div>
-                `);
 
-                // Display only the first 10 checkboxes initially
-                if (index === 9) {
-                    container.append('<div class="view-more">View more</div>');
-                }
-            });
 
-            // Hide checkboxes after the first 10
-            container.find('.form-check').slice(10).hide();
+// Event listener for "View more" and "View less" options
+$('.filter-container').on('click', '.view-more, .view-less', function () {
+    const container = $(this).closest('.category').find('.d-grid');
+    const checkboxes = container.find('.form-check');
 
-        }
+    if ($(this).hasClass('view-more')) {
+        // Clicked on "View more"
+        checkboxes.show();
+        container.append('<div class="view-less" ">View less</div>'); // Add "View less" option
+        $(this).hide(); // Hide the "View more" option after displaying all checkboxes
+    } else if ($(this).hasClass('view-less')) {
+        // Clicked on "View less"
+        checkboxes.slice(10).hide(); // Hide checkboxes after the first 10
+        container.find('.view-more').show(); // Show the "View more" option
+        $(this).remove(); // Remove the "View less" option
+    }
+});
 
-        // Function to append rating checkboxes to a container with star icons
-        function appendRatingCheckboxes(container) {
-            const stars = '<span style="color: orange;">&#9733;</span>'; // &#9733; is the HTML code for a star character
+// Event listener for rating checkboxes
+$('.filter-container').on('change', '#Average_User_Rating-options-container input[type="checkbox"]', function () {
+    const container = $(this).closest('.category').find('.d-grid');
+    updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
+});
 
-            for (let rating = 1; rating <= 5; rating++) {
-                container.append(`
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="${rating}" data-category="${container.attr('id')}">
-                        <label class="form-check-label">${stars.repeat(rating)}</label>
-                    </div>
-                `);
-            }
-        }
-
-        // Extract Genre
-        $.ajax({
-            url: '/BackEnd/ExtractGenre/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendCheckboxesWithViewMore($('#Genres-options-container'), data.genres);
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch genre options.');
-            }
-        });
-
-        // Extract Price
-        $.ajax({
-            url: '/BackEnd/ExtractPrice/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendCheckboxesWithViewMore($('#Price-options-container'), data.prices);
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch price options.');
-            }
-        });
-
-        // Extract Language
-        $.ajax({
-            url: '/BackEnd/ExtractLanguage/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendCheckboxesWithViewMore($('#Languages-options-container'), data.languages);
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch language options.');
-            }
-        });
-
-        // Extract In-App Purchases
-        $.ajax({
-            url: '/BackEnd/ExtractInAppPurchases/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendCheckboxesWithViewMore($('#In_app_Purchases-options-container'), data.InAppPurchases);
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch In-App Purchase options.');
-            }
-        });
-
-        // Extract Rating
-        $.ajax({
-            url: '/BackEnd/ExtractRating/',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                appendRatingCheckboxes($('#Average_User_Rating-options-container'));
-                attachEventListeners();
-                EventListeners();
-            },
-            error: function () {
-                console.error('Failed to fetch rating options.');
-            }
-        });
-
-        
-
-        // Event listener for "View more" and "View less" options
-        $('.filter-container').on('click', '.view-more, .view-less', function () {
-            const container = $(this).closest('.category').find('.d-grid');
-            const checkboxes = container.find('.form-check');
-
-            if ($(this).hasClass('view-more')) {
-                // Clicked on "View more"
-                checkboxes.show();
-                container.append('<div class="view-less" ">View less</div>'); // Add "View less" option
-                $(this).hide(); // Hide the "View more" option after displaying all checkboxes
-            } else if ($(this).hasClass('view-less')) {
-                // Clicked on "View less"
-                checkboxes.slice(10).hide(); // Hide checkboxes after the first 10
-                container.find('.view-more').show(); // Show the "View more" option
-                $(this).remove(); // Remove the "View less" option
-            }
-        });
-
-        // Event listener for rating checkboxes
-        $('.filter-container').on('change', '#Average_User_Rating-options-container input[type="checkbox"]', function () {
-            const container = $(this).closest('.category').find('.d-grid');
-            updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
-        });
-        
 
 function clearAllFilters() {
-    $('input[type="checkbox"]').each(function () {
-    checkboxKey = $(this).attr('id');
-    isChecked = $(this).prop('checked');
-    localStorage.removeItem(checkboxKey);
+// To remove selected checkbox from local storage
+$('input[type="checkbox"]').each(function () {
+checkboxKey = $(this).attr('id');
+isChecked = $(this).prop('checked');
+//alert(localStorage.getItem(checkboxKey));
+localStorage.removeItem(checkboxKey);
 });
-    //alert(localStorage.getItem(checkboxKey));
-    $('input[type="checkbox"]').removeAttr('checked');
-    $("#sortSelect").prop('selectedIndex', 0);
-    handleSortChange();
-    updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
-    EventListeners();
-    $("#sortSelect").prop('selectedIndex', 0);
+$('input[type="checkbox"]').removeAttr('checked');
+$("#sortSelect").prop('selectedIndex', 0);
+handleSortChange();
+updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
+EventListeners();
 
 }
 $('#clearFilters').on('click', clearAllFilters);
 
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const summaries = document.querySelectorAll('summary');
+
+summaries.forEach(summary => {
+summary.addEventListener('click', function() {
+// Hide all other details
+summaries.forEach(otherSummary => {
+  if (otherSummary !== summary) {
+    otherSummary.parentElement.removeAttribute('open');
+  }
+});
+});
+});
+
+
+setTimeout(function() {
+//alert("the length is " + $('input[type="checkbox"]').length);
+$('input[type="checkbox"]').each(function () {
+    checkboxKey = $(this).attr('id');
+    isChecked =  JSON.parse(localStorage.getItem(checkboxKey)) || false;
+    //$(this).prop('checked', isChecked);
+    $(this).prop('checked', isChecked);
+    //alert(localStorage.getItem(checkboxKey));
     });
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const summaries = document.querySelectorAll('summary');
-
-    summaries.forEach(summary => {
-      summary.addEventListener('click', function() {
-        // Hide all other details
-        summaries.forEach(otherSummary => {
-          if (otherSummary !== summary) {
-            otherSummary.parentElement.removeAttribute('open');
-          }
-        });
-      });
-    });
+    //alert(690);
+    //attachEventListeners();
+    //updateSelectedFilters();
+    EventListeners();
+}, 400); 
 
 
-    setTimeout(function() {
-        //alert("the length is " + $('input[type="checkbox"]').length);
-        $('input[type="checkbox"]').each(function () {
-            checkboxKey = $(this).attr('id');
-            isChecked =  JSON.parse(localStorage.getItem(checkboxKey)) || false;
-            //$(this).prop('checked', isChecked);
-            $(this).prop('checked', isChecked).change();
-            //alert(localStorage.getItem(checkboxKey));
-            });
-            //alert(690);
-            //attachEventListeners();
-            //updateSelectedFilters();
-            EventListeners();
-        }, 250); 
-
-
-    });
+});
 </script>
-
-					  <details class="category">
-						<summary>Price</summary>
-						<div class="border-bottom pb-4 mb-4">
-							<div class="d-grid gap-2" id="Price-options-container">
-							</div>
-						</div>
-					</details>
-
-
-			  <details class="category">
-				<summary>Language</summary>
-				<div class="border-bottom pb-4 mb-4">
-					<div class="d-grid gap-2" id="Languages-options-container">
-					</div>
-				</div>
-			</details>
+              <details class="category">
+                <summary>Price</summary>
+                <div class="border-bottom pb-4 mb-4">
+                    <div class="d-grid gap-2" id="Price-options-container">
+                    </div>
+                </div>
+            </details>
 
 
+      <details class="category">
+        <summary>Language</summary>
+        <div class="border-bottom pb-4 mb-4">
+            <div class="d-grid gap-2" id="Languages-options-container">
+            </div>
+        </div>
+    </details>
 
-					  <details class="category">
-						<summary>In-App Purchases</summary>
-						<div class="border-bottom pb-4 mb-4">
-							<div class="d-grid gap-2" id="In_app_Purchases-options-container">
-							</div>
-						</div>
-					</details>
+              <details class="category">
+                <summary>In-App Purchases</summary>
+                <div class="border-bottom pb-4 mb-4">
+                    <div class="d-grid gap-2" id="In_app_Purchases-options-container">
+                    </div>
+                </div>
+            </details>
 
 
-						<details class="category">
-							<summary>Rating</summary>
-							<div class="border-bottom pb-4 mb-4">
-								<div class="d-grid gap-2" id="Average_User_Rating-options-container">
-								</div>
-							</div>
-						</details>
+                <details class="category">
+                    <summary>Rating</summary>
+                    <div class="border-bottom pb-4 mb-4">
+                        <div class="d-grid gap-2" id="Average_User_Rating-options-container">
+                        </div>
+                    </div>
+                </details>
 
-						<div class="d-grid">
-							<button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
-						</div>
-					  </div>
-					</div>
-			</div>
-		  </div>
-		  <!-- End Navbar Collapse -->
-		</div>
-		<!-- End Navbar -->
-	  </div>
-	  <!-- End Col -->
-	</div>
-	<!-- End Row -->
-</div>
-  <!-- End Card Grid -->
+                <div class="d-grid">
+                    <button type="button" class="btn btn-white btn-transition" id="clearFilters">Clear all</button>
+                </div>
+              </div>
+    </div>
+            <!-- AppliedFilters -->
+            <div class="AppliedFilters">
+                <div id="resultsForText" class="result-text"></div>
+            </div>
+        <!-- End of AppliedFilters -->
+  <div class="container">
+
        <div class="GAMES">
 				<div class="col-lg-4 col-md-6 text-center strawberry ">
 					<div class="single-product-item">
@@ -906,8 +1169,6 @@ $('#clearFilters').on('click', clearAllFilters);
 	<script src="{% static '/js/jquery.magnific-popup.min.js' %}"></script>
 	<!-- mean menu -->
 	<script src="{% static '/js/jquery.meanmenu.min.js' %}"></script>
-	<!-- sticker js -->
-	<script src="{% static '/js/jquery.sticker.js' %}"></script>
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 <script>
@@ -1007,7 +1268,7 @@ function updateGamesContainer(data) {
 
     data.games_data.forEach(function (game) {
         var gameHTML = `
-            <div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.ID}">
+            <div class="col-lg-4 col-md-6 text-center strawberry" data-game-id="${game.ID}">
                 <div class="single-product-item">
                     <div class="product-image">
                         <a href="${game.URL}"><img src="${game.Icon_URL}" alt=""></a>
@@ -1136,7 +1397,6 @@ function EventListeners() {
 
 
         }
-
 </script>
 </body>
 {% endblock %}

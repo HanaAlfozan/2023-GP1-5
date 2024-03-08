@@ -76,7 +76,8 @@ urlpatterns = [
     path('BackEnd/save_visited_game/<int:game_id>/', BackEnd_views.save_visited_game, name='save_visited_game'),     
     path('BackEnd/recently_viewed_games/', BackEnd_views.recently_viewed_games, name='recently_viewed_games'),    
     path('BackEnd/add_to_recently_viewed/<int:game_id>/', BackEnd_views.add_to_recently_viewed, name='add_to_recently_viewed'), 
-
-    
-
+    path('BackEnd/CompareAgeGroups/', BackEnd_views.CompareAgeGroups, name='CompareAgeGroups'),   
+    path('BackEnd/SendEmailForWrongEstimation/', BackEnd_views.SendEmailForWrongEstimation, name='SendEmailForWrongEstimation'),    
+    path('redirect-age-group/<str:uidb64>/<str:token>/', BackEnd_views.RedirectingToGames, name='RedirectingToGames'),
+ 
 ]
