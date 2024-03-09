@@ -1007,7 +1007,14 @@ def filter_games_multiple(request):
             )
         ).filter(numeric_age_rating__lte=user_age_group)
 
+    if 'Average_User_Rating' in categories:
 
+        rating_values = request.GET.getlist('Average_User_Rating[]')
+        rating_values = [float(value) for value in rating_values if value.isdigit()]
+        if rating_values:
+            filtered_games_queryset = filtered_games_queryset.filter(Average_User_Rating__in=rating_values)
+        else:
+            filtered_games_queryset = filtered_games_queryset.filter(Average_User_Rating=5.0)
 
     if categories:
         # Start with an initial Q object
