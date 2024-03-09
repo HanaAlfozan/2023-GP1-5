@@ -575,6 +575,7 @@ def retrieve_all_games(request):
         'Age': user_age_group,
         'filter_status':status,
         'filtered_categories':games_list,
+        'count':len(games_list),
 
     }
   # Return a JSON response
