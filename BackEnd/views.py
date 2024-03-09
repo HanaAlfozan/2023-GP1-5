@@ -401,6 +401,7 @@ def GetProfileData(request):
 
 def LogoutUser(request):  
     logout(request)
+    cache.clear()
     return redirect('index')     
 
 def EditNames(request):
@@ -575,7 +576,7 @@ def retrieve_all_games(request):
         'Age': user_age_group,
     }
 
-    }
+    
   # Return a JSON response
     # cache.clear()
     return JsonResponse(response_data)

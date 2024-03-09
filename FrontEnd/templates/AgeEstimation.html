@@ -84,7 +84,7 @@
             font-size: 1px;
         }
 
-        button.boxed-btn , #sendButton , #setAgeGroup{
+        button.boxed-btn , .sendButton , #setAgeGroup{
             font-family: 'Poppins', sans-serif;
             display: inline-block;
             background-color: #ff069a;
@@ -95,12 +95,12 @@
             border-radius: 50px;
         }
 
-        button.boxed-btn:hover , #sendButton:hover ,#setAgeGroup:hover {
+        button.boxed-btn:hover , .sendButton:hover ,#setAgeGroup:hover {
             background-color: #06f7ff;
             color: #fff;
         }
 
-        button.boxed-btn , #sendButton  , #setAgeGroup{
+        button.boxed-btn , .sendButton  , #setAgeGroup{
             -webkit-transition: 0.5s;
             -o-transition: 0.5s;
             transition: 0.5s;
@@ -998,31 +998,11 @@ body img{
             document.getElementById("instructions").style.display = "none";
         }
         function loginfunc(){
-             var sendloginPopup = document.getElementById('sendlogin');
-             var sendRequestTrigger = document.getElementById('sendRequestTrigger');
-                if (sendloginPopup && sendRequestTrigger) {
-                    document.getElementById("sendlogin").style.display = "block";
-                    document.getElementById("send").style.display = "none";
-                    document.getElementById("video-container").style.display = "none";
-                    document.getElementById("take-snapshot-button").style.display = "none";
-                    document.getElementById("instructions").style.display = "none";
-                    var csrftoken = getCookie('csrftoken');
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', "{% url 'SendEmailForWrongEstimation' %}", true);
-                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                    /*
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            var response = JSON.parse(xhr.responseText);
-                            agGroup = response.agGroup;
-                        } else if (xhr.status === 404) {     
-                        }
-                    };*/
-                    xhr.send();
+            document.getElementById("sendlogin").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+            document.getElementById("instructions").style.display = "none";
 
-                }
         }
         function Try(){
             document.getElementById("send").style.display = "block";
@@ -1064,7 +1044,7 @@ body img{
                         <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
                         <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
                             {% csrf_token %}
-                            <button type="button" id="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
+                            <button type="button" class="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
                     </div>
                 </div>
 
@@ -1075,7 +1055,7 @@ body img{
                     <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
                     <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
                     {% csrf_token %}
-                    <button type="button" id="sendButton" onclick="sendEmail()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
+                    <button type="button" class="sendButton" onclick="sendEmail()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
                 </div>
             </div>
 
@@ -1179,7 +1159,7 @@ xhr.send();
 function sendEmail(){
 var csrftoken = getCookie('csrftoken');
 var xhr = new XMLHttpRequest();
-xhr.open('POST', "{% url 'CompareAgeGroups' %}", true);
+xhr.open('POST', "{% url 'SendEmailForWrongEstimation' %}", true);
 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
@@ -1191,23 +1171,14 @@ xhr.onload = function () {
         document.getElementsByClassName('emailSentSuccess')[0].style.display = 'block';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('sendlogin').style.display = 'none';
-        var response = JSON.parse(xhr.responseText);
-        if(response.message === 'Matching'){
-            htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your estimated age is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
-            container.innerHTML = htmlContent;
-            console.log(xhr.responseText);}
-        else if(response.message === 'Not Matching'){
-            htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your registered age group not matching your current estimated age group. Feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>';
-            container.innerHTML = htmlContent;
-        }
     } else if (xhr.status === 404) {
         document.getElementById('sendlogin').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
     }
 };
-xhr.send();
 
+xhr.send();
 }
 // Function to get the CSRF token from the cookie
 function getCookie(name) {
