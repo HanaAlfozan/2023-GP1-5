@@ -79,5 +79,8 @@ urlpatterns = [
     path('BackEnd/CompareAgeGroups/', BackEnd_views.CompareAgeGroups, name='CompareAgeGroups'),   
     path('BackEnd/SendEmailForWrongEstimation/', BackEnd_views.SendEmailForWrongEstimation, name='SendEmailForWrongEstimation'),    
     path('redirect-age-group/<str:uidb64>/<str:token>/', BackEnd_views.RedirectingToGames, name='RedirectingToGames'),
+    path('verify-signUp/<str:uidb64>/<str:token>/', BackEnd_views.custom_signup_confirmation_confirm,  name='custom_signup_confirmation_confirm'),
+    path('Backend/custom_signup_confirmation_confirm/', BackEnd_views.custom_signup_confirmation_confirm, name='custom_signup_confirmation_confirm'),
+    path('BackEnd/custom_signup_confirmation/', BackEnd_views.custom_signup_confirmation, name='custom_signup_confirmation'),
  
 ]

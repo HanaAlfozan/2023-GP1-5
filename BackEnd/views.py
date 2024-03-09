@@ -216,7 +216,7 @@ def custom_assigining_ageGroup_confirm(request, uidb64, token):
               ageGroup = request.POST.get('ageGroup')
               user.Approved_age_group = ageGroup
               user.save()
-              return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+              return render(request, 'AgeEstimation.html', {'status': 'verify', 'message': 'verify'})
             return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Assign confirm'})
     else:
         error_message = 'Unexpected error occured, please try again'
@@ -334,7 +334,7 @@ def SendEmailForWrongEstimation(request):
         # Send the email with the reset link
         send_mail(
             'Redirect Link to Your Assigned Age Group',
-            f'Dear Gamer, we noticed that you attempted to log into your account, but it seems there is an issue verifying your assigned age group. Therefore, you have been granted access with your below-age-group by default. You can find the link below to be redirected to your account with your assigned age group: {reset_link}',
+            f'Dear Gamer, we noticed that you attempted to log into your account, but it seems there is an issue verifying your assigned age group. Therefore,  you can find the link below to be redirected to your account with your assigned age group: {reset_link}',
             'gamegeekwebsite@gmail.com',
             [email],
             fail_silently=False,
@@ -1264,3 +1264,65 @@ def recently_viewed_games(request):
         return JsonResponse({'games': recently_viewed_games_data})
 
     return JsonResponse({'error': 'User not authenticated'})
+
+
+# SignUp Verification
+
+def custom_signup_confirmation_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = GGUser.objects.get(User_ID=uid)
+    except (TypeError, ValueError, OverflowError, GGUser.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            # Valid token, allow the user to set a new password
+            ageGroup = request.POST.get('ageGroup')
+            user.Approved_age_group = ageGroup
+            user.save()
+            return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+        else:
+            # Handle GET request, show age group form
+            return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+    else:
+        error_message = 'Unexpected error occurred, please try again'
+        return render(request, 'AgeEstimation.html', {'status': 'error', 'message': error_message})
+
+
+
+
+def custom_signup_confirmation(request):
+    print("Debugging ")
+    if request.method == 'POST':
+        user_id = request.session.get('user_id')
+        if user_id:
+            try:
+                user = GGUser.objects.get(User_ID=user_id)
+                email = user.Email
+            except GGUser.DoesNotExist:
+                return HttpResponseNotFound('User not found')
+
+        # Generate a token and uid for the user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email = user.Email
+
+        # Create the reset link for age group assignment
+        reset_link = f"{request.scheme}://{request.get_host()}/verify-signUp/{uid}/{token}/"
+
+        # Send the email with the reset link
+        send_mail(
+            'Confirm registeration',
+            f'Dear Gamer,Thank you for registering with Game Geek. To confirm your registration please click on this link: {reset_link}',
+            'gamegeekwebsite@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        if 'error_message' in request.POST:
+            print("Debugging in verify method ")
+            return HttpResponse(status=400)
+        print("Debugging 1016 ")
+        return HttpResponse(status=200)
+
+    return render(request, 'AgeEstimation.html')
