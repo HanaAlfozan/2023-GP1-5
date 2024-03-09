@@ -435,12 +435,17 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Case, When, Value, IntegerField
 
 @require_http_methods(["GET"])
+@require_http_methods(["GET"])
 def retrieve_all_games(request):
     sorted_games = cache.get('games_list', [])
     filtered_categories = cache.get('filtered_games', [])
     user_id = request.session.get('user_id')
     items_per_page = 15
     all_games_data = []
+    filter_status= cache.get('filter_status')
+    status=filter_status
+
+
 
     if user_id is not None:
         try:
@@ -462,19 +467,37 @@ def retrieve_all_games(request):
     else:
         return JsonResponse({'error': 'User not authenticated'})
 
+
+    if filter_status == 'no games satisfies the filter':
+        filter_status=''
+        cache.set('filter_status', filter_status)
+        all_games_data=[]
+
+
     # Retrieve objects from the GamesList model suitable for the user's approved age group
-    if sorted_games and len(filtered_categories) == 0:
+    elif sorted_games and len(filtered_categories) == 0 :
         print("here is sorted_games")
-        all_games_data = sorted_games 
+        all_games_data = sorted_games
 
-
-    # Check if there are filtered categories in the cache
+        # Check if there are filtered categories in the cache
     elif filtered_categories:
+
         print('HERE HERE filtered_categories')
-        all_games_data = filtered_categories
+
+        all_games_data =  games_list = [
+            {
+                'Name': game.get('Name', ''),  # Use get to handle missing keys
+                'Icon_URL': game.get('Icon_URL', ''),
+                'URL': game.get('URL', ''),
+                'ID': game.get('ID', ''),
+            }
+            for game in filtered_categories
+        ]
+
+
         print(f'The length of filtered_categories is: {len(filtered_categories)}')
-        print(f'The length of sorted_games is: {len(sorted_games)}') 
-        print(f'The length of all_games_data (313) is: {len(all_games_data)}') 
+        print(f'The length of sorted_games is: {len(sorted_games)}')
+        print(f'The length of all_games_data (313) is: {len(all_games_data)}')
 
         if sorted_games:
             all_games_ids = {game['ID'] for game in all_games_data}
@@ -482,38 +505,38 @@ def retrieve_all_games(request):
             filtered_sorted_games = [game for game in sorted_games if game['ID'] in all_games_ids]
             print(f'After reordering, the ID of the first game is: {filtered_sorted_games[0]["ID"]}')
             all_games_data = filtered_sorted_games
-            print(f'The length of all_games_data (317) is: {len(all_games_data)}') 
+            print(f'The length of all_games_data (317) is: {len(all_games_data)}')
+
 
 
 
     else:
         if user_age_group == 17:
-        # If the user has the highest age group, retrieve all games
+            # If the user has the highest age group, retrieve all games
             all_games_data = GamesList.objects.all()
             print('HEREEE EVERTHING')
         else:
-        # Use Case and When to handle age group comparison
+            # Use Case and When to handle age group comparison
             print('HERE 123')
             all_games_data = GamesList.objects.annotate(
                 numeric_age_rating=Case(
-                When(Age_Rating='4+', then=Value(4)),
-                When(Age_Rating='9+', then=Value(9)),
-                When(Age_Rating='12+', then=Value(12)),
-                When(Age_Rating='17+', then=Value(17)),
-                default=Value(0),  # Default case, adjust as needed
-                output_field=IntegerField(),
-            )
-        ).filter(numeric_age_rating__lte=user_age_group) 
-      
+                    When(Age_Rating='4+', then=Value(4)),
+                    When(Age_Rating='9+', then=Value(9)),
+                    When(Age_Rating='12+', then=Value(12)),
+                    When(Age_Rating='17+', then=Value(17)),
+                    default=Value(0),  # Default case, adjust as needed
+                    output_field=IntegerField(),
+                )
+            ).filter(numeric_age_rating__lte=user_age_group)
 
-################################AFTER HANDLING ALL CASES NOW DIVIDE THE GAMES########################################
+        ################################AFTER HANDLING ALL CASES NOW DIVIDE THE GAMES########################################
 
     slice_number = int(request.GET.get('slice', 0))  # Default to slice 0 if not provided
 
     # Use Django Paginator to paginate the data
-    #all_games_data = all_games_data.order_by('Name') 
+    # all_games_data = all_games_data.order_by('Name')
     paginator = Paginator(all_games_data, items_per_page)
-    page_number = int(request.GET.get('page', 1)) 
+    page_number = int(request.GET.get('page', 1))
 
     try:
         current_page_data = paginator.page(page_number)
@@ -550,13 +573,13 @@ def retrieve_all_games(request):
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
+        'filter_status':status,
+        'filtered_categories':games_list,
+
     }
-
-    # Return a JSON response
-    #cache.clear()
+  # Return a JSON response
+    # cache.clear()
     return JsonResponse(response_data)
-
-
 
 
 
@@ -771,6 +794,24 @@ def annotate_age_rating(queryset):
     ), IntegerField())
     return queryset.annotate(numeric_age_rating=age_rating_annotation)
 
+def annotate_rating(queryset):
+    average_user_rating_annotation = Cast(Case(
+        When(Average_User_Rating='"Inapplicable"', then=Value(0.0)),
+        When(Average_User_Rating='1.0', then=Value(1.0)),
+        When(Average_User_Rating='1.5', then=Value(1.5)),
+        When(Average_User_Rating='2.0', then=Value(2.0)),
+        When(Average_User_Rating='2.5', then=Value(2.5)),
+        When(Average_User_Rating='3.0', then=Value(3.0)),
+        When(Average_User_Rating='3.5', then=Value(3.5)),
+        When(Average_User_Rating='4.0', then=Value(4.0)),
+        When(Average_User_Rating='4.5', then=Value(4.5)),
+        When(Average_User_Rating='5.0', then=Value(5.0)),
+        default=Value(-1.0),
+        output_field=FloatField(),
+    ), FloatField())
+
+    return queryset.annotate(age_rating=average_user_rating_annotation)
+
 def convert_rating_count(value):
     try:
         # Convert to int, handling 'below 5' as a special case
@@ -796,14 +837,57 @@ def convert_rating(value):
 
 def sort_by(request):
     # Default ordering
+    user_id = request.session.get('user_id')
+    user_age=''
+    user_age_group=0
+    game_queryset=[]
+
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            user_age = user.Approved_age_group
+
+            # Function to extract the numeric part from age group strings
+            def extract_numeric_part(age_group):
+                match = re.search(r'\d+', age_group)
+                if match:
+                    return int(match.group())
+                return 0
+
+            # Convert user age group string to numerical value
+            user_age_group = extract_numeric_part(
+                user_age) if user_age and user_age != 'fals' else 12
+        except GGUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+    # Retrieve objects from the GamesList model suitable for the user's approved age group
+
+    if user_age_group == 17:
+        # If the user has the highest age group, retrieve all games
+        game_queryset = GamesList.objects.all()
+    else:
+        # Use Case and When to handle age group comparison
+        game_queryset = GamesList.objects.annotate(
+            numeric_age_rating=Case(
+                When(Age_Rating='4+', then=Value(4)),
+                When(Age_Rating='9+', then=Value(9)),
+                When(Age_Rating='12+', then=Value(12)),
+                When(Age_Rating='17+', then=Value(17)),
+                default=Value(0),  # Default case, adjust as needed
+                output_field=IntegerField(),
+            )
+        ).filter(numeric_age_rating__lte=user_age_group)
+
     order_by_field = request.GET.get('order_by', 'Name')
     order_direction = request.GET.get('order_direction', 'asc')
+
 
     # Get the corresponding field for ordering
     order_field = get_order_field(order_by_field, order_direction)
 
-    # Fetch the sorted queryset
-    game_queryset = GamesList.objects.all()
+
 
     if order_by_field in ('Newest Games', 'Oldest Games'):
         game_queryset = game_queryset.order_by(order_field)
@@ -811,8 +895,11 @@ def sort_by(request):
         game_queryset = annotate_age_rating(game_queryset)
         order_field = '-numeric_age_rating' if order_by_field == 'Highest Age Rating' else 'numeric_age_rating'
         game_queryset = game_queryset.order_by(order_field)
-    elif order_by_field in ('Highest Rating', 'Lowest Rating', 'Highest Rating Count', 'Lowest Rating Count'):
+    elif order_by_field in ('Highest Rating', 'Lowest Rating'):
+        order_field = '-age_rating' if order_by_field == 'Highest Rating' else 'age_rating'
+        game_queryset=annotate_rating(game_queryset)
         game_queryset = game_queryset.order_by(order_field)
+
     else:
         # Explicitly handle alphabetical sorting
         if order_direction == 'asc':
@@ -824,109 +911,22 @@ def sort_by(request):
     games_list = [
         {
             'Name': game.Name,
-            'rating':game.Age_Rating,
-            'Average_User_Rating': convert_rating(game.Average_User_Rating),
-            'User_Rating_Count': convert_rating_count(game.User_Rating_Count),
-            'Original_Release_Date': game.Original_Release_Date,
-            'Size': game.Size,
             'Icon_URL': game.Icon_URL,
-            'Genres': game.Genres,
             'URL': game.URL,
-            'Price': game.Price,
-            'In_app_Purchases': game.In_app_Purchases,
-            'Developer': game.Developer,
-            'Age_Rating': game.Age_Rating,
-            'Languages': game.Languages,
             'ID': game.ID,
         }
         for game in game_queryset
     ]
-
-    # Order the games_list based on user's selection
-    if order_by_field in ('Highest Rating', 'Lowest Rating'):
-        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating' else (order_direction == 'asc')
-        games_list = sorted(games_list, key=lambda x: x['Average_User_Rating'], reverse=reverse_order)
-
-    # Order the games_list by User_Rating_Count based on user's selection
-    elif order_by_field in ('Highest Rating Count', 'Lowest Rating Count'):
-        reverse_order = (order_direction == 'desc') if order_by_field == 'Lowest Rating Count' else (order_direction == 'asc')
-        games_list = sorted(games_list, key=lambda x: x['User_Rating_Count'], reverse=reverse_order)
-
     cache.set('games_list', games_list)
     response_data = {
+        'message': 'The games are:',
         'order_by_field': order_by_field,
         'order_direction': order_direction,
     }
 
     return JsonResponse(response_data)
 
-@csrf_exempt
-def add_to_favorites(request, game_id):
-    if request.method == 'GET':
-        try:
-            user_id = request.session.get('user_id')
-
-            # Check if the user exists
-            user = GGUser.objects.get(User_ID=user_id)
-
-            # Check if the game exists
-            game = GamesList.objects.get(ID=game_id)
-
-            # Check if the game is already in favorites
-            if Favorite.objects.filter(User_ID=user, Game_ID=game).exists():
-                return JsonResponse({'success': False, 'error': 'Game is already in favorites'})
-
-            # Add the game to favorites
-            Favorite.objects.create(User_ID=user, Game_ID=game)
-
-            return JsonResponse({'success': True})
-
-        except GGUser.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'User does not exist'})
-
-        except GamesList.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Game does not exist'})
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
-
-def favorite_games(request):
-    user_id = request.session.get('user_id')
-    if user_id:
-        user_favorites = Favorite.objects.filter(User_ID=user_id)
-        games_data = [{'id': favorite.Game_ID.ID,
-                       'icon_url': favorite.Game_ID.Icon_URL,
-                       'name': favorite.Game_ID.Name,
-                       'url': favorite.Game_ID.URL} for favorite in user_favorites]
-        return JsonResponse({'games': games_data})
-    else:
-        return JsonResponse({'error': 'User not authenticated'})
-
-
-@csrf_exempt
-def remove_favorite(request, game_id):
-    if request.method == 'GET':
-        try:
-            user_id = request.session.get('user_id')
-
-            # Check if the user is logged in
-            if not user_id:
-                return JsonResponse({'success': False, 'error': 'User not logged in'})
-
-            # Check if the game is in the user's favorites
-            favorite = Favorite.objects.filter(User_ID=user_id, Game_ID=game_id).first()
-            if favorite:
-                favorite.delete()
-                return JsonResponse({'success': True})
-            else:
-                return JsonResponse({'success': False, 'error': 'Game not found in favorites'})
-
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+## -----------Extracters  methods --------------------------
 
 @require_http_methods(["GET"])
 def ExtractPrice(request):
@@ -969,9 +969,52 @@ def filter_games_multiple(request):
     # Extract valid categories from GET parameters
     valid_categories = {'Genres', 'Languages', 'In_app_Purchases', 'Price', 'Average_User_Rating'}
     categories = {key.rstrip('[]') for key in request.GET.keys() if key.rstrip('[]') in valid_categories}
+# extract the age group for the user
+    user_id = request.session.get('user_id')
+    user_age = ''
+    user_age_group = 0
+    filtered_games_queryset = []
+    filter_status=''
 
-    # Initialize filtered queryset
-    filtered_games_queryset = GamesList.objects.all()
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            user_age = user.Approved_age_group
+
+            # Function to extract the numeric part from age group strings
+            def extract_numeric_part(age_group):
+                match = re.search(r'\d+', age_group)
+                if match:
+                    return int(match.group())
+                return 0
+
+            # Convert user age group string to numerical value
+            user_age_group = extract_numeric_part(
+                user_age) if user_age and user_age != 'fals' else 12
+        except GGUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+    # Retrieve objects from the GamesList model suitable for the user's approved age group
+
+    if user_age_group == 17:
+        # If the user has the highest age group, retrieve all games
+        filtered_games_queryset = GamesList.objects.all()
+    else:
+        # Use Case and When to handle age group comparison
+        filtered_games_queryset = GamesList.objects.annotate(
+            numeric_age_rating=Case(
+                When(Age_Rating='4+', then=Value(4)),
+                When(Age_Rating='9+', then=Value(9)),
+                When(Age_Rating='12+', then=Value(12)),
+                When(Age_Rating='17+', then=Value(17)),
+                default=Value(0),  # Default case, adjust as needed
+                output_field=IntegerField(),
+            )
+        ).filter(numeric_age_rating__lte=user_age_group)
+
+
 
     if categories:
         # Start with an initial Q object
@@ -986,6 +1029,9 @@ def filter_games_multiple(request):
 
         # Apply the filtered categories to the queryset
         filtered_games_queryset = filtered_games_queryset.filter(q_objects)
+        if len(filtered_games_queryset)==0:
+            filter_status='no games satisfies the filter'
+
 
     # Sort the filtered games based on default ordering (by Name)
     filtered_games_queryset = filtered_games_queryset.order_by('Name')
@@ -993,7 +1039,7 @@ def filter_games_multiple(request):
     # Convert queryset to a list of dictionaries
     games_list = [
         {
-            'Name': clean_name(game.Name),
+            'Name': game.Name,
             'Icon_URL': game.Icon_URL,
             'URL': game.URL,
             'ID': game.ID,
@@ -1002,13 +1048,89 @@ def filter_games_multiple(request):
     ]
 
     cache.set('filtered_games', games_list)
+    cache.set('filter_status', filter_status)
+
     # Include filtered categories in the response
     response_data = {
         'filtered_games': games_list,
+
     }
 
     return JsonResponse(response_data, safe=False)
 
+
+## -----------favourite games methods --------------------------
+
+@csrf_exempt
+def add_to_favorites(request, game_id):
+    if request.method == 'GET':
+        try:
+            user_id = request.session.get('user_id')
+
+            # Check if the user exists
+            user = GGUser.objects.get(User_ID=user_id)
+
+            # Check if the game exists
+            game = GamesList.objects.get(ID=game_id)
+
+            # Check if the game is already in favorites
+            if Favorite.objects.filter(User_ID=user, Game_ID=game).exists():
+                return JsonResponse({'success': False, 'error': 'Game is already in favorites'})
+
+            # Add the game to favorites
+            Favorite.objects.create(User_ID=user, Game_ID=game)
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def favorite_games(request):
+    user_id = request.session.get('user_id')
+    if user_id:
+        user_favorites = Favorite.objects.filter(User_ID=user_id)
+        games_data = [{'id': favorite.Game_ID.ID,
+                       'icon_url': favorite.Game_ID.Icon_URL,
+                       'name': clean_name(favorite.Game_ID.Name),
+                       'url': favorite.Game_ID.URL} for favorite in user_favorites]
+        return JsonResponse({'games': games_data})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+
+
+@csrf_exempt
+def remove_favorite(request, game_id):
+    if request.method == 'GET':
+        try:
+            user_id = request.session.get('user_id')
+
+            # Check if the user is logged in
+            if not user_id:
+                return JsonResponse({'success': False, 'error': 'User not logged in'})
+
+            # Check if the game is in the user's favorites
+            favorite = Favorite.objects.filter(User_ID=user_id, Game_ID=game_id).first()
+            if favorite:
+                favorite.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'Game not found in favorites'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+## -----------visitied games methods --------------------------
 
 def visited_games(request):
     user_id = request.session.get('user_id')
@@ -1018,7 +1140,7 @@ def visited_games(request):
         games_data = [
                 {
                     'id': visited_game.Game_ID.ID,
-                    'name': visited_game.Game_ID.Name,
+                    'name': clean_name(visited_game.Game_ID.Name),
                     'url': visited_game.Game_ID.URL,
                     'icon_url': visited_game.Game_ID.Icon_URL,
                     'visited_date': visited_game.Visited_date.strftime('%Y-%m-%d') if visited_game.Visited_date else None,
@@ -1063,4 +1185,82 @@ def save_visited_game(request, game_id):
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+#--------------------recently viewed game -----------------------------
+from django.shortcuts import get_object_or_404
 
+
+def add_to_recently_viewed(request, game_id):
+    user_id = request.session.get('user_id')
+
+    if user_id:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            game = get_object_or_404(GamesList, ID=game_id)
+
+            recently_viewed_games = request.session.get('recently_viewed_games', [])
+
+            # Remove the game if it already exists in the list
+            if game_id in recently_viewed_games:
+                recently_viewed_games.remove(game_id)
+
+            # Add the new game to the list
+            recently_viewed_games.insert(0, game_id)
+
+            # Keep only the first 4 unique games while maintaining order
+            recently_viewed_games = list(dict.fromkeys(recently_viewed_games))
+
+            # Assign order based on the index
+            recently_viewed_games = [
+                {"id": game_id, "order": i} for i, game_id in enumerate(recently_viewed_games)
+            ]
+
+            # Sort the games based on their order in the session
+            recently_viewed_games.sort(key=lambda x: x["order"])
+
+            # Limit the length to 4
+            recently_viewed_games = recently_viewed_games[:4]
+
+            request.session['recently_viewed_games'] = [game["id"] for game in recently_viewed_games]
+            request.session.modified = True
+
+            return JsonResponse({'success': True})
+
+        except GGUser.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User does not exist'})
+
+        except GamesList.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Game does not exist'})
+
+    return JsonResponse({'success': False, 'error': 'User not authenticated'})
+
+
+
+def recently_viewed_games(request):
+    user_id = request.session.get('user_id')
+
+    if user_id:
+        recently_viewed_game_ids = request.session.get('recently_viewed_games', [])
+        recently_viewed_games = GamesList.objects.filter(ID__in=recently_viewed_game_ids)
+
+        # Assign order based on the index
+        recently_viewed_games = [
+            {"id": game.ID, "order": recently_viewed_game_ids.index(game.ID)}
+            for game in recently_viewed_games
+        ]
+
+        # Sort the games based on their order in the session
+        recently_viewed_games.sort(key=lambda x: x["order"])
+
+        recently_viewed_games_data = [
+            {
+                'id': game["id"],
+                'name': GamesList.objects.get(ID=game["id"]).Name,
+                'url': GamesList.objects.get(ID=game["id"]).URL,
+                'icon_url': GamesList.objects.get(ID=game["id"]).Icon_URL,
+            }
+            for game in recently_viewed_games
+        ]
+
+        return JsonResponse({'games': recently_viewed_games_data})
+
+    return JsonResponse({'error': 'User not authenticated'})

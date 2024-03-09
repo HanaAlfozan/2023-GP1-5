@@ -34,8 +34,6 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-
-
 	<style>
 
 		.VisitedGamesContainer{
@@ -47,7 +45,6 @@
 			position: relative;
 		   justify-content: flex-start;
 		}
-		
 		
 		.empty-message {
 				text-align: center;
@@ -136,198 +133,241 @@
 		
 		}
 		
-		
 			</style>
-		</head>
-		<body>
 			
-			<!--PreLoader-->
-			<div class="loader">
-				<div class="loader-inner">
-					<div class="circle"></div>
-				</div>
+	</head>
+	<body>
+		
+		<!--PreLoader-->
+		<div class="loader">
+			<div class="loader-inner">
+				<div class="circle"></div>
 			</div>
-			<!--PreLoader Ends-->
-			
-			<!-- header -->
-			<div class="top-header-area" id="sticker">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-12 col-sm-12 text-center">
-							<div class="main-menu-wrap">
-									<!-- logo -->
-									<div class="site-logo">
-										<a href="{% url 'Games' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
-										</a>
-									</div>
-									<!-- logo -->
-			
-									<!-- menu start -->
-									<nav class="main-menu">
-										<ul>
-											
-											<li><a href=#>Games</a>
-												<ul class="sub-menu">
-													<li><a href="{% url 'Games' %}">All Games</a></li>
-													<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
-													<li><a href="{% url 'History' %}">Visited Store Games</a></li>
-													
-												</ul>
-											</li>
-											<li><a href="{% url 'profile' %}">Profile</a>
-											<li><a href="{% url 'contact' %}">Contact Us</a></li>
-											<li><a href="{% url 'about' %}">About Us</a></li>
-										<li>
-											<div class="header-icons">
-											
-												<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
-											</div>
-										</li>
-									</ul>
-								</nav>
-								<div class="mobile-menu"></div>
-								<!-- menu end -->
-								<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
+		</div>
+		<!--PreLoader Ends-->
 		
-								<script>
-									$(document).ready(function() {
-										$.ajax({
-											url: '/BackEnd/Hello/',
-											type: 'GET',
-											success: function(data) {
-												if (data.error) {
-													console.error('Error:', data.error);
-												} else {
-													$('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
-												}
-											},
-											error: function(xhr, status, error) {
-												document.getElementById("errorPopUp").style.display = "block";
-												console.error('Error:', error);
-											}
-										});
-										//$('.VisitedGamesContainer').removeAttr('style');
-										// Function to generate HTML for a single game
-										function generateGameHtml(game) {
-											return `
-											<div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.id}">
-													<div class="single-product-item">
-														<div class="product-image">
-															<a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
-														</div>
-														<h3 class="names">${game.name}</h3>
-														<h6 >Visited Date: ${game.visited_date}</h6>
-														<a href="#" class="cart-btn more-info-btn">More info</a>
-														
-													</div>
-												</div>`;
-												
-										}
-										$('.VisitedGamesContainer').on('click', '.more-info-btn', function(e) {
-											e.preventDefault();
-											selectedGameId = $(this).closest('.game-item').data('game-id');
-											window.location.href = `/game_info_page/${selectedGameId}/`;
-										});
-		
-										$.ajax({
-											url: '/BackEnd/visited_games/',
-											type: 'GET',
-											dataType: 'json',
-		
-										   success: function(data) {
-											  if ('games' in data) {
-											  var gamesHtml = '';
-											 $.each(data.games, function(index, game) {
-											 game.order = index + 1; // Assign original order
-		
-											 gamesHtml += generateGameHtml(game);
-											});
-		
-										 // Sort by visited date and original order
-										data.games.sort(function(a, b) {
-										   var dateComparison = new Date(b.visited_date) - new Date(a.visited_date);
-										   return dateComparison !== 0 ? dateComparison : b.order - a.order;
-										});
-		
-										// Create HTML for sorted games
-										 gamesHtml = '';
-										 $.each(data.games, function(index, game) {
-											gamesHtml += generateGameHtml(game);
-										   });
-		
-									   if (gamesHtml === '') {
-									   // No games visited, display a message
-									  $('.VisitedGamesContainer').html('<p class="empty-message"> No visited games to display. Start exploring and discover new games!</p>');
-									  } else {
-									  $('.VisitedGamesContainer').html(gamesHtml);
-									  }
-									  } else {
-									   console.error('Error getting visited games:', data.error);
-									 }
-									},
-							   error: function(error) {
-									console.error('Error getting visited games:', error);
-									 }
-							   });
-													
-									});
-									</script>					
-							</div>
+<!-- header -->
+<div class="top-header-area" id="sticker">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 text-center">
+				<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+							<a href="{% url 'Games' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
+							</a>
 						</div>
-					</div>
-				</div>
-			</div>
-			<!-- end header -->
-	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="breadcrumb-text">
-						<h1>Visited Store Games</h1>
-						<p>
-						<span class="blue">Where</span>
-							<span class="black"> Happiness</span>
-							<span class="pink">is met</span>
-						</p>
-					</div>
-				</div>
+						<!-- logo -->
 
-			</div>
-		</div>
-	</div>
-	<!-- end breadcrumb section -->
-<ul class="Realbreadcrumb">
-					<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
-					<li class="breadcrumb-item current"><a href="{% url 'History' %}">Visited Store Games</a></li>
-				</ul>
-	<!-- games -->
-	<div class="product-section mt-150 mb-150">
-		<div class="container">
-
-			<!--<div class="row">
-                <div class="col-md-12">
-                  
-                </div>
-            </div>-->
-
-			<div class="VisitedGamesContainer">
-				<!-- Games will be dynamically added here -->
-			</div>
-			
-						
-			<!--<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="pagination-wrap">
-						<ul>
-
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+								<li><a href=#>Games</a>
+									<ul class="sub-menu">
+										<li><a href="{% url 'Games' %}">All Games</a></li>
+										<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
+										<li><a href="{% url 'History' %}">Visited Store Games</a></li>
+										
+									</ul>
+								</li>
+								<li><a href="{% url 'profile' %}">Profile</a>
+								<li><a href="{% url 'contact' %}">Contact Us</a></li>
+								<li><a href="{% url 'about' %}">About Us</a></li>
+							<li>
+								<div class="header-icons">
+								
+									<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
+								</div>
+							</li>
 						</ul>
-					</div>-->
+					</nav>
+					<div class="mobile-menu"></div>
+					<!-- menu end -->
+					<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
+
+					<script>
+
+ 							//------------------------------Hello Username:                                                       
+						$(document).ready(function() {
+							$.ajax({
+								url: '/BackEnd/Hello/',
+								type: 'GET',
+								success: function(data) {
+									if (data.error) {
+										console.error('Error:', data.error);
+									} else {
+										$('#welcome').text('Hello ' + data.Username + '! (' + data.Age_group + ')');
+									}
+								},
+								error: function(xhr, status, error) {
+									document.getElementById("errorPopUp").style.display = "block";
+									console.error('Error:', error);
+								}
+							});
+
+							//$('.VisitedGamesContainer').removeAttr('style');
+
+							//------------------------------ retrieve the visited games							
+							// Function to generate HTML for a single game
+							function generateGameHtml(game) {
+								return `
+								<div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.id}">
+										<div class="single-product-item">
+											<div class="product-image">
+												<a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
+											</div>
+											<h3 class="names">${game.name}</h3>
+											<h6 >Visited Date: ${game.visited_date}</h6>
+											<a href="#" class="cart-btn more-info-btn">More info</a>
+											
+										</div>
+									</div>`;
+									
+							    }
+
+								$.ajax({
+									url: '/BackEnd/visited_games/',
+									type: 'GET',
+									dataType: 'json',
+
+								success: function(data) {
+									if ('games' in data) {
+									var gamesHtml = '';
+									$.each(data.games, function(index, game) {
+									game.order = index + 1; // Assign original order
+
+									gamesHtml += generateGameHtml(game);
+									});
+
+									// Sort by visited date and original order
+									data.games.sort(function(a, b) {
+									var dateComparison = new Date(b.visited_date) - new Date(a.visited_date);
+									return dateComparison !== 0 ? dateComparison : b.order - a.order;
+									});
+
+									// Create HTML for sorted games
+									gamesHtml = '';
+									$.each(data.games, function(index, game) {
+										gamesHtml += generateGameHtml(game);
+									});
+
+									if (gamesHtml === '') {
+									// No games visited, display a message
+									$('.VisitedGamesContainer').html('<p class="empty-message"> No visited games to display. Start exploring and discover new games!</p>');
+									} else {
+									$('.VisitedGamesContainer').html(gamesHtml);
+									} } else {
+									console.error('Error getting visited games:', data.error);
+									} },
+							error: function(error) {
+									console.error('Error getting visited games:', error);
+									} 
+								});
+
+							 //----------------------------------------- More Info button									
+							// Function to get the value of a cookie by name
+							function getCookie(name) {
+								var cookieValue = null;
+								if (document.cookie && document.cookie !== '') {
+									var cookies = document.cookie.split(';');
+									for (var i = 0; i < cookies.length; i++) {
+										var cookie = cookies[i].trim();
+										// Check if this cookie string begins with the name we want
+										if (cookie.substring(0, name.length + 1) === (name + '=')) {
+											cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+											break;
+										}
+									}
+								}
+								return cookieValue;
+							}
+
+							// Handle "More info" button click
+							$(document).on('click', '.more-info-btn', function (e) {
+								e.preventDefault();
+								var gameId = $(this).closest('.game-item').data('game-id');
+								window.location.href = `/game_info_page/${gameId}/`;
+
+								// Add the game to recently viewed when "More Info" is clicked
+								addToRecentlyViewed(gameId);
+							});
+
+							// Function to add the game to recently viewed
+							function addToRecentlyViewed(gameId) {
+								$.ajax({
+									url: `/BackEnd/add_to_recently_viewed/${gameId}/`,
+									type: 'POST',
+									dataType: 'json',
+									headers: {
+										'X-CSRFToken': getCookie('csrftoken'),  // Include the CSRF token
+									},
+									success: function (data) {
+										console.log('Added to Recently Viewed:', data);
+										// You can handle success as needed
+									},
+									error: function (error) {
+										console.error('Error making AJAX request:', error);
+									}
+								});
+							}
+												
+					});
+
+						</script>					
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end games -->
+</div>
+		<!-- end header -->
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 offset-lg-2 text-center">
+				<div class="breadcrumb-text">
+					<h1>Visited Store Games</h1>
+					<p>
+					<span class="blue">Where</span>
+						<span class="black"> Happiness</span>
+						<span class="pink">is met</span>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end breadcrumb section -->
+<ul class="Realbreadcrumb">
+				<li class="breadcrumb-item"><a href="{% url 'Games' %}" >All Games</a></li>
+				<li class="breadcrumb-item current"><a href="{% url 'History' %}">Visited Store Games</a></li>
+			</ul>
+<!-- games -->
+<div class="product-section mt-150 mb-150">
+	<div class="container">
+
+		<!--<div class="row">
+			<div class="col-md-12">
+			</div>
+		</div>-->
+
+		<div class="VisitedGamesContainer">
+			<!-- Games will be dynamically added here -->
+		</div>
+			
+		<!--<div class="row">
+			<div class="col-lg-12 text-center">
+				<div class="pagination-wrap">
+					<ul>
+					</ul>
+				</div>
+			</div>
+		</div>-->
+
+	</div>
+</div>
+<!-- end games -->
 	
 	<!-- footer -->
 	<div class="footer-area">

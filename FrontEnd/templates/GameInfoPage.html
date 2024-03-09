@@ -35,6 +35,16 @@
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
 	<style>
+.empty-message {
+        text-align: center;
+        padding: 7%; 
+        margin-top: 10%; 
+        margin-right: 10%;
+        font-size: 120%; 
+        color: #ff069a; 
+        font-family: "Poppins", sans-serif;
+
+}
 		.games{
 			color: #fff;
 		}
@@ -59,12 +69,13 @@
 		}
 		.col-md-7{
 		padding-left:5%;}
-					.site-logo img{
-  width: 200px;
-    height: 100px;
-	position: relative;
-	left: -25px;
-}
+		.site-logo img{
+		width: 200px;
+			height: 100px;
+			position: relative;
+			left: -25px;
+		}
+
 .popup {
   display: none;
   position: fixed;
@@ -88,10 +99,8 @@
   width: 40%;
 
 }
-
-
-
 	</style>
+
 </head>
 <body>
 
@@ -144,6 +153,7 @@
 						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
 
 						<script>
+							//------------------------------Hello Username:
 							$(document).ready(function() {
 								$.ajax({
 									url: '/BackEnd/Hello/',
@@ -162,26 +172,97 @@
 								});
 								document.getElementById('errorContainer').style.display = 'none';
 							});
-		function addToFavorites(gameId) {
-            $.ajax({
-                url: `/BackEnd/add_to_favorites/${gameId}/`,
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    console.log('Added to Favorites:', data);
-                    if (data.error) {
-                        console.error('Error adding to favorites:', data.error);
-						document.getElementById('errorContainer').style.display = 'block';
-						var errorMessageDiv = document.getElementById('errorContainer');
-						errorMessageDiv.innerHTML = '<p style="color: red;">You already saved this game!</p>';
-                    }
-                },
-                error: function (error) {
-                    console.error('Error making AJAX request:', error);
-                }
-            });
-        }
-							</script>					</div>
+
+							//------------------------------ add To Favorites
+									function addToFavorites(gameId) {
+									$.ajax({
+											url: `/BackEnd/add_to_favorites/${gameId}/`,
+											type: 'GET',
+										dataType: 'json',
+										success: function (data) {
+											console.log('Added to Favorites:', data);
+											if (data.error) {
+													console.error('Error adding to favorites:', data.error);
+													document.getElementById('errorContainer').style.display = 'block';
+													var errorMessageDiv = document.getElementById('errorContainer');
+													errorMessageDiv.innerHTML = '<p style="color: red;">You already saved this game!</p>';
+											}
+										},
+										error: function (error) {
+												console.error('Error making AJAX request:', error);
+										}
+										});
+									}
+
+								//------------------------------ retrieve the recent view games
+									// section for recently viewed 								
+								function generateGameHtml(game) {
+										return `
+											<div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.id}">
+												<div class="single-product-item">
+													<div class="product-image">
+														<a href="${game.url}" class="urls"><img src="${game.icon_url}" alt="" class="imgs"></a>
+													</div>
+													<h3 class="names">${game.name}</h3>
+													<a href="${game.url}" class="cart-btn more-info-btn" style="text-decoration: none;">More info</a>
+												</div>
+											</div>`;
+									}
+
+										function updateRecentlyViewedGamesContainer(recentlyViewedGames) {
+											var recentlyViewedContainer = $('.recentlyViewedGamesContainer');
+											
+
+											if (recentlyViewedGames.length > 0) {
+												//recentlyViewedContainer.html('<div class="col-lg-8 offset-lg-2 text-center"><div class="section-title"><h3>Recently&nbsp;<span class="pink-text">Viewd</span> Games</h3></div></div><div class="row"></div>');
+												recentlyViewedContainer.html('<div class="row"></div>'); // this one if the section title needed with html 
+												
+
+												// Reverse the order of recently viewed games
+													recentlyViewedGames.reverse().forEach(function (game) {
+														var gameHtml = generateGameHtml(game);
+														recentlyViewedContainer.find('.row').append(gameHtml);
+													});
+											} else {
+												recentlyViewedContainer.html('<p class="empty-message">There are no viewed games yet. Explore and discover new games!</p>');// this one if the section title needed with html 
+												console.log('no viewed games yet ');
+
+											}
+										}
+
+                                //-------------------------------- More Info button
+									// Handle "More info" button click
+									$(document).on('click', '.more-info-btn', function (e) {
+                                    e.preventDefault();
+                                    var gameId = $(this).closest('.game-item').data('id');
+                                    window.location.href = `/game_info_page/${game-Id}/`;
+
+                                    // Add the game to recently viewed when "More Info" is clicked
+                                    addToRecentlyViewed(gameId);
+                                });
+
+                                // Function to add the game to recently viewed
+                                function addToRecentlyViewed(gameId) {
+                                    $.ajax({
+                                        url: `/BackEnd/add_to_recently_viewed/${gameId}/`,
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        headers: {
+                                            'X-CSRFToken': getCookie('csrftoken'),  // Include the CSRF token
+                                        },
+                                        success: function (data) {
+                                            console.log('Added to Recently Viewed:', data);
+                                            // You can handle success as needed
+                                        },
+                                        error: function (error) {
+                                            console.error('Error making AJAX request:', error);
+                                        }
+                                    });
+                                  }
+
+							</script>					
+							
+						</div>
 				</div>
 			</div>
 		</div>
@@ -248,6 +329,7 @@
 
 							<div id="errorContainer"></div>
 							<script>
+							//------------------------------ Favorite button
                                 const favBtn = document.getElementById('favBtn');
                                 const favText = document.getElementById('favText');
 
@@ -258,6 +340,7 @@
                                     if (favText.textContent === 'Add to Favourite Games') {
                                         favText.textContent = 'Saved to Favourite Games!';
                                     }});
+
 							</script>
 						</div>
 					</div>
@@ -268,97 +351,15 @@
 	<!-- end single product -->
 
 	<!-- recent games -->
+	<!--<div class="product-section mt-150 mb-150">--> <!--all sections-->
 	<div class="more-products mb-150">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="section-title">
-						<h3>Recently&nbsp;<span class="pink-text">Viewd</span> Games</h3>
-					</div>
+			 <div class="col-lg-8 offset-lg-2 text-center"><div class="section-title"><h3>Recently&nbsp;<span class="pink-text">Viewd</span> Games</h3></div></div><div class="row"></div>
+				<div class="recentlyViewedGamesContainer">
+				<!-- Games will be dynamically added here -->
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
-						</div>
-						<h3 class="names"></h3>
-						<a  href="" class="cart-btn urls ids" onclick="info(event)" >More info</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
-						</div>
-						<h3 class="names"></h3>
-						<a  href="" class="cart-btn ids" onclick="info(event)">More info</a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 text-center">
-					<div class="single-product-item">
-						<div class="product-image">
-							<a href="" class="urls"><img class="imgs" src="" alt=""></a>
-						</div>
-						<h3 class="names"></h3>
-						<a  href="" class="cart-btn  ids" onclick="info(event)">More info</a>
-					</div>
-				</div>
-			</div>
-		</div>
+	    </div>
 	</div>
-<script>
-$(document).ready(function () {
-console.log("Document is ready.");
-    function fetchRandomGames() {
-        var url = '/BackEnd/retrieve_random_high_rated_games/';
-
-        $.ajax({
-            url: url,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                console.log('Received data:', data);
-
-                if (data && data.random_high_rated_games_data) {
-                    displayGames(data.random_high_rated_games_data);
-                } else {
-                    console.error('Data format is not as expected:', data);
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-
-            }
-        });
-    }
-
-  function displayGames(games) {
-    for (var i = 0; i < 3; i++) {
-        var game = games[i];
-
-        // Select elements by class
-        var imageElement = document.getElementsByClassName('imgs')[i];
-        var nameElement = document.getElementsByClassName('names')[i];
-
-        var idElement = document.getElementsByClassName('ids')[i];
-
-        // Update element content
-        imageElement.src = game.Icon_URL;
-        nameElement.textContent = game.Name;
-
-        idElement.setAttribute('data-game-id', game.ID);
-
-        console.log(idElement.getAttribute('data-game-id'));
-
-
-    }
-
-}
-    fetchRandomGames();
-    console.log("fetchRandomGames function called.");
-});
-</script>
 	<!-- end recent games products -->
 
 
@@ -450,8 +451,40 @@ console.log("Document is ready.");
 	<!-- main js -->
 	<script src="{% static '/js/main.js' %}"></script>
 <script>
+
+	//------------------------------ retrieve game info
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Function to retrieve game information
+    
+	var gameIdFromUrl = window.location.href.split('/').filter(Boolean).pop();
+	console.log("gameId:",gameIdFromUrl);
+
+	//------------------------------ retrieve recently viewed games
+$.ajax({
+	url: '/BackEnd/recently_viewed_games/',
+	type: 'GET',
+	dataType: 'json',
+	success: function (data) {
+		console.log('Recently Viewed Games Data:', data);
+
+		if (data.games) {
+			// Exclude the current game ID from the recently viewed list
+			var filteredGames = data.games.filter(function (game) {
+				return game.id !== parseInt(gameIdFromUrl, 10);
+			});
+
+			updateRecentlyViewedGamesContainer(filteredGames);
+		} else {
+			console.log('No data.games received.'); // Log a message for debugging
+		}
+	},
+	error: function (error) {
+		console.error('Error making AJAX request:', error);
+	}
+});
+
+	//------------------------------ retrieve game info
+	// Function to retrieve game information
     function retrieveGameInfo(gameId) {
         $.ajax({
             url: `/BackEnd/retrieve_game_info/?ID=${gameId}`,
@@ -531,6 +564,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			saveVisitedGame();
 		});
 
+
+
+	//------------------------------ save Visited Game
 		function saveVisitedGame() {
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', '/BackEnd/save_visited_game/' + window.location.pathname.split('/').filter(Boolean).pop() + '/');
@@ -593,6 +629,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 <script>
+
     function info(event) {
         event.preventDefault(); // Prevent the default link behavior
 
