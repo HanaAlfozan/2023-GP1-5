@@ -1325,13 +1325,18 @@ console.log(response)
 
             if(response.filter_status === "no games satisfies the filter") {
             document.getElementById('myModal').style.display = 'block';
-            if(response.count<=12){
-            document.getElementById('punc').style.marginTop = '133%';
+            console.log("nonn")}
+
+            if(response.Count<=12){
+            console.log("YYY");
+            document.getElementById('punc').style.marginTop ="133%";
+            }else{
+            document.getElementById('punc').style.marginTop ="20px";
             }
 
 
 
-            }
+
         },
         error: function (error) {
             console.error('Error making AJAX request:', error);

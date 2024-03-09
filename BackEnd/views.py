@@ -435,7 +435,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Case, When, Value, IntegerField
 
-@require_http_methods(["GET"])
+
 @require_http_methods(["GET"])
 def retrieve_all_games(request):
     sorted_games = cache.get('games_list', [])
@@ -485,15 +485,7 @@ def retrieve_all_games(request):
 
         print('HERE HERE filtered_categories')
 
-        all_games_data =  games_list = [
-            {
-                'Name': game.get('Name', ''),  # Use get to handle missing keys
-                'Icon_URL': game.get('Icon_URL', ''),
-                'URL': game.get('URL', ''),
-                'ID': game.get('ID', ''),
-            }
-            for game in filtered_categories
-        ]
+        all_games_data = filtered_categories
 
 
         print(f'The length of filtered_categories is: {len(filtered_categories)}')
@@ -574,6 +566,8 @@ def retrieve_all_games(request):
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
+        'Count':len(games_list),
+        'filter_status':status,
     }
 
     
@@ -902,7 +896,7 @@ def sort_by(request):
 
     else:
         # Explicitly handle alphabetical sorting
-        if order_direction == 'asc':
+        if order_direction == 'asc' :
             game_queryset = game_queryset.order_by(order_field, 'Name')
         else:
             game_queryset = game_queryset.order_by(f'{order_field}', '-Name')
@@ -964,7 +958,6 @@ def ExtractRating(request):
     Rating_list = list(unique_Rating)
     return JsonResponse({'Rating': Rating_list}, safe=False)
 
-@require_http_methods(["GET"])
 def filter_games_multiple(request):
     # Extract valid categories from GET parameters
     valid_categories = {'Genres', 'Languages', 'In_app_Purchases', 'Price', 'Average_User_Rating'}
@@ -1039,7 +1032,7 @@ def filter_games_multiple(request):
     # Convert queryset to a list of dictionaries
     games_list = [
         {
-            'Name': game.Name,
+            'Name':game.Name,
             'Icon_URL': game.Icon_URL,
             'URL': game.URL,
             'ID': game.ID,
