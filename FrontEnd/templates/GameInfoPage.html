@@ -230,6 +230,7 @@
 											}
 										}
 
+<<<<<<< HEAD
 //----------------------------------------- More Info button									
 							// Function to get the value of a cookie by name
 							function getCookie(name) {
@@ -247,6 +248,14 @@
 								}
 								return cookieValue;
 							}
+=======
+                                //-------------------------------- More Info button
+									// Handle "More info" button click
+									$(document).on('click', '.more-info-btn', function (e) {
+                                    e.preventDefault();
+                                    var gameId = $(this).closest('.game-item').data('id');
+                                    window.location.href = `/game_info_page/${game-Id}/`;
+>>>>>>> cacb718190b995a7d10a3c21f181b21a333a8548
 
 							// Handle "More info" button click
 							$(document).on('click', '.more-info-btn', function (e) {

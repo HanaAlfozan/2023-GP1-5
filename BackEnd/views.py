@@ -573,8 +573,7 @@ def retrieve_all_games(request):
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
-        'filter_status':status,
-        'filtered_categories':games_list,
+    }
 
     }
   # Return a JSON response
