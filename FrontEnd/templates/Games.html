@@ -1057,7 +1057,7 @@ $('input[type="checkbox"]').each(function () {
 						<h3></h3>
 						<form id="gameInfoForm">
 						<input type="hidden" id="gameIdInput" name="game_id">
-						<button type="button" id="moreInfoButton">More info</button>
+						<button type="button" id="moreInfoButton" class="cart-btn more-info-btn">More info</button>
 						</form>
 					</div>
 				</div>
@@ -1268,7 +1268,7 @@ function updateGamesContainer(data) {
 
     data.games_data.forEach(function (game) {
         var gameHTML = `
-            <div class="col-lg-4 col-md-6 text-center strawberry" data-game-id="${game.ID}">
+            <div class="col-lg-4 col-md-6 text-center game-item" data-game-id="${game.ID}">
                 <div class="single-product-item">
                     <div class="product-image">
                         <a href="${game.URL}"><img src="${game.Icon_URL}" alt=""></a>

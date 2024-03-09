@@ -230,35 +230,55 @@
 											}
 										}
 
-                                //-------------------------------- More Info button
-									// Handle "More info" button click
-									$(document).on('click', '.more-info-btn', function (e) {
-                                    e.preventDefault();
-                                    var gameId = $(this).closest('.game-item').data('id');
-                                    window.location.href = `/game_info_page/${gameId}/`;
+//----------------------------------------- More Info button									
+							// Function to get the value of a cookie by name
+							function getCookie(name) {
+								var cookieValue = null;
+								if (document.cookie && document.cookie !== '') {
+									var cookies = document.cookie.split(';');
+									for (var i = 0; i < cookies.length; i++) {
+										var cookie = cookies[i].trim();
+										// Check if this cookie string begins with the name we want
+										if (cookie.substring(0, name.length + 1) === (name + '=')) {
+											cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+											break;
+										}
+									}
+								}
+								return cookieValue;
+							}
 
-                                    // Add the game to recently viewed when "More Info" is clicked
-                                    addToRecentlyViewed(gameId);
-                                });
+							// Handle "More info" button click
+							$(document).on('click', '.more-info-btn', function (e) {
+								e.preventDefault();
+								var gameId = $(this).closest('.game-item').data('game-id');
+								window.location.href = `/game_info_page/${gameId}/`;
 
-                                // Function to add the game to recently viewed
-                                function addToRecentlyViewed(gameId) {
-                                    $.ajax({
-                                        url: `/BackEnd/add_to_recently_viewed/${gameId}/`,
-                                        type: 'POST',
-                                        dataType: 'json',
-                                        headers: {
-                                            'X-CSRFToken': getCookie('csrftoken'),  // Include the CSRF token
-                                        },
-                                        success: function (data) {
-                                            console.log('Added to Recently Viewed:', data);
-                                            // You can handle success as needed
-                                        },
-                                        error: function (error) {
-                                            console.error('Error making AJAX request:', error);
-                                        }
-                                    });
-                                  }
+								// Add the game to recently viewed when "More Info" is clicked
+								addToRecentlyViewed(gameId);
+							});
+
+							// Function to add the game to recently viewed
+							function addToRecentlyViewed(gameId) {
+								$.ajax({
+									url: `/BackEnd/add_to_recently_viewed/${gameId}/`,
+									type: 'POST',
+									dataType: 'json',
+									headers: {
+										'X-CSRFToken': getCookie('csrftoken'),  // Include the CSRF token
+									},
+									success: function (data) {
+										console.log('Added to Recently Viewed fisrt :', data);
+										// You can handle success as needed
+									},
+									error: function (error) {
+										console.error('Error making AJAX request:', error);
+									}
+								});
+							}
+												
+					
+
 
 							</script>					
 							
@@ -465,14 +485,13 @@ $.ajax({
 	type: 'GET',
 	dataType: 'json',
 	success: function (data) {
-		console.log('Recently Viewed Games Data:', data);
+		console.log('Recently Viewed Games Data :', data);
 
 		if (data.games) {
 			// Exclude the current game ID from the recently viewed list
 			var filteredGames = data.games.filter(function (game) {
 				return game.id !== parseInt(gameIdFromUrl, 10);
 			});
-
 			updateRecentlyViewedGamesContainer(filteredGames);
 		} else {
 			console.log('No data.games received.'); // Log a message for debugging
