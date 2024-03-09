@@ -485,15 +485,7 @@ def retrieve_all_games(request):
 
         print('HERE HERE filtered_categories')
 
-        all_games_data =  games_list = [
-            {
-                'Name': game.get('Name', ''),  # Use get to handle missing keys
-                'Icon_URL': game.get('Icon_URL', ''),
-                'URL': game.get('URL', ''),
-                'ID': game.get('ID', ''),
-            }
-            for game in filtered_categories
-        ]
+        all_games_data = filtered_categories
 
 
         print(f'The length of filtered_categories is: {len(filtered_categories)}')
@@ -1040,7 +1032,7 @@ def filter_games_multiple(request):
     # Convert queryset to a list of dictionaries
     games_list = [
         {
-            'Name': clean_name(game.Name),
+            'Name':game.Name,
             'Icon_URL': game.Icon_URL,
             'URL': game.URL,
             'ID': game.ID,
