@@ -346,7 +346,7 @@
 
 
 							<a href="#" class="cart-btn" id="favBtn"><i class="fas fa-regular fa-heart"></i> <span id="favText">Add to Favourite Games</span></a>
-							<a href="javascript:void(0);" class="cart-btn download" id="copyBtn"><i class="fas fa-solid fa-link"></i><span id="copyText">Go to The Download Page!</span></a>
+							<a href="javascript:void(0);" class="cart-btn download" id="copyBtn" target="_blank"><i class="fas fa-solid fa-link"></i><span id="copyText">Go to The Download Page!</span></a>
 
 							<div id="errorContainer"></div>
 							<script>
@@ -686,6 +686,45 @@ document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + lan
         // Replace the current URL with the new one and trigger a reload
         window.location.replace(newURL);
     }
+</script>
+<script>
+ // AJAX request to get favorite games
+                            $.ajax({
+                                url: '/BackEnd/favorite_games/',
+                                type: 'GET',
+                                dataType: 'json',
+                            success: function(data) {
+    console.log("HERE", data);
+    var gameIdFromUrl = window.location.href.split('/').filter(Boolean).pop();
+    console.log("gameId:HERE", gameIdFromUrl);
+
+    // Check if data has the 'games' property and it is an array
+    if (data.hasOwnProperty('games') && Array.isArray(data.games)) {
+        // Loop through the 'games' array
+        data.games.forEach(function(item) {
+            // Check if the item's ID matches gameIdFromUrl
+            if (item.id == gameIdFromUrl) {
+                // If it matches, do something
+                console.log("Match found!");
+                 const favBtn = document.getElementById('favBtn');
+                                const favText = document.getElementById('favText');
+
+                                        favText.textContent = 'Saved to Favourite Games!';
+            }
+        });
+    } else {
+        console.log("Data does not have the 'games' property or it is not an array.");
+        // Handle the case where data does not have the 'games' property or it is not an array
+    }
+},
+                                error: function(error) {
+                                    console.error('Error getting favorite games:', error);
+                                    // Show or hide the message based on whether the container is empty
+
+                                }
+                            });
+
+
 </script>
 </body>
 {% endblock %}
