@@ -360,7 +360,9 @@
 								addToFavorites(gameId);
                                     if (favText.textContent === 'Add to Favourite Games') {
                                         favText.textContent = 'Saved to Favourite Games!';
+
                                     }});
+
 
 							</script>
 						</div>
@@ -710,11 +712,20 @@ document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + lan
                                 const favText = document.getElementById('favText');
 
                                         favText.textContent = 'Saved to Favourite Games!';
+
+                                        document.getElementById('favBtn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default click action
+    return false; // Ensure that the click event is not propagated
+});
+
+// Optionally, you can add some visual indication that the button is disabled
+document.getElementById('favBtn').style.pointerEvents = 'none';
+
             }
         });
     } else {
         console.log("Data does not have the 'games' property or it is not an array.");
-        // Handle the case where data does not have the 'games' property or it is not an array
+
     }
 },
                                 error: function(error) {
@@ -723,6 +734,7 @@ document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + lan
 
                                 }
                             });
+
 
 
 </script>
