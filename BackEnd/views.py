@@ -1031,11 +1031,6 @@ def filter_games_multiple(request):
         filtered_games_queryset = filtered_games_queryset.filter(q_objects)
         if len(filtered_games_queryset)==0:
             filter_status='no games satisfies the filter'
-
-
-    # Sort the filtered games based on default ordering (by Name)
-    filtered_games_queryset = filtered_games_queryset.order_by('Name')
-
     # Convert queryset to a list of dictionaries
     games_list = [
         {
