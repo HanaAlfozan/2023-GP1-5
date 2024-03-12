@@ -674,7 +674,7 @@ padding: 2%;
 								<li>
 									<div class="header-icons">
 
-										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
+										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;" onclick="clearStorage()">Log Out</a>
 									</div>
 								</li>
 							</ul>
@@ -1487,6 +1487,16 @@ function EventListeners() {
         }
         updateSelectedFilters();
     }
+}
+
+function clearStorage(){
+// To remove selected checkbox from local storage
+$('input[type="checkbox"]').each(function () {
+checkboxKey = $(this).attr('id');
+isChecked = $(this).prop('checked');
+//alert(localStorage.getItem(checkboxKey));
+localStorage.removeItem(checkboxKey);
+});
 }
 
 </script>
