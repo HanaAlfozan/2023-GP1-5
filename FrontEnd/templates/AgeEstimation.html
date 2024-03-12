@@ -688,10 +688,10 @@ body img{
             <div id="popup">
                 <br>
                 <h4 style="color: #ff069bc0;">Almost There!</h4>
-                <h6>It is time for taking the picture, please follow the instructions:</h6>
-                <p>Stay still while taking the picture.</p>
-                <p>Make sure the lighting is good.</p>
-                <p>Click on <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> to start taking the picture.</p>
+                <h6>Ready to Take Your Picture? Follow These Simple Instructions:</h6>
+                <p>1. Stay perfectly still while capturing the photo.</p>
+                <p>2. Ensure good lighting for the best results.</p>
+                <p>Click the <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> button to begin.</p>
             </div>
         </div>
     
@@ -751,7 +751,7 @@ body img{
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'index' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'index' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'index' %}">Downloaded Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Visited Store Games</a></li>
 								</ul></details>
 							<li class="dash"><a href="{% url 'index' %}">Profile</a></li>
 							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
@@ -905,7 +905,7 @@ body img{
             if (PageName === 'signup') {
                 //alert('hello from signup');
                 var container = document.getElementById('containerDive');
-                var htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, Click on next to confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "confirm()">Next</a></h4>';
+                var htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "confirm()">Next</a></h4>';
                 container.innerHTML = htmlContent;
             } else if (PageName === 'login') {
                // alert('im here in login');

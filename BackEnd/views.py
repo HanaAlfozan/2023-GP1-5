@@ -730,11 +730,9 @@ def send_email(request):
         # Construct email message
         email_body = f"User name: {username}\nEmail: {email}\nSubject: {subject}\nMessage: {message}"
 
-        # Replace these values with your own
-        recipient_email = 'reemo.m.2002@gmail.com'
+        recipient_email = 'gamegeekwebsite@gmail.com'
 
-        # Use the provided email or a default one if not provided
-        sender_email1 = 'reemalmusharraf@gmail.com'
+        sender_email1 = email
 
         # Construct email message
         try:
