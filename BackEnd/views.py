@@ -575,13 +575,10 @@ def retrieve_all_games(request):
         'Age': user_age_group,
     }
 
-    }
+    
   # Return a JSON response
     # cache.clear()
     return JsonResponse(response_data)
-
-
-
 
 def clean_name(name):
     # Decode Unicode escape sequences
