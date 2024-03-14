@@ -84,7 +84,7 @@
             font-size: 1px;
         }
 
-        button.boxed-btn , #sendButton , #setAgeGroup{
+        button.boxed-btn , .sendButton , #setAgeGroup{
             font-family: 'Poppins', sans-serif;
             display: inline-block;
             background-color: #ff069a;
@@ -95,12 +95,12 @@
             border-radius: 50px;
         }
 
-        button.boxed-btn:hover , #sendButton:hover ,#setAgeGroup:hover {
+        button.boxed-btn:hover , .sendButton:hover ,#setAgeGroup:hover {
             background-color: #06f7ff;
             color: #fff;
         }
 
-        button.boxed-btn , #sendButton  , #setAgeGroup{
+        button.boxed-btn , .sendButton  , #setAgeGroup{
             -webkit-transition: 0.5s;
             -o-transition: 0.5s;
             transition: 0.5s;
@@ -187,97 +187,8 @@ body img{
   max-width: 600px;
 }
 .emailSentSuccess{
-    width: 106%
+    width: 107%
 }
-
-@media screen and (max-width: 1280px){
-.emailSentSuccess {
-    left: -18%;
-    top: -18%;
-    width: 120%;
-}
-}
-
-
-@media screen and (max-width: 1024px) and (max-height: 1400px){
-.emailSentSuccess {
-    top: -130%;
-}
-}
-
-@media screen and (max-width: 1024px) and (max-height: 1000px){
-.emailSentSuccess {
-    left: -26%;
-    width: 147%;
-    top: -204%;
-}
-}
-
-
-@media screen and (max-width: 920px){
-.emailSentSuccess {
-    left: -33%;
-    width: 163%;
-    top: -146%;
-}
-}
-
-@media screen and (max-width: 853px){
-.emailSentSuccess {
-    left: -40%;
-    width: 177%;
-    top: -156%;
-}
-}
-
-@media screen and (max-width: 820px){
-.emailSentSuccess {
-    left: -37%;
-}
-}
-
-@media screen and (max-width: 768px){
-.emailSentSuccess {
-    top: -172%;
-    left: -37%;
-    width: 170%;
-}
-}
-
-@media screen and (max-width: 540px){
-.emailSentSuccess {
-    left: -43%;
-    width: 184%;
-    top: -236%;
-
-}
-}
-
-
-@media screen and (max-width: 450px){
-.emailSentSuccess {
-    width: 213%;
-    left: -57%;
-    top: -204%;
-}
-}
-
-@media screen and (max-width: 375px){
-.emailSentSuccess {
-    top: -242%;
-    width: 214%;
-    left: -57%
-}
-}
-
-@media screen and (max-width: 280px){
-.emailSentSuccess {
-    top: -254%;
-    width: 227%;
-    left: -64%;
-}
-}
-
 
 @media screen and (max-width: 1024px) and (max-height: 1400px) {
     #instructions, .Popup {
@@ -397,11 +308,6 @@ body img{
     }
 }
 
-@media screen and (max-width: 375px){
-   .Popup {
-    top: -240%;
-}
-}
 
 @media screen and (max-width: 280px) {
     .Popup {
@@ -499,6 +405,92 @@ body img{
 }
 }
 
+@media screen and (max-width: 1280px){
+.emailSentSuccess {
+    left: -18%;
+    top: -18%;
+    width: 120%;
+}
+}
+
+
+@media screen and (max-width: 1024px) and (max-height: 1400px){
+.emailSentSuccess {
+    top: -130%;
+}
+}
+
+@media screen and (max-width: 1024px) and (max-height: 1000px){
+.emailSentSuccess {
+    left: -26%;
+    width: 147%;
+    top: -204%;
+}
+}
+
+
+@media screen and (max-width: 920px){
+.emailSentSuccess {
+    left: -33%;
+    width: 163%;
+    top: -146%;
+}
+}
+
+@media screen and (max-width: 853px){
+.emailSentSuccess {
+    left: -40%;
+    width: 177%;
+    top: -156%;
+}
+}
+
+@media screen and (max-width: 820px){
+.emailSentSuccess {
+    left: -37%;
+}
+}
+
+@media screen and (max-width: 768px){
+.emailSentSuccess {
+    top: -172%;
+    left: -37%;
+    width: 170%;
+}
+}
+
+@media screen and (max-width: 540px){
+.emailSentSuccess {
+    left: -43%;
+    width: 184%;
+    top: -236%;
+
+}
+}
+
+
+@media screen and (max-width: 450px){
+.emailSentSuccess {
+    width: 213%;
+    left: -57%;
+    top: -204%;
+}
+}
+
+@media screen and (max-width: 375px){
+.emailSentSuccess {
+    width: 214%;
+    left: -57%
+}
+}
+
+@media screen and (max-width: 280px){
+.emailSentSuccess {
+    top: -254%;
+    width: 227%;
+    left: -64%;
+}
+}
 
 
 @media screen and (max-width: 853px) {
@@ -696,10 +688,10 @@ body img{
             <div id="popup">
                 <br>
                 <h4 style="color: #ff069bc0;">Almost There!</h4>
-                <h6>It is time for taking the picture, please follow the instructions:</h6>
-                <p>Stay still while taking the picture.</p>
-                <p>Make sure the lighting is good.</p>
-                <p>Click on <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> to start taking the picture.</p>
+                <h6>Ready to Take Your Picture? Follow These Simple Instructions:</h6>
+                <p>1. Stay perfectly still while capturing the photo.</p>
+                <p>2. Ensure good lighting for the best results.</p>
+                <p>Click the <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> button to begin.</p>
             </div>
         </div>
     
@@ -759,7 +751,7 @@ body img{
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'index' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'index' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'index' %}">Downloaded Games</a></li>
+									<li class="dash"><a href="{% url 'index' %}">Visited Store Games</a></li>
 								</ul></details>
 							<li class="dash"><a href="{% url 'index' %}">Profile</a></li>
 							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
@@ -913,7 +905,7 @@ body img{
             if (PageName === 'signup') {
                 //alert('hello from signup');
                 var container = document.getElementById('containerDive');
-                var htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
+                var htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "confirm()">Next</a></h4>';
                 container.innerHTML = htmlContent;
             } else if (PageName === 'login') {
                // alert('im here in login');
@@ -998,31 +990,11 @@ body img{
             document.getElementById("instructions").style.display = "none";
         }
         function loginfunc(){
-             var sendloginPopup = document.getElementById('sendlogin');
-             var sendRequestTrigger = document.getElementById('sendRequestTrigger');
-                if (sendloginPopup && sendRequestTrigger) {
-                    document.getElementById("sendlogin").style.display = "block";
-                    document.getElementById("send").style.display = "none";
-                    document.getElementById("video-container").style.display = "none";
-                    document.getElementById("take-snapshot-button").style.display = "none";
-                    document.getElementById("instructions").style.display = "none";
-                    var csrftoken = getCookie('csrftoken');
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', "{% url 'SendEmailForWrongEstimation' %}", true);
-                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                    /*
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            var response = JSON.parse(xhr.responseText);
-                            agGroup = response.agGroup;
-                        } else if (xhr.status === 404) {     
-                        }
-                    };*/
-                    xhr.send();
+            document.getElementById("sendlogin").style.display = "block";
+            document.getElementById("video-container").style.display = "none";
+            document.getElementById("take-snapshot-button").style.display = "none";
+            document.getElementById("instructions").style.display = "none";
 
-                }
         }
         function Try(){
             document.getElementById("send").style.display = "block";
@@ -1064,7 +1036,7 @@ body img{
                         <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
                         <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
                             {% csrf_token %}
-                            <button type="button" id="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
+                            <button type="button" class="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
                     </div>
                 </div>
 
@@ -1075,7 +1047,7 @@ body img{
                     <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
                     <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
                     {% csrf_token %}
-                    <button type="button" id="sendButton" onclick="sendEmail()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
+                    <button type="button" class="sendButton" onclick="sendEmail()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
                 </div>
             </div>
 
@@ -1113,7 +1085,7 @@ body img{
             <input type="radio" name="ageGroup" value="+17">
             +17</label> <br>
             </div>
-            <button type="submit" id="setAgeGroup" style="width: 74%; font-size: 100%; font-weight: 700; margin-left: 13%; margin-top: 6%;">Set Age Group</button>
+            <button type="submit" id="setAgeGroup" style="width: 74%; font-size: 100%; font-weight: 700; margin-left: 13%; margin-top: 6%;" onclick="confirm()">Set Age Group</button>
         </form>
     </div>
 </div>
@@ -1135,13 +1107,23 @@ body img{
     </div>
 </div>
 
+<div id="signUpConfirmation" class="emailSentSuccess Popup" style="width: 106%;">
+    {% csrf_token %}
+<div class="popup-content">
+    <h3>Confirm Registration &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+    <h5>Dear gamer, we have sent you a link to your registered email to confirm your registeration . Please check your inbox, including your spam folder, and follow the link to complete your registering confirmation.</h5>
+    <h7>If you haven't received an email, please ensure that your registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
+    <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
+</div>
+</div>
+
 <script>
 if (status === 'done') {
     // Display done pop-up
     document.getElementById('done').style.display = 'block';
     document.getElementById("instructions").style.display = "none";
     document.getElementById('send').style.display = 'none';
-} 
+}
 else if (status === 'error'){
     // Display error pop-up
     document.getElementById('send').style.display = 'none';
@@ -1151,6 +1133,12 @@ else if (status === 'error'){
 else if (status === 'confirm'){
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
+}
+
+else if (status === 'verify'){
+    confirm();
+document.getElementById("instructions").style.display = "none";
+
 }
 function sendRequest() {
 var csrftoken = getCookie('csrftoken');
@@ -1179,7 +1167,7 @@ xhr.send();
 function sendEmail(){
 var csrftoken = getCookie('csrftoken');
 var xhr = new XMLHttpRequest();
-xhr.open('POST', "{% url 'CompareAgeGroups' %}", true);
+xhr.open('POST', "{% url 'SendEmailForWrongEstimation' %}", true);
 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
@@ -1191,23 +1179,47 @@ xhr.onload = function () {
         document.getElementsByClassName('emailSentSuccess')[0].style.display = 'block';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('sendlogin').style.display = 'none';
-        var response = JSON.parse(xhr.responseText);
-        if(response.message === 'Matching'){
-            htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your estimated age is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
-            container.innerHTML = htmlContent;
-            console.log(xhr.responseText);}
-        else if(response.message === 'Not Matching'){
-            htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your registered age group not matching your current estimated age group. Feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>';
-            container.innerHTML = htmlContent;
-        }
     } else if (xhr.status === 404) {
         document.getElementById('sendlogin').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
     }
 };
-xhr.send();
 
+xhr.send();
+}
+
+function confirm() {
+var csrftoken = getCookie('csrftoken');
+var xhr = new XMLHttpRequest();
+xhr.open('POST', "{% url 'custom_signup_confirmation' %}", true);
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+// Set the CSRF token and session ID in the request headers
+xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+xhr.onload = function () {
+
+    if (xhr.status === 200) {
+
+        document.getElementById('signUpConfirmation').style.display = 'block';
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById('send').style.display = 'none';
+        document.getElementById("classified").style.display = "none";
+        document.getElementById("ageGroupConfirm").style.display = "none";
+
+
+    } else if (xhr.status === 404) {
+        document.getElementById('signUpConfirmation').style.display = 'none';
+        document.getElementById('send').style.display = 'none';
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById('errorPopUp').style.display = 'block';
+
+    }
+};
+xhr.send();
 }
 // Function to get the CSRF token from the cookie
 function getCookie(name) {

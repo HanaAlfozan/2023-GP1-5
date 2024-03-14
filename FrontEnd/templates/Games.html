@@ -674,7 +674,7 @@ padding: 2%;
 								<li>
 									<div class="header-icons">
 
-										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
+										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;" onclick="clearStorage()">Log Out</a>
 									</div>
 								</li>
 							</ul>
@@ -790,9 +790,10 @@ $(document).ready(function () {
 function storeCheckboxState() {
     $('input[type="checkbox"]').each(function () {
         checkboxKey = $(this).attr('id');
+        console.log(checkboxKey);
         isChecked = $(this).prop('checked');
         localStorage.setItem(checkboxKey, isChecked);
-        //alert(localStorage.getItem(checkboxKey));
+        //console.log(localStorage.getItem(checkboxKey));
 });
 //alert('Stored data in localStorage: ' + JSON.stringify(localStorage));
 
@@ -887,10 +888,11 @@ function appendRatingCheckboxes(container) {
     const stars = '<span style="color: orange;">&#9733;</span>'; // &#9733; is the HTML code for a star character
 
     for (let rating = 1; rating <= 5; rating++) {
+        const checkboxId = `${container.attr('id')}-checkbox-${rating}`; // Unique id for each checkbox
         container.append(`
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="${rating}" data-category="${container.attr('id')}">
-                <label class="form-check-label">${stars.repeat(rating)}</label>
+                <input id="${checkboxId}" class="form-check-input" type="checkbox" value="${rating}" data-category="${container.attr('id')}">
+                <label for="${checkboxId}" class="form-check-label">${stars.repeat(rating)}</label>
             </div>
         `);
     }
@@ -1121,11 +1123,7 @@ $('input[type="checkbox"]').each(function () {
 						<h3></h3>
 						<form id="gameInfoForm">
 						<input type="hidden" id="gameIdInput" name="game_id">
-<<<<<<< HEAD
-						<button type="button" id="moreInfoButton" class="cart-btn more-info-btn">More info</button>
-=======
 						<button type="button" id="moreInfoButton class=cart-btn more-info-btn">More info</button>
->>>>>>> cacb718190b995a7d10a3c21f181b21a333a8548
 						</form>
 					</div>
 				</div>
@@ -1194,13 +1192,12 @@ $('input[type="checkbox"]').each(function () {
 								<ul class="innerList">
 									<li class="dash"><a href="{% url 'Games' %}">All Games</a></li>
 									<li class="dash"><a href="{% url 'Fav' %}">Favourite Games</a></li>
-									<li class="dash"><a href="{% url 'History' %}">Downloaded Games</a></li>
+									<li class="dash"><a href="{% url 'History' %}">Visited Store Games</a></li>
 								</ul></details>
 								<li class="dash"><a href="{% url 'profile' %}">Profile</a></li>
 								<li class="dash"><a href="{% url 'contact' %}">Contact Us</a></li>
 								<li class="dash"><a href="{% url 'about' %}">About Us</a></li>
 							</ul>
-
 					</div>
 				</div>
 			</div>
@@ -1325,13 +1322,18 @@ console.log(response)
 
             if(response.filter_status === "no games satisfies the filter") {
             document.getElementById('myModal').style.display = 'block';
-            if(response.count<=12){
-            document.getElementById('punc').style.marginTop = '133%';
+            console.log("nonn")}
+
+            if(response.Count<=12){
+            console.log("YYY");
+            document.getElementById('punc').style.marginTop ="133%";
+            }else{
+            document.getElementById('punc').style.marginTop ="20px";
             }
 
 
 
-            }
+
         },
         error: function (error) {
             console.error('Error making AJAX request:', error);
@@ -1401,80 +1403,101 @@ $('.page-link').on('click', function (e) {
 makeAjaxRequest(1, 1);
 
 function EventListeners() {
-            //  alert('in EventListeners');
-            const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-            //alert(genreCheckboxes.length);
-            const resultsForText = document.getElementById('resultsForText');
-            const clearFiltersButton = document.getElementById('clearFilters');
+    const genreCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    const resultsForText = document.getElementById('resultsForText');
+    const clearFiltersButton = document.getElementById('clearFilters');
 
-            genreCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedFilters);
-            });
+    genreCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectedFilters);
+    });
 
-
-            resultsForText.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-button')) {
-                    const value = event.target.getAttribute('data-value');
-                    removeFilter(value);
-                }
-            });
-
-            if(genreCheckboxes.length == 71){
-                   updateSelectedFilters();
-                    }
-
-            function updateSelectedFilters() {
-                const selectedFilterValues = Array.from(genreCheckboxes)
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value);
-
-                resultsForText.innerHTML = '';
-
-                if (selectedFilterValues.length > 0) {
-                   // alert('hi');
-                    resultsForText.style.display = 'inline';
-                    resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
-
-                    selectedFilterValues.forEach(value => {
-                        const container = document.createElement('span');
-                        container.className = 'checkbox-container';
-
-                        const checkboxValue = document.createElement('span');
-                        checkboxValue.className = 'checkbox-value';
-                        checkboxValue.textContent = value;
-
-                        const removeButton = document.createElement('span');
-                        removeButton.className = 'remove-button';
-                        removeButton.textContent = 'X';
-                        removeButton.setAttribute('data-value', value);
-
-                        container.appendChild(checkboxValue);
-                        container.appendChild(removeButton);
-
-                        resultsForText.appendChild(container);
-
-                    });
-                } else {
-                   // alert('bye');
-                    resultsForText.style.display = 'none';
-                    resultsForText.textContent = '';
-                }
-
-            }
-
-            function removeFilter(value) {
-                const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
-                if (checkbox) {
-                    checkbox.checked = false;
-                    const event = new Event('change', { bubbles: true });
-                    checkbox.dispatchEvent(event);
-                }
-                updateSelectedFilters();
-
-            }
-
-
+    resultsForText.addEventListener('click', (event) => {
+        if (event.target.classList.contains('remove-button')) {
+            const value = event.target.getAttribute('data-value');
+            removeFilter(value);
         }
+    });
+
+    if (genreCheckboxes.length == 71) {
+        updateSelectedFilters();
+    }
+
+    function updateSelectedFilters() {
+        const selectedFilterValues = Array.from(genreCheckboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+
+        resultsForText.innerHTML = '';
+
+        if (selectedFilterValues.length > 0) {
+            resultsForText.style.display = 'inline';
+            resultsForText.innerHTML = "<span class='result-text'>Results For: </span>";
+
+            selectedFilterValues.forEach(value => {
+                const container = document.createElement('span');
+                container.className = 'checkbox-container';
+
+                const categoryLabel = document.createElement('span');
+                categoryLabel.className = 'category-label';
+
+                const parentDetails = document.querySelector(`input[type="checkbox"][value="${value}"]`).closest('details');
+
+                const summaryElement = parentDetails.querySelector('summary');
+                if (summaryElement) {
+                    categoryLabel.textContent = summaryElement.textContent.trim();
+                } else {
+                    categoryLabel.textContent = 'Unknown Category';
+                }
+
+                categoryLabel.style.fontWeight = 'normal';
+                const separator = document.createElement('span');
+                separator.textContent = ' - ';
+                separator.innerHTML = '&nbsp;-&nbsp;';
+                separator.style.fontWeight = 'normal'; 
+
+                const checkboxValue = document.createElement('span');
+                checkboxValue.className = 'checkbox-value';
+                checkboxValue.textContent = value;
+
+                const removeButton = document.createElement('span');
+                removeButton.className = 'remove-button';
+                removeButton.textContent = 'X';
+                removeButton.setAttribute('data-value', value);
+
+                container.appendChild(categoryLabel);
+                container.appendChild(separator);
+                container.appendChild(checkboxValue);
+                container.appendChild(removeButton);
+
+                resultsForText.appendChild(container);
+            });
+        } else {
+            resultsForText.style.display = 'none';
+            resultsForText.textContent = '';
+        }
+    }
+
+    function removeFilter(value) {
+        const checkbox = document.querySelector(`input[type="checkbox"][value="${value}"]`);
+        if (checkbox) {
+            checkbox.checked = false;
+            const event = new Event('change', { bubbles: true });
+            checkbox.dispatchEvent(event);
+        }
+        updateSelectedFilters();
+    }
+}
+
+function clearStorage(){
+// To remove selected checkbox from local storage
+$('input[type="checkbox"]').each(function () {
+checkboxKey = $(this).attr('id');
+isChecked = $(this).prop('checked');
+//alert(localStorage.getItem(checkboxKey));
+localStorage.removeItem(checkboxKey);
+});
+}
+
 </script>
 </body>
 {% endblock %}

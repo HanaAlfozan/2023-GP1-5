@@ -216,7 +216,7 @@ def custom_assigining_ageGroup_confirm(request, uidb64, token):
               ageGroup = request.POST.get('ageGroup')
               user.Approved_age_group = ageGroup
               user.save()
-              return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+              return render(request, 'AgeEstimation.html', {'status': 'verify', 'message': 'verify'})
             return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Assign confirm'})
     else:
         error_message = 'Unexpected error occured, please try again'
@@ -334,7 +334,7 @@ def SendEmailForWrongEstimation(request):
         # Send the email with the reset link
         send_mail(
             'Redirect Link to Your Assigned Age Group',
-            f'Dear Gamer, we noticed that you attempted to log into your account, but it seems there is an issue verifying your assigned age group. Therefore, you have been granted access with your below-age-group by default. You can find the link below to be redirected to your account with your assigned age group: {reset_link}',
+            f'Dear Gamer, we noticed that you attempted to log into your account, but it seems there is an issue verifying your assigned age group. Therefore,  you can find the link below to be redirected to your account with your assigned age group: {reset_link}',
             'gamegeekwebsite@gmail.com',
             [email],
             fail_silently=False,
@@ -401,6 +401,7 @@ def GetProfileData(request):
 
 def LogoutUser(request):  
     logout(request)
+    cache.clear()
     return redirect('index')     
 
 def EditNames(request):
@@ -434,7 +435,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Case, When, Value, IntegerField
 
-@require_http_methods(["GET"])
+
 @require_http_methods(["GET"])
 def retrieve_all_games(request):
     sorted_games = cache.get('games_list', [])
@@ -484,15 +485,7 @@ def retrieve_all_games(request):
 
         print('HERE HERE filtered_categories')
 
-        all_games_data =  games_list = [
-            {
-                'Name': game.get('Name', ''),  # Use get to handle missing keys
-                'Icon_URL': game.get('Icon_URL', ''),
-                'URL': game.get('URL', ''),
-                'ID': game.get('ID', ''),
-            }
-            for game in filtered_categories
-        ]
+        all_games_data = filtered_categories
 
 
         print(f'The length of filtered_categories is: {len(filtered_categories)}')
@@ -573,6 +566,8 @@ def retrieve_all_games(request):
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
+        'Count':len(games_list),
+        'filter_status':status,
     }
 
     
@@ -732,11 +727,9 @@ def send_email(request):
         # Construct email message
         email_body = f"User name: {username}\nEmail: {email}\nSubject: {subject}\nMessage: {message}"
 
-        # Replace these values with your own
-        recipient_email = 'reemo.m.2002@gmail.com'
+        recipient_email = 'gamegeekwebsite@gmail.com'
 
-        # Use the provided email or a default one if not provided
-        sender_email1 = 'reemalmusharraf@gmail.com'
+        sender_email1 = email
 
         # Construct email message
         try:
@@ -898,7 +891,7 @@ def sort_by(request):
 
     else:
         # Explicitly handle alphabetical sorting
-        if order_direction == 'asc':
+        if order_direction == 'asc' :
             game_queryset = game_queryset.order_by(order_field, 'Name')
         else:
             game_queryset = game_queryset.order_by(f'{order_field}', '-Name')
@@ -960,7 +953,6 @@ def ExtractRating(request):
     Rating_list = list(unique_Rating)
     return JsonResponse({'Rating': Rating_list}, safe=False)
 
-@require_http_methods(["GET"])
 def filter_games_multiple(request):
     # Extract valid categories from GET parameters
     valid_categories = {'Genres', 'Languages', 'In_app_Purchases', 'Price', 'Average_User_Rating'}
@@ -1010,7 +1002,14 @@ def filter_games_multiple(request):
             )
         ).filter(numeric_age_rating__lte=user_age_group)
 
+    if 'Average_User_Rating' in categories:
 
+        rating_values = request.GET.getlist('Average_User_Rating[]')
+        rating_values = [float(value) for value in rating_values if value.isdigit()]
+        if rating_values:
+            filtered_games_queryset = filtered_games_queryset.filter(Average_User_Rating__in=rating_values)
+        else:
+            filtered_games_queryset = filtered_games_queryset.filter(Average_User_Rating=5.0)
 
     if categories:
         # Start with an initial Q object
@@ -1027,15 +1026,10 @@ def filter_games_multiple(request):
         filtered_games_queryset = filtered_games_queryset.filter(q_objects)
         if len(filtered_games_queryset)==0:
             filter_status='no games satisfies the filter'
-
-
-    # Sort the filtered games based on default ordering (by Name)
-    filtered_games_queryset = filtered_games_queryset.order_by('Name')
-
     # Convert queryset to a list of dictionaries
     games_list = [
         {
-            'Name': game.Name,
+            'Name':game.Name,
             'Icon_URL': game.Icon_URL,
             'URL': game.URL,
             'ID': game.ID,
@@ -1260,3 +1254,65 @@ def recently_viewed_games(request):
         return JsonResponse({'games': recently_viewed_games_data})
 
     return JsonResponse({'error': 'User not authenticated'})
+
+
+# SignUp Verification
+
+def custom_signup_confirmation_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = GGUser.objects.get(User_ID=uid)
+    except (TypeError, ValueError, OverflowError, GGUser.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            # Valid token, allow the user to set a new password
+            ageGroup = request.POST.get('ageGroup')
+            user.Approved_age_group = ageGroup
+            user.save()
+            return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+        else:
+            # Handle GET request, show age group form
+            return render(request, 'AgeEstimation.html', {'status': 'done', 'message': 'Done'})
+    else:
+        error_message = 'Unexpected error occurred, please try again'
+        return render(request, 'AgeEstimation.html', {'status': 'error', 'message': error_message})
+
+
+
+
+def custom_signup_confirmation(request):
+    print("Debugging ")
+    if request.method == 'POST':
+        user_id = request.session.get('user_id')
+        if user_id:
+            try:
+                user = GGUser.objects.get(User_ID=user_id)
+                email = user.Email
+            except GGUser.DoesNotExist:
+                return HttpResponseNotFound('User not found')
+
+        # Generate a token and uid for the user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email = user.Email
+
+        # Create the reset link for age group assignment
+        reset_link = f"{request.scheme}://{request.get_host()}/verify-signUp/{uid}/{token}/"
+
+        # Send the email with the reset link
+        send_mail(
+            'Confirm registeration',
+            f'Dear Gamer,Thank you for registering with Game Geek. To confirm your registration please click on this link: {reset_link}',
+            'gamegeekwebsite@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        if 'error_message' in request.POST:
+            print("Debugging in verify method ")
+            return HttpResponse(status=400)
+        print("Debugging 1016 ")
+        return HttpResponse(status=200)
+
+    return render(request, 'AgeEstimation.html')

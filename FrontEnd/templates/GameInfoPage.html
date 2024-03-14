@@ -346,7 +346,7 @@
 
 
 							<a href="#" class="cart-btn" id="favBtn"><i class="fas fa-regular fa-heart"></i> <span id="favText">Add to Favourite Games</span></a>
-							<a href="javascript:void(0);" class="cart-btn download" id="copyBtn"><i class="fas fa-solid fa-link"></i><span id="copyText">Go to The Download Page!</span></a>
+							<a href="javascript:void(0);" class="cart-btn download" id="copyBtn" target="_blank"><i class="fas fa-solid fa-link"></i><span id="copyText">Go to The Download Page!</span></a>
 
 							<div id="errorContainer"></div>
 							<script>
@@ -360,7 +360,9 @@
 								addToFavorites(gameId);
                                     if (favText.textContent === 'Add to Favourite Games') {
                                         favText.textContent = 'Saved to Favourite Games!';
+
                                     }});
+
 
 							</script>
 						</div>
@@ -572,7 +574,24 @@ $.ajax({
             imageElement.src = gameData.Icon_URL; // Use the actual property from your game data
         }
 
-        document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + gameData.Languages;
+
+     var languages = gameData.Languages.split(', '); // Convert to array assuming it's a string separated by ', '
+var othersIndex = languages.indexOf('Others');
+
+// If 'Others' exists in the array, move it to the end
+if (othersIndex !== -1) {
+    var othersLanguage = languages.splice(othersIndex, 1)[0]; // Remove 'Others' from its current position
+    languages.push(othersLanguage); // Append 'Others' to the end
+}
+
+// Join the array elements to form the string
+var languagesString = languages.join(', ');
+
+// Remove the period from within the string
+languagesString = languagesString.replace('.', '');
+
+// Update the HTML
+document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + languagesString+'.';
         document.querySelector('.rDate').innerHTML = '<strong>Release Date:</strong> ' + gameData.Original_Release_Date+'.';
         document.querySelector('.Developer').innerHTML = '<strong>Developer:</strong> ' + gameData.Developer;
         document.querySelector('.age').innerHTML = '<strong>Age Rating:</strong> ' + gameData.Age_Rating+'.';
@@ -669,6 +688,55 @@ $.ajax({
         // Replace the current URL with the new one and trigger a reload
         window.location.replace(newURL);
     }
+</script>
+<script>
+ // AJAX request to get favorite games
+                            $.ajax({
+                                url: '/BackEnd/favorite_games/',
+                                type: 'GET',
+                                dataType: 'json',
+                            success: function(data) {
+    console.log("HERE", data);
+    var gameIdFromUrl = window.location.href.split('/').filter(Boolean).pop();
+    console.log("gameId:HERE", gameIdFromUrl);
+
+    // Check if data has the 'games' property and it is an array
+    if (data.hasOwnProperty('games') && Array.isArray(data.games)) {
+        // Loop through the 'games' array
+        data.games.forEach(function(item) {
+            // Check if the item's ID matches gameIdFromUrl
+            if (item.id == gameIdFromUrl) {
+                // If it matches, do something
+                console.log("Match found!");
+                 const favBtn = document.getElementById('favBtn');
+                                const favText = document.getElementById('favText');
+
+                                        favText.textContent = 'Saved to Favourite Games!';
+
+                                        document.getElementById('favBtn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default click action
+    return false; // Ensure that the click event is not propagated
+});
+
+// Optionally, you can add some visual indication that the button is disabled
+document.getElementById('favBtn').style.pointerEvents = 'none';
+
+            }
+        });
+    } else {
+        console.log("Data does not have the 'games' property or it is not an array.");
+
+    }
+},
+                                error: function(error) {
+                                    console.error('Error getting favorite games:', error);
+                                    // Show or hide the message based on whether the container is empty
+
+                                }
+                            });
+
+
+
 </script>
 </body>
 {% endblock %}
