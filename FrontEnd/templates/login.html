@@ -35,6 +35,9 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+
+
 	<script>
 		function validatePassword(pass) {
 		  const passRegex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
@@ -43,7 +46,7 @@
 		  var eye = document.getElementById("eye");
 
 
-		  
+
 		  if (!passRegex.test(pass)) {
 			messageSpan.innerHTML = 'Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.';
 			messageSpan.style.visibility = 'visible';
@@ -59,12 +62,64 @@
 
 
 			}
-	
+
 			return true;
 		}
 	</script>
 	<style>
-		.games{
+		/*
+@media (max-width: 767px) { /* work a littile bit*/
+    /* Adjust styles for smaller screens
+    .form-container form {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .right, .left {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin-left: 0;
+    }
+
+    .site-logo img {
+        width: 150px;
+        height: 75px;
+        left: 0;
+    }
+
+}
+*/
+container {
+    width: 100%;
+     padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+     margin-left: auto;
+}*/
+.Boxes{
+	margin:10% ;
+}*/
+
+.row .Main-row {
+	margin-left: -25%;
+	margin-right: -25%;
+	margin-top: 10%;
+	justify-content: center; /* Center the columns */
+
+}
+
+@media (max-width: 900px) {
+    .row.Main-row .col-lg-6.col-md-6.text-center {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+.games{
 			color: #fff;
 		}
 		.innerList{
@@ -76,43 +131,58 @@
 		}
 		#footer{
 			justify-content: space-between;
+
 		}
 		summary::-webkit-details-marker {
           display: none;}
 
 		  summary {
     list-style-type: none; /* For non-Chrome browsers */}
-.hero-area{
 
+.hero-area{
 background: rgb(21,22,51);
 background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
+height:auto
 
-  z-index: 1;
 		}
 
 
-		.form-container form {
+
+.form-container form {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 50px;
-	padding-top: 25px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-    width: 55%;
-	margin-left: 200px;
+    width: 95%;
+	/*margin-left: 100px;
+	margin-right: 100px;*/
+	height:auto;
 
 }
 
 .form-container {
      background-color: transparent;
      margin:  auto ; /* Adjust vertical margin */
+     width:110%;
+
 
 }
 
 
 
+.hero-area {
+    min-height: 130vh;
+}
+.hero-area div {
+    height: auto;
+}
+
+
 .input-box {
-    width: 60%;
+    width: 60%; /* Make inputs take full width of the form */
     padding: 10px; /* Reduce padding for inputs */
+
  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
@@ -124,13 +194,17 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
 }
 
 
+
 .alt-link {
     color: #ff069a;
     text-decoration: none;
 }
 
 .input-pair {
-    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
 }
 
 .input-pair label {
@@ -138,15 +212,16 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
     font-weight: 700;
     text-align:left;
 	font-size: 17px;
-	margin-left: 10px;
 }
+
 
 .input-pair input {
 	margin-left: 10px;
+
 }
 
 
-.animate-charcter {
+		.animate-charcter { /*signUp*/
   text-transform: uppercase;
   background-image: linear-gradient(
      -225deg,
@@ -167,12 +242,6 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   line-height: 1.5;
 }
 
-@keyframes textclip {
-  to {
-    background-position: 200% center;
-  }
-}
-
 
 @keyframes textclip {
   to {
@@ -180,27 +249,8 @@ background: linear-gradient(96deg, rgba(21,22,51,1) 0%, rgba(226,42,162,1) 86%);
   }
 }
 
-#forgetPass ,#forgetUser{
-			font-family: 'Poppins', sans-serif;
-            color: #333;
-			font-weight: 700;
-			margin-left: 220px;
-			font-size: 12px;
-			cursor: pointer;
-			position: relative;
-            top: 10px;
-		}
-	#forgetPass:hover ,#forgetUser:hover {
-         color: #06f7ff;
-		}
-		.input-item {
-		 position: relative;
-         background: transparent;
-         color: #333;
-         right: -6px;
-		 font-size: 18px;
-		}
-				.site-logo img{
+
+.site-logo img{
   width: 200px;
     height: 100px;
 	position: relative;
@@ -210,19 +260,72 @@ body img{
   max-width: 600px;
 }
 
+#forgetPass ,#forgetUser{
+			font-family: 'Poppins', sans-serif;
+            color: #333;
+			font-weight: 700;
+
+			font-size: 12px;
+			cursor: pointer;
+			padding-left:50%;
+			padding-bottom:50%;
+
+
+
+
+		}
+	#forgetPass:hover ,#forgetUser:hover {
+         color: #06f7ff;
+		}
+
+
+
+				.site-logo img{
+  width: 200px;
+    height: 100px;
+	position: relative;
+	left: -25px;
+}
+	.mb-150{
+			margin-bottom: 0px;
+
+		}
+
+		.mt-150{
+			padding-top: 0px;
+
+		}
+		#important{
+		padding:2% 0%;
+		border-radius:50px;
+
+
+		}
+
+.gradient-hr {
+  border: none;
+  border-top: 2px solid transparent; /* Set a transparent border on top of hr */
+  background-image: linear-gradient(-225deg, #2ae2e1 0%, #ff069a 29%, #06f7ff 67%, #fff 100%);
+  height: 2px; /* Set the height of the hr element */
+  margin: 10px 0; /* Adjust the margin to position the hr element below the div */
+  width:64%;
+  margin-left:18%;
+  position:absolute;
+}
+
 .popup {
   display: none;
   position: fixed;
   top: 0;
   left: 50;
-  width: 100%;
+  width: 80%;
   height: 100%;
 }
 
 .popup-content {
   background-color: #fff;
   max-width: 600px;
-  margin: 15% auto;
+ margin:15% auto;
   padding: 1%;
   border: 1px solid #ccc;
   border-radius: 50px;
@@ -271,19 +374,29 @@ body img{
 }
 
 .right {
-  position: relative;
-  left: 250px;
-  top:-160px
+ margin:10% ;
+  margin-top:20%;
 }
 
 .left{
-  position: relative;
-  left: -370px;
-  top: 200px;
 
+
+  margin-top: 40%;
 }
 
+	.input-item {
+		 position: relative;
+         background: transparent;
+         color: #333;
+         right: 6px;
+		 top: -3px;
 
+		 font-size: 16px;
+		}
+.fa-eye-slash{
+
+
+}
 
 	</style>
 
@@ -330,7 +443,7 @@ body img{
 	</div>
 	<!-- end header -->
 	<div class="hero-area hero-bg" style="background-size: 120%;">
-		<div class="container">
+
 			<div class="row">
 				<div class="col-lg-9 offset-lg-2 text-center">
 					<div class="hero-text">
@@ -341,18 +454,38 @@ body img{
 	<div class="contact-from-section mt-150 mb-150">
 
 		<div class="container">
-			<div class="left">
-				<h3 class="animate-charcter">Welcome back <br> gamer 🎮!</h3>
-				<p style="color: #fff; letter-spacing: 1px; padding: 10px;  margin: 0; max-width: 550px; margin-left: 130px; font-size: 20px; text-align:center;" ALIGN=LEFT><b> More adventures awaits behind these login gates. Ready to get started? 🚀</b></p>
-			</div>
-			<div class="right">
-				<div class="containeTitle" style="margin-left: 200px;">
+
+
+
+
+			<div class="row Main-row">
+				<div class="col-lg-6 col-md-6 text-center">
+
+				<!--<div class="col-lg-9 offset-lg-2 text-center">-->
+					<div class="left">
+					<!----<div class="Boxes">-->
+				<h3 class="animate-charcter" >WELCOME BACK<br> Gamer 🎮!</h3>
+				<br>
+				<h5 class="note" style="color:white; letter-spacing: 1px; font-size: 22px;line-height: 1.5;" id="note">More adventures awaits behind these login gates. Ready to get started? 🚀</h5>
+				<br>
+				<!--</div> --end of Left-->
+
+              </div>
+			  </div>
+
+				 <div class="col-lg-6 col-md-6 text-center">
+				<!--<div class="Boxes">-->
+
+			<!--<div class="col-lg-9 offset-lg-2 text-center">-->
+				<div class="right">
+
+				<div class="containeTitle">
 					<div class="rowTitle">
-								  <div class="col-md-12 text-center">
-									<h3 class="animate-charcter" style="font-size: 50px;">Log In</h3>
-								  </div>
-								</div>
-							  </div>
+						<div class="col-md-12 text-center">
+							<h3 class="animate-charcter" style="font-size: 50px;">Log IN</h3>
+						</div>
+					</div>
+				</div>
 
 							  <div class="form-container">
 								<form action="{% url 'LoginUser' %}" method="POST">
@@ -362,25 +495,34 @@ body img{
 											<i class="fa fa-user-circle"></i>
 										</span>
 										<label for="username">Username:</label>
-										<input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username">
-                                        <a href="#" id="forgetUser" style="left: 5%;">Forgot Username?</a>
+										<input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username"  style="margin-bottom:-6%;">
+
+
+
+
 									</div>
+									 <a href="#" id="forgetUser" >Forgot Username?</a>
+									<br>
+
+
 									<div class="input-pair">
 										<span class="input-item">
 											<i class="fa fa-key"></i>
 										</span>
 										<label for="password">Password:</label>
-										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password">
-										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 129px; top: 225px; cursor: pointer;"></i>
-										<a href="#" id="forgetPass" style="left: 5%;">Forgot Password?</a>
-										<br><br>
+										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password" style="margin-bottom:-6%;">
+										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; padding-left:55%; margin-top:4%; cursor: pointer;" id="ayeee"></i>
+
 									</div>
+									<a href="#" id="forgetPass">Forgot Password?</a>
+									<br><br>
 									<!-- Display messages only if there are any -->
 									{% if messages %}
 										{% for message in messages %}
 											<h5>{{ message }}</h5>
 										{% endfor %}
 									{% endif %}
+
 									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>
@@ -558,7 +700,7 @@ body img{
 
 
 
-    } 
+    }
 	else if (status === 'error'){
 		// Display error pop-up
 
@@ -585,11 +727,11 @@ body img{
         document.getElementById('errorPopup').style.display = 'none';
 
 	}
-	
+
     document.getElementById('resetPassword').addEventListener('click', function () {
 		document.getElementById('loader').style.display = 'block';
         username = document.getElementById('Username').value;
-        
+
         // Get the CSRF token from the cookie
         var csrftoken = getCookie('csrftoken');
 
@@ -693,16 +835,16 @@ console.log(status)
 </script>
 
 
-											  
-							
-</div>
-	</div>
-		</div>
+												<!--</div> <!--end of form-containe-->
+											</div> <!--end of right-->
+										</div><!--end of container-->
+								</div><!--end of contact-from-section mt-150 mb-150">-->
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+					</div> <!--end of hero-text-->
+				</div> <!--end of col-->
+			</div><!--end of row-->
+	</div><!--end of container-->
+</div> <!--end of hero-->
 
 
 	<!-- footer -->
@@ -847,7 +989,7 @@ document.getElementById("closeErrorPopupUser").addEventListener("click", functio
     };
 </script>
 
-	  
+
 
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
