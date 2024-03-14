@@ -575,9 +575,6 @@ def retrieve_all_games(request):
     # cache.clear()
     return JsonResponse(response_data)
 
-
-
-
 def clean_name(name):
     # Decode Unicode escape sequences
     name = name.encode().decode('unicode_escape')

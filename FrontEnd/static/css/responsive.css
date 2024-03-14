@@ -204,9 +204,7 @@
 /* Mobile Layout: 320px. */
 @media only screen and (max-width: 767px) {
 
-	.site-logo img {
-	    max-width: 150px;
-	}
+
 
 	.responsive-menu-wrap {
 	    top: -35px;
