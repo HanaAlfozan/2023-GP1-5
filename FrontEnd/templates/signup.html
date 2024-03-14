@@ -9,7 +9,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
-
 	<!-- title -->
 	<title>Sign Up</title>
 
@@ -91,96 +90,33 @@
 	  </script>
 
 	<style>
+/* Header style */
 
-/*
-@media (max-width: 767px) { /* work a littile bit*/
-    /* Adjust styles for smaller screens 
-    .form-container form {
-        width: 90%;
-        margin-left: 5%;
-    }
-
-    .right, .left {
-        position: relative;
-        left: 0;
-        top: 0;
-        margin-left: 0;
-    }
-
-    .site-logo img {
-        width: 150px;
-        height: 75px;
-        left: 0;
-    }
-}
-*/
-
-/*
-container {
-    width: 100%;
-     padding-right: 15px;
-    padding-left: 15px; 
-    margin-right: auto; 
-     margin-left: auto; 
-}*/
-
-#hey{
-	padding: 10px; 
-	 margin: 0; 
-	 max-width: 500%; 
-	 margin-left: 1%; 
-	 font-size: 110%; 
-	 text-align:center;
-  letter-spacing: 3%;
-  line-height: 2;
+.site-logo img{
+  width: 200px;
+    height: 100px;
+	position: relative;
+	left: -25px;
 }
 
-/*
-.Boxes{
-	margin:10% ;
-}*/
+/* Main style */
 
 .row .Main-row {
 	margin-left: -25%;
 	margin-right: -25%;
 	margin-top: 10%;
 	justify-content: center; /* Center the columns */
-
 }
 
-
-@media (max-width: 900px) {
-    .row.Main-row .col-lg-6.col-md-6.text-center {
-        -ms-flex: 0 0 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
+@media (max-width: 1000px) {
+.row.Main-row .col-lg-6.col-md-6.text-center {
+	-ms-flex: 0 0 100%;
+	flex: 0 0 100%;
+	max-width: 95%;
+	margin-left: 1%;
     }
 }
 
-
-.hero-area div {
-  height:auto
-}
-
-		.games{
-			color: #fff;
-		}
-		.innerList{
-			padding-left: 40px;
-            padding-bottom: 19px;
-		}
-		ul{
-           list-style: none;
-		}
-		#footer{
-			justify-content: space-between;
-
-		}
-		summary::-webkit-details-marker {
-          display: none;}
-
-		  summary {
-    list-style-type: none; /* For non-Chrome browsers */}
 
 
 .hero-area{
@@ -190,6 +126,110 @@ height:auto
 
 		}
 
+.hero-area {
+    min-height: 130vh;
+}
+
+.hero-area div {
+  height:auto
+}
+
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+
+/* Media query for smaller screens */
+@media (max-width: 1500px) {
+    .site-logo img {
+    width:128%;
+    position: relative;
+	height: 117%;
+    margin-left:70%;
+    }
+}
+
+body img{
+  max-width: 600px;
+}
+
+.mb-150{
+	margin-bottom: 0px;
+}
+
+.mt-150{
+	padding-top: 0px;
+}
+
+#important{
+padding:2% 0%;
+border-radius:50px;
+}
+		
+.gradient-hr {
+  border: none;
+  border-top: 2px solid transparent; 
+  background-image: linear-gradient(-225deg, #2ae2e1 0%, #ff069a 29%, #06f7ff 67%, #fff 100%);
+  height: 2px; 
+  margin: 10px 0; 
+  width:64%;
+  margin-left:18%;
+  position:absolute;
+}
+
+
+/* Left */
+
+#hey{
+	padding: 10px; 
+	 margin: 0; 
+	 max-width: 500%; 
+	 margin-left: 1%; 
+	 font-size: 110%; 
+	 text-align:center;
+    letter-spacing: 3%;
+    line-height: 2;
+}
+
+.left{
+  margin:10% ;
+  margin-top: 40%;
+}
+
+
+/* Right */
+
+.right {
+  margin:10% ;
+  margin-top:15%;
+}
+
+.animate-charcter { /*signUp*/
+  text-transform: uppercase;
+  background-image: linear-gradient(
+     -225deg,
+    #2ae2e1 0%,
+	#ff069a 29%,
+    #06f7ff 67%,
+    #fff 100%
+     );
+
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  font-size: 50px;
+  letter-spacing: 10px;
+  line-height: 1.5;
+}
+
+/*form*/
 
 .form-container form {
     background-color: rgba(255, 255, 255, 0.7);
@@ -198,40 +238,19 @@ height:auto
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
     width: 95%;
-	/*margin-left: 100px;
-	margin-right: 100px;*/
 	height:auto;
 
 }
 
-.right {
-  margin:10% ;
-  margin-top:15%;
-}
-
-.left{
-  margin:10% ;
- /* margin-left: -15%;*/
-  margin-top: 40%;
-}
-
-
 .form-container {
      background-color: transparent;
-	 /*width: 100%;*/
-
 }
-
-.hero-area {
-    min-height: 130vh;
-}
-
 
 .input-box {
     width: 60%; /* Make inputs take full width of the form */
     padding: 10px; /* Reduce padding for inputs */
 
- box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
@@ -250,91 +269,65 @@ height:auto
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-top: 6%;
 }
 
 .input-pair label {
-    flex: 0 0 20%; /* Adjust label width as needed */
+    flex: 0 0 20%; 
     font-weight: 700;
     text-align:left;
 	font-size: 17px;
 }
 
-
-		.animate-charcter { /*signUp*/
-  text-transform: uppercase;
-  background-image: linear-gradient(
-     -225deg,
-    #2ae2e1 0%,
-	#ff069a 29%,
-    #06f7ff 67%,
-    #fff 100%
-  );
-  background-size: auto auto;
-  background-clip: border-box;
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  font-size: 50px;
-  letter-spacing: 10px;
-  line-height: 1.5;
+.input-item {
+position: relative;
+background: transparent;
+color: #333;
+right: 6px;
+top: -3px;
+font-size: 16px;
 }
 
-@keyframes textclip {
-  to {
-    background-position: 200% center;
-  }
+@media (max-width: 1000px) {
+.password-input {
+	margin-left: 7%;
+}
+.email-input{
+	margin-left: 7%;
+}
+
+}
+
+.password-input {
+	margin-left: 6%;
+}
+
+.email-input{
+	margin-left: 8.5%;
 }
 
 
-.site-logo img{
-  width: 200px;
-    height: 100px;
-	position: relative;
-	left: -25px;
-}
-body img{
-  max-width: 600px;
+/* Footer*/	
+.innerList{
+	padding-left: 40px;
+	padding-bottom: 19px;
 }
 
-	.input-item {
-		 position: relative;
-         background: transparent;
-         color: #333;
-         right: 6px;
-		 top: -3px;
-		 font-size: 16px;
-		}
-
-		.mb-150{
-			margin-bottom: 0px;
-
-		}
-
-		.mt-150{
-			padding-top: 0px;
-
-		}
-		#important{
-		padding:2% 0%;
-		border-radius:50px;
-
-
-		}
-		
-.gradient-hr {
-  border: none;
-  border-top: 2px solid transparent; /* Set a transparent border on top of hr */
-  background-image: linear-gradient(-225deg, #2ae2e1 0%, #ff069a 29%, #06f7ff 67%, #fff 100%);
-  height: 2px; /* Set the height of the hr element */
-  margin: 10px 0; /* Adjust the margin to position the hr element below the div */
-  width:64%;
-  margin-left:18%;
-  position:absolute;
+ul{
+list-style: none;
 }
 
+#footer{
+	justify-content: space-between;
+}
+
+summary::-webkit-details-marker {
+display: none;
+}
+
+summary {
+list-style-type: none; /* For non-Chrome browsers */
+}
 
 	</style>
 
@@ -357,7 +350,7 @@ body img{
 				<div class="main-menu-wrap">
 					<!-- logo -->
 					<div class="site-logo">
-						<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
+						<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
 						</a>
 					</div>
 				</div>
@@ -376,11 +369,9 @@ body img{
 	<div class="contact-from-section mt-150 mb-150">
 		<div class="container">
 			<div class="row Main-row">
-				<div class="col-lg-6 col-md-6 text-center">
 
-				<!--<div class="col-lg-9 offset-lg-2 text-center">-->
+				<div class="col-lg-6 col-md-6 text-center">
 					<div class="left">
-					<!----<div class="Boxes">-->
 				<h3 class="animate-charcter">Let the fun begin with Game Geek!</h3>
 				<br>
 				<h4 class="note" style="color: #ff069a; letter-spacing: 1px; font-size: 22px;" id="note">Important Note for Our Young Gamers🎮</h4>
@@ -392,11 +383,7 @@ body img{
 			  </div>
 
 			  <div class="col-lg-6 col-md-6 text-center">
-				<!--<div class="Boxes">-->
-
-			<!--<div class="col-lg-9 offset-lg-2 text-center">-->
 				<div class="right">
-
 
 				<div class="containeTitle">
 					<div class="rowTitle">
@@ -410,14 +397,14 @@ body img{
 
 <form action="{% url 'SignupUser' %}" method="POST">
     {% csrf_token %}
-    <div class="input-pair">
+    <div class="input-pair" style="margin-top:2%">
 		<span class="input-item">
 			<i class="fa fa-user-circle"></i>
 		</span>
         <label for="username">Username:</label>
-        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username" onblur="validateUsername(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Username should not start with a number and no spaces allowed" style="width: 58%;">
+        <input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username" onblur="validateUsername(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Username should not start with a number and no spaces allowed" style="width: 62%;">
     </div>
-	<span id="username-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 19.5%;"></span> <!-- these for error messages-->
+	<span id="username-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span> <!-- these for error messages-->
 	<!--end of username-->
 
 	<div class="input-pair">
@@ -425,9 +412,9 @@ body img{
 			<i class="fa fa-user-circle"></i>
 		</span>
         <label for="firstname">Firstname:</label>
-        <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your First name" onblur="validateFname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Firstname should not start with a number and no spaces allowed" style="width: 58%;">
+        <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your First name" onblur="validateFname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Firstname should not start with a number and no spaces allowed" style="width: 62%;">
     </div>
-	<span id="firstname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 29.5%;"></span>
+	<span id="firstname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 29.5%;"></span>
 	<!--end of Firstname-->
 
 	<div class="input-pair">
@@ -435,39 +422,40 @@ body img{
 			<i class="fa fa-user-circle"></i>
 		</span>
         <label for="lastname">Lastname:</label>
-        <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your Last name" onblur="validateLname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Lastname should not start with a number and no spaces allowed" style="width: 58%;">
+        <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your Last name" onblur="validateLname(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="Lastname should not start with a number and no spaces allowed" style="width: 62%;">
     </div>
-	<span id="lastname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: absolute; top: 39.5%;"></span>
+	<span id="lastname-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 39.5%;"></span>
    <!--end of Lastname-->
 
 	<div class="input-pair">
 		<span class="input-item">
-			<i class="fa fa-envelope"></i>
+			<i class="fa fa-envelope" style="margin-left: 1%;"></i>
 		</span>
 		<label for="email">Email:</label>
-		<input type="email" id="email" class="input-box" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)" style="margin-left: 10%">
+		<input type="email" id="email" class="input-box email-input" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)" style="width: 62%;">
     </div>
-	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top:50%;"></span>
+	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: relative; top:50%;"></span>
 	<!--end of email-->
-    <div class="input-pair" style="padding-top: 3%;">
+    <div class="input-pair" >
 		<span class="input-item">
 			<i class="fa fa-key"></i>
 		</span>
+		
         <label for="password">Password:</label>
-        <input type="password" id="password" class="input-box" name="Password" required placeholder="Enter your password" onblur="validatePassword(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+        <input type="password" id="password" class="input-box password-input" name="Password" required placeholder="Enter your password" onblur="validatePassword(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" style="width: 62%;"
         title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
-		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 12%; cursor: pointer;"></i>
 	 </div>
-	 <span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 60.5%; left: 35%; max-width: 55%;"></span>
+	 <span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: relative; top: 60.5%; left:5%; max-width: 85%;"></span>
    <!--end of Password-->
 
 	 <div class="input-pair" id="cp">
-		<span class="input-item" style="top: -18px;">
+		<span class="input-item">
 			<i class="fa fa-key"></i>
 		</span>
         <label for="confirm_password">Confirm Password:</label>
-        <input type="password" id="confirm_password" class="input-box" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
-		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 150px; cursor: pointer;"></i>	
+        <input type="password" id="confirm_password" class="input-box password-input" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
+		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 12%; cursor: pointer;"></i>	
 	</div>
 	<!-- Display messages only if there are any -->
 	{% if messages %}
@@ -478,7 +466,7 @@ body img{
      <!--end of confirm pass-->
 
 	<div>
-		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px;" ><b id="terms">I agree to the terms and conditions</b></label>
+		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px; margin-bottom:5%; margin-top: 5%;" ><b id="terms">I agree to the terms and conditions</b></label>
 		<input type="checkbox" id="agree" name="Accept_conditions" required>
 		<br>
 		<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
@@ -488,8 +476,8 @@ body img{
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
-		   </div>
-</div>
+		   </div><!--End of form-container-->
+</div> <!--End of right-->
 
 <script>
     function validateUsername(username) {
@@ -522,7 +510,6 @@ body img{
             usernameError.textContent = '';
         }
     }
-
 </script>
 <script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
@@ -560,18 +547,15 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
     });
   </script>
 
-
-												<!--</div> <!--end of form-containe-->
-											</div> <!--end of right-->
-										</div><!--end of container-->
-								</div><!--end of contact-from-section mt-150 mb-150">-->
-						</div>
+											</div> <!--end of col-lg-6 col-md-6 text-center-->
+										</div><!--end of row Main-row-->
+								</div><!--end of continer>-->
+						</div> <!--End of contact-from-section mt-150 mb-150-->
 					</div> <!--end of hero-text-->
 				</div> <!--end of col-->
 			</div><!--end of row-->
 	</div><!--end of container-->
 </div> <!--end of hero-->
-
 
 	<!-- footer -->
 	<div class="footer-area">
@@ -681,8 +665,6 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
         agreeCheckbox.addEventListener("change", handleCheckbox);
       </script>
 
-
 </body>
-
 {% endblock %}
 </html>
