@@ -1,2 +1,9 @@
 Facial Age Group Estimation Model/
 __pycache__/
+.idea/
+.gitattributes/
+data/Games_DataSet.csv
+data/new3.csv
+data/output2.csv
+data/preprocessed_Dataset.csv
+
