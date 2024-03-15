@@ -32,7 +32,12 @@ ALLOWED_HOSTS = ['2023-gp1-5-production.up.railway.app' , 'localhost', '127.0.0.
 CSRF_TRUSTED_ORIGINS = ['https://2023-gp1-5-production.up.railway.app']
 
 CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = ['2023-gp1-5-production.up.railway.app' , 'localhost', '127.0.0.1']
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1',
+    'https://2023-gp1-5-production.up.railway.app',
+    'http://localhost',
+]
+
 
 # Application definition
 
