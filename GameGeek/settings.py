@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,7 +92,7 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -101,6 +102,13 @@ DATABASES = {
         'HOST': 'localhost'
     }
 }
+'''
+DATABASES = {
+    'default': dj_database_url.config( 
+        default='postgres://gamegeek_4pqw_user:BRk9et2gBcBgYuibwmoUbhMvb79558KS@dpg-cnqbfg4f7o1s73fmrkq0-a.oregon-postgres.render.com/gamegeek_4pqw',        
+        conn_max_age=600    )}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -138,6 +146,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
