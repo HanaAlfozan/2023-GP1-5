@@ -105,7 +105,7 @@ DATABASES = {
 '''
 DATABASES = {
     'default': dj_database_url.config( 
-        default='postgresql://postgres:postgres@localhost:5432/GsmeGeek',        
+        default='postgresql://postgres:postgres@localhost:5432/GameGeek',        
         conn_max_age=600    )}
 
 
