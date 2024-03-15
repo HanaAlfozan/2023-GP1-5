@@ -87,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'GameGeek.wsgi.application'
+WSGI_APPLICATION = 'GameGeek.wsgi.app'
 
 
 # Database
