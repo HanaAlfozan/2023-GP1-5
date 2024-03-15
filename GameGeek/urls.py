@@ -26,6 +26,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('GameGeek.urls')),
     path('',views.index,name='index'),
     path('Games/',views.Game,name='Games'),
     path('Fav/',views.Fav,name='Fav'),
