@@ -21,6 +21,8 @@ from FrontEnd import views
 from BackEnd import views as BackEnd_views
 from FrontEnd import views as Frontend_views
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -84,3 +86,6 @@ urlpatterns = [
     path('BackEnd/custom_signup_confirmation/', BackEnd_views.custom_signup_confirmation, name='custom_signup_confirmation'),
  
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
