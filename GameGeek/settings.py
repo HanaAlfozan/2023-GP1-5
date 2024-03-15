@@ -105,7 +105,7 @@ DATABASES = {
 '''
 DATABASES = {
     'default': dj_database_url.config( 
-        default='postgres://gamegeek_4pqw_user:BRk9et2gBcBgYuibwmoUbhMvb79558KS@dpg-cnqbfg4f7o1s73fmrkq0-a.oregon-postgres.render.com/gamegeek_4pqw',        
+        default='postgresql://postgres:postgres@localhost:5432/GsmeGeek',        
         conn_max_age=600    )}
 
 
