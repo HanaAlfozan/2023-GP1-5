@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-@mbefd1*0+tw%a6))7^eiixdo!h8l7k)c*538-_l7h8!gzsw24
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['2023-gp1-5-production.up.railway.app' , 'localhost', '127.0.0.1' , 'http://localhost:5983']
+#ALLOWED_HOSTS = ['2023-gp1-5-production.up.railway.app' , 'localhost', '127.0.0.1' , 'http://localhost:5983']
+ALLOWED_HOST = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['https://2023-gp1-5-production.up.railway.app']
 
@@ -150,11 +151,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
 
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Default primary key field type
