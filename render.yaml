@@ -3,9 +3,6 @@ databases:
     plan: free
     databaseName: gamegeek_4pqw
     user: gamegeek_4pqw_user
-    credentials:
-      hostname: dpg-cnqbfg4f7o1s73fmrkq0-a
-      port: 5432
 
 services:
   - type: web
