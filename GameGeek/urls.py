@@ -20,9 +20,7 @@ from AgeEstimationModel import views as AgeEstimationModel_views
 from FrontEnd import views
 from BackEnd import views as BackEnd_views
 from FrontEnd import views as Frontend_views
-import static
 from django.contrib.auth import views as auth_views
-import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -85,4 +83,4 @@ urlpatterns = [
     path('Backend/custom_signup_confirmation_confirm/', BackEnd_views.custom_signup_confirmation_confirm, name='custom_signup_confirmation_confirm'),
     path('BackEnd/custom_signup_confirmation/', BackEnd_views.custom_signup_confirmation, name='custom_signup_confirmation'),
  
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
