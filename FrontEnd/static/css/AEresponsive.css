@@ -73,14 +73,14 @@
     }
 
     #instructions, .Popup {
-        height: 98%;
+        height: 108%;
         width: 134%;
         position: relative;
         left: -17%;
     }
 
     #instructions, .Popup {
-        top: -175%;
+        top: -190%;
     }
 
     #instructions{
