@@ -29,6 +29,37 @@ def load_custom_model():
 # Load the model when the server starts
 load_custom_model()
 
+def preprocess_image_non_224(image_array, target_size=(224, 224), crop_margin=0.4):
+    # Convert to grayscale
+    gray = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
+    
+    # Detect faces in the image
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+    if len(faces) > 0:
+        # Assuming only one face is detected, extract and crop the face
+        x, y, w, h = faces[0]
+        
+        # Calculate the margins for cropping
+        margin_x = int(w * crop_margin)
+        margin_y = int(h * crop_margin)
+        
+        # Calculate the cropping boundaries
+        crop_x1 = max(x - margin_x, 0)
+        crop_y1 = max(y - margin_y, 0)
+        crop_x2 = min(x + w + margin_x, image_array.shape[1])
+        crop_y2 = min(y + h + margin_y, image_array.shape[0])
+        
+        # Crop the face with margins
+        cropped_face = image_array[crop_y1:crop_y2, crop_x1:crop_x2]
+
+        # Resize the cropped face to the target size
+        resized_face = cv2.resize(cropped_face, target_size) / 255.0
+
+        return np.expand_dims(resized_face, axis=0)
+    else:
+        return None
+
 def preprocess_image(image_array, target_size=(224, 224)):
     # Resize image to target size
     image_array = cv2.resize(image_array, target_size)
@@ -63,7 +94,12 @@ def process_image(request):
                     # Assuming only one face is detected, crop and resize the image
                     x, y, w, h = faces[0]
                     face_image = image_array[y:y+h, x:x+w]
-                    face_image_preprocessed = preprocess_image(face_image)
+
+                    # Determine the size of the face image
+                    if face_image.shape[0] == 224 and face_image.shape[1] == 224:
+                        face_image_preprocessed = preprocess_image(face_image)
+                    else:
+                        face_image_preprocessed = preprocess_image_non_224(face_image)
 
                     # Check if the model is loaded successfully
                     if model is not None:
@@ -82,7 +118,7 @@ def process_image(request):
                         return JsonResponse(response_data)
                     else:
                         return JsonResponse({'error': 'Model not loaded'})
-                else:
+                else: 
                     return JsonResponse({'error': 'No face detected'})
             else:
                 return JsonResponse({'error': 'Invalid image_data'})
