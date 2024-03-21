@@ -34,7 +34,7 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <!-- responsive -->
-	<link rel="stylesheet" href="{% static 'css/AEresponsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/AEresponsive.css' %}">
     <script>
         var status = "{{ status }}";
         var url = document.referrer;
@@ -43,8 +43,6 @@
     </script>
     <style>
         #main-content {
-            margin: auto;
-            height: 107%;
             background: rgb(21, 22, 51);
             background: linear-gradient(96deg, rgba(21, 22, 51, 1) 0%, rgba(226, 42, 162, 1) 86%);
         }
@@ -56,32 +54,27 @@
             border-color: #ff069a;
             border-width: 2px;
             position: relative;
-            margin: 0;
-            padding: 0;
         }
 
         #video-stream {
-            margin: 20% auto auto auto;
             border-radius: 4%;
             border-color: #ff069a;
-            margin-right: -10px;
             display: none;
-            margin: 0;
-            padding: 0;
+            padding-top: 12%;
         }
 
-        .inst-container {
-            text-align: center;
-            padding-top: 5%;
+        .inst-container, .Popup {
+            padding-top: 20%;
+            padding-bottom: 5%;
         }
 
         #popup {
-            margin: 10% auto 0 auto;
+            margin: 0 auto 0 auto;
             padding-top: 3%;
+            padding-bottom: 3%;
             border-radius: 50px;
             background-color: rgba(255, 255, 255, 0.7);
-            height: 40%;
-            width: 40%;
+            width: 60%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
             font-size: 1px;
         }
@@ -106,10 +99,6 @@
             -webkit-transition: 0.5s;
             -o-transition: 0.5s;
             transition: 0.5s;
-        }
-
-        .games {
-            color: #fff;
         }
 
         .innerList {
@@ -143,100 +132,279 @@
 .popup-content {
   background-color: rgba(255, 255, 255, 0.7);
   max-width: 600px;
-  margin: 10% auto 0 auto;
+  margin: 0 auto 0 auto;
   padding: 3%;
   border: 1px solid #ccc;
   border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   padding: 20px;
-  width: 40%;
-
-
 }
-.input-pair {
-    margin-bottom: 30px;
-}
-
-.input-pair label {
-    flex: 0 0 20%; /* Adjust label width as needed */
-    font-weight: 700;
-    text-align:left;
-	font-size: 17px;
-	margin-left: 10px;
-}
-
-.input-pair input {
-	margin-left: 10px;
-}
-
 body img{
   max-width: 600px;
 }
+
+#formContent label {
+    display: flex;
+    align-items: center;
+    margin-bottom: -6%;
+  }
+
+  #formContent input[type="radio"] {
+    margin-right: 5px;
+  }
     </style>
 <body>
 
-    <!-- Header -->
- 	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						<!-- logo -->
-						<div class="site-logo">
-							<a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo" width="300px" height="120px">
-							</a>
-						</div>
-
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-
-								<li>
-									<div class="header-icons">
-
-
-									</div>
-								</li>
-							</ul>
-						</nav>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-    <!-- End Header -->
-
-    <section id="main-content">
-        <!-- Instructions Container -->
-        <div class="inst-container" id="instructions">
-            <div id="popup">
-                <br>
-                <h4 style="color: #ff069bc0;">Almost There!</h4>
-                <h6>Ready to Take Your Picture? Follow These Simple Instructions:</h6>
-                <p>1. Stay perfectly still while capturing the photo.</p>
-                <p>2. Ensure good lighting for the best results.</p>
-                <p>Click the <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> button to begin.</p>
+	<!-- header -->
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="{% url 'index' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    
-        <!-- Video Container -->
-        <div class="container" id="video-container">
+    </div>
+        <!-- end header -->
+
+    <div id="main-content">
+        <div class=".container-lg">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
-                    <br>
-                    <video id="video-stream" autoplay playsinline></video>
-                    <img id="captured-image" src="" alt="Captured Image" style="display: none;">
+                    <!-- Instructions Container -->
+                    <div class="inst-container" id="instructions">
+                        <div id="popup" class="text-center">
+                            <br>
+                            <h4 style="color: #ff069bc0;">Almost There!</h4>
+                            <h6>Ready to Take Your Picture? Follow These Simple Instructions:</h6>
+                            <p>1. Stay perfectly still while capturing the photo.</p>
+                            <p>2. Ensure good lighting for the best results.</p>
+                            <p>Click the <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> button to begin.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     
-        <div id="button-container" class="text-center">
-            <a id="take-snapshot-button" disabled class="boxed-btn" style="display:none; text-align: center; position: relative;">Take Snapshot</a> <br>
+        <!-- Video Container -->
+        <div class=".container-lg" id="video-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
+                    <br>
+                    <video width="65%" id="video-stream" autoplay playsinline></video>
+                    <img id="captured-image" src="" alt="Captured Image" style="display: none;">
+                    <div id="button-container" class="col-8 text-center d-flex justify-content-center" style="padding-bottom: 3%;">
+                        <button id="take-snapshot-button" class="boxed-btn" style="display:none; text-align: center; position: relative; font-size: larger;">Take Snapshot</button><br>
+                    </div>
+                </div>
+            </div>
+        </div>        
+
+
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
+                    <!-- Classification Popup -->
+                    <div id="classified" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <h4 style="color: #ff069bc0;">Almost There!</h4>
+                            <span id="classification-message-span" style="font-size: 20px; font-weight: 700;"></span>
+                            <div id="containerDive"></div>
+                            <h4 id="retakeHeading" style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+        
+        
+        
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
+                    <!-- Error Popup -->
+                    <div id="error" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <span id="error-message-span" style="font-size: 20px; font-weight: 700;"></span>
+                            <h4 style="font-size: 20px; font-weight: inherit;">Make sure following the instructions and feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
+                    <!-- NotAllowed Popup -->
+                    <div id="NotAllowed" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <span style="font-size: 20px; font-weight: 700;">Your Estimated Age Group is: 0-3</span>
+                            <h4 style="font-size: 20px; font-weight: inherit;">Due to your estimated age group, you are not allowed to get access to Game Geek</h4>
+                            <h4 style="font-size: 20px; font-weight: inherit;">If you have not classified correctly, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+               
+        
+        <div class=".container-lg">
+            <div class="rowr">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
+                    <!-- Sned Popup -->
+                           <div id="send" class="Popup" style="display: none;">
+                            <div class="popup-content">
+                                <h4 style="font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
+                                <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
+                                    {% csrf_token %}
+                                    <button type="button" class="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700;">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">    
+                    <!-- login send Popup -->
+                    <div id="sendlogin" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <div id="sendRequestTrigger" style="display: none;"></div>
+                            <h4 style="font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
+                            <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
+                            {% csrf_token %}
+                            <button type="button" class="sendButton" onclick="sendEmail()" style="width: 40%; font-size: larger; font-weight: 700;">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">   
+                    <!-- Error Popup -->
+                    <div id="errorPopUp" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occurred, please try again! <a class="boxed-btn" onClick="dis()">Try again</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">   
+                           <!-- done Popup -->
+                           <div id="done" class="Popup" style="display: none;">
+                            <div class="popup-content">
+                                <h4 style="font-size: 20px; font-weight: inherit;">You are done, welcome to Game Geek!  <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a> </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        
+            <div class=".container-lg">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">  
+                        <!-- Password Confirm Success Pop-up (hidden by default) -->
+                        <div id="ageGroupConfirm" class="popup">
+                            <div class="popup-content" style="max-width: 380px">
+                                <h3 style="padding-bottom: 20px;">Set Your Age Group:</h3>
+                                <form id="ageGroupConfirmForm" action="" method="POST" style="font-size: 125%; font-weight: 700;">
+                                    {% csrf_token %}
+                                    <div id="formContent" style="font-size: larger;">
+                                        <label>
+                                            <input type="radio" name="ageGroup" value="+4">
+                                            4+</label><br>
+                                        <label>  
+                                            <input type="radio" name="ageGroup" value="+9">
+                                            9+</label><br>
+                                        <label>
+                                            <input type="radio" name="ageGroup" value="+12">
+                                            12+</label><br>
+                                        <label>
+                                            <input type="radio" name="ageGroup" value="+17">
+                                            17+</label> <br>
+                                    </div>
+                                    <button type="submit" id="setAgeGroup" style="width: 60%; font-size: 100%; font-weight: 700;" onclick="confirm()">Set Age Group</button>
+                                </form>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+            
+        
+            <div class=".container-lg">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center"> 
+                        <!-- Email Sent Success Popup 1 -->
+                        <div class="emailSentSuccess Popup">
+                            <div class="popup-content">
+                                <h3>Assign age group reset Link Sent <i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+                                <h5>An age group reset link has been sent to your registered email address. Please check your inbox, including your spam folder, and follow the link to reset your age group.</h5>
+                                <h7>If you haven't received an email, please ensure that you registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
+                                <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class=".container-lg">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center"> 
+                        <!-- Email Sent Success Popup 2 -->
+                        <div class="emailSentSuccess Popup">
+                            <div class="popup-content">
+                                <h3>A redirect link to your corresponding age group reset has been sent <i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+                                <h5>A redirect link to your corresponding age group account has been sent to your registered email address. Please check your inbox, including your spam folder.</h5>
+                                <h7>If you haven't received an email, please ensure that you registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
+                                <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class=".container-lg">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center"> 
+                        <!-- Email Sent Success Popup 3 -->
+                        <div id="signUpConfirmation" class="emailSentSuccess Popup" style="width: 106%;">
+                            <div class="popup-content">
+                                <h3>Confirm Registration <i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+                                <h5>Dear gamer, we have sent you a link to your registered email to confirm your registration. Please check your inbox, including your spam folder, and follow the link to complete your registering confirmation.</h5>
+                                <h7>If you haven't received an email, please ensure that your registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
+                                <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+    </div>
     
-  <!-- footer -->
+	<!-- footer -->
 	<div class="footer-area">
 		<div class="container">
 			<div class="row" id="footer">
@@ -282,14 +450,14 @@ body img{
 							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
 							<li class="dash"><a href="{% url 'index' %}">About Us</a></li>
 						</ul>
-
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-
+	
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -430,7 +598,7 @@ body img{
             if (PageName === 'signup') {
                 //alert('hello from signup');
                 var container = document.getElementById('containerDive');
-                var htmlContent = '<h4 style="position: relative; line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">If your classification is accurate, confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "confirm()">Next</a></h4>';
+                var htmlContent = '<h4 style="position: relative; font-size: 20px; font-weight: inherit; padding-top: 4%; padding-bottom: 4%;">If your classification is accurate, confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "confirm()">Next</a></h4>';
                 container.innerHTML = htmlContent;
             } else if (PageName === 'login') {
                // alert('im here in login');
@@ -451,11 +619,11 @@ body img{
                             document.getElementById('retakeHeading').style.display = 'none';
                             var response = JSON.parse(xhr.responseText);
                             if(response.message === 'Matching'){
-                            htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your estimated age is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
+                            htmlContent = '<h4 style="font-size: 20px; font-weight: inherit;">Your estimated age is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
                             container.innerHTML = htmlContent;
                             console.log(xhr.responseText);}
                             else if(response.message === 'Not Matching'){
-                                htmlContent = '<h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Your registered age group not matching your current estimated age group. Feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>';
+                                htmlContent = '<h4 style="font-size: 20px; font-weight: inherit;">Your registered age group not matching your current estimated age group. Feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>';
                                 container.innerHTML = htmlContent;
                             }
                         }else {
@@ -528,119 +696,6 @@ body img{
             document.getElementById("instructions").style.display = "none";
         }
     </script>;
-           <!-- Classification Popup -->
-           <div id="classified" class="Popup" style="display: none;">
-            <div class="popup-content">
-                <h3 style="text-align: left;">Almost There!</h3>
-                <span id="classification-message-span" style="font-size: 20px; font-weight: 700;"></span>
-                <div id="containerDive"></div>
-                <h4 id="retakeHeading" style="font-size: 20px; font-weight: inherit;">Otherwise, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
-            </div>
-        </div>
-
-           <!-- Error Popup -->
-           <div id="error" class="Popup" style="display: none;">
-            <div class="popup-content">
-                <span id="error-message-span" style="font-size: 20px; font-weight: 700;"></span>
-                <h4 style="font-size: 20px; font-weight: inherit;">Make sure following the instructions and feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
-            </div>
-        </div>
-
-           <!-- NotAllowed Popup -->
-           <div id="NotAllowed" class="Popup" style="display: none;">
-            <div class="popup-content">
-                <span style="font-size: 20px; font-weight: 700;">Your Estimated Age Group is: 0-3</span>
-                <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Due to your estimited age group, you are not allowed to get an access to Game Geek </h4>
-                <h4 style="font-size: 20px; font-weight: inherit;">If you have not classified correctly, feel free to try again! <a id="retake-button" class="boxed-btn" onclick="dis()">Retake</a> </h4>
-            </div>
-        </div>
-
-            <!-- Sned Popup -->
-                   <div id="send" class="Popup" style="display: none;">
-                    <div class="popup-content">
-                        <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
-                        <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
-                            {% csrf_token %}
-                            <button type="button" class="sendButton" onclick="sendRequest()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
-                    </div>
-                </div>
-
-            <!-- login send Popup -->
-            <div id="sendlogin" class="Popup" style="display: none;">
-                <div class="popup-content">
-                    <div id="sendRequestTrigger" style="display: none;"></div>
-                    <h4 style="line-height: unset; margin-bottom: 20px; margin-top: 20px; font-size: 20px; font-weight: inherit;">Seems like you are having trouble getting your right estimated age group</h4>
-                    <h4 style="font-size: 20px; font-weight: inherit;">Do not worry! We will send to your regeistred email in Game Geek to solve the issue</h4>
-                    {% csrf_token %}
-                    <button type="button" class="sendButton" onclick="sendEmail()" style="width: 40%; font-size: larger; font-weight: 700; margin-left: 32%;">Send</button>
-                </div>
-            </div>
-
-           <!-- Error Popup -->
-           <div id="errorPopUp" class="Popup" style="display: none;">
-            <div class="popup-content">
-                <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occured, please try again! <a class="boxed-btn" onClick="dis()">Try again</a> </h4>
-            </div>
-        </div>
-
-                   <!-- done Popup -->
-                   <div id="done" class="Popup" style="display: none;">
-                    <div class="popup-content">
-                        <h4 style="font-size: 20px; font-weight: inherit;">You are done, welcome to Game Geek!  <a id="next-button" class="boxed-btn" href="{% url 'Games' %}">Next</a> </h4>
-                    </div>
-                </div>
-
-                <!-- Password Confirm Success Pop-up (hidden by default) -->
-<div id="ageGroupConfirm" class="popup">
-    <div class="popup-content" style="max-width: 380px">
-        <h3 style="padding-bottom: 20px;">Set Your Age Group:</h3>
-        <form id="ageGroupConfirmForm" action="" method="POST" style="font-size: 125%; font-weight: 700; line-height: 1.9;">
-            {% csrf_token %}
-            <div id=formContent style="font-size: larger;">
-            <label>
-            <input type="radio" name="ageGroup" value="+4">
-            +4</label><br>
-            <label>  
-            <input type="radio" name="ageGroup" value="+9">
-            +9</label><br>
-            <label>
-            <input type="radio" name="ageGroup" value="+12">
-            +12</label><br>
-            <label>
-            <input type="radio" name="ageGroup" value="+17">
-            +17</label> <br>
-            </div>
-            <button type="submit" id="setAgeGroup" style="width: 74%; font-size: 100%; font-weight: 700; margin-left: 13%; margin-top: 6%;" onclick="confirm()">Set Age Group</button>
-        </form>
-    </div>
-</div>
-<div class="emailSentSuccess Popup">
-    <div class="popup-content">
-        <h3>Assign age group reset Link Sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
-        <h5>An age group reset link has been sent to your registred email address. Please check your inbox, including your spam folder, and follow the link to reset your age group.</h5>
-		<h7>If you haven't received an email, please ensure that yout registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
-        <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
-    </div>
-</div>
-
-<div class="emailSentSuccess Popup">
-    <div class="popup-content">
-        <h3>A redirect link to your corresponding age group reset has been sent &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
-        <h5>A redirect link to your corresponding age group account has been sent to your registered email address. Please check your inbox, including your spam folder.</h5>
-		<h7>If you haven't received an email, please ensure that yout registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
-        <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
-    </div>
-</div>
-
-<div id="signUpConfirmation" class="emailSentSuccess Popup" style="width: 106%;">
-    {% csrf_token %}
-<div class="popup-content">
-    <h3>Confirm Registration &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
-    <h5>Dear gamer, we have sent you a link to your registered email to confirm your registeration . Please check your inbox, including your spam folder, and follow the link to complete your registering confirmation.</h5>
-    <h7>If you haven't received an email, please ensure that your registered with Game Geek using a correct email address. If the issue persists, don't hesitate to contact us for assistance!</h7>
-    <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
-</div>
-</div>
 
 <script>
 if (status === 'done') {
