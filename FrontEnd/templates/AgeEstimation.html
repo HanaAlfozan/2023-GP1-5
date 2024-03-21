@@ -153,9 +153,14 @@ body img{
   #formContent input[type="radio"] {
     margin-right: 5px;
   }
+
+  #main-content{
+    height: 83%;
+    width: 100%;
+  }
+
     </style>
 <body>
-
 	<!-- header -->
     <div class="top-header-area" id="sticker">
         <div class="container">
@@ -330,16 +335,16 @@ body img{
                                     {% csrf_token %}
                                     <div id="formContent" style="font-size: larger;">
                                         <label>
-                                            <input type="radio" name="ageGroup" value="+4">
+                                            <input type="radio" name="ageGroup" value="4+">
                                             4+</label><br>
                                         <label>  
-                                            <input type="radio" name="ageGroup" value="+9">
+                                            <input type="radio" name="ageGroup" value="9+">
                                             9+</label><br>
                                         <label>
-                                            <input type="radio" name="ageGroup" value="+12">
+                                            <input type="radio" name="ageGroup" value="12+">
                                             12+</label><br>
                                         <label>
-                                            <input type="radio" name="ageGroup" value="+17">
+                                            <input type="radio" name="ageGroup" value="17+">
                                             17+</label> <br>
                                     </div>
                                     <button type="submit" id="setAgeGroup" style="width: 60%; font-size: 100%; font-weight: 700;" onclick="confirm()">Set Age Group</button>
@@ -699,9 +704,7 @@ body img{
                 })
                 confirm();
         }
-    </script>;
 
-<script>
 if (status === 'done') {
     // Display done pop-up
     document.getElementById('done').style.display = 'block';
