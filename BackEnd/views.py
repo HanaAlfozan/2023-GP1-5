@@ -69,6 +69,7 @@ def AssignAgeGroup(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
             estimated_age_group = data.get('estimatedAgeGroup')
+            print('AssignAgeGroup',estimated_age_group )
             
             # Retrieve user data from session
             user_data = request.session.get('user_data')

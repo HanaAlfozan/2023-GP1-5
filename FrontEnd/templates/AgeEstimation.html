@@ -40,6 +40,7 @@
         var url = document.referrer;
         var parts = url.split('/');
         var PageName = parts[parts.length - 2];
+        var AgeGroupResult;
     </script>
     <style>
         #main-content {
@@ -517,7 +518,6 @@ body img{
                 // Convert the captured snapshot to base64 data
                 snapshotDataUrl = canvas.toDataURL('image/jpeg');
                 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
-                var estimatedAgeGroup;
 
                 fetch('/AgeEstimationModel/process_image/', {
             method: 'POST',
@@ -542,16 +542,6 @@ body img{
                 AgeGroupResult = result['Estimated Age Group'];
                 classificationMessageSpan.innerText = `Your Estimated Age Group is: ${result['Estimated Age Group']}`;
                 classified(result['Estimated Age Group']);
-                fetch('/BackEnd/AssignAgeGroup/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken'),
-                    },
-                    body: JSON.stringify({ 
-                        estimatedAgeGroup: `${result['Estimated Age Group']}`,
-                    }),
-                })
             }
         })
             .catch(error => {
@@ -598,7 +588,7 @@ body img{
             if (PageName === 'signup') {
                 //alert('hello from signup');
                 var container = document.getElementById('containerDive');
-                var htmlContent = '<h4 style="position: relative; font-size: 20px; font-weight: inherit; padding-top: 4%; padding-bottom: 4%;">If your classification is accurate, confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "confirm()">Next</a></h4>';
+                var htmlContent = '<h4 style="position: relative; font-size: 20px; font-weight: inherit; padding-top: 4%; padding-bottom: 4%;">If your classification is accurate, confirm your regisetration by clicking on <a id="next-button" class="boxed-btn" onclick= "Assign()">Next</a></h4>';
                 container.innerHTML = htmlContent;
             } else if (PageName === 'login') {
                // alert('im here in login');
@@ -694,6 +684,20 @@ body img{
             document.getElementById("video-container").style.display = "none";
             document.getElementById("take-snapshot-button").style.display = "none";
             document.getElementById("instructions").style.display = "none";
+        }
+        function Assign(){
+            alert(AgeGroupResult);
+            fetch('/BackEnd/AssignAgeGroup/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: JSON.stringify({ 
+                        estimatedAgeGroup: AgeGroupResult,
+                    }),
+                })
+                confirm();
         }
     </script>;
 
