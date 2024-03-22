@@ -393,6 +393,9 @@ body img{
 
 		 font-size: 16px;
 		}
+.fa-user-circle , .fa-key{
+//margin-bottom:-150%;}
+
 
 	</style>
 
@@ -487,10 +490,10 @@ body img{
 								<form action="{% url 'LoginUser' %}" method="POST">
 									{% csrf_token %}
 									<div class="input-pair">
-										<span class="input-item">
+										<span class="input-item"><br>
 											<i class="fa fa-user-circle"></i>
 										</span>
-										<label for="username">Username:</label>
+										<label for="username"  style="margin-bottom:-6%;" >Username:</label>
 										<input type="text" id="username" class="input-box" name="Username" required placeholder="Enter your username"  style="margin-bottom:-6%;">
 
 
@@ -498,16 +501,17 @@ body img{
 
 									</div>
 									 <a href="#" id="forgetUser" >Forgot Username?</a>
-									<br>
+									<br><br>
 
 
 									<div class="input-pair">
-										<span class="input-item">
-											<i class="fa fa-key"></i>
+										<br>
+										<span class="input-item"><br>
+											<i class="fa fa-key" ></i>
 										</span>
-										<label for="password">Password:</label>
+										<label for="password"  style="margin-bottom:-6%;">Password:</label>
 										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password" style="margin-bottom:-6%;">
-										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; padding-left:55%; margin-top:4%; cursor: pointer;" id="ayeee"></i>
+										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; right: 120px;  margin-top:5.5%; cursor: pointer;" id="ayeee"></i>
 
 									</div>
 									<a href="#" id="forgetPass">Forgot Password?</a>
