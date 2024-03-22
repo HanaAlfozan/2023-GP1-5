@@ -871,7 +871,7 @@ function appendCheckboxesWithViewMore(container, checkboxes) {
     checkboxes.forEach(function (option, index) {
         const checkboxId = `${container.attr('id')}-checkbox-${index}`;
         container.append(`
-            <div class="form-check">
+            <div class="form-check" style='margin-top:2%; margin-bottom:2%; padding-top:2%; padding-bottom:1%;'>
                 <input  id="${checkboxId}" class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
                 <label for="${checkboxId}"  class="form-check-label">${option}</label>
             </div>
@@ -958,20 +958,6 @@ $.ajax({
 });
 
 
-// Extract In-App Purchases
-$.ajax({
-    url: '/BackEnd/ExtractInAppPurchases/',
-    type: 'GET',
-    dataType: 'json',
-    success: function (data) {
-        appendCheckboxesWithViewMore($('#In_app_Purchases-options-container'), data.InAppPurchases);
-        attachEventListeners();
-        EventListeners();
-    },
-    error: function () {
-        console.error('Failed to fetch In-App Purchase options.');
-    }
-});
 
 // Extract Rating
 $.ajax({
@@ -1090,13 +1076,6 @@ $('input[type="checkbox"]').each(function () {
         </div>
     </details>
 
-              <details class="category">
-                <summary>In-App Purchases</summary>
-                <div class="border-bottom pb-4 mb-4">
-                    <div class="d-grid gap-2" id="In_app_Purchases-options-container">
-                    </div>
-                </div>
-            </details>
 
 
                 <details class="category">
