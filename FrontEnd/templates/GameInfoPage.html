@@ -710,6 +710,7 @@ document.querySelector('.Lang').innerHTML = '<strong>Languages:</strong> ' + lan
                                 const favText = document.getElementById('favText');
 
                                         favText.textContent = 'Saved to Favourite Games!';
+                                        favBtn.style.backgroundColor = '#06f7ff';
 
                                         document.getElementById('favBtn').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default click action
