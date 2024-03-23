@@ -36,7 +36,7 @@ def SignupUser(request):
     if request.method == 'POST':
         username = request.POST['Username']
         firstname = request.POST['firstname']
-        lastname=request.POST['lastname']
+        lastname = request.POST['lastname']
         email = request.POST['Email']
         password = request.POST['Password']
         confirm_password = request.POST['confirm_password']
@@ -46,16 +46,22 @@ def SignupUser(request):
             if GGUser.objects.filter(Username=username).exists():
                 messages.error(request, "Username Already Exists!")
             else:
-                request.session['user_data'] = {
-                    'username': username,
-                    'firstname': firstname,
-                    'lastname': lastname,
-                    'email': email,
-                    'password': password,
-                    'Accept_conditions': Accept_conditions,
-                    }
-                return redirect('estimate')
-
+                # Check if there is a user with the same email
+                users_with_same_email = GGUser.objects.filter(Email=email)
+                if users_with_same_email.exists():
+                    # Check if any user with the same email has the same first and last name
+                    if users_with_same_email.filter(First_name=firstname, Last_name=lastname).exists():
+                        messages.error(request, "Users with same email cannot have same full names")
+                    else:
+                        request.session['user_data'] = {
+                            'username': username,
+                            'firstname': firstname,
+                            'lastname': lastname,
+                            'email': email,
+                            'password': password,
+                            'Accept_conditions': Accept_conditions,
+                        }
+                        return redirect('estimate')
         else:
             messages.error(request, "Password Mismatch!")
 
