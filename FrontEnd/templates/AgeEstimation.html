@@ -260,7 +260,7 @@ body img{
                
         
         <div class=".container-lg">
-            <div class="rowr">
+            <div class="row">
                 <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">
                     <!-- Sned Popup -->
                            <div id="send" class="Popup" style="display: none;">
@@ -620,7 +620,7 @@ body img{
                             }
                         }else {
                             // Request failed, handle error
-                            alert('error');
+                            document.getElementById("errorPopUp").style.display = "block";
                         }
                     }
                 };
@@ -688,7 +688,6 @@ body img{
             document.getElementById("instructions").style.display = "none";
         }
         function Assign(){
-           // alert(AgeGroupResult);
             fetch('/BackEnd/AssignAgeGroup/', {
                     method: 'POST',
                     headers: {
@@ -715,6 +714,7 @@ else if (status === 'error'){
     document.getElementById('errorPopUp').style.display = 'block';
 }
 else if (status === 'confirm'){
+    //alert('has been sent');
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
 }
@@ -723,29 +723,6 @@ else if (status === 'verify'){
     confirm();
 document.getElementById("instructions").style.display = "none";
 
-}
-function sendRequest() {
-var csrftoken = getCookie('csrftoken');
-var xhr = new XMLHttpRequest();
-xhr.open('POST', "{% url 'custom_assigining_ageGroup' %}", true);
-xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-// Set the CSRF token and session ID in the request headers
-xhr.setRequestHeader("X-CSRFToken", csrftoken);
-
-xhr.onload = function () {
-    if (xhr.status === 200) {
-        document.getElementById('AssignAgeGroupLink').style.display = 'block';
-        document.getElementById("instructions").style.display = "none";
-        document.getElementById('send').style.display = 'none';
-    } else if (xhr.status === 404) {
-        document.getElementById('send').style.display = 'none';
-        document.getElementById("instructions").style.display = "none";
-        document.getElementById('errorPopUp').style.display = 'block';
-    }
-};
-xhr.send();
 }
 
 function sendEmail(){
@@ -805,6 +782,31 @@ xhr.onload = function () {
 };
 xhr.send();
 }
+
+function sendRequest() {
+var csrftoken = getCookie('csrftoken');
+var xhr = new XMLHttpRequest();
+xhr.open('POST', "{% url 'custom_assigining_ageGroup' %}", true);
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+// Set the CSRF token and session ID in the request headers
+xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+xhr.onload = function () {
+    if (xhr.status === 200) {
+        document.getElementById('AssignAgeGroupLink').style.display = 'block';
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById('send').style.display = 'none';
+    } else if (xhr.status === 404) {
+        document.getElementById('send').style.display = 'none';
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById('errorPopUp').style.display = 'block';
+    }
+};
+xhr.send();
+}
+
 // Function to get the CSRF token from the cookie
 function getCookie(name) {
     var cookieValue = null;

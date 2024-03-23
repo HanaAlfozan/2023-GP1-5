@@ -181,32 +181,37 @@ def custom_username_reset(request):
 def custom_assigining_ageGroup(request):
     if request.method == 'POST':
         user_id = request.session.get('user_id')
+        user = None  # Assigning a default value
         if user_id:
             try:
                 user = GGUser.objects.get(User_ID=user_id)
-                email = user.Email
             except GGUser.DoesNotExist:
                 return HttpResponseNotFound('User not found')
 
-        # Generate a token and uid for the user
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        email = user.Email
+        if user:
+            # Generate a token and uid for the user
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            email = user.Email
 
-        # Create the reset link for age group assignment
-        reset_link = f"{request.scheme}://{request.get_host()}/assign-age-group/{uid}/{token}/"
+            # Create the reset link for age group assignment
+            reset_link = f"{request.scheme}://{request.get_host()}/assign-age-group/{uid}/{token}/"
 
-        # Send the email with the reset link
-        send_mail(
-            'Assigning Age Group',
-            f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}',
-            'gamegeekwebsite@gmail.com',
-            [email],
-            fail_silently=False,
-        )
-        if 'error_message' in request.POST:
-            return HttpResponse(status=400)
-        return HttpResponse(status=200)
+            # Send the email with the reset link
+            send_mail(
+                'Assigning Age Group',
+                f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}',
+                'gamegeekwebsite@gmail.com',
+                [email],
+                fail_silently=False,
+            )
+            if 'error_message' in request.POST:
+                return HttpResponse(status=400)
+            return HttpResponse(status=200)
+        else:
+            # Handle case when user is not found
+            return HttpResponseNotFound('User not found')
+
 
     return render(request, 'AgeEstimation.html')
 
