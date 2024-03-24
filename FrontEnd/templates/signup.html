@@ -460,7 +460,10 @@ list-style-type: none; /* For non-Chrome browsers */
 	<!-- Display messages only if there are any -->
 	{% if messages %}
 		{% for message in messages %}
-			<h5>{{ message }}</h5>
+		<br>
+		<div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
+			<h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+		</div>
 		{% endfor %}
 	{% endif %}
      <!--end of confirm pass-->

@@ -393,9 +393,10 @@ body img{
 
 		 font-size: 16px;
 		}
+        /*
 .fa-user-circle , .fa-key{
 //margin-bottom:-150%;}
-
+*/
 
 	</style>
 
@@ -519,8 +520,12 @@ body img{
 									<!-- Display messages only if there are any -->
 									{% if messages %}
 										{% for message in messages %}
-											<h5>{{ message }}</h5>
-										{% endfor %}
+                                        <br>
+                                        <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
+                                            <h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+                                        </div>	
+                                        <br>	
+                                        {% endfor %}
 									{% endif %}
 
 									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
@@ -642,8 +647,11 @@ body img{
 			{% if messages %}
 
 			{% for message in messages %}
-				<h5>{{ message }}</h5>
-
+            <br>
+            <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
+                <h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+            </div>
+            <br>
 			{% endfor %}
 
 		{% endif %}
@@ -672,7 +680,11 @@ body img{
 			{% if messages %}
 
 			{% for message in messages %}
-				<h5>{{ message }}</h5>
+            <br>
+            <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
+                <h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+            </div>
+            <br>
 				 console.log("{{ messages }}");
 			{% endfor %}
 
