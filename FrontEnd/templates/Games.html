@@ -37,8 +37,8 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-	<style>  
-    
+	<style>
+
     .filter-container {
             display: block;
 			border: 0.2px solid #aaa;
@@ -63,7 +63,7 @@
 			margin-top: -40%;
 			margin-left: 18%;
             position: relative;
-            
+
 		}
 
         @media screen and (max-width: 1024px) {
@@ -206,7 +206,7 @@
             width: 100%;
             max-width: 200px;
 			margin-left: -7%;
-			margin-top: 5%;
+			margin-top: 10%;
 		}
 
         @media screen and (max-width: 1024px) {
@@ -217,47 +217,47 @@
 
         @media screen and (max-width: 820px) {
          .filter-container{
-            width: 20%; 
+            width: 20%;
     }
 }
-        
+
         @media screen and (max-width: 768px) {
             .filter-container {
-                width: 20%; 
+                width: 20%;
     }
 }
     @media screen and (max-width: 480px) {
         .filter-container{
             width: 35%;
-            left: -135px !important; 
+            left: -135px !important;
     }
 }
 
 @media screen and (max-width: 414px) {
     .filter-container {
-            width: 33%; 
-            left: -34% !important; 
+            width: 33%;
+            left: -34% !important;
     }
 }
 
 @media screen and (max-width: 375px) {
     .filter-container {
             width: 38%;
-            left: -29% !important; 
+            left: -29% !important;
     }
 }
 
 @media screen and (max-width: 320px) {
     .filter-container {
             width: 44%;
-            left: -26% !important; 
+            left: -26% !important;
     }
 }
 
 @media screen and (max-width: 280px) {
         .filter-container {
             width: 50%;
-            left: -23% !important; 
+            left: -23% !important;
     }
 }
 
@@ -395,7 +395,7 @@ margin-left:20%;
 		.edg{
 		border-radius:0;
 		}
-		
+
 .popup {
   display: none;
   position: fixed;
@@ -436,11 +436,11 @@ margin-left:20%;
 
     .empty-message {
         text-align: center;
-        padding: 17%; 
-        margin-top: 20%; 
+        padding: 17%;
+        margin-top: 20%;
         margin-right: 20%;
-        font-size: 120%; 
-        color: #ff069a; 
+        font-size: 120%;
+        color: #ff069a;
         font-family: "Poppins", sans-serif;
 
 }
@@ -684,7 +684,7 @@ padding: 2%;
 						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
 						<script>
 							$(document).ready(function() {
-            
+
 								$.ajax({
 									url: '/BackEnd/Hello/',
 									type: 'GET',
@@ -699,7 +699,7 @@ padding: 2%;
 										document.getElementById("errorPopUp").style.display = "block";
 										console.error('Error:', error);
 									}
-								});                                
+								});
 							});
 							</script>
 
@@ -946,6 +946,22 @@ $.ajax({
             if (b === "Others") return -1;
             return 0;
         });
+// Extract In-App Purchases
+$.ajax({
+    url: '/BackEnd/ExtractInAppPurchases/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        appendCheckboxesWithViewMore($('#In_app_Purchases-options-container'), data.InAppPurchases);
+        attachEventListeners();
+        EventListeners();
+    },
+    error: function () {
+        console.error('Failed to fetch In-App Purchase options.');
+    }
+});
+
+
 
         // Append checkboxes with view more options
         appendCheckboxesWithViewMore($('#Languages-options-container'), data.languages);
@@ -1002,6 +1018,7 @@ $('.filter-container').on('change', '#Average_User_Rating-options-container inpu
 
 
 function clearAllFilters() {
+ $('#resultsForText').css('display', 'none'); // Set otherElement to display: none
 // To remove selected checkbox from local storage
 $('input[type="checkbox"]').each(function () {
 checkboxKey = $(this).attr('id');
@@ -1010,6 +1027,7 @@ isChecked = $(this).prop('checked');
 localStorage.removeItem(checkboxKey);
 });
 $('input[type="checkbox"]').removeAttr('checked');
+
 $("#sortSelect").prop('selectedIndex', 0);
 handleSortChange();
 updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
@@ -1026,6 +1044,7 @@ $('#login-btn').on('click', clearAllFilters);
 
 
 
+resultText.style.display='none'
 document.addEventListener('DOMContentLoaded', function() {
 const summaries = document.querySelectorAll('summary');
 
@@ -1054,7 +1073,7 @@ $('input[type="checkbox"]').each(function () {
     //attachEventListeners();
     //updateSelectedFilters();
     EventListeners();
-}, 500); 
+}, 500);
 
 
 });
@@ -1076,11 +1095,21 @@ $('input[type="checkbox"]').each(function () {
         </div>
     </details>
 
+  <details class="category">
+    <summary>In-App Purchases</summary>
+    <div class="border-bottom pb-4 mb-4">
+        <div class="d-grid gap-2" id="In_app_Purchases-options-container">
+        </div>
+    </div>
+</details>
+
+
+
 
 
                 <details class="category">
                     <summary>Rating</summary>
-                    <div class="border-bottom pb-4 mb-4">
+                    <div class="border-bottom pb-4 mb-4" style="margin-bottom: 0rem !important; padding-bottom:0rem !important;">
                         <div class="d-grid gap-2" id="Average_User_Rating-options-container">
                         </div>
                     </div>
@@ -1437,7 +1466,7 @@ function EventListeners() {
                 const separator = document.createElement('span');
                 separator.textContent = ' - ';
                 separator.innerHTML = '&nbsp;-&nbsp;';
-                separator.style.fontWeight = 'normal'; 
+                separator.style.fontWeight = 'normal';
 
                 const checkboxValue = document.createElement('span');
                 checkboxValue.className = 'checkbox-value';
