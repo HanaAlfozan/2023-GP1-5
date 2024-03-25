@@ -33,6 +33,7 @@ from django.contrib import messages
 
 @csrf_protect
 def SignupUser(request):
+    print('in SignupUser')
     if request.method == 'POST':
         username = request.POST['Username']
         firstname = request.POST['firstname']
@@ -43,28 +44,29 @@ def SignupUser(request):
         Accept_conditions = request.POST.get('Accept_conditions') == 'on'
 
         if password == confirm_password:
+            print('if password == confirm_password')
             if GGUser.objects.filter(Username=username).exists():
+                print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
             else:
                 # Check if there is a user with the same email
+                print('Check if there is a user with the same email')
                 users_with_same_email = GGUser.objects.filter(Email=email)
-                if users_with_same_email.exists():
-                    # Check if any user with the same email has the same first and last name
-                    if users_with_same_email.filter(First_name=firstname, Last_name=lastname).exists():
+                if users_with_same_email.exists() and users_with_same_email.filter(First_name=firstname, Last_name=lastname).exists():
+                        print('Users with same email cannot have same full names')
                         messages.error(request, "Users with same email cannot have same full names")
-                    else:
-                        user = GGUser.objects.create_user(
-                            Username=username,
-                            First_name=firstname,
-                            Last_name=lastname,
-                            Email=email,
-                            Password=password,
-                            Accept_conditions=Accept_conditions,
-                            )
-                        user_id = user.User_ID
-                        request.session['user_id'] = user_id
-                        user.is_active = False
-                        return redirect('estimate')
+                else:
+                    user = GGUser.objects.create_user(
+                        Username=username,
+                        First_name=firstname,
+                        Last_name=lastname,
+                        Email=email,
+                        Password=password,
+                        Accept_conditions=Accept_conditions,
+                        )
+                    user_id = user.User_ID
+                    request.session['user_id'] = user_id
+                    return redirect('estimate')
         else:
             messages.error(request, "Password Mismatch!")
 
@@ -84,7 +86,6 @@ def AssignAgeGroup(request):
             if user:
                 user.Approved_age_group=estimated_age_group
                 user.save()
-                user.is_active = True
                 return JsonResponse({'message': 'User is active and age group assigned successfully'})
                 
 

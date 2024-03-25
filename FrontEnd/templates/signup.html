@@ -513,7 +513,8 @@ list-style-type: none; /* For non-Chrome browsers */
             usernameError.textContent = '';
         }
     }
-
+</script>
+<script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
         icon.addEventListener('click', function() {
             var passwordInput = document.getElementById(this.previousElementSibling.id);
@@ -523,7 +524,8 @@ list-style-type: none; /* For non-Chrome browsers */
             this.classList.toggle('fa-eye');
         });
     });
-
+</script>
+<script>
     // Get references to the text and other div elements
     const hoverText = document.getElementById('terms');
     const otherDiv = document.getElementById('hey');
@@ -663,9 +665,8 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
         const agreeCheckbox = document.getElementById("agree");
         agreeCheckbox.addEventListener("change", handleCheckbox);
 
-    /////////////////////////////////////////////////////
-	localStorage.setItem('previousReferrer', 'signup');
-
+		/////////////////////////////////////////////////////
+		localStorage.setItem('previousReferrer', 'signup');
       </script>
 
 </body>
