@@ -346,6 +346,15 @@ body img{
                                     </div>
                                     <button type="submit" id="setAgeGroup" style="width: 60%; font-size: 70%; font-weight: 700;" onclick="confirm()">Set Age Group</button>
                                 </form>
+                                <script>
+                                    document.getElementById('ageGroupConfirmForm').addEventListener('submit', function(event) {
+                                        event.preventDefault();
+                                        AgeGroupResult = document.querySelector('input[name="ageGroup"]:checked').value;
+                                        //alert(AgeGroupResult);
+                                        console.log("Selected Age Group:", AgeGroupResult);
+                                        Assign();
+                                    });
+                                </script>
                             </div>
                         </div>
             
@@ -786,6 +795,7 @@ xhr.send();
 function sendRequest() {
 var csrftoken = getCookie('csrftoken');
 var xhr = new XMLHttpRequest();
+
 xhr.open('POST', "{% url 'custom_assigining_ageGroup' %}", true);
 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

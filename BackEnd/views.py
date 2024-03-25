@@ -53,59 +53,43 @@ def SignupUser(request):
                     if users_with_same_email.filter(First_name=firstname, Last_name=lastname).exists():
                         messages.error(request, "Users with same email cannot have same full names")
                     else:
-                        request.session['user_data'] = {
-                            'username': username,
-                            'firstname': firstname,
-                            'lastname': lastname,
-                            'email': email,
-                            'password': password,
-                            'Accept_conditions': Accept_conditions,
-                        }
+                        user = GGUser.objects.create_user(
+                            Username=username,
+                            First_name=firstname,
+                            Last_name=lastname,
+                            Email=email,
+                            Password=password,
+                            Accept_conditions=Accept_conditions,
+                            )
+                        user_id = user.User_ID
+                        request.session['user_id'] = user_id
+                        user.is_active = False
                         return redirect('estimate')
         else:
             messages.error(request, "Password Mismatch!")
 
     return redirect('signup')
 
-
-
     
 def AssignAgeGroup(request):
+    print('in AssignAgeGroup')
     if request.method == 'POST':
+        user_id = request.session.get('user_id')
         try:
             data = json.loads(request.body.decode('utf-8'))
             estimated_age_group = data.get('estimatedAgeGroup')
             print('AssignAgeGroup',estimated_age_group )
-            
-            # Retrieve user data from session
-            user_data = request.session.get('user_data')
-            if user_data:
-                username = user_data['username']
-                firstname = user_data['firstname']
-                lastname = user_data['lastname']
-                email = user_data['email']
-                password = user_data['password']
-                Accept_conditions = user_data['Accept_conditions']
-
-                try:
-                    user = GGUser.objects.create_user(
-                        Username=username,
-                        First_name=firstname,
-                        Last_name=lastname,
-                        Email=email,
-                        Password=password,
-                        Accept_conditions=Accept_conditions,
-                        Approved_age_group=estimated_age_group
-                    )
-                    user_id = user.User_ID
-                    request.session['user_id'] = user_id
-                    return JsonResponse({'message': 'User created and age group assigned successfully'})
+            user = GGUser.objects.get(User_ID=user_id)
+        
+            if user:
+                user.Approved_age_group=estimated_age_group
+                user.save()
+                user.is_active = True
+                return JsonResponse({'message': 'User is active and age group assigned successfully'})
                 
-                except IntegrityError:
-                    return JsonResponse({'error': 'Username already exists'}, status=400)
-            
+
             else:
-                return JsonResponse({'error': 'User data not found in session'}, status=404)
+                return JsonResponse({'error': 'User data not found'}, status=404)
 
         except GGUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
