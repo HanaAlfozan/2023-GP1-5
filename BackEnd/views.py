@@ -293,8 +293,13 @@ def CompareAgeGroups(request):
                     print('Matching')
                     return JsonResponse({'message': 'Matching'})
                 else:
-                    print('Not Matching')
-                    return JsonResponse({'message': 'Not Matching'})
+                    if (user.Approved_age_group):
+                        print('Not Matching - Not null')
+                        return JsonResponse({'message': 'Not Matching'})
+                    else:
+                        print('null')
+                        user.delete()
+                        return JsonResponse({'message': 'null'})
             except GGUser.DoesNotExist:
                 return JsonResponse({'error': 'User not found'}, status=404)
 

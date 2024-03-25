@@ -37,9 +37,8 @@
     <link rel="stylesheet" href="{% static 'css/AEresponsive.css' %}">
     <script>
         var status = "{{ status }}";
-        var url = document.referrer;
-        var parts = url.split('/');
-        var PageName = parts[parts.length - 2];
+        var PageName = localStorage.getItem('previousReferrer');
+        //alert(PageName);
         var AgeGroupResult;
     </script>
     <style>
@@ -300,6 +299,20 @@ body img{
                     <div id="errorPopUp" class="Popup" style="display: none;">
                         <div class="popup-content">
                             <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occurred, please try again! <a class="boxed-btn" onClick="dis()">Try again</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">   
+                    <!-- Error Popup -->
+                    <div id="nullPopUp" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <h4 style="font-size: 20px; font-weight: inherit;">Unfortunately, your registration was not completed successfully. Please sign up again.</h4>
+                            <h7>Back to <a id="next-button" href="{% url 'signup' %}">Sign up</a></h7>
                         </div>
                     </div>
                 </div>
@@ -619,7 +632,11 @@ body img{
                         if (xhr.status === 200) {
                             document.getElementById('retakeHeading').style.display = 'none';
                             var response = JSON.parse(xhr.responseText);
-                            if(response.message === 'Matching'){
+                            if(response.message === 'null'){
+                                document.getElementById("nullPopUp").style.display = "block";
+                                document.getElementById("classified").style.display = "none";
+                            }
+                            else if(response.message === 'Matching'){
                             htmlContent = '<h4 style="font-size: 20px; font-weight: inherit;">Your estimated age is accurate, dive into your gaming adventure by clicking on <a id="next-button" class="boxed-btn" href="{% url "Games" %}">Next</a></h4>';
                             container.innerHTML = htmlContent;
                             console.log(xhr.responseText);}
