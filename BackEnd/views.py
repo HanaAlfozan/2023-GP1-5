@@ -1301,7 +1301,6 @@ def custom_signup_confirmation(request):
             try:
                 user = GGUser.objects.get(User_ID=user_id)
                 email = user.Email
-                age_group = user.Approved_age_group
                 first_name = user.First_name
 
             except GGUser.DoesNotExist:
@@ -1317,7 +1316,6 @@ def custom_signup_confirmation(request):
 
         email_message = (
             f'Hi {first_name}, thank you for joining Game Geek\n'
-            f'Your age group is: {age_group}\n'
             f'To confirm your registration please click on this link:\n'
             f'{reset_link}'
         )
