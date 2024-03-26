@@ -866,7 +866,7 @@ function appendCheckboxesWithViewMore(container, checkboxes) {
     checkboxes.forEach(function (option, index) {
         const checkboxId = `${container.attr('id')}-checkbox-${index}`;
         container.append(`
-            <div class="form-check" style="padding-top:7% ;">
+            <div class="form-check" style="padding-top:5.6% ;">
                 <input  id="${checkboxId}" class="form-check-input" type="checkbox" value="${option}" data-category="${container.attr('id')}">
                 <label for="${checkboxId}"  class="form-check-label">${option}</label>
             </div>
