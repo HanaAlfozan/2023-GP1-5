@@ -18,6 +18,9 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(Username, Email, Password, **extra_fields)
 
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+
 class GGUser(AbstractBaseUser, PermissionsMixin):
     User_ID = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=50, unique=True)
@@ -27,9 +30,11 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
     Last_name = models.CharField(max_length=30)
     Approved_age_group = models.CharField(max_length=4, null=True, blank=True)
     Date_joined = models.DateTimeField(auto_now_add=True)
+    email_confirmed = models.BooleanField(default=False)  # New field
     @property
     def is_superuser(self):
         return False
+
 
 
     # Specify unique related_name for groups and user_permissions

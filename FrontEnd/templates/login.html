@@ -345,7 +345,7 @@ body img{
   color: red;
 }
 
-#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername{
+#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton{
   background-color: #06f7ff;
   color: white;
   border: none;
@@ -360,7 +360,7 @@ body img{
   border-radius: 50px;
 }
 
-#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover {
+#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover, #EmailnotConfirmedButton:hover {
   background-color: #ff069a;
 
 }
@@ -488,6 +488,7 @@ body img{
 				</div>
 
 							  <div class="form-container">
+
 								<form action="{% url 'LoginUser' %}" method="POST">
 									{% csrf_token %}
 									<div class="input-pair">
@@ -695,6 +696,54 @@ body img{
 </div>
 
 
+<!-- Email confirmation  Pop-up -->
+<!--<div id="EmailnotConfirmed" class="popup" style="display: none;">
+    <div class="popup-content">
+        <span class="close" id="closePopupEmailnotConfirmed">&times;</span>
+        <h3>Account Confirmation Link</h3>
+        <h6> Your account registration is not confirmed.</h6>
+		<h6> Click on the "send" button to send the confirmation link via your registered email.</h6>
+            {% csrf_token %}
+            <button type="button" id="EmailnotConfirmedButton" >Send Email</button>
+    </div>
+</div> -->
+
+<div id="EmailnotConfirmed" class="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopupEmailnotConfirmed">&times;</span>
+        <h3>Account Confirmation Link</h3>
+		<h6 style="color: red;"> Your account registration is not confirmed.</h6>
+		<h6> Click on the "Send" button to send the confirmation link via your registered email.</h6>
+        <h6>Enter your username to send the confirmation message to your registered email:</h6>
+        <form id="EmailnotConfirmedForm" action="{% url 'custom_password_reset' %}"  data-form-type="password" method="POST">
+            {% csrf_token %}
+            <div class="input-pair">
+                <label for="username" style="margin-left: 10px;">Username:</label>
+                <input type="username" id="Username" class="input-box" name="Username" required placeholder="Enter your username" style="margin-left: 10px;">
+            </div>
+            <button type="button" id="EmailnotConfirmedButton">Send</button>
+        </form>
+    </div>
+</div>
+
+<div id="EmailnotConfirmedSentSuccess" class="popup Success">
+    <div class="popup-content">
+        <span class="close" id="closePopupEmailnotConfirmedSentSuccess">&times;</span>
+        <h3>Confirmation Link Sent Successfully &nbsp;<i class="fa fa-check" aria-hidden="true" style="color: green;"></i></h3>
+        <h5>An email is sent to your registered email address. Please check your inbox, including your spam folder, and follow the link to confirm your email.</h5>
+		<h7>If you haven't received an email, please ensure that you entered the correct email address registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h7>
+    </div>
+</div>
+
+
+<div id="EmailConfirmedSuccessfully" class="popup">
+    <div class="popup-content Complete" style="padding: 70px;">
+        <span class="close" id="closeEmailConfirmedSuccessfully">&times;</span>
+        <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 35px;"></i><br><br>Account registeration has been confirmed successfully!</h3>
+    </div>
+</div>
+
+
 
 <script>
     var status = "{{ status }}";
@@ -721,9 +770,6 @@ body img{
         document.getElementById('passwordResetConfirm').style.display = 'none';
         document.getElementById('passwordResetComplete').style.display = 'none';
         document.getElementById('errorPopup').style.display = 'block';
-
-
-
 
 
 
@@ -844,10 +890,78 @@ console.log(status)
     };
     xhr.send(formData);
 });
+
+
+
+
+</script>
+
+<script>
+	//Handling the unconfirmed accounts
+
+    var Emailconfirmation_message = "{{Emailconfirmation_message}}";
+    if (Emailconfirmation_message === 'account_not_confirmed') {
+        document.getElementById('EmailnotConfirmed').style.display = 'block';
+        document.getElementById('EmailSentSuccessUser').style.display = 'none';
+
+        document.getElementById('EmailnotConfirmedButton').addEventListener('click', function () {
+        	//username = document.getElementById('Username').value;
+            console.log("This is a message printed using JavaScript.");
+
+            // Get the CSRF token from the cookie
+            var csrftoken = getCookie('csrftoken');
+            console.log("This is a message printed using JavaScript2.");
+
+            var xhr = new XMLHttpRequest();
+            console.log("This is a message printed using JavaScript3.");
+
+            xhr.open('POST', "{% url 'custom_resendConfirmation' %}", true);
+            console.log("This is a message printed using JavaScript4.");
+
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            console.log("This is a message printed using JavaScript5.");
+
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            console.log("This is a message printed using JavaScript6.");
+
+            // Set the CSRF token in the request headers
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            console.log("This is a message printed using JavaScript7.");
+
+            xhr.onload = function () {
+                        console.log("This is a message printed using JavaScript8.");
+
+                if (xhr.status === 200) {
+                console.log("This is a message printed using JavaScript12.");
+
+                    // Email notConfirmed Sending was successful, display the success pop-up
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('EmailnotConfirmed').style.display = 'none';
+                    document.getElementById('EmailnotConfirmedSentSuccess').style.display = 'block';
+                } else if (xhr.status === 404) {
+                            console.log("This is a message printed using JavaScript9.");
+
+                    // User name not found, display the error pop-up
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('EmailnotConfirmedSentSuccess').style.display = 'none';
+                    document.getElementById('errorPopup').style.display = 'block';
+                }
+            };
+            console.log("This is a message printed using JavaScript10.");
+
+            xhr.send('username=' + username);
+                        console.log("This is a message printed using JavaScript11.");
+
+        });
+    }
+
+
 </script>
 
 
-												<!--</div> <!--end of form-containe-->
+
+
+												<!--</div> end of form-containe-->
 											</div> <!--end of right-->
 										</div><!--end of container-->
 								</div><!--end of contact-from-section mt-150 mb-150">-->
@@ -989,6 +1103,22 @@ document.getElementById("closeErrorPopupUser").addEventListener("click", functio
         var successPopup = document.getElementById("UsernameResetComplete");
         successPopup.style.display = "none";
     });
+
+ //EmailNotConfirmed
+    document.getElementById("closePopupEmailnotConfirmed").addEventListener("click", function() {
+        var successPopup = document.getElementById("EmailnotConfirmed");
+        successPopup.style.display = "none";
+    });
+
+ //EmailnotConfirmedSentSuccess
+    document.getElementById("closePopupEmailnotConfirmedSentSuccess").addEventListener("click", function() {
+        document.getElementById("EmailnotConfirmedSentSuccess").style.display = "none";
+        document.getElementById("EmailnotConfirmed").style.display = "none";;
+
+        //successPopup.style.display = "none";
+    });
+
+
 
     // Close the pop-up when clicking outside the content
     window.onclick = function(event) {
