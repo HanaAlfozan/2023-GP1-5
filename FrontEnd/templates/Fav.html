@@ -261,6 +261,126 @@ body img{
   width: 40%;
 
 }
+
+
+
+@media only screen and (min-width: 1101px) and (max-width: 1499px) {
+
+.site-logo img{
+	position: relative;
+	padding-left: -45px;
+	}
+
+.main-menu{
+	margin-left: -10px;
+	}
+
+.left-nav-header{
+	margin-right: -45px;
+	}
+
+
+nav.main-menu li:hover > a span {
+    color: #ff069a;
+}
+
+nav.main-menu ul li:last-child a {
+padding: 10px;
+}
+
+}
+
+
+
+
+
+@media only screen and (min-width: 1500px) and (max-width: 2500px) {
+
+.main-menu{
+margin-left: -2220px;
+margin-right: 110px;
+	}
+
+.site-logo img{
+	margin-left: -20px;
+	margin-right: 20px
+	}
+
+.left-nav-header{
+	margin-right: -200px;
+	}
+
+nav.main-menu li:hover > a span {
+    color: #ff069a;
+}
+
+nav.main-menu ul li:last-child a {
+padding: 10px;
+}
+
+}
+
+
+
+
+@media only screen and (min-width: 901px) and (max-width: 1100px) {
+
+.main-menu{
+	margin-left: 20px;
+	margin top: 15px;
+	}
+
+
+.site-logo{
+	 margin-left: 0%;
+	 z-index:0;
+	 }
+
+.left-nav-header{
+	margin-right: -15px;
+	}
+
+.about-widget{
+margin-left:15px;
+}
+
+nav.main-menu li:hover > a span {
+    color: #ff069a;
+}
+
+nav.main-menu ul li:last-child a {
+padding: 10px;
+}
+
+}
+
+
+
+@media only screen and (min-width: 200px) and (max-width: 900px) {
+
+#footer{
+	 justify-content: space-between;
+	 padding-right: 20px;
+	 margin-left:0px;
+	 margin-right: 0px;
+	 margin-top: -33px;
+	}
+
+ .site-logo img{
+	 width: 1000px;
+	 height: 90px;
+
+	 }
+ .site-logo {
+	 margin-left: 5px;
+	 z-index:0;
+
+	 }
+ .breadcrumb-text p{
+	  font-size: 12px;
+	 }
+
+}
 	</style>
 
 
@@ -275,7 +395,7 @@ body img{
     </div>
     <!--PreLoader Ends-->
 	
-	<!-- header With JS-->
+	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
@@ -283,37 +403,38 @@ body img{
 					<div class="main-menu-wrap">
 							<!-- logo -->
 							<div class="site-logo">
-									<a href="{% url 'Games' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
-									</a>
-								</div>
+								<a href="{% url 'Games' %}">	<img src="{% static 'img/Games/GameGeek.png' %}" alt="logo">
+								</a>
+							</div>
 							<!-- logo -->
-	
+
 							<!-- menu start -->
 							<nav class="main-menu">
 								<ul>
-									
-									<li><a href=# style="text-decoration: none; font-size: 15px;">Games</a>
+
+									<li><a href=#>Games</a>
 										<ul class="sub-menu">
-											<li><a href="{% url 'Games' %}" style="text-decoration: none; font-size: 15px;">All Games</a></li>
-											<li><a href="{% url 'Fav' %}" style="text-decoration: none; font-size: 15px;">Favourite Games</a></li>
-											<li><a href="{% url 'History' %}" style="text-decoration: none; font-size: 15px;">Visited Store Games</a></li>
-											
+											<li><a href="{% url 'Games' %}">All Games</a></li>
+											<li><a href="{% url 'Fav' %}">Favourite Games</a></li>
+											<li><a href="{% url 'History' %}">Visited Store Games</a></li>
+
 										</ul>
 									</li>
-									<li><a href="{% url 'profile' %}" style="text-decoration: none; font-size: 15px;">Profile</a>
-									<li><a href="{% url 'contact' %}" style="text-decoration: none; font-size: 15px;">Contact Us</a></li>
-									<li><a href="{% url 'about' %}" style="text-decoration: none; font-size: 15px;">About Us</a></li>
-								<li>
-									<div class="header-icons">
-									
-										<a class="boxed-btn" id="login-btn" href="{% url 'LogoutUser' %}"  style="text-decoration: none;font-size: 20px;" >Log Out</a>
-									</div>
+									<li><a href="{% url 'profile' %}">Profile</a>
+									<li><a href="{% url 'contact' %}">Contact Us</a></li>
+									<li><a href="{% url 'about' %}">About Us</a></li>
+
+											<li id="NoHover" class="left-nav-header">
+
+										<a class=" sub-menu" ><i class="fa fa-user" aria-hidden="true" style="color:#06f7ff;"></i>&nbsp<span id="welcome" style="font-weight: 700 ">Hello</span></a>
+
+										<a class="boxed-btn sub-menu " id="login-btn" href="{% url 'LogoutUser' %}"  style="font-size: 20px;">Log Out</a>
+
 								</li>
 							</ul>
 						</nav>
 						<div class="mobile-menu"></div>
 						<!-- menu end -->
-						<div class="helloUserName"><i class="fa fa-user" aria-hidden="true"></i>&nbsp<span id="welcome" style="font-weight: 700;"></span></div>
 
                  <script>
                     
@@ -632,7 +753,7 @@ body img{
 	<!-- end copyright -->
 	
 	<!-- jquery -->
-	<script src="{% static '/js/jquery-1.11.3.min.js' %}"></script> <!-- Reema modifieed this -->
+<!--	<script src="{% static '/js/jquery-1.11.3.min.js' %}"></script>  Reema modifieed this -->
 	<!-- bootstrap -->
 	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 	<!-- count down -->

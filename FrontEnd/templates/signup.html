@@ -143,14 +143,7 @@ height:auto
 
 
 /* Media query for smaller screens */
-@media (max-width: 1500px) {
-    .site-logo img {
-    width:128%;
-    position: relative;
-	height: 117%;
-    margin-left:70%;
-    }
-}
+
 
 body img{
   max-width: 600px;
@@ -329,6 +322,69 @@ summary {
 list-style-type: none; /* For non-Chrome browsers */
 }
 
+
+
+@media only screen and (min-width: 1101px) and (max-width: 1499px) {
+
+.site-logo img{
+	position: relative;
+	padding-left: -45px;
+	}
+
+
+}
+
+
+@media only screen and (min-width: 1500px) and (max-width: 2500px) {
+
+.site-logo img{
+	margin-left: -20px;
+	margin-right: 20px
+	}
+
+}
+
+
+
+
+@media only screen and (min-width: 901px) and (max-width: 1100px) {
+
+.site-logo{
+	 margin-left: 0%;
+	 z-index:0;
+	 }
+
+.about-widget{
+margin-left:15px;
+}
+
+
+}
+
+
+
+@media only screen and (min-width: 200px) and (max-width: 900px) {
+
+#footer{
+	 justify-content: space-between;
+	 padding-right: 20px;
+	 margin-left:0px;
+	 margin-right: 0px;
+	 margin-top: -33px;
+	}
+
+ .site-logo img{
+	 width: 1000px;
+	 height: 90px;
+
+	 }
+ .site-logo {
+	 margin-left: 5px;
+	 z-index:0;
+
+	 }
+
+}
 	</style>
 
 </head>

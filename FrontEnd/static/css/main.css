@@ -530,7 +530,6 @@ ul.navbar-nav li.nav-item a.nav-link, ul.navbar-nav li.nav-item.active a.nav-lin
   position: absolute;
   z-index: 999;
   width: 95%;
-
   padding: 25px 0;
 
 
@@ -608,7 +607,11 @@ nav.main-menu ul > li:hover ul {
 }
 
 nav.main-menu ul li:last-child a {
-  display: inline-block;
+ /* display: inline-block; */ /*changed by Reema removed the display*/
+}
+
+nav.main-menu ul li:last-child a : hover{
+ color: #ff069a;/*changed by Reema added color*/
 }
 
 nav.main-menu > ul li:last-child {
@@ -617,12 +620,12 @@ nav.main-menu > ul li:last-child {
 
 .site-logo {
   float: left;
-  max-width: 150px;
+  /*max-width: 150px;*/ /*Changed by Reema*/
 }
 
 .site-logo img{
   width: 200px;
-    height: 100px;
+  height: 100px;
 }
 body img{
   max-width: 600px;
@@ -686,7 +689,7 @@ nav.mean-nav > ul > li:first-child > a {
 
 .site-logo {
   position: relative;
-  left: -100px;
+ /* left: -100px;*/ /*Changed by Reema*/
 }
 
 .site-logo img{
