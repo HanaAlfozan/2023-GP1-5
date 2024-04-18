@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 import numpy as np
 from tensorflow.keras.models import load_model
-from tensorflow.keras.applications.vgg16 import preprocess_input
 from PIL import Image
 import io
 import base64
