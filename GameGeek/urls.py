@@ -21,6 +21,8 @@ from FrontEnd import views
 from BackEnd import views as BackEnd_views
 from FrontEnd import views as Frontend_views
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -87,3 +89,6 @@ urlpatterns = [
     path('BackEnd/custom_resendConfirmation/', BackEnd_views.custom_resendConfirmation,  name='custom_resendConfirmation'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
