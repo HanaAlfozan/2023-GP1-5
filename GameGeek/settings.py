@@ -99,7 +99,7 @@ DATABASES = {
         'USER': 'group5',
         'PASSWORD': '123456',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 # Password validation
