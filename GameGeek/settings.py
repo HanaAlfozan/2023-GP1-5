@@ -94,11 +94,12 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'GameGeek',
         'USER': 'group5',
         'PASSWORD': '123456',
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 # Password validation
