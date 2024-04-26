@@ -33,7 +33,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://209.38.192.147",
     "www.gamegeekwebsite.xyz",
-    "gamegeekwebsite.xyz",
+    "https://www.gamegeekwebsite.xyz",
+    "https:/gamegeekwebsite.xyz",
 
 ]
 
