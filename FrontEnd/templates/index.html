@@ -47,7 +47,7 @@
 		ul{
            list-style: none;
 		}
-
+		
 		summary::-webkit-details-marker {
           display: none;}
 
@@ -56,7 +56,9 @@
 
 
 
-
+		.hero-btns .boxed-btn{
+		width:30%;
+		}
 
 
 
@@ -92,19 +94,9 @@
   }
 }
 
-				.site-logo img{
-  width: 100%;
-    height: 100%;
-	position: relative;
-
-}
-
-/* Media query for smaller screens */
-@media (max-width: 900px) {
-    .site-logo img {
 
 
-    }
+
 
     .animate-charcter {
         margin-top: 40%; /* Adjust the margin as needed */
@@ -123,13 +115,134 @@
     background-size:100% !important;
      background-size: cover !important;
     height:90% !important;}
+
+
+
+
+@media only screen and (min-width: 1101px) and (max-width: 1499px) {
+
+.site-logo img{
+	position: relative;
+	padding-left: -45px;
+	}
+ #login-big{
+ display: none;
+ }
+
 }
 
+
+@media only screen and (min-width: 1500px) and (max-width: 2500px) {
+
+.site-logo img{
+	margin-left: -20px;
+	margin-right: 20px
+	}
+header-icons {
+    position: relative;
+    left: 0px;
+    }
+#login-big{
+ display: none !important;
+ }
+}
+
+
+
+
+@media only screen and (min-width: 1020px) and (max-width: 1500px) {
+
+.site-logo{
+	 margin-left: 0%;
+	 z-index:0;
+	 }
+
+.about-widget{
+margin-left:15px;
+}
+
+header-icons {
+    position: relative;
+    left: 0px;
+    }
+#login-big{
+ display: none !important;
+ }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1019px) {
+ #login-big{
+ display: block;
+ margin-left: 244px;
+ margin-top: 10px;
+ }
+#login-btn{
+display: none !important;
+}
+}
+
+@media only screen and (min-width: 700px) and (max-width: 767px) {
+ #login-big{
+ display: block;
+ margin-left: 180px;
+ margin-top: 10px;
+ }
+#login-btn{
+display: none;
+}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+ #login-big{
+ display: block;
+ margin-left: 192px;
+ margin-top: 10px;
+ }
+#login-btn{
+display: none;
+}
+}
+
+@media only screen and (min-width: 200px) and (max-width: 699px) {
+
+#footer{
+	 justify-content: space-between;
+	 padding-right: 20px;
+	 margin-left:0px;
+	 margin-right: 0px;
+	 margin-top: -33px;
+	}
+
+ .site-logo img{
+	 width: 1000px;
+	 height: 90px;
+
+	 }
+ .site-logo {
+	 margin-left: 5px;
+	 z-index:0;
+
+	 }
+
+#login-btn{
+display: none;
+}
+ .header-icons {
+    position: relative;
+    left: 5px;
+  }
+
+ #login-big{
+ display: block;
+ margin-top: 10px;
+ }
+}
 	</style>
 
 </head>
 <body>
-
+	
 	<!--PreLoader-->
     <div class="loader">
         <div class="loader-inner">
@@ -137,7 +250,7 @@
         </div>
     </div>
     <!--PreLoader Ends-->
-
+	
 <!-- header -->
 <div class="top-header-area" id="sticker">
     <div class="container">
@@ -155,9 +268,7 @@
                     <nav class="main-menu">
                         <ul>
                             <li>
-                                <div class="header-icons">
-                                    <a class="boxed-btn" id="login-btn" href="{% url 'login' %}" style="font-size: 20px;">         Log In   </a>
-                                </div>
+                             <a class="boxed-btn" id="login-btn" href="{% url 'login' %}" style="font-size: 20px;"> Log In   </a>
                             </li>
                         </ul>
                     </nav>
@@ -189,6 +300,8 @@
 
                         <div class="hero-btns">
                             <a href="{% url 'signup' %}" class="boxed-btn">Join US</a>
+							<a class="boxed-btn" id="login-big" href="{% url 'login' %}" style="font-size: 20px;"> Log In </a>
+
                         </div>
                     </div>
                 </div>
@@ -239,7 +352,7 @@
 
 		</div>
 	</div>
-
+		
 	<!-- end features list section -->
 
 	<!-- product section -->
@@ -253,7 +366,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<img src="{% static 'img/Games/logo.png' %}" alt="logo" class="fill-div-image" width="400" height="400" style="margin-left:-10%;">
+					<img src="{% static 'img/Games/logo.png' %}" alt="logo" class="fill-div-image" width="400" height="400">
 
 
 				</div>
@@ -316,14 +429,14 @@
 							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
 							<li class="dash"><a href="{% url 'index' %}">About Us</a></li>
 						</ul>
-
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-
+	
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -336,7 +449,7 @@
 		</div>
 	</div>
 	<!-- end copyright -->
-
+	
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<!-- bootstrap -->
