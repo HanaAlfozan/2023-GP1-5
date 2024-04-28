@@ -47,7 +47,7 @@
 		ul{
            list-style: none;
 		}
-		
+
 		summary::-webkit-details-marker {
           display: none;}
 
@@ -56,9 +56,7 @@
 
 
 
-		.hero-btns .boxed-btn{
-		width:30%;
-		}
+
 
 
 
@@ -95,20 +93,16 @@
 }
 
 				.site-logo img{
-  width: 200px;
-    height: 100px;
+  width: 100%;
+    height: 100%;
 	position: relative;
-	left: -25px;
+
 }
 
 /* Media query for smaller screens */
 @media (max-width: 900px) {
     .site-logo img {
-    width:100%;
 
-
-        position: static;
-        margin-left:70%;
 
     }
 
@@ -135,7 +129,7 @@
 
 </head>
 <body>
-	
+
 	<!--PreLoader-->
     <div class="loader">
         <div class="loader-inner">
@@ -143,7 +137,7 @@
         </div>
     </div>
     <!--PreLoader Ends-->
-	
+
 <!-- header -->
 <div class="top-header-area" id="sticker">
     <div class="container">
@@ -245,7 +239,7 @@
 
 		</div>
 	</div>
-		
+
 	<!-- end features list section -->
 
 	<!-- product section -->
@@ -259,7 +253,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<img src="{% static 'img/Games/logo.png' %}" alt="logo" class="fill-div-image" width="400" height="400">
+					<img src="{% static 'img/Games/logo.png' %}" alt="logo" class="fill-div-image" width="400" height="400" style="margin-left:-10%;">
 
 
 				</div>
@@ -322,14 +316,14 @@
 							<li class="dash"><a href="{% url 'index' %}">Contact Us</a></li>
 							<li class="dash"><a href="{% url 'index' %}">About Us</a></li>
 						</ul>
-						
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end footer -->
-	
+
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
@@ -342,7 +336,7 @@
 		</div>
 	</div>
 	<!-- end copyright -->
-	
+
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<!-- bootstrap -->

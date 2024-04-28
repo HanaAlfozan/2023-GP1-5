@@ -1145,15 +1145,15 @@ localStorage.removeItem(checkboxKey);
 });
 $('input[type="checkbox"]').removeAttr('checked');
 $("#sortSelect").prop('selectedIndex', 0);
-handleSortChange();
-updateGamesByMultipleCategories(['Price', 'Genres', 'In_app_Purchases', 'Average_User_Rating', 'Languages', 'Rating']);
+deleteSortFilter()
 EventListeners();
 
 }
 $('#clearFilters').on('click', clearAllFilters);
 $('#filter-btn').on('click', function() {
-    clearAllFilters();
+
     $('#myModal').css('display', 'none'); // Set otherElement to display: none
+    clearAllFilters();
 });
 $('#login-btn').on('click', clearAllFilters);
     });
@@ -1405,6 +1405,26 @@ $('input[type="checkbox"]').each(function () {
             },
             error: function (error) {
                 console.error('Error making AJAX request:', error);
+            }
+        });
+    }
+    //function toDelete the tables
+    function deleteSortFilter(){
+
+        $.ajax({
+            url: '/BackEnd/delete_sorted_filtered/',
+            method: 'GET',
+            data: {
+
+            },
+             success: function() {
+             console.log('deleeeeeeeeeee');
+
+            makeAjaxRequest(1,1);
+
+        },
+            error: function(error) {
+                console.error('Error:', error);
             }
         });
     }
