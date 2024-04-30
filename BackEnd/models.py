@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from datetime import date
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, Username, Email, Password=None, Accept_conditions=False, **extra_fields):
         if not Email:
@@ -18,8 +19,10 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(Username, Email, Password, **extra_fields)
 
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+
 
 class GGUser(AbstractBaseUser, PermissionsMixin):
     User_ID = models.AutoField(primary_key=True)
@@ -31,11 +34,10 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
     Approved_age_group = models.CharField(max_length=4, null=True, blank=True)
     Date_joined = models.DateTimeField(auto_now_add=True)
     email_confirmed = models.BooleanField(default=False)  # New field
+
     @property
     def is_superuser(self):
         return False
-
-
 
     # Specify unique related_name for groups and user_permissions
     groups = models.ManyToManyField('auth.Group', related_name='User', blank=True)
@@ -49,6 +51,7 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.Username
+
 
 class GamesList(models.Model):
     URL = models.TextField()
@@ -70,7 +73,7 @@ class GamesList(models.Model):
 
     def __str__(self):
         return self.Name
-    
+
 
 class Favorite(models.Model):
     User_ID = models.ForeignKey(GGUser, on_delete=models.CASCADE)
@@ -83,12 +86,12 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.User_ID.Username}'s favorite: {self.Game_ID.Name}"
-    
-    
+
+
 class Visited(models.Model):
     User_ID = models.ForeignKey(GGUser, on_delete=models.CASCADE)
     Game_ID = models.ForeignKey(GamesList, on_delete=models.CASCADE)
-    Visited_date = models.DateField(default=date.today) 
+    Visited_date = models.DateField(default=date.today)
 
     class Meta:
         constraints = [
@@ -98,16 +101,5 @@ class Visited(models.Model):
     def __str__(self):
         return f"{self.User_ID.Username}'s visited: {self.Game_ID.Name}"
 
-class Filtered_Game(models.Model):
-    URL = models.TextField()
-    Name = models.TextField()
-    Icon_URL = models.TextField()
-    ID = models.IntegerField()
 
-
-class Sorted_Game(models.Model):
-    URL = models.TextField()
-    Name = models.TextField()
-    Icon_URL = models.TextField()
-    ID = models.IntegerField()
 
