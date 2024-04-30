@@ -31,6 +31,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+
 @csrf_protect
 def SignupUser(request):
     print('in SignupUser')
@@ -52,9 +53,10 @@ def SignupUser(request):
                 # Check if there is a user with the same email
                 print('Check if there is a user with the same email')
                 users_with_same_email = GGUser.objects.filter(Email=email)
-                if users_with_same_email.exists() and users_with_same_email.filter(First_name=firstname, Last_name=lastname).exists():
-                        print('Users with same email cannot have same full names')
-                        messages.error(request, "Users with same email cannot have same full names")
+                if users_with_same_email.exists() and users_with_same_email.filter(First_name=firstname,
+                                                                                   Last_name=lastname).exists():
+                    print('Users with same email cannot have same full names')
+                    messages.error(request, "Users with same email cannot have same full names")
                 else:
                     user = GGUser.objects.create_user(
                         Username=username,
@@ -63,7 +65,7 @@ def SignupUser(request):
                         Email=email,
                         Password=password,
                         Accept_conditions=Accept_conditions,
-                        )
+                    )
                     user_id = user.User_ID
                     request.session['user_id'] = user_id
                     return redirect('estimate')
@@ -72,7 +74,7 @@ def SignupUser(request):
 
     return redirect('signup')
 
-    
+
 def AssignAgeGroup(request):
     print('in AssignAgeGroup')
     if request.method == 'POST':
@@ -80,22 +82,23 @@ def AssignAgeGroup(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
             estimated_age_group = data.get('estimatedAgeGroup')
-            print('AssignAgeGroup',estimated_age_group )
+            print('AssignAgeGroup', estimated_age_group)
             user = GGUser.objects.get(User_ID=user_id)
-        
+
             if user:
-                user.Approved_age_group=estimated_age_group
+                user.Approved_age_group = estimated_age_group
                 user.save()
                 return JsonResponse({'message': 'User is active and age group assigned successfully'})
-                
+
 
             else:
                 return JsonResponse({'error': 'User data not found'}, status=404)
 
         except GGUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
-    
-    return HttpResponse()    
+
+    return HttpResponse()
+
 
 def custom_password_reset(request):
     if request.method == 'POST':
@@ -124,9 +127,10 @@ def custom_password_reset(request):
         if 'error_message' in request.POST:
             return HttpResponse(status=400)
 
-        return HttpResponse(status=200) 
+        return HttpResponse(status=200)
 
     return render(request, 'login.html')
+
 
 def custom_username_reset(request):
     Email = request.POST.get('Email', '')
@@ -162,7 +166,6 @@ def custom_username_reset(request):
         return JsonResponse({'error': 'Username not found'}, status=404)
 
 
-
 def custom_assigining_ageGroup(request):
     if request.method == 'POST':
         user_id = request.session.get('user_id')
@@ -195,6 +198,7 @@ def custom_assigining_ageGroup(request):
 
     return render(request, 'AgeEstimation.html')
 
+
 def custom_assigining_ageGroup_confirm(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -203,17 +207,16 @@ def custom_assigining_ageGroup_confirm(request, uidb64, token):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
-            if request.method == 'POST':
-        # Valid token, allow the user to set a new password
-              ageGroup = request.POST.get('ageGroup')
-              user.Approved_age_group = ageGroup
-              user.save()
-              return render(request, 'AgeEstimation.html', {'status': 'verify', 'message': 'verify'})
-            return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Assign confirm'})
+        if request.method == 'POST':
+            # Valid token, allow the user to set a new password
+            ageGroup = request.POST.get('ageGroup')
+            user.Approved_age_group = ageGroup
+            user.save()
+            return render(request, 'AgeEstimation.html', {'status': 'verify', 'message': 'verify'})
+        return render(request, 'AgeEstimation.html', {'status': 'confirm', 'message': 'Assign confirm'})
     else:
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'AgeEstimation.html', {'status': 'error', 'message': error_message})
-
 
 
 def custom_password_reset_confirm(request, uidb64, token):
@@ -229,15 +232,16 @@ def custom_password_reset_confirm(request, uidb64, token):
             password = request.POST['password']
             confirm_password = request.POST['password2']
             if password == confirm_password:
-              user.set_password(password)
-              user.save()
-              return render(request, 'login.html', {'status': 'reset', 'message': 'Password reset'})
+                user.set_password(password)
+                user.save()
+                return render(request, 'login.html', {'status': 'reset', 'message': 'Password reset'})
             else:
-              messages.error(request, "Password Mismatch!")
+                messages.error(request, "Password Mismatch!")
         return render(request, 'login.html', {'status': 'confirm', 'message': 'Password confirm'})
     else:
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
+
 
 def custom_username_reset_confirm(request, uidb64, token):
     try:
@@ -250,7 +254,7 @@ def custom_username_reset_confirm(request, uidb64, token):
         # Valid token, allow the user to set a new password
         if request.method == 'POST':
             newusername = request.POST['newusername']
-            user.Username=newusername
+            user.Username = newusername
             user.save()
             return render(request, 'login.html', {'status': 'resetUser', 'message': 'Username reset'})
 
@@ -258,6 +262,7 @@ def custom_username_reset_confirm(request, uidb64, token):
     else:
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
+
 
 @csrf_protect
 def LoginUser(request):
@@ -278,8 +283,9 @@ def LoginUser(request):
             else:
                 # Pass a custom message to the template
                 print("This message will be printed to the terminal for line 280.")
-                #return render(request, 'login.html', {'Emailconfirmation_message': 'account_not_confirmed'})
-                messages.error(request, 'Your account registration is not confirmed. Please confirm you registration through the link sent to your email.')
+                # return render(request, 'login.html', {'Emailconfirmation_message': 'account_not_confirmed'})
+                messages.error(request,
+                               'Your account registration is not confirmed. Please confirm you registration through the link sent to your email.')
                 return redirect('login')
 
         else:
@@ -287,11 +293,9 @@ def LoginUser(request):
             return render(request, 'login.html', {'error_message': 'Invalid username or password'})
     return redirect('login')
 
-   
-
 
 def CompareAgeGroups(request):
-    print('hi from CompareAgeGroups') 
+    print('hi from CompareAgeGroups')
     if request.method == 'POST':
         user_id = request.session.get('user_id')
         try:
@@ -317,7 +321,7 @@ def CompareAgeGroups(request):
         except Exception as e:
             print(e)
             return JsonResponse({'error': 'An error occurred'}, status=500)
-        
+
 
 def SendEmailForWrongEstimation(request):
     if request.method == 'POST':
@@ -348,8 +352,9 @@ def SendEmailForWrongEstimation(request):
         )
         if 'error_message' in request.POST:
             return HttpResponse(status=400)
-        return JsonResponse({'agGroup': agGroup}, status=200)  
-    
+        return JsonResponse({'agGroup': agGroup}, status=200)
+
+
 def RedirectingToGames(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -358,16 +363,15 @@ def RedirectingToGames(request, uidb64, token):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
-            if request.method == 'POST':
-                user_id = user.User_ID
-                request.session['user_id'] = user_id
-            return render(request, 'Games.html')
+        if request.method == 'POST':
+            user_id = user.User_ID
+            request.session['user_id'] = user_id
+        return render(request, 'Games.html')
 
     else:
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'index.html', {'status': 'error', 'message': error_message})
-         
- 
+
 
 def Hello(request):
     user_id = request.session.get('user_id')
@@ -399,7 +403,7 @@ def GetProfileData(request):
                 'Last_name': user.Last_name,
                 'Email': user.Email,
                 'Date_joined': user.Date_joined.strftime('%m/%d/%Y'),
-        }
+            }
             return JsonResponse(profile_data)
         except GGUser.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=400)
@@ -407,10 +411,11 @@ def GetProfileData(request):
         return JsonResponse({'error': 'User not authenticated'})
 
 
-def LogoutUser(request):  
+def LogoutUser(request):
     logout(request)
     cache.clear()
-    return redirect('index')     
+    return redirect('index')
+
 
 def EditNames(request):
     if request.method == 'POST':
@@ -572,7 +577,7 @@ def retrieve_all_games(request):
         'Age': user_age_group,
         'Count': len(games_list),
         'filter_status': status,
-        'session':"sission try",
+        'session': "sission try",
     }
 
     # Return a JSON response
@@ -605,12 +610,10 @@ def clean_name(name):
 
 def clean_description(description):
     # Remove URLs
-    description=description.encode().decode('unicode_escape')
+    description = description.encode().decode('unicode_escape')
     description_without_urls = re.sub(r'http\S+|www\S+|https\S+', '', description, flags=re.MULTILINE)
     # Remove emails
     description_without_emails = re.sub(r'\S+@\S+', '', description_without_urls, flags=re.MULTILINE)
-
-
 
     # Ensure the description ends with a period
     if not description_without_emails.endswith('.'):
@@ -649,11 +652,12 @@ def retrieve_game_info(request):
             'Age_Rating': game.Age_Rating,
             'Languages': game.Languages + '.',
             'Size': str(game.Size),  # Convert DecimalField to string
-            'Original_Release_Date': game.Original_Release_Date ,
+            'Original_Release_Date': game.Original_Release_Date,
         }
         return JsonResponse({'games_data': game_info})
     except GamesList.DoesNotExist:
         return JsonResponse({'error': 'Game not found'}, status=404)
+
 
 def retrieve_random_high_rated_games(request):
     # Retrieve all objects from the GamesList model
@@ -662,7 +666,6 @@ def retrieve_random_high_rated_games(request):
     # Ensure that the total number of games is at least 12
     if len(all_games_data) < 12:
         return JsonResponse({'error': 'Not enough games available'}, status=400)
-
 
     first_12_high_rated_games = all_games_data[24:36]
 
@@ -691,10 +694,9 @@ def retrieve_random_high_rated_games(request):
     return JsonResponse({'random_high_rated_games_data': games_list})
 
 
-
 def clean_dev(dev):
     # Remove URLs
-    dev=dev.encode().decode('unicode_escape')
+    dev = dev.encode().decode('unicode_escape')
 
     # Ensure the description ends with a period
     if not dev.endswith('.'):
@@ -739,7 +741,8 @@ def send_email(request):
         # Construct email message
         try:
             send_mail(subject, email_body, sender_email1, [recipient_email])
-            response_data = {'status': 'success', 'message': [email,username,subject,email_body,recipient_email,sender_email1]}
+            response_data = {'status': 'success',
+                             'message': [email, username, subject, email_body, recipient_email, sender_email1]}
         except Exception as e:
             print(f"Error sending email: {e}")
             response_data = {'status': 'error', 'message': 'Error sending email'}
@@ -774,9 +777,6 @@ def get_order_field(order_by_field, order_direction):
     return '-' + order_field if order_direction == 'desc' else order_field
 
 
-
-
-
 def annotate_age_rating(queryset):
     age_rating_annotation = Cast(Case(
         When(Age_Rating='4+', then=Value(4)),
@@ -787,6 +787,7 @@ def annotate_age_rating(queryset):
         output_field=IntegerField(),
     ), IntegerField())
     return queryset.annotate(numeric_age_rating=age_rating_annotation)
+
 
 def annotate_rating(queryset):
     average_user_rating_annotation = Cast(Case(
@@ -806,6 +807,7 @@ def annotate_rating(queryset):
 
     return queryset.annotate(age_rating=average_user_rating_annotation)
 
+
 def convert_rating_count(value):
     try:
         # Convert to int, handling 'below 5' as a special case
@@ -816,6 +818,7 @@ def convert_rating_count(value):
             return int(float(value))
     except ValueError:
         return 0
+
 
 def convert_rating(value):
     try:
@@ -832,9 +835,9 @@ def convert_rating(value):
 def sort_by(request):
     # Default ordering
     user_id = request.session.get('user_id')
-    user_age=''
-    user_age_group=0
-    game_queryset=[]
+    user_age = ''
+    user_age_group = 0
+    game_queryset = []
 
     if user_id is not None:
         try:
@@ -877,11 +880,8 @@ def sort_by(request):
     order_by_field = request.GET.get('order_by', 'Name')
     order_direction = request.GET.get('order_direction', 'asc')
 
-
     # Get the corresponding field for ordering
     order_field = get_order_field(order_by_field, order_direction)
-
-
 
     if order_by_field in ('Newest Games', 'Oldest Games'):
         game_queryset = game_queryset.order_by(order_field)
@@ -891,12 +891,12 @@ def sort_by(request):
         game_queryset = game_queryset.order_by(order_field)
     elif order_by_field in ('Highest Rating', 'Lowest Rating'):
         order_field = '-age_rating' if order_by_field == 'Highest Rating' else 'age_rating'
-        game_queryset=annotate_rating(game_queryset)
+        game_queryset = annotate_rating(game_queryset)
         game_queryset = game_queryset.order_by(order_field)
 
     else:
         # Explicitly handle alphabetical sorting
-        if order_direction == 'asc' :
+        if order_direction == 'asc':
             game_queryset = game_queryset.order_by(order_field, 'Name')
         else:
             game_queryset = game_queryset.order_by(f'{order_field}', '-Name')
@@ -912,7 +912,6 @@ def sort_by(request):
         for game in game_queryset
     ]
 
-
     request.session['games_list'] = games_list
     response_data = {
         'message': 'The games are:',
@@ -921,7 +920,6 @@ def sort_by(request):
     }
 
     return JsonResponse(response_data)
-
 
 
 ## -----------Extracters  methods --------------------------
@@ -933,19 +931,24 @@ def ExtractPrice(request):
     price_list = list(unique_prices)
     return JsonResponse({'prices': price_list}, safe=False)
 
+
 @require_http_methods(["GET"])
 def ExtractGenre(request):
     games_list = GamesList.objects.all()
-    all_genres = [genre.strip() for Genres in games_list.values_list('Genres', flat=True) for genre in Genres.split(',')]
+    all_genres = [genre.strip() for Genres in games_list.values_list('Genres', flat=True) for genre in
+                  Genres.split(',')]
     unique_genere = list(set(all_genres))
     return JsonResponse({'genres': unique_genere}, safe=False)
+
 
 @require_http_methods(["GET"])
 def ExtractLanguage(request):
     games_list = GamesList.objects.all()
-    all_languages = [language.strip() for languages in games_list.values_list('Languages', flat=True) for language in languages.split(',')]
+    all_languages = [language.strip() for languages in games_list.values_list('Languages', flat=True) for language in
+                     languages.split(',')]
     unique_languages = list(set(all_languages))
     return JsonResponse({'languages': unique_languages}, safe=False)
+
 
 @require_http_methods(["GET"])
 def ExtractInAppPurchases(request):
@@ -962,16 +965,17 @@ def ExtractRating(request):
     Rating_list = list(unique_Rating)
     return JsonResponse({'Rating': Rating_list}, safe=False)
 
+
 def filter_games_multiple(request):
     # Extract valid categories from GET parameters
     valid_categories = {'Genres', 'Languages', 'In_app_Purchases', 'Price', 'Average_User_Rating'}
     categories = {key.rstrip('[]') for key in request.GET.keys() if key.rstrip('[]') in valid_categories}
-# extract the age group for the user
+    # extract the age group for the user
     user_id = request.session.get('user_id')
     user_age = ''
     user_age_group = 0
     filtered_games_queryset = []
-    filter_status=''
+    filter_status = ''
 
     if user_id is not None:
         try:
@@ -1033,12 +1037,12 @@ def filter_games_multiple(request):
 
         # Apply the filtered categories to the queryset
         filtered_games_queryset = filtered_games_queryset.filter(q_objects)
-        if len(filtered_games_queryset)==0:
-            filter_status='no games satisfies the filter'
+        if len(filtered_games_queryset) == 0:
+            filter_status = 'no games satisfies the filter'
     # Convert queryset to a list of dictionaries
     games_list = [
         {
-            'Name':game.Name,
+            'Name': game.Name,
             'Icon_URL': game.Icon_URL,
             'URL': game.URL,
             'ID': game.ID,
@@ -1058,10 +1062,8 @@ def filter_games_multiple(request):
     return JsonResponse(response_data, safe=False)
 
 
-
 ## -----------favourite games methods --------------------------
 ##------------DELETE SORTED AND FILTERED GAMES----------------##
-
 
 
 @csrf_exempt
@@ -1095,6 +1097,7 @@ def add_to_favorites(request, game_id):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
 
 def favorite_games(request):
     user_id = request.session.get('user_id')
@@ -1141,21 +1144,22 @@ def visited_games(request):
     if user_id:
         visited_games = Visited.objects.filter(User_ID=user_id)
         games_data = [
-                {
-                    'id': visited_game.Game_ID.ID,
-                    'name': clean_name(visited_game.Game_ID.Name),
-                    'url': visited_game.Game_ID.URL,
-                    'icon_url': visited_game.Game_ID.Icon_URL,
-                    'visited_date': visited_game.Visited_date.strftime('%Y-%m-%d') if visited_game.Visited_date else None,
-                }
-                for visited_game in visited_games
-            ]
+            {
+                'id': visited_game.Game_ID.ID,
+                'name': clean_name(visited_game.Game_ID.Name),
+                'url': visited_game.Game_ID.URL,
+                'icon_url': visited_game.Game_ID.Icon_URL,
+                'visited_date': visited_game.Visited_date.strftime('%Y-%m-%d') if visited_game.Visited_date else None,
+            }
+            for visited_game in visited_games
+        ]
         return JsonResponse({'games': games_data})
     else:
         return JsonResponse({'error': 'User not authenticated'})
-    
+
 
 from datetime import date
+
 
 @csrf_exempt
 def save_visited_game(request, game_id):
@@ -1188,7 +1192,8 @@ def save_visited_game(request, game_id):
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
-#--------------------recently viewed game -----------------------------
+
+# --------------------recently viewed game -----------------------------
 from django.shortcuts import get_object_or_404
 
 
@@ -1235,7 +1240,6 @@ def add_to_recently_viewed(request, game_id):
             return JsonResponse({'success': False, 'error': 'Game does not exist'})
 
     return JsonResponse({'success': False, 'error': 'User not authenticated'})
-
 
 
 def recently_viewed_games(request):
@@ -1297,8 +1301,6 @@ def custom_signup_confirmation_confirm(request, uidb64, token):
         return render(request, 'AgeEstimation.html', {'status': 'error', 'message': error_message})
 
 
-
-
 def custom_signup_confirmation(request):
     print("Debugging ")
     if request.method == 'POST':
@@ -1343,10 +1345,6 @@ def custom_signup_confirmation(request):
     return render(request, 'AgeEstimation.html')
 
 
-
-
-
-
 def custom_resendConfirmation_confirm(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -1362,6 +1360,7 @@ def custom_resendConfirmation_confirm(request, uidb64, token):
     else:
         error_message = 'Unexpected error occurred, please try again'
         return render(request, 'login.html', {'status': 'error', 'message': error_message})
+
 
 def custom_resendConfirmation(request):
     if request.method == 'POST':
