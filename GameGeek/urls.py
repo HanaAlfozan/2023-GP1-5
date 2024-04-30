@@ -86,5 +86,4 @@ urlpatterns = [
     path('resendConfirmation/<str:uidb64>/<str:token>/', BackEnd_views.custom_resendConfirmation_confirm, name='custom_resendConfirmation_confirm'),
     path('Backend/custom_resendConfirmation_confirm/', BackEnd_views.custom_resendConfirmation_confirm, name='custom_resendConfirmation_confirm'),
     path('BackEnd/custom_resendConfirmation/', BackEnd_views.custom_resendConfirmation,  name='custom_resendConfirmation'),
-
 ]

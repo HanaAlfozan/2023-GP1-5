@@ -449,8 +449,6 @@ select {
 	margin-left: 2%;
 }  
 
-
-
 	</style>
 
 </head>
@@ -567,8 +565,8 @@ select {
 	</span>
 	<label for="SecurityQuestion" id="secLabel">Security Question:</label>
 	<div class="seqQselect">
-	<select id="securityQuestion">
-	  <option selected disabled>Choose a security question</option>
+	<select id="securityQuestion" name="securityQuestion" required>
+	  <option selected disabled value="">Choose a security question</option>
 	  <option>What city were you born in?</option>
 	  <option>What elementary school did you attend?</option>
 	  <option>What is the name of your favorite show growing up?</option>

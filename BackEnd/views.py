@@ -37,12 +37,12 @@ def SignupUser(request):
     print('in SignupUser')
     if request.method == 'POST':
         username = request.POST['Username']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
         email = request.POST['Email']
         password = request.POST['Password']
         confirm_password = request.POST['confirm_password']
         Accept_conditions = request.POST.get('Accept_conditions') == 'on'
+        SecurityAnswer = request.POST['answer']
+        SecurityQuestion = request.POST['securityQuestion']
 
         if password == confirm_password:
             print('if password == confirm_password')
@@ -50,29 +50,20 @@ def SignupUser(request):
                 print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
             else:
-                # Check if there is a user with the same email
-                print('Check if there is a user with the same email')
-                users_with_same_email = GGUser.objects.filter(Email=email)
-                if users_with_same_email.exists() and users_with_same_email.filter(First_name=firstname,
-                                                                                   Last_name=lastname).exists():
-                    print('Users with same email cannot have same full names')
-                    messages.error(request, "Users with same email cannot have same full names")
-                else:
-                    user = GGUser.objects.create_user(
-                        Username=username,
-                        First_name=firstname,
-                        Last_name=lastname,
-                        Email=email,
-                        Password=password,
-                        Accept_conditions=Accept_conditions,
+                user = GGUser.objects.create_user(
+                    Username=username,
+                    Email=email,
+                    Password=password,
+                    Accept_conditions=Accept_conditions,
+                    Security_answer=SecurityAnswer,
+                    Security_question=SecurityQuestion,
                     )
-                    user_id = user.User_ID
-                    request.session['user_id'] = user_id
-                    return redirect('estimate')
-        else:
+                user_id = user.User_ID
+                request.session['user_id'] = user_id
+                return redirect('estimate')
+            
             messages.error(request, "Password Mismatch!")
-
-    return redirect('signup')
+            return redirect('signup')
 
 
 def AssignAgeGroup(request):
@@ -131,14 +122,16 @@ def custom_password_reset(request):
 
     return render(request, 'login.html')
 
+from django.utils.text import slugify
 
 def custom_username_reset(request):
     Email = request.POST.get('Email', '')
-    firstname = request.POST.get('firstname', '')
-    lastname = request.POST.get('lastname', '')
+    securityQuestion = request.POST.get('securityQuestion', '')
+    answer = request.POST.get('answer', '')
 
     try:
-        user = GGUser.objects.get(Email=Email, First_name=firstname, Last_name=lastname)
+        answer = slugify(answer)
+        user = GGUser.objects.get(Email=Email, Security_question=securityQuestion, Security_answer__iexact=answer)
 
         # Generate a token and uid for the user
         token = default_token_generator.make_token(user)
