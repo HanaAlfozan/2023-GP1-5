@@ -239,17 +239,16 @@ border-radius:50px;
      background-color: transparent;
 }
 
-.input-box {
-    width: 60%; /* Make inputs take full width of the form */
-    padding: 10px; /* Reduce padding for inputs */
-
+.input-box, #securityAnswer {
+    width: 60%;
+    padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-.input-box:focus {
+.input-box:focus , #securityAnswer:focus {
     border: 2px solid #ff069a;
 }
 
@@ -258,21 +257,21 @@ border-radius:50px;
     text-decoration: none;
 }
 
-.input-pair {
+.input-pair{
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 6%;
 }
 
-.input-pair label {
+.input-pair label, #answerSpace {
     flex: 0 0 20%; 
     font-weight: 700;
     text-align:left;
 	font-size: 17px;
 }
 
-.input-item {
+.input-item{
 position: relative;
 background: transparent;
 color: #333;
@@ -281,12 +280,25 @@ top: -3px;
 font-size: 16px;
 }
 
+#secLabel{
+	margin-left: 1%;
+}
+
 @media (max-width: 1000px) {
 .password-input {
 	margin-left: 7%;
 }
 .email-input{
 	margin-left: 7%;
+}
+
+#securityQuestion{
+	margin-left: -26%;
+	width: 95%;
+}
+
+#secLabel{
+	margin-left: -9%;
 }
 
 }
@@ -298,6 +310,7 @@ font-size: 16px;
 .email-input{
 	margin-left: 8.5%;
 }
+
 
 
 /* Footer*/	
@@ -385,6 +398,59 @@ margin-left:15px;
 	 }
 
 }
+
+
+/* seqQ styles */
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 86%;
+  font-size: 15px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #000;
+  cursor: pointer;
+  padding: 14px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  margin-left: 0%;
+}
+
+.custom-select::before,
+.custom-select::after {
+  --size: 0.3rem;
+  content: "";
+  position: absolute;
+  right: 1rem;
+  pointer-events: none;
+}
+
+.custom-select::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: var(--size) solid black;
+  top: 40%;
+}
+
+.custom-select::after {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid black;
+  top: 55%;
+}
+
+.hidden {
+    display: none;
+  }
+
+#securityAnswer{
+	margin-left: 2%;
+}  
+
+
+
 	</style>
 
 </head>
@@ -476,7 +542,6 @@ margin-left:15px;
 		<span class="input-item">
 			<i class="fa fa-key"></i>
 		</span>
-		
         <label for="password">Password:</label>
         <input type="password" id="password" class="input-box password-input" name="Password" required placeholder="Enter your password" onblur="validatePassword(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" style="width: 62%;"
         title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
@@ -493,6 +558,48 @@ margin-left:15px;
         <input type="password" id="confirm_password" class="input-box password-input" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
 		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 12%; cursor: pointer;"></i>	
 	</div>
+
+<!-------------------------------------------------------->
+
+<div class="input-pair" id="secQ"  style="margin-bottom: 3%">
+	<span class="input-item">
+		<i class="fas fa-shield-alt"></i>
+	</span>
+	<label for="SecurityQuestion" id="secLabel">Security Question:</label>
+	<div class="seqQselect">
+	<select id="securityQuestion">
+	  <option selected disabled>Choose a security question</option>
+	  <option>What city were you born in?</option>
+	  <option>What elementary school did you attend?</option>
+	  <option>What is the name of your favorite show growing up?</option>
+	  <option>What is the name of your favorite childhood teacher?</option>
+	  <option>What was the name of your favorite childhood friend?</option>
+	</select>
+  </div>
+</div>
+	<div id="answerSpace" class="hidden">
+		<label for="securityAnswer">Your Answer:</label>
+		<input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer" onblur="validateAnswer(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="The answer should not contain only numbers or any special characters" style="width: 62%;">
+<span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span>
+</div>
+
+<script>
+	const securityQuestionSelect = document.getElementById("securityQuestion");
+	const answerSpace = document.getElementById("answerSpace");
+  
+	securityQuestionSelect.addEventListener("change", function() {
+	  const selectedOption = this.value;
+	  if (selectedOption !== "") {
+		answerSpace.classList.remove("hidden");
+	  } else {
+		answerSpace.classList.add("hidden");
+	  }
+	});
+  </script>
+  
+<!-------------------------------------------------------->
+
+
 	<!-- Display messages only if there are any -->
 	{% if messages %}
 		{% for message in messages %}
@@ -529,26 +636,17 @@ margin-left:15px;
             usernameError.textContent = '';
         }
     }
-	  function validateFname(username) {
-        var usernameError = document.getElementById('firstname-error');
-        var usernamePattern = /^[A-Za-z][A-Za-z0-9]*$/;
-
-        if (!usernamePattern.test(username)) {
-            usernameError.textContent = 'Firstname should start with a letter and not contain spaces.';
-        } else {
-            usernameError.textContent = '';
-        }
+	function validateAnswer(answer) {
+    var answerError = document.getElementById('answer-error');
+    var letterPattern = /[A-Za-z]/;
+    var specialCharPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    if (!letterPattern.test(answer) || specialCharPattern.test(answer)) {
+        answerError.textContent = "The answer should contain at least one letter and should not contain any special characters.";
+    } else {
+        answerError.textContent = '';
     }
-	  function validateLname(username) {
-        var usernameError = document.getElementById('lastname-error');
-        var usernamePattern = /^[A-Za-z][A-Za-z0-9]*$/;
+}
 
-        if (!usernamePattern.test(username)) {
-            usernameError.textContent = 'Lastname should start with a letter and not contain spaces.';
-        } else {
-            usernameError.textContent = '';
-        }
-    }
 </script>
 <script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
