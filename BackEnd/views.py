@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.http import HttpResponseNotFound
-from .models import GamesList, Favorite, GGUser, Visited,Sorted_Game,Filtered_Game
+from .models import GamesList, Favorite, GGUser, Visited
 import re
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
@@ -371,11 +371,7 @@ def RedirectingToGames(request, uidb64, token):
 
 def Hello(request):
     user_id = request.session.get('user_id')
-    Sorted_Game.objects.all().delete()
-    Filtered_Game.objects.all().delete()
 
-    print(len(Sorted_Game.objects.all()))
-    print(len(Sorted_Game.objects.all()))
     if user_id is not None:
         try:
             user = GGUser.objects.get(User_ID=user_id)
@@ -450,18 +446,13 @@ from django.db.models import Case, When, Value, IntegerField
 
 @require_http_methods(["GET"])
 def retrieve_all_games(request):
-
-    sorted_games = Sorted_Game.objects.all()
-    filtered_categories = Filtered_Game.objects.all()
+    sorted_games = request.session.get('games_list', [])
+    filtered_categories = request.session.get('filtered_games', [])
     user_id = request.session.get('user_id')
     items_per_page = 15
     all_games_data = []
-    filter_status= request.session.get('filter_status')
-    status=filter_status
-    request.session['filter_status']=''
-
-
-
+    filter_status = cache.get('filter_status')
+    status = filter_status
 
     if user_id is not None:
         try:
@@ -483,31 +474,43 @@ def retrieve_all_games(request):
     else:
         return JsonResponse({'error': 'User not authenticated'})
 
-    sorted_games = Sorted_Game.objects.all()
-    filtered_categories = Filtered_Game.objects.all()
+    if filter_status == 'no games satisfies the filter':
+        filter_status = ''
+        cache.set('filter_status', filter_status)
+        all_games_data = []
 
-    # First condition: Check if sorted games are available (with or without filtering)
-    if sorted_games and filtered_categories:
-        # Filter first, then sort
-        filtered_game_ids = {game.ID for game in filtered_categories}
-        sorted_filtered_games = [game for game in sorted_games if game.ID in filtered_game_ids]
-        sorted_filtered_games.sort(key=lambda game: game.id)
-        all_games_data = sorted_filtered_games
-        print(f'The length of all_games_data (FTS) is: {len(all_games_data)}')
-        print("in-bothhhhhh")
 
-        # Check if only sorting is present
-    elif sorted_games:
-        print("Here are sorted games only")
-        all_games_data = Sorted_Game.objects.all().order_by('id')
+    # Retrieve objects from the GamesList model suitable for the user's approved age group
+    elif sorted_games and len(filtered_categories) == 0:
+        print("here is sorted_games")
+        all_games_data = sorted_games
 
-        # Check if only filtering is present
+        # Check if there are filtered categories in the cache
     elif filtered_categories:
-        print('Here are filtered categories only')
-        all_games_data = Filtered_Game.objects.all()
-        # Third condition: No sorted games or filtered categories, retrieve all games based on age group
+
+        print('HERE HERE filtered_categories')
+
+        all_games_data = filtered_categories
+
+        print(f'The length of filtered_categories is: {len(filtered_categories)}')
+        print(f'The length of sorted_games is: {len(sorted_games)}')
+        print(f'The length of all_games_data (313) is: {len(all_games_data)}')
+
+        if sorted_games:
+            all_games_ids = {game['ID'] for game in all_games_data}
+            print(f'Before reordering, the ID of the first game is: {all_games_data[0]["ID"]}')
+            filtered_sorted_games = [game for game in sorted_games if game['ID'] in all_games_ids]
+            print(f'After reordering, the ID of the first game is: {filtered_sorted_games[0]["ID"]}')
+            all_games_data = filtered_sorted_games
+            print(f'The length of all_games_data (317) is: {len(all_games_data)}')
+
+
+
+
     else:
         if user_age_group == 17:
+            # If the user has the highest age group, retrieve all games
+            all_games_data = GamesList.objects.all()
             print('HEREEE EVERTHING')
         else:
             # Use Case and When to handle age group comparison
@@ -554,32 +557,28 @@ def retrieve_all_games(request):
         # If all_games_data is a list of dictionaries
         games_list = [
             {
-                'Name': clean_name(game.Name),
-                'Icon_URL': game.Icon_URL,
-                'URL': game.URL,
-                'ID': game.ID,
+                'Name': clean_name(game.get('Name', '')),  # Use get to handle missing keys
+                'Icon_URL': game.get('Icon_URL', ''),
+                'URL': game.get('URL', ''),
+                'ID': game.get('ID', ''),
             }
             for game in current_page_data
         ]
-
-
-
     # Include information about the current page and total pages in the JSON response
     response_data = {
         'games_data': games_list,
         'current_page': current_page_data.number,
         'total_pages': paginator.num_pages,
         'Age': user_age_group,
-        'Count':len(games_list),
-        'filter_status':status,
-
-
+        'Count': len(games_list),
+        'filter_status': status,
+        'session':"sission try",
     }
 
-    
-  # Return a JSON response
+    # Return a JSON response
     # cache.clear()
     return JsonResponse(response_data)
+
 
 def clean_name(name):
     # Decode Unicode escape sequences
@@ -833,7 +832,6 @@ def convert_rating(value):
 def sort_by(request):
     # Default ordering
     user_id = request.session.get('user_id')
-    Sorted_Game.objects.all().delete()
     user_age=''
     user_age_group=0
     game_queryset=[]
@@ -895,8 +893,6 @@ def sort_by(request):
         order_field = '-age_rating' if order_by_field == 'Highest Rating' else 'age_rating'
         game_queryset=annotate_rating(game_queryset)
         game_queryset = game_queryset.order_by(order_field)
-    elif  order_by_field in ('Largest Size', 'Smallest Size'):
-        game_queryset = game_queryset.order_by(order_field)
 
     else:
         # Explicitly handle alphabetical sorting
@@ -908,38 +904,20 @@ def sort_by(request):
     # Convert rating count and serialize the queryset to JSON
     games_list = [
         {
-
             'Name': game.Name,
             'Icon_URL': game.Icon_URL,
-            'Genres': game.Genres,
             'URL': game.URL,
-            'Average_User_Rating': game.Average_User_Rating,
-            'User_Rating_Count': game.User_Rating_Count,
-            'Price': game.Price,
-            'In_app_Purchases': game.In_app_Purchases,
-            'Developer': game.Developer,
-            'Age_Rating': game.Age_Rating,
-            'Languages': game.Languages,
-            'Size': game.Size,  # Convert DecimalField to string
-            'Original_Release_Date': game.Original_Release_Date,
             'ID': game.ID,
-
         }
         for game in game_queryset
     ]
-    for game_info in game_queryset:
-        Sorted_Game.objects.create(
-            Name=game_info.Name,
-            Icon_URL=game_info.Icon_URL,
-            URL=game_info.URL,
-            ID=game_info.ID,
-        )
+
+
+    request.session['games_list'] = games_list
     response_data = {
         'message': 'The games are:',
         'order_by_field': order_by_field,
         'order_direction': order_direction,
-
-
     }
 
     return JsonResponse(response_data)
@@ -986,7 +964,6 @@ def ExtractRating(request):
 
 def filter_games_multiple(request):
     # Extract valid categories from GET parameters
-    Filtered_Game.objects.all().delete()
     valid_categories = {'Genres', 'Languages', 'In_app_Purchases', 'Price', 'Average_User_Rating'}
     categories = {key.rstrip('[]') for key in request.GET.keys() if key.rstrip('[]') in valid_categories}
 # extract the age group for the user
@@ -1017,8 +994,6 @@ def filter_games_multiple(request):
         return JsonResponse({'error': 'User not authenticated'})
 
     # Retrieve objects from the GamesList model suitable for the user's approved age group
-
-
 
     if user_age_group == 17:
         # If the user has the highest age group, retrieve all games
@@ -1071,21 +1046,12 @@ def filter_games_multiple(request):
         for game in filtered_games_queryset
     ]
 
-    for game_info in games_list:
-        Filtered_Game.objects.create(
-            Name=game_info['Name'],
-            Icon_URL=game_info['Icon_URL'],
-            URL=game_info['URL'],
-            ID=game_info['ID']
-        )
-
-
-    request.session['filter_status'] = filter_status
+    request.session['filtered_games'] = games_list
+    cache.set('filter_status', filter_status)
 
     # Include filtered categories in the response
     response_data = {
         'filtered_games': games_list,
-
 
     }
 
@@ -1095,13 +1061,7 @@ def filter_games_multiple(request):
 
 ## -----------favourite games methods --------------------------
 ##------------DELETE SORTED AND FILTERED GAMES----------------##
-def delete_sorted_filtered(request):
-    if request.method == 'GET':
-        Sorted_Game.objects.all().delete()
-        Filtered_Game.objects.all().delete()
-        return JsonResponse({"delete": "dddd"})
-    else:
-        return JsonResponse({"error": "Only GET method is allowed for this endpoint"}, status=405)
+
 
 
 @csrf_exempt

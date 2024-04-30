@@ -98,16 +98,5 @@ class Visited(models.Model):
     def __str__(self):
         return f"{self.User_ID.Username}'s visited: {self.Game_ID.Name}"
 
-class Filtered_Game(models.Model):
-    URL = models.TextField()
-    Name = models.TextField()
-    Icon_URL = models.TextField()
-    ID = models.IntegerField()
 
-
-class Sorted_Game(models.Model):
-    URL = models.TextField()
-    Name = models.TextField()
-    Icon_URL = models.TextField()
-    ID = models.IntegerField()
 
