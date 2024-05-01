@@ -49,10 +49,10 @@ def SignupUser(request):
             if GGUser.objects.filter(Username=username).exists():
                 print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
-            if GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).count() > 5:
+            elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).count() > 5:
                 print('The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.')
                 messages.error(request, "The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.")
-            if GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).exists():
+            elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).exists():
                 print('This security question is already used for this email.')
                 messages.error(request, "This security question is already used for this email.")
 
@@ -1334,65 +1334,6 @@ def custom_signup_confirmation(request):
         return HttpResponse(status=200)
 
     return render(request, 'AgeEstimation.html')
-
-
-def custom_resendConfirmation_confirm(request, uidb64, token):
-    try:
-        uid = urlsafe_base64_decode(uidb64).decode()
-        user = GGUser.objects.get(User_ID=uid)
-    except (TypeError, ValueError, OverflowError, GGUser.DoesNotExist):
-        user = None
-
-    if user is not None and default_token_generator.check_token(user, token):
-        user.email_confirmed = True
-        user.save()
-        return render(request, 'login.html', {'status': 'successfullyConfirmed', 'message': 'Successfully confirmed'})
-
-    else:
-        error_message = 'Unexpected error occurred, please try again'
-        return render(request, 'login.html', {'status': 'error', 'message': error_message})
-
-
-def custom_resendConfirmation(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        user_id = request.session.get('user_id')
-        if user_id:
-            try:
-                user = GGUser.objects.get(User_ID=user_id)
-                email = user.Email
-                age_group = user.Approved_age_group
-                first_name = user.First_name
-            except GGUser.DoesNotExist:
-                return HttpResponseNotFound('User not found')
-
-            # Generate a token and uid for the user
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            email = user.Email
-
-            # Create the reset link for confirmation
-            reset_link = f"{request.scheme}://{request.get_host()}/resendConfirmation/{uid}/{token}/"
-
-            # Construct the email message
-            email_message = (
-                f'Hi {user.First_name}, thank you for joining Game Geek.\n'
-                f'To confirm your registration, please click on this link:\n'
-                f'{reset_link}'
-            )
-
-            # Send the email with the constructed message
-            send_mail(
-                'Confirm registration',
-                email_message,
-                'gamegeekwebsite@gmail.com',
-                [email],
-                fail_silently=False,
-            )
-            return HttpResponse(status=200)
-
-    return render(request, 'login.html')
-
 
 def checkIfConfrim(request):
     user_id = request.session.get('user_id')

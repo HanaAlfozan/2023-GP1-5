@@ -622,21 +622,6 @@ margin-left:15px;
                                         <br>
                                     {% endfor %}
                                     {% endif %}    
-<!--
-                                        <script>
-                                        var ErrorMessage = document.getElementById("error_message").innerHTML;
-                                        alert(ErrorMessage);
-                                        if(ErrorMessage.localeCompare("Your account registration is not confirmed. Please confirm you registration through the link sent to your email.") == 0){
-                                            document.getElementById('ResendButton').style.display = 'block';
-                                            function resendConfirmationEmail(){
-                                            document.getElementById('EmailnotConfirmed').style.display = 'block';
-                                            document.getElementById('EmailnotConfirmed').style.marginLeft = '16%';
-
-                                            }
-                                        }
-                                        </script>
-                                
--->
 									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>

@@ -82,8 +82,5 @@ urlpatterns = [
     path('verify-signUp/<str:uidb64>/<str:token>/', BackEnd_views.custom_signup_confirmation_confirm,  name='custom_signup_confirmation_confirm'),
     path('Backend/custom_signup_confirmation_confirm/', BackEnd_views.custom_signup_confirmation_confirm, name='custom_signup_confirmation_confirm'),
     path('BackEnd/custom_signup_confirmation/', BackEnd_views.custom_signup_confirmation, name='custom_signup_confirmation'),
-    path('resendConfirmation/<str:uidb64>/<str:token>/', BackEnd_views.custom_resendConfirmation_confirm, name='custom_resendConfirmation_confirm'),
-    path('Backend/custom_resendConfirmation_confirm/', BackEnd_views.custom_resendConfirmation_confirm, name='custom_resendConfirmation_confirm'),
-    path('BackEnd/custom_resendConfirmation/', BackEnd_views.custom_resendConfirmation,  name='custom_resendConfirmation'),
     path('BackEnd/checkIfConfrim/', BackEnd_views.checkIfConfrim, name='checkIfConfrim'),  
 ]
