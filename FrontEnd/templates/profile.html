@@ -37,37 +37,61 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-		<style>
+<style>
 
-  /**/
+  /* Style */
  body{
     background-color: #fff;
   }
-.profile-sec {
+
+.profile-sec { /* big one */
     background-color: #f1f1f1;
-    padding: 20px;
+    padding: 30px;
     display: flex;
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
     margin: 5% auto; /* Center the section horizontally */
     max-width: 70%;
     border-radius: 3%;
-	height: 300px;
+   /* box-shadow: 0 0 20px #e4e4e4;*/
+	/*height: 300px;*/
 }
 
-.profile-container {
+.profile-container { /* 3 major ones */
     text-align: center;
     padding: 20px;
     margin: 0 auto; /* Center the container horizontally */
-    width: 100%; /* Take up the full width of the parent container */
+   /* width: 100%; /* Take up the full width of the parent container */
     max-width: 500px; /* Limit the maximum width for readability */
-    background-color: #f1f1f1;
+    /*background-color: #f1f1f1;*/
     border-radius: 3%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
 
+}
+
+/* 1) user-info-container (left side ) */
+
+.user-info-container {
+    order: 1; /* Set the order to 1 to place it on the left */
+    background-color: transparent ;
+    border-radius: 3% 0 0 3%; /* Apply different radius on the right */
+	margin-left: -30px;
+	padding-top: 5%;
+	padding-left:-2%;
+    box-shadow: none;
+}
+
+/* 2) labels-container (right side) two container : input-container-read , input-container )*/ 
+
+.labels-container {
+    order: 3; /* Set the order to 2 to place it on the right */
+    background-color: transparent ;
+    border-radius: 0 3% 3% 0; /* Apply different radius on the left */
+    margin-right: 0; /* Remove right margin */
+    box-shadow: none;
 }
 
 .input-container, .input-container-read {
@@ -77,81 +101,180 @@
 
 .input-container input, .input-container-read input {
     width: 100%;
+    word-wrap: break-word; /* Add word-wrap property */
 }
 
+/* 1- input-container-read */
 
-/* Your styles for the content inside each profile container */
-
-/* Add responsive styles */
-
-.labels-container {
-    order: 3; /* Set the order to 2 to place it on the right */
-    background-color: #f1f1f1 ;
-    border-radius: 0 3% 3% 0; /* Apply different radius on the left */
-    margin-right: 0; /* Remove right margin */
-	    box-shadow: none;
-
-
-
-}
-
-.user-info-container {
-    order: 1; /* Set the order to 1 to place it on the left */
-    background-color: #f1f1f1 ;
-    border-radius: 3% 0 0 3%; /* Apply different radius on the right */
-	margin-left: -30px;
-	padding-top: 5%;
-	padding-left:-2%;
-    box-shadow: none;
-
-
-}
-
-
-/* Your styles for the content inside each container */
-
-/* Add responsive styles */
-@media (max-width: 768px) {
-  .profile-sec {
-      flex-direction: column; /* Stack containers on small screens */
-  }
-
-  .profile-container {
-    width: 90%; /* Reduce width for smaller screens */
-    margin: 0 auto; /* Center the container horizontally */
-    margin-bottom: 0; /* Remove margin between stacked containers */
-}
-}
-
-
-       .input-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-	
-        }
-
-        .input-container label {
-            font-weight: bolder;
-        }
 .input-container-read {
   display: flex;
   align-items: center;
-  margin-bottom: 10px; /* Add space between input containers */
+  margin: 3%; /* Add space between input containers */
+}
 
+.input-container-read input {
+    width: calc(100% - 30px); /* Adjust width to accommodate margin */
+    height: 40px;
+    color: #ff069a;
+    font-weight: bolder;
+    background: transparent;
+    font-size: larger;
+    border: none; /* Remove the border */
+    /*background-color: #f1f1f1; /* Background color for read-only input */
+    border-radius: 3%;
+    cursor: not-allowed; /* Change cursor to prohibited sign */
+    outline: none; /* Remove the outline when focused */
+    inline-size: min-content;
+    overflow-wrap: break-word;
+	/*margin-left: 30px;*/
+
+
+
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+ .input-container-read label {
+	width: 80px;
+    font-weight: bolder;
+    font-size: larger;
+    margin-bottom: -2;
+}
+
+/* 2- input-container */
+
+.input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+    .input-container label {
+        font-weight: bolder;
+        width: 200px;
+        font-weight: bolder;
+        margin-right: 10px;
+        font-size: larger;
+    }
+
+    .input-container input {
+        width: 100%;
+        height: 40px;
+        color: #ff069a;
+        font-weight: bolder;
+        background-color: #fff;
+        font-size: larger;
+        border: none;
+        border-bottom: 0.5px solid #0505056c;
+        border-radius: 3%;
+    }
+
+    /* end of right side */
+
+/* 3) sperater */
+
+.separator {
+    order: 2;
+    width: -100%;
+    height: 230px;
+    background: rgb(21, 232, 237);
+    background: linear-gradient(95deg, rgba(21, 232, 237, 1) 0%, rgba(180, 175, 175, 0.5032606792717087) 52%, rgba(255, 6, 154, 1) 100%);
+    margin-left: -35%;
+    margin-right: -20%;
+    padding: 3;
+    margin: 0 auto;
+    max-width: 500px;
+    border-radius: 20%;
+    
+}
+
+
+
+/* responsive styles */
+@media (max-width: 820px) {
+
+  .profile-sec {  /* big one */
+     flex-direction: column; /* Stack containers on small screens */
+     max-width: 90%;
+     padding: 5px;
+  }
+
+  .profile-container {  /* 3 major ones */
+    background-color: transparent;
+    width: auto; /* Reduce width for smaller screens */
+    margin: 0 auto; /* Center the container horizontally */
+    margin-bottom: 10; /* Remove margin between stacked containers */
+}
+ 
+/* labels-container (right side) two container : input-container-read , input-container )*/ 
+
+.input-container-read label {
+            font-weight: bolder;
+            font-size: larger;
+            margin-bottom: -2;
+        }
+
+
+  .input-container {
+      flex-direction: column; /* Stack label and input on small screens */
+    }
+
+    .input-container label {
+            width: 100%; /* Make label full-width on small screens */
+            margin-bottom: 5px; /* Add space between label and input */
+    }
+
+
+
+    .separator {
+    order: 2;
+    width: 290px;
+    height:0px;
+    background: rgb(21, 232, 237);
+    background: linear-gradient(95deg, rgba(21, 232, 237, 1) 0%, rgba(180, 175, 175, 0.5032606792717087) 52%, rgba(255, 6, 154, 1) 100%);
+    padding: 3;
+    margin: 0 auto;
+    max-width: 500px;
+    border-radius: 20%;
+}
+
+
+    
+} /* End of responsive styles */
+
+
+
+
+
+
+.content label{
+margin-left: 0%;
 
 }
-        .input-container input {
-            width: 100%;
-            height: 40px;
-            color: #ff069a;
-            font-weight: bolder;
-            background-color: #fff;
-            font-size: larger;
-            border: none;
-            border-bottom: 0.5px solid #0505056c;
-            border-radius: 3%;
-        }
+
+			.content h5{
+margin-left:-5% ;
+margin-right:55%;
+}
+
+			#username{
+			margin-right: 100%;
+			margin-left: -80%;
+
+			}
+
+			#age{
+			margin-right: 100%;
+			margin-left: -70%;
+
+			}
+
+
+/* ??? */
 
 	.edit-button{
     --border-radius: 10px;
@@ -214,79 +337,11 @@ mask-composite: exclude;
 }
 
 
+ 
 
-.input-container-read input {
-    width: 100%; /* Make the input elements take up the full width */
-    height: 40px;
-    color: #ff069a;
-    font-weight: bolder;
-    background: transparent;
-    font-size: larger;
-    border: none; /* Remove the border */
-    background-color: #f1f1f1; /* Background color for read-only input */
-    border-radius: 3%;
-    cursor: not-allowed; /* Change cursor to prohibited sign */
-    outline: none; /* Remove the outline when focused */
-	margin-left: 40px;
-}
+/* header and footer under */
 
-
-    .input-container-read label {
-		width: 171px;
-        font-weight: bolder;
-        font-size: larger;
-    }
-
-    .input-container label {
-        width: 200px;
-        font-weight: bolder;
-        margin-right: 10px;
-        font-size: larger;
-
-    }
-
-    /* Add responsive styles */
-    @media (max-width: 768px) {
-        .input-container {
-            flex-direction: column; /* Stack label and input on small screens */
-        }
-
-        .input-container label {
-            width: 100%; /* Make label full-width on small screens */
-            margin-bottom: 5px; /* Add space between label and input */
-        }
-    }
-
-	.separator {
-	order: 2; /* Set the order to 2 to place it on the right */
-    width: 6px; /* Width of the vertical line */
-   background: rgb(21,232,237);
-background: linear-gradient(95deg, rgba(21,232,237,1) 0%, rgba(180,175,175,0.5032606792717087) 52%, rgba(255,6,154,1) 100%);
-    margin-left: -35% ;
-	margin-right: 2%;
-}
-.content label{
-margin-left: 0%;
-
-}
-
-			.content h5{
-margin-left:-5% ;
-margin-right:55%;
-}
-
-			#username{
-			margin-right: 100%;
-			margin-left: -80%;
-
-			}
-
-			#age{
-			margin-right: 100%;
-			margin-left: -70%;
-
-			}
-				.site-logo img{
+.site-logo img{
   width: 200px;
     height: 100px;
 	position: relative;
@@ -573,7 +628,7 @@ padding: 10px;
 
 
 <div class="profile-sec">
-    <section class="d-flex">
+   <!----<section class="d-flex">-->
         <div class="profile-container labels-container">
 
             <div class="input-container-read">
@@ -584,6 +639,8 @@ padding: 10px;
                 <label for="joined-on" style="font-weight: bolder;">Date joined:</label>
                 <input type="text" id="joined-on" name="joined-on" value="" readonly>
             </div>
+
+            <!---
 			<div class="input-container">
 				<label for="Fname">First Name:</label>
 				<input type="text" id="Fname" name="Fname" value="" onkeydown ="updateButton()">
@@ -592,22 +649,22 @@ padding: 10px;
 			<div class="input-container">
 				<label for="Lname">Last Name:</label>
 				<input type="text" id="Lname" name="Lname" value="" onkeydown ="updateButton()">
-			</div>
+			</div> -->
         </div>
         <div class="separator"></div>
         <div class="profile-container user-info-container">
-            <div class="list-box d-flex flex-column align-items-center" style="margin-left: -70%;">
+           <!--<div class="list-box d-flex flex-column align-items-center" style="margin-left: -70%;">-->
                 <div class="content">
                     <label for="username" style="font-weight: bolder; padding-right:20%; font-size:large;">Username:</label>
                     <h4 style="font-size: 230%; font-weight: bolder; margin-bottom: 50px;" class="pink-text" id="usernamePlaceholder"></h4>
                     <label for="age-group" style="font-weight: bolder; font-size:large;">Age-Group:</label>
                     <h4 class="pink-text" style="font-size: 200%; padding-bottom:10%;" id="ageGroupPlaceholder"></h4>
                 </div>
-            </div>
+            </div> 
         </div>
 
     </section>
-    <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);" disabled>Save</button>
+   <!--- <button class="edit-button" id="Ebutton" onclick="toggleEditMode(this);" disabled>Save</button>-->
 </div>
 <script>
 $(document).ready(function() {
@@ -618,8 +675,8 @@ $(document).ready(function() {
             if (data.error) {
                 console.error('Error:', data.error);
             } else {
-                $('#Fname').val(data.First_name);
-                $('#Lname').val(data.Last_name);
+              // $('#Fname').val(data.First_name);
+              //  $('#Lname').val(data.Last_name);
                 $('#email').val(data.Email);
                 $('#joined-on').val(data.Date_joined);
                 $('#usernamePlaceholder').text(data.Username);

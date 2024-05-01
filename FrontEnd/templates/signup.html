@@ -87,6 +87,31 @@
 	
 			return true;
 		}
+
+
+		function validatePassword2(pass) {
+		  const passRegex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+		  var messageSpan = document.getElementById("passMessage2");
+		  var divCP = document.getElementById("cp");
+		  var valid =document.getElementById('cp');
+		  if (!passRegex.test(pass)) {
+			messageSpan.innerHTML = 'Password must be at least 8 characters, at least 1 lowercase , and 1 uppercase ,and contain at least one number.';
+			messageSpan.style.visibility = 'visible';
+			valid.style.paddingTop = '3%';
+
+
+				return false;
+			} else {
+				divCP.style.paddingTop = '0';
+				messageSpan.innerHTML = ""; 
+				messageSpan.style.visibility = 'hidden';
+			}
+	
+			return true;
+		}
+
+
+		
 	  </script>
 
 	<style>
@@ -239,6 +264,7 @@ border-radius:50px;
      background-color: transparent;
 }
 
+
 .input-box, #securityAnswer {
     width: 60%;
     padding: 10px;
@@ -280,28 +306,51 @@ top: -3px;
 font-size: 16px;
 }
 
+#emailMessage{
+	margin-right: 18%;
+}
+/*
 #secLabel{
 	margin-left: 1%;
+}*/
+
+/*
+
+#SecurityQuestion , #securityAnswer {
+    margin-left: -4%;
+}
+*/
+
+.email-input{
+	margin-left: 9%;
+}
+
+.password-input {
+	margin-left: 7%;
 }
 
 @media (max-width: 1000px) {
 .password-input {
 	margin-left: 7%;
 }
+
 .email-input{
-	margin-left: 7%;
+	margin-right: 2.5%;
 }
 
 #securityQuestion{
-	margin-left: -26%;
-	width: 95%;
+	margin-left: 1%;
+	width: 80%;
 }
 
-#secLabel{
-	margin-left: -9%;
+
+/*#secLabel{
+	margin-left: 7%;
+}*/
+#emailMessage{
+	margin-right: 1%;
 }
 
-}
 
 .password-input {
 	margin-left: 6%;
@@ -311,6 +360,12 @@ font-size: 16px;
 	margin-left: 8.5%;
 }
 
+#securityAnswer {
+    margin-right: 7%;
+}
+
+
+}
 
 
 /* Footer*/	
@@ -445,9 +500,13 @@ select {
     display: none;
   }
 
-#securityAnswer{
+#SecurityQuestion{
 	margin-left: 2%;
 }  
+
+#securityAnswer {
+	margin-right: 5%;
+}
 
 	</style>
 
@@ -534,8 +593,9 @@ select {
 		<label for="email">Email:</label>
 		<input type="email" id="email" class="input-box email-input" name="Email" required placeholder="Enter your email" onblur="validateEmail(this.value)" style="width: 62%;">
     </div>
-	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: relative; top:50%;"></span>
+	<span id="emailMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: relative; top:50%; "></span>
 	<!--end of email-->
+
     <div class="input-pair" >
 		<span class="input-item">
 			<i class="fa fa-key"></i>
@@ -553,9 +613,11 @@ select {
 			<i class="fa fa-key"></i>
 		</span>
         <label for="confirm_password">Confirm Password:</label>
-        <input type="password" id="confirm_password" class="input-box password-input" name="confirm_password" required placeholder="Confirm your password" style="width: 62%;">
+        <input type="password" id="confirm_password" class="input-box password-input" name="confirm_password" required placeholder="Confirm your password" onblur="validatePassword2(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" style="width: 62%;">
 		<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 12%; cursor: pointer;"></i>	
 	</div>
+	<span id="passMessage2" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: relative; top: 60.5%; left:5%; max-width: 85%;"></span>
+
 
 <!-------------------------------------------------------->
 
@@ -565,7 +627,7 @@ select {
 	</span>
 	<label for="SecurityQuestion" id="secLabel">Security Question:</label>
 	<div class="seqQselect">
-	<select id="securityQuestion" name="securityQuestion" required>
+	<select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 85%;">
 	  <option selected disabled value="">Choose a security question</option>
 	  <option>What city were you born in?</option>
 	  <option>What elementary school did you attend?</option>
@@ -575,11 +637,12 @@ select {
 	</select>
   </div>
 </div>
-	<div id="answerSpace" class="hidden">
-		<label for="securityAnswer">Your Answer:</label>
+	<div id="answerSpace" class="input-pair hidden">
+		<label for="securityAnswer" style="margin-left: 5%;" >Your Answer:</label>
 		<input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer" onblur="validateAnswer(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="The answer should not contain only numbers or any special characters" style="width: 62%;">
-<span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span>
 </div>
+<span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span>
+
 
 <script>
 	const securityQuestionSelect = document.getElementById("securityQuestion");
@@ -598,20 +661,9 @@ select {
 <!-------------------------------------------------------->
 
 
-	<!-- Display messages only if there are any -->
-	{% if messages %}
-		{% for message in messages %}
-		<br>
-		<div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
-			<h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
-		</div>
-		{% endfor %}
-	{% endif %}
-     <!--end of confirm pass-->
 
 	<div>
-		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px; margin-bottom:5%; margin-top: 5%;" ><b id="terms">I agree to the terms and conditions</b></label>
-		<input type="checkbox" id="agree" name="Accept_conditions" required>
+		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px; margin-bottom:5%; margin-top: 5%;" ><b id="terms">I agree to the terms and conditions <input type="checkbox" id="agree" name="Accept_conditions" required> </b></label>
 		<br>
 		<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
 	</div>
