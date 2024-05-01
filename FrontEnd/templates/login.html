@@ -380,7 +380,7 @@ select {
   color: red;
 }
 
-#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton{
+#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton, #ResendButton{
   background-color: #06f7ff;
   color: white;
   border: none;
@@ -395,7 +395,7 @@ select {
   border-radius: 50px;
 }
 
-#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover, #EmailnotConfirmedButton:hover {
+#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover, #EmailnotConfirmedButton:hover, #ResendButton:hover{
   background-color: #ff069a;
 
 }
@@ -613,17 +613,30 @@ margin-left:15px;
 									</div>
 									<a href="#" id="forgetPass">Forgot Password?</a>
 									<br><br>
-									<!-- Display messages only if there are any -->
-									{% if messages %}
-										{% for message in messages %}
+                                    {% if messages %}
+                                    {% for message in messages %}
                                         <br>
                                         <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
-                                            <h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+                                            <h5 id="error_message" style="margin: 5px 0; color: #880808;">{{ message }}</h5>
                                         </div>	
-                                        <br>	
-                                        {% endfor %}
-									{% endif %}
+                                        <br>
+                                    {% endfor %}
+                                    {% endif %}    
+<!--
+                                        <script>
+                                        var ErrorMessage = document.getElementById("error_message").innerHTML;
+                                        alert(ErrorMessage);
+                                        if(ErrorMessage.localeCompare("Your account registration is not confirmed. Please confirm you registration through the link sent to your email.") == 0){
+                                            document.getElementById('ResendButton').style.display = 'block';
+                                            function resendConfirmationEmail(){
+                                            document.getElementById('EmailnotConfirmed').style.display = 'block';
+                                            document.getElementById('EmailnotConfirmed').style.marginLeft = '16%';
 
+                                            }
+                                        }
+                                        </script>
+                                
+-->
 									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>
@@ -832,8 +845,6 @@ margin-left:15px;
     <div class="popup-content">
         <span class="close" id="closePopupEmailnotConfirmed">&times;</span>
         <h3>Account Confirmation Link</h3>
-		<h6 style="color: red;"> Your account registration is not confirmed.</h6>
-		<h6> Click on the "Send" button to send the confirmation link via your registered email.</h6>
         <h6>Enter your username to send the confirmation message to your registered email:</h6>
         <form id="EmailnotConfirmedForm" action="{% url 'custom_password_reset' %}"  data-form-type="password" method="POST">
             {% csrf_token %}
@@ -954,9 +965,7 @@ margin-left:15px;
         }
         return cookieValue;
     }
-</script>
 
-<script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
         icon.addEventListener('click', function() {
             var passwordInput = document.getElementById(this.previousElementSibling.id);
@@ -1015,12 +1024,6 @@ console.log(status)
 });
 
 
-
-
-
-</script>
-
-<script>
 	//Handling the unconfirmed accounts
 
     var Emailconfirmation_message = "{{Emailconfirmation_message}}";
@@ -1078,7 +1081,6 @@ console.log(status)
 
         });
     }
-
 
 </script>
 
@@ -1256,6 +1258,7 @@ document.getElementById("closeErrorPopupUser").addEventListener("click", functio
 
     /////////////////////////////////////////////////////
     localStorage.setItem('previousReferrer', 'login');
+
 </script>
 
 

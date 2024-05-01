@@ -49,6 +49,14 @@ def SignupUser(request):
             if GGUser.objects.filter(Username=username).exists():
                 print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
+            if GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).count() > 5:
+                print('The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.')
+                messages.error(request, "The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.")
+            if GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).exists():
+                print('This security question is already used for this email.')
+                messages.error(request, "This security question is already used for this email.")
+
+
             else:
                 user = GGUser.objects.create_user(
                     Username=username,
@@ -260,30 +268,20 @@ def custom_username_reset_confirm(request, uidb64, token):
 @csrf_protect
 def LoginUser(request):
     if request.method == 'POST':
-        username = request.POST.get('Username')
-        password = request.POST.get('Password')
+        username = request.POST['Username']
+        password = request.POST['Password']
         try:
             user = GGUser.objects.get(Username=username)
         except GGUser.DoesNotExist:
             user = None
 
         if user and user.check_password(password):
-            if user.email_confirmed:
-                login(request, user)
-                user_id = user.User_ID
-                request.session['user_id'] = user_id
-                return redirect('estimate')
-            else:
-                # Pass a custom message to the template
-                print("This message will be printed to the terminal for line 280.")
-                # return render(request, 'login.html', {'Emailconfirmation_message': 'account_not_confirmed'})
-                messages.error(request,
-                               'Your account registration is not confirmed. Please confirm you registration through the link sent to your email.')
-                return redirect('login')
-
+            login(request, user)
+            user_id = user.User_ID
+            request.session['user_id'] = user_id
+            return redirect('estimate')
         else:
-            # Pass a custom message to the template
-            return render(request, 'login.html', {'error_message': 'Invalid username or password'})
+            messages.error(request, 'Invalid username or password')
     return redirect('login')
 
 
@@ -1394,3 +1392,18 @@ def custom_resendConfirmation(request):
             return HttpResponse(status=200)
 
     return render(request, 'login.html')
+
+
+def checkIfConfrim(request):
+    user_id = request.session.get('user_id')
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            confirmStaus = user.email_confirmed
+            return JsonResponse({'status': confirmStaus}, safe=False)
+        except GGUser.DoesNotExist:
+            return HttpResponseNotFound('Try again')   
+    else:
+        return JsonResponse({'error': 'User not found'}, status=404)
+           
+
