@@ -71,7 +71,6 @@ urlpatterns = [
     path('BackEnd/ExtractInAppPurchases/', BackEnd_views.ExtractInAppPurchases, name='ExtractInAppPurchases'),  
     path('BackEnd/ExtractRating/', BackEnd_views.ExtractRating, name='ExtractRating'),  
     path('BackEnd/sort_by/' ,BackEnd_views.sort_by,name='sort_by'),
-
     path('BackEnd/filter_by_multiple/', BackEnd_views.filter_games_multiple, name='filter_games_multiple'), 
     path('BackEnd/visited_games/', BackEnd_views.visited_games, name='visited_games'),     
     path('BackEnd/save_visited_game/<int:game_id>/', BackEnd_views.save_visited_game, name='save_visited_game'),     
@@ -83,7 +82,5 @@ urlpatterns = [
     path('verify-signUp/<str:uidb64>/<str:token>/', BackEnd_views.custom_signup_confirmation_confirm,  name='custom_signup_confirmation_confirm'),
     path('Backend/custom_signup_confirmation_confirm/', BackEnd_views.custom_signup_confirmation_confirm, name='custom_signup_confirmation_confirm'),
     path('BackEnd/custom_signup_confirmation/', BackEnd_views.custom_signup_confirmation, name='custom_signup_confirmation'),
-    path('resendConfirmation/<str:uidb64>/<str:token>/', BackEnd_views.custom_resendConfirmation_confirm, name='custom_resendConfirmation_confirm'),
-    path('Backend/custom_resendConfirmation_confirm/', BackEnd_views.custom_resendConfirmation_confirm, name='custom_resendConfirmation_confirm'),
-    path('BackEnd/custom_resendConfirmation/', BackEnd_views.custom_resendConfirmation,  name='custom_resendConfirmation'),
+    path('BackEnd/checkIfConfrim/', BackEnd_views.checkIfConfrim, name='checkIfConfrim'),  
 ]

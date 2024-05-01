@@ -40,8 +40,24 @@
     <script>
         var status = "{{ status }}";
         var PageName = localStorage.getItem('previousReferrer');
-        //alert(PageName);
         var AgeGroupResult;
+        var NeedsAgeGroupValidation = false;
+        if(PageName == 'login'){
+            $.ajax({
+                url: '/BackEnd/checkIfConfrim/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status == false){
+                        document.getElementById("instructions").style.display = "none";
+                        confirm();
+                    }
+                },
+                error: function () {
+                    console.error('Failed to fetch status.');
+                }});
+
+        }
     </script>
 
 
@@ -502,6 +518,19 @@ margin-left:15px;
                 </div>
             </div>
 
+            <div class=".container-lg">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">            
+            <div id="EmailConfirmedSuccessfully" class="popup">
+                <div class="popup-content Complete" style="padding: 70px;">
+                    <h3><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 35px;"></i><br><br>Account registeration has been confirmed successfully!</h3>
+                    <h6><p>This message will disappear in 5 seconds</p></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -807,9 +836,22 @@ margin-left:15px;
 
 if (status === 'done') {
     // Display done pop-up
+    if(NeedsAgeGroupValidation){
     document.getElementById('done').style.display = 'block';
     document.getElementById("instructions").style.display = "none";
     document.getElementById('send').style.display = 'none';
+    }
+    else{
+        document.getElementById('EmailConfirmedSuccessfully').style.display = 'block';
+        document.getElementById("instructions").style.display = "none";
+
+    setTimeout(function(){
+        document.getElementById("instructions").style.display = "block";
+        document.getElementById('EmailConfirmedSuccessfully').style.display = 'none';
+
+    }
+        , 5000);
+    }
 }
 else if (status === 'error'){
     // Display error pop-up
@@ -821,6 +863,7 @@ else if (status === 'confirm'){
     //alert('has been sent');
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
+    NeedsAgeGroupValidation = true;
 }
 
 else if (status === 'verify'){
