@@ -37,41 +37,40 @@ def SignupUser(request):
     print('in SignupUser')
     if request.method == 'POST':
         username = request.POST['Username']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
         email = request.POST['Email']
         password = request.POST['Password']
         confirm_password = request.POST['confirm_password']
         Accept_conditions = request.POST.get('Accept_conditions') == 'on'
+        SecurityAnswer = request.POST['answer']
+        SecurityQuestion = request.POST['securityQuestion']
 
         if password == confirm_password:
             print('if password == confirm_password')
             if GGUser.objects.filter(Username=username).exists():
                 print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
+            elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).count() > 5:
+                print('The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.')
+                messages.error(request, "The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.")
+            elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).exists():
+                print('This security question is already used for this email.')
+                messages.error(request, "This security question is already used for this email.")
+
+
             else:
-                # Check if there is a user with the same email
-                print('Check if there is a user with the same email')
-                users_with_same_email = GGUser.objects.filter(Email=email)
-                if users_with_same_email.exists() and users_with_same_email.filter(First_name=firstname,
-                                                                                   Last_name=lastname).exists():
-                    print('Users with same email cannot have same full names')
-                    messages.error(request, "Users with same email cannot have same full names")
-                else:
-                    user = GGUser.objects.create_user(
-                        Username=username,
-                        First_name=firstname,
-                        Last_name=lastname,
-                        Email=email,
-                        Password=password,
-                        Accept_conditions=Accept_conditions,
+                user = GGUser.objects.create_user(
+                    Username=username,
+                    Email=email,
+                    Password=password,
+                    Accept_conditions=Accept_conditions,
+                    Security_answer=SecurityAnswer,
+                    Security_question=SecurityQuestion,
                     )
-                    user_id = user.User_ID
-                    request.session['user_id'] = user_id
-                    return redirect('estimate')
+                user_id = user.User_ID
+                request.session['user_id'] = user_id
+                return redirect('estimate')
         else:
             messages.error(request, "Password Mismatch!")
-
     return redirect('signup')
 
 
@@ -131,14 +130,16 @@ def custom_password_reset(request):
 
     return render(request, 'login.html')
 
+from django.utils.text import slugify
 
 def custom_username_reset(request):
     Email = request.POST.get('Email', '')
-    firstname = request.POST.get('firstname', '')
-    lastname = request.POST.get('lastname', '')
+    securityQuestion = request.POST.get('securityQuestion', '')
+    answer = request.POST.get('answer', '')
 
     try:
-        user = GGUser.objects.get(Email=Email, First_name=firstname, Last_name=lastname)
+        answer = slugify(answer)
+        user = GGUser.objects.get(Email=Email, Security_question=securityQuestion, Security_answer__iexact=answer)
 
         # Generate a token and uid for the user
         token = default_token_generator.make_token(user)
@@ -267,30 +268,20 @@ def custom_username_reset_confirm(request, uidb64, token):
 @csrf_protect
 def LoginUser(request):
     if request.method == 'POST':
-        username = request.POST.get('Username')
-        password = request.POST.get('Password')
+        username = request.POST['Username']
+        password = request.POST['Password']
         try:
             user = GGUser.objects.get(Username=username)
         except GGUser.DoesNotExist:
             user = None
 
         if user and user.check_password(password):
-            if user.email_confirmed:
-                login(request, user)
-                user_id = user.User_ID
-                request.session['user_id'] = user_id
-                return redirect('estimate')
-            else:
-                # Pass a custom message to the template
-                print("This message will be printed to the terminal for line 280.")
-                # return render(request, 'login.html', {'Emailconfirmation_message': 'account_not_confirmed'})
-                messages.error(request,
-                               'Your account registration is not confirmed. Please confirm you registration through the link sent to your email.')
-                return redirect('login')
-
+            login(request, user)
+            user_id = user.User_ID
+            request.session['user_id'] = user_id
+            return redirect('estimate')
         else:
-            # Pass a custom message to the template
-            return render(request, 'login.html', {'error_message': 'Invalid username or password'})
+            messages.error(request, 'Invalid username or password')
     return redirect('login')
 
 
@@ -1344,60 +1335,16 @@ def custom_signup_confirmation(request):
 
     return render(request, 'AgeEstimation.html')
 
-
-def custom_resendConfirmation_confirm(request, uidb64, token):
-    try:
-        uid = urlsafe_base64_decode(uidb64).decode()
-        user = GGUser.objects.get(User_ID=uid)
-    except (TypeError, ValueError, OverflowError, GGUser.DoesNotExist):
-        user = None
-
-    if user is not None and default_token_generator.check_token(user, token):
-        user.email_confirmed = True
-        user.save()
-        return render(request, 'login.html', {'status': 'successfullyConfirmed', 'message': 'Successfully confirmed'})
-
+def checkIfConfrim(request):
+    user_id = request.session.get('user_id')
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            confirmStaus = user.email_confirmed
+            return JsonResponse({'status': confirmStaus}, safe=False)
+        except GGUser.DoesNotExist:
+            return HttpResponseNotFound('Try again')   
     else:
-        error_message = 'Unexpected error occurred, please try again'
-        return render(request, 'login.html', {'status': 'error', 'message': error_message})
+        return JsonResponse({'error': 'User not found'}, status=404)
+           
 
-
-def custom_resendConfirmation(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        user_id = request.session.get('user_id')
-        if user_id:
-            try:
-                user = GGUser.objects.get(User_ID=user_id)
-                email = user.Email
-                age_group = user.Approved_age_group
-                first_name = user.First_name
-            except GGUser.DoesNotExist:
-                return HttpResponseNotFound('User not found')
-
-            # Generate a token and uid for the user
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            email = user.Email
-
-            # Create the reset link for confirmation
-            reset_link = f"{request.scheme}://{request.get_host()}/resendConfirmation/{uid}/{token}/"
-
-            # Construct the email message
-            email_message = (
-                f'Hi {user.First_name}, thank you for joining Game Geek.\n'
-                f'To confirm your registration, please click on this link:\n'
-                f'{reset_link}'
-            )
-
-            # Send the email with the constructed message
-            send_mail(
-                'Confirm registration',
-                email_message,
-                'gamegeekwebsite@gmail.com',
-                [email],
-                fail_silently=False,
-            )
-            return HttpResponse(status=200)
-
-    return render(request, 'login.html')

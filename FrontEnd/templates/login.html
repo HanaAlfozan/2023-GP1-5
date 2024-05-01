@@ -179,17 +179,16 @@ height:auto
 }
 
 
-.input-box {
-    width: 60%; /* Make inputs take full width of the form */
-    padding: 10px; /* Reduce padding for inputs */
-
- box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+.input-box, #securityAnswer {
+    width: 60%;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
 }
 
-.input-box:focus {
+.input-box:focus, #securityAnswer:focus {
     border: 2px solid #ff069a;
 }
 
@@ -207,8 +206,8 @@ height:auto
     margin-bottom: 25px;
 }
 
-.input-pair label {
-    flex: 0 0 20%; /* Adjust label width as needed */
+.input-pair label,  #answerSpace{
+    flex: 0 0 20%;
     font-weight: 700;
     text-align:left;
 	font-size: 17px;
@@ -219,6 +218,50 @@ height:auto
 	margin-left: 10px;
 
 }
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 86%;
+  font-size: 15px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #000;
+  cursor: pointer;
+  padding: 14px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  margin-left: -20%;
+}
+
+.custom-select::before,
+.custom-select::after {
+  --size: 0.3rem;
+  content: "";
+  position: absolute;
+  right: 1rem;
+  pointer-events: none;
+}
+
+.custom-select::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: var(--size) solid black;
+  top: 40%;
+}
+
+.custom-select::after {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid black;
+  top: 55%;
+}
+
+#securityAnswer{
+	margin-left: 2%;
+}  
+
 
 
 		.animate-charcter { /*signUp*/
@@ -337,7 +380,7 @@ height:auto
   color: red;
 }
 
-#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton{
+#resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton, #ResendButton{
   background-color: #06f7ff;
   color: white;
   border: none;
@@ -352,7 +395,7 @@ height:auto
   border-radius: 50px;
 }
 
-#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover, #EmailnotConfirmedButton:hover {
+#resetPassword:hover , #setNewPassword:hover,#resetUser:hover ,#setNewUsername:hover, #EmailnotConfirmedButton:hover, #ResendButton:hover{
   background-color: #ff069a;
 
 }
@@ -570,17 +613,15 @@ margin-left:15px;
 									</div>
 									<a href="#" id="forgetPass">Forgot Password?</a>
 									<br><br>
-									<!-- Display messages only if there are any -->
-									{% if messages %}
-										{% for message in messages %}
+                                    {% if messages %}
+                                    {% for message in messages %}
                                         <br>
                                         <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
-                                            <h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+                                            <h5 id="error_message" style="margin: 5px 0; color: #880808;">{{ message }}</h5>
                                         </div>	
-                                        <br>	
-                                        {% endfor %}
-									{% endif %}
-
+                                        <br>
+                                    {% endfor %}
+                                    {% endif %}    
 									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>
@@ -607,23 +648,48 @@ margin-left:15px;
     <div class="popup-content">
         <span class="close" id="closePopupUser">&times;</span>
         <h3>Username Reset</h3>
-        <h6>Enter your email along with the firstname and lastname to reset your username :</h6>
+        <h6>Enter your email, choosse the question you chose during sign-up and answer the question to reset your username:</h6>
+        <script>
+            function validateForm() {
+                var email = document.getElementById('Email').value;
+                var securityQuestion = document.getElementById('securityQuestion').value;
+                var securityAnswer = document.getElementById('securityAnswer').value;
+        
+                if (email.trim() === '' || securityQuestion.trim() === '' || securityAnswer.trim() === '') {
+                    alert('Please fill out all fields before resetting your username.');
+                    return false;
+                }
+                return true; // Allow form submission
+            }
+        </script>
+        
         <form id="usernameResetForm" action="{% url 'custom_username_reset' %}" data-form-type="username" method="POST">
             {% csrf_token %}
             <div class="input-pair">
-                <label for="username" style="margin-left: 10px;">Email:</label>
+                <label for="Email" style="margin-left: 10px;">Email:</label>
                 <input type="email" id="Email" class="input-box" name="Email" required placeholder="Enter your email">
             </div>
-			<div class="input-pair">
-                <label for="username" style="margin-left: 10px;">Firstname:</label>
-                <input type="text" id="firstname" class="input-box" name="firstname" required placeholder="Enter your firstname" >
+            <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
+                <label for="securityQuestion" id="secLabel">Security Question:</label>
+                <div class="seqQselect">
+                    <select id="securityQuestion" name="securityQuestion" required>
+                        <option selected disabled value="">Choose a security question</option>
+                        <option>What city were you born in?</option>
+                        <option>What elementary school did you attend?</option>
+                        <option>What is the name of your favorite show growing up?</option>
+                        <option>What is the name of your favorite childhood teacher?</option>
+                        <option>What was the name of your favorite childhood friend?</option>
+                    </select>
+                </div>
             </div>
-			<div class="input-pair">
-                <label for="username" style="margin-left: 10px;">Lastname:</label>
-                <input type="text" id="lastname" class="input-box" name="lastname" required placeholder="Enter your lastname">
+            <div id="answerSpace">
+                <label for="securityAnswer">Your Answer:</label>
+                <input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer" onblur="validateAnswer(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="The answer should not contain only numbers or any special characters" style="width: 62%;">
+                <span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span>
             </div>
             <button type="button" id="resetUser">Reset Username</button>
         </form>
+        
     </div>
 </div>
 <!-- Password Reset failed Pop-up (hidden by default) -->
@@ -639,7 +705,7 @@ margin-left:15px;
 				<div class="popup-content">
 					<span class="close" id="closeErrorPopupUser">&times;</span>
 					<h3 class="error">User not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-					<h5>Make sure you entered the correct Email along with the First name and Last name registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+					<h5>Make sure you entered the correct Email along with the security question and answer registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
 				</div>
 			</div>
 
@@ -764,8 +830,6 @@ margin-left:15px;
     <div class="popup-content">
         <span class="close" id="closePopupEmailnotConfirmed">&times;</span>
         <h3>Account Confirmation Link</h3>
-		<h6 style="color: red;"> Your account registration is not confirmed.</h6>
-		<h6> Click on the "Send" button to send the confirmation link via your registered email.</h6>
         <h6>Enter your username to send the confirmation message to your registered email:</h6>
         <form id="EmailnotConfirmedForm" action="{% url 'custom_password_reset' %}"  data-form-type="password" method="POST">
             {% csrf_token %}
@@ -886,9 +950,7 @@ margin-left:15px;
         }
         return cookieValue;
     }
-</script>
 
-<script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
         icon.addEventListener('click', function() {
             var passwordInput = document.getElementById(this.previousElementSibling.id);
@@ -912,6 +974,8 @@ margin-left:15px;
 	document.getElementById('UsernameResetComplete').style.display = 'block';
 	}
 	document.getElementById('resetUser').addEventListener('click', function() {
+    var value = validateForm();
+    if(value){
     // Get form data
     var formData = new FormData(document.getElementById('usernameResetForm'));
      document.getElementById('loader').style.display = 'block';
@@ -941,72 +1005,8 @@ console.log(status)
         }
     };
     xhr.send(formData);
+}
 });
-
-
-
-
-</script>
-
-<script>
-	//Handling the unconfirmed accounts
-
-    var Emailconfirmation_message = "{{Emailconfirmation_message}}";
-    if (Emailconfirmation_message === 'account_not_confirmed') {
-        document.getElementById('EmailnotConfirmed').style.display = 'block';
-        document.getElementById('EmailSentSuccessUser').style.display = 'none';
-
-        document.getElementById('EmailnotConfirmedButton').addEventListener('click', function () {
-        	//username = document.getElementById('Username').value;
-            console.log("This is a message printed using JavaScript.");
-
-            // Get the CSRF token from the cookie
-            var csrftoken = getCookie('csrftoken');
-            console.log("This is a message printed using JavaScript2.");
-
-            var xhr = new XMLHttpRequest();
-            console.log("This is a message printed using JavaScript3.");
-
-            xhr.open('POST', "{% url 'custom_resendConfirmation' %}", true);
-            console.log("This is a message printed using JavaScript4.");
-
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            console.log("This is a message printed using JavaScript5.");
-
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            console.log("This is a message printed using JavaScript6.");
-
-            // Set the CSRF token in the request headers
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            console.log("This is a message printed using JavaScript7.");
-
-            xhr.onload = function () {
-                        console.log("This is a message printed using JavaScript8.");
-
-                if (xhr.status === 200) {
-                console.log("This is a message printed using JavaScript12.");
-
-                    // Email notConfirmed Sending was successful, display the success pop-up
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('EmailnotConfirmed').style.display = 'none';
-                    document.getElementById('EmailnotConfirmedSentSuccess').style.display = 'block';
-                } else if (xhr.status === 404) {
-                            console.log("This is a message printed using JavaScript9.");
-
-                    // User name not found, display the error pop-up
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('EmailnotConfirmedSentSuccess').style.display = 'none';
-                    document.getElementById('errorPopup').style.display = 'block';
-                }
-            };
-            console.log("This is a message printed using JavaScript10.");
-
-            xhr.send('username=' + username);
-                        console.log("This is a message printed using JavaScript11.");
-
-        });
-    }
-
 
 </script>
 
@@ -1184,6 +1184,7 @@ document.getElementById("closeErrorPopupUser").addEventListener("click", functio
 
     /////////////////////////////////////////////////////
     localStorage.setItem('previousReferrer', 'login');
+
 </script>
 
 
