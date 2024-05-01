@@ -71,7 +71,7 @@ def SignupUser(request):
                 return redirect('estimate')
             
             messages.error(request, "Password Mismatch!")
-            return redirect('signup')
+    return redirect('signup')
 
 
 def AssignAgeGroup(request):
