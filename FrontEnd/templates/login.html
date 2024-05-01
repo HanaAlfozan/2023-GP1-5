@@ -1008,65 +1008,6 @@ console.log(status)
 }
 });
 
-
-	//Handling the unconfirmed accounts
-
-    var Emailconfirmation_message = "{{Emailconfirmation_message}}";
-    if (Emailconfirmation_message === 'account_not_confirmed') {
-        document.getElementById('EmailnotConfirmed').style.display = 'block';
-        document.getElementById('EmailSentSuccessUser').style.display = 'none';
-
-        document.getElementById('EmailnotConfirmedButton').addEventListener('click', function () {
-        	//username = document.getElementById('Username').value;
-            console.log("This is a message printed using JavaScript.");
-
-            // Get the CSRF token from the cookie
-            var csrftoken = getCookie('csrftoken');
-            console.log("This is a message printed using JavaScript2.");
-
-            var xhr = new XMLHttpRequest();
-            console.log("This is a message printed using JavaScript3.");
-
-            xhr.open('POST', "{% url 'custom_resendConfirmation' %}", true);
-            console.log("This is a message printed using JavaScript4.");
-
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            console.log("This is a message printed using JavaScript5.");
-
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            console.log("This is a message printed using JavaScript6.");
-
-            // Set the CSRF token in the request headers
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            console.log("This is a message printed using JavaScript7.");
-
-            xhr.onload = function () {
-                        console.log("This is a message printed using JavaScript8.");
-
-                if (xhr.status === 200) {
-                console.log("This is a message printed using JavaScript12.");
-
-                    // Email notConfirmed Sending was successful, display the success pop-up
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('EmailnotConfirmed').style.display = 'none';
-                    document.getElementById('EmailnotConfirmedSentSuccess').style.display = 'block';
-                } else if (xhr.status === 404) {
-                            console.log("This is a message printed using JavaScript9.");
-
-                    // User name not found, display the error pop-up
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('EmailnotConfirmedSentSuccess').style.display = 'none';
-                    document.getElementById('errorPopup').style.display = 'block';
-                }
-            };
-            console.log("This is a message printed using JavaScript10.");
-
-            xhr.send('username=' + username);
-                        console.log("This is a message printed using JavaScript11.");
-
-        });
-    }
-
 </script>
 
 
