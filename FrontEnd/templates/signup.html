@@ -619,6 +619,7 @@ select {
 	<span id="passMessage2" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: relative; top: 60.5%; left:5%; max-width: 85%;"></span>
 
 
+     <!--end of confirm pass-->
 <!-------------------------------------------------------->
 
 <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
@@ -660,7 +661,12 @@ select {
   
 <!-------------------------------------------------------->
 
-
+		<!-- Display messages only if there are any -->
+		{% if messages %}
+		{% for message in messages %}
+			<h5>{{ message }}</h5>
+		{% endfor %}
+	{% endif %}
 
 	<div>
 		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px; margin-bottom:5%; margin-top: 5%;" ><b id="terms">I agree to the terms and conditions <input type="checkbox" id="agree" name="Accept_conditions" required> </b></label>
