@@ -69,7 +69,7 @@ def SignupUser(request):
                 user_id = user.User_ID
                 request.session['user_id'] = user_id
                 return redirect('estimate')
-            
+        else:
             messages.error(request, "Password Mismatch!")
     return redirect('signup')
 
