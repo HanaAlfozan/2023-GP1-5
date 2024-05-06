@@ -30,7 +30,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django_crontab import periodic_task
 from django.utils import timezone
 
 
@@ -1358,7 +1357,8 @@ def get_security_questions(request):
         return JsonResponse(list(security_questions), safe=False)
     else:
         return JsonResponse({'error': 'Invalid request'})
-    
+
+'''   
 @periodic_task(run_every=365 * 24 * 60 * 60)  # Run every year
 def send_anniversary_emails():
     today = timezone.now()
@@ -1376,3 +1376,4 @@ def send_anniversary_emails():
             fail_silently=False,
         )
 
+'''
