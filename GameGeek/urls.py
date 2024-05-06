@@ -83,4 +83,6 @@ urlpatterns = [
     path('Backend/custom_signup_confirmation_confirm/', BackEnd_views.custom_signup_confirmation_confirm, name='custom_signup_confirmation_confirm'),
     path('BackEnd/custom_signup_confirmation/', BackEnd_views.custom_signup_confirmation, name='custom_signup_confirmation'),
     path('BackEnd/checkIfConfrim/', BackEnd_views.checkIfConfrim, name='checkIfConfrim'),  
+    path('BackEnd/get_security_questions/', BackEnd_views.get_security_questions, name='get_security_questions'),  
+
 ]

@@ -30,6 +30,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django_crontab import periodic_task
+from django.utils import timezone
 
 
 @csrf_protect
@@ -49,9 +51,9 @@ def SignupUser(request):
             if GGUser.objects.filter(Username=username).exists():
                 print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
-            elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).count() > 5:
-                print('The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.')
-                messages.error(request, "The number of users with this security question and email exceeds the limit. You can not have more that five users with the same email.")
+            elif GGUser.objects.filter(Email=email).count() > 8:
+                print('The number of users with this email exceeds the limit. You can not have more that eight users with the same email.')
+                messages.error(request, "The number of users with this email exceeds the limit. You can not have more that eight users with the same email.")
             elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).exists():
                 print('This security question is already used for this email.')
                 messages.error(request, "This security question is already used for this email.")
@@ -1347,4 +1349,30 @@ def checkIfConfrim(request):
     else:
         return JsonResponse({'error': 'User not found'}, status=404)
            
+
+def get_security_questions(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        # Assuming SecurityQuestion model has a field 'email'
+        security_questions = GGUser.objects.filter(Email=email).values_list('Security_question', flat=True).distinct()
+        return JsonResponse(list(security_questions), safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request'})
+    
+@periodic_task(run_every=365 * 24 * 60 * 60)  # Run every year
+def send_anniversary_emails():
+    today = timezone.now()
+    one_year_ago = today - timezone.timedelta(days=365)
+
+    # Get all instances where Date_joined was one year ago
+    instances = GGUser.objects.filter(Date_joined__date=one_year_ago.date())
+
+    for instance in instances:
+        send_mail(
+            'One More Year With Game Geek!',
+            f'Happy Anniversary! 🎉.It has been another year since you joined us. Alwyas remember that we are here to assist you every step of the way, and if you ever encounter any issues with age estimation or anything else, please feel free to contact us. Our support team will be more than happy to help you , {instance.Username}!',
+            'gamegeekwebsite@gmail.com',
+            [instance.Email],
+            fail_silently=False,
+        )
 
