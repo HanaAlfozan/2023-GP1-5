@@ -52,11 +52,15 @@
 						console.log(response);
 						if(email.length != 0){
 						//alert('not ull');
-						updateSecurityQuestions(response);}
+						updateSecurityQuestions(response);
+						localStorage.setItem('questions', 'response');
+					}
 						//alert(response.join("\n"));
 						else if (email.length === 0){
 						//alert('null');
-						updateSecurityQuestions(null);}
+						updateSecurityQuestions(null);
+						localStorage.removeItem('questions');
+					}
 					},
 					error: function(xhr, status, error) {
 						// Handle errors
@@ -141,10 +145,11 @@
 		}
 
 		function updateSecurityQuestions(questions) {
+			var emailMessage = document.getElementById("email").value;
 			var selectElement = $('#securityQuestion');
 			selectElement.empty();
 			selectElement.append('<option selected disabled value="">Choose a security question</option>');
-			if(questions === null){
+			if(emailMessage.length === 0){
 				return;
 			}
 			var allQuestions = [
@@ -159,11 +164,12 @@
 				"What was the name of the first school you remember attending?",
 				"What was the name of your favorite childhood friend?"
 			];
+			if (emailMessage.length != 0){
 			allQuestions.forEach(function(question) {
 				if (!questions.includes(question)) {
 					selectElement.append('<option>' + question + '</option>');
 				}
-			});
+			});}
 		}
 
 		// Function to get CSRF token from cookies
@@ -211,8 +217,6 @@
 	margin-left: 1%;
     }
 }
-
-
 
 .hero-area{
 background: rgb(21,22,51);
@@ -644,7 +648,7 @@ select {
 
            <div class="form-container">
 
-<form action="{% url 'SignupUser' %}" method="POST">
+<form action="{% url 'SignupUser' %}" method="POST" id="form">
     {% csrf_token %}
     <div class="input-pair" style="margin-top:2%">
 		<span class="input-item">
@@ -699,7 +703,7 @@ select {
 	<label for="SecurityQuestion" id="secLabel">Security Question:</label>
 	<div class="seqQselect">
 	<select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 85%;">
-	  <option selected disabled value="">Choose a security question</option>
+		<option selected disabled value="">Choose a security question</option>
 	</select>
   </div>
 </div>
@@ -722,22 +726,39 @@ select {
 		answerSpace.classList.add("hidden");
 	  }
 	});
+    
+	securityQuestionSelect.addEventListener("mouseenter", function() {
+		const hasOptions = securityQuestionSelect.options.length > 1;    
+		//alert(securityQuestionSelect.options.length);
+		if (!hasOptions) {
+			securityQuestionSelect.title = "You need to write an email to choose a security question";
+		} else {
+			securityQuestionSelect.title = "Choose a security question";
+		}
+	});
   </script>
   
-<!-------------------------------------------------------->
-
-		<!-- Display messages only if there are any -->
-		{% if messages %}
-		{% for message in messages %}
-			<h5>{{ message }}</h5>
-		{% endfor %}
-	{% endif %}
 
 	<div>
 		<label for="agree" style="color:black; letter-spacing: 1px; font-size: 15px; margin-bottom:5%; margin-top: 5%;" ><b id="terms">I agree to the terms and conditions <input type="checkbox" id="agree" name="Accept_conditions" required> </b></label>
 		<br>
 		<span id="agreeMessage" style="color: darkred; font-size: 15px; font-weight: 600;"></span>
 	</div>
+
+	<!-------------------------------------------------------->
+
+		<!-- Display messages only if there are any -->
+		{% if messages %}
+
+		{% for message in messages %}
+		<br>
+		<div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
+			<h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+		</div>
+		<br>
+		{% endfor %}
+
+	{% endif %}
 
     <input type="submit" id="LogIN" value="Join US" style="width: 80%;" onclick="return validateCheckbox();">
     <br><br>
@@ -768,8 +789,6 @@ select {
     }
 }
 
-</script>
-<script>
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
         icon.addEventListener('click', function() {
             var passwordInput = document.getElementById(this.previousElementSibling.id);
@@ -779,8 +798,7 @@ select {
             this.classList.toggle('fa-eye');
         });
     });
-</script>
-<script>
+
     // Get references to the text and other div elements
     const hoverText = document.getElementById('terms');
     const otherDiv = document.getElementById('hey');
@@ -803,6 +821,42 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
 
        console.log('mouseout');
     });
+
+        const savedUsername = localStorage.getItem('username');
+        const savedEmail = localStorage.getItem('email');
+
+        if (savedUsername) {
+            document.getElementById('username').value = savedUsername;
+        }
+        if (savedEmail) {
+            document.getElementById('email').value = savedEmail;
+        }
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+        });
+
+		function removeEmptyValues() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            if (username === '') {
+                localStorage.removeItem('username');
+            }
+            if (email === '') {
+                localStorage.removeItem('email');
+            }
+        }
+		document.getElementById('username').addEventListener('input', function(event) {
+            removeEmptyValues();
+        });
+        document.getElementById('email').addEventListener('input', function(event) {
+            removeEmptyValues();
+        })
+    </script>
   </script>
 
 											</div> <!--end of col-lg-6 col-md-6 text-center-->
@@ -922,6 +976,7 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
 
 		/////////////////////////////////////////////////////
 		localStorage.setItem('previousReferrer', 'signup');
+		window.onload = updateSecurityQuestions(localStorage.getItem('questions'));
       </script>
 
 </body>

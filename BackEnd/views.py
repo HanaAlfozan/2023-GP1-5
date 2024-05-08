@@ -50,7 +50,7 @@ def SignupUser(request):
             if GGUser.objects.filter(Username=username).exists():
                 print('Username Already Exists!')
                 messages.error(request, "Username Already Exists!")
-            elif GGUser.objects.filter(Email=email).count() > 8:
+            elif GGUser.objects.filter(Email=email).count() > 9:
                 print('The number of users with this email exceeds the limit. You can not have more that eight users with the same email.')
                 messages.error(request, "The number of users with this email exceeds the limit. You can not have more that eight users with the same email.")
             elif GGUser.objects.filter(Email=email, Security_question=SecurityQuestion).exists():
