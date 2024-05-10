@@ -391,8 +391,6 @@ def GetProfileData(request):
             profile_data = {
                 'Username': user.Username,
                 'Age_group': user.Approved_age_group,
-                'First_name': user.First_name,
-                'Last_name': user.Last_name,
                 'Email': user.Email,
                 'Date_joined': user.Date_joined.strftime('%m/%d/%Y'),
             }
@@ -408,7 +406,7 @@ def LogoutUser(request):
     cache.clear()
     return redirect('index')
 
-
+'''
 def EditNames(request):
     if request.method == 'POST':
         user_id = request.session.get('user_id')
@@ -432,7 +430,7 @@ def EditNames(request):
             return JsonResponse({'error': 'User not authenticated'})
     else:
         return JsonResponse({'error': 'Invalid request method. POST expected'}, status=400)
-
+'''
 
 from django.core.cache import cache
 from django.forms.models import model_to_dict
@@ -1301,7 +1299,6 @@ def custom_signup_confirmation(request):
             try:
                 user = GGUser.objects.get(User_ID=user_id)
                 email = user.Email
-                first_name = user.First_name
 
             except GGUser.DoesNotExist:
                 return HttpResponseNotFound('User not found')
@@ -1315,7 +1312,7 @@ def custom_signup_confirmation(request):
         reset_link = f"{request.scheme}://{request.get_host()}/verify-signUp/{uid}/{token}/"
 
         email_message = (
-            f'Hi {first_name}, thank you for joining Game Geek\n'
+            f'Hi Gamer, thank you for joining Game Geek\n'
             f'To confirm your registration please click on this link:\n'
             f'{reset_link}'
         )
