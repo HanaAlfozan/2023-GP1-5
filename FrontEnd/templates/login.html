@@ -90,7 +90,7 @@
 
 }
 */
-container {
+.container {
     width: 100%;
      padding-right: 15px;
     padding-left: 15px;
@@ -524,6 +524,71 @@ margin-left:0%;
 }
 	</style>
 
+<script>
+    		function getSecurityQuestions(email){
+			var csrftoken = getCookie('csrftoken');
+				$.ajax({
+					url: '/BackEnd/get_security_questions/',
+					method: 'POST',
+					data: { email: email },
+					beforeSend: function(xhr, settings) {
+						// Include CSRF token in headers
+						xhr.setRequestHeader("X-CSRFToken", csrftoken);
+					},
+					success: function(response) {
+						// Handle successful response
+						console.log(response);
+                        if(response.length === 0){
+                            document.getElementById('errorPopupEmail').style.display = 'block';
+                        }
+						if(email.length != 0){
+						//alert('not ull');
+						updateSecurityQuestions(response);
+						localStorage.setItem('questions', 'response');
+					}
+						//alert(response.join("\n"));
+						else if (email.length === 0){
+						//alert('null');
+						updateSecurityQuestions(null);
+						localStorage.removeItem('questions');
+					}
+					},
+					error: function(xhr, status, error) {
+						// Handle errors
+						console.error(xhr.responseText);
+					}
+				});
+			}
+            function updateSecurityQuestions(questions) {
+			var emailMessage = document.getElementById("Email").value;
+			var selectElement = $('#securityQuestion');
+			selectElement.empty();
+			selectElement.append('<option selected disabled value="">Choose a security question</option>');
+			if(emailMessage.length === 0){
+				return;
+			}
+			var allQuestions = [
+				"What was the name of your first pet?",
+				"What was your favorite food as a child?",
+				"What was your childhood nickname?",
+				"What is your oldest cousin's first name?",
+				"What was your favorite vacation place as a child?",
+				"What was the name of your favorite show growing up?",
+				"What is the last name of your mother?",
+				"What was the name of your favorite childhood teacher?",
+				"What was the name of the first school you remember attending?",
+				"What was the name of your favorite childhood friend?"
+			];
+			if (emailMessage.length != 0){
+			allQuestions.forEach(function(question) {
+				if (questions.includes(question)) {
+					selectElement.append('<option>' + question + '</option>');
+				}
+			});}
+		}
+        
+</script>
+
 </head>
 <body>
 
@@ -677,7 +742,7 @@ margin-left:0%;
     <div class="popup-content">
         <span class="close" id="closePopupUser">&times;</span>
         <h3>Username Reset</h3>
-        <h6>Enter your email, choosse the question you chose during sign-up and answer the question to reset your username:</h6>
+        <h6>Enter your email, then select the question you selected during sign-up and answer the question to reset your username:</h6>
         <script>
             function validateForm() {
                 var email = document.getElementById('Email').value;
@@ -696,18 +761,13 @@ margin-left:0%;
             {% csrf_token %}
             <div class="input-pair">
                 <label for="Email" style="margin-left: 10px;">Email:</label>
-                <input type="email" id="Email" class="input-box" name="Email" required placeholder="Enter your email">
+                <input type="email" id="Email" class="input-box" name="Email" required placeholder="Enter your email" onblur="getSecurityQuestions(this.value)">
             </div>
             <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
                 <label for="securityQuestion" id="secLabel">Security Question:</label>
                 <div class="seqQselect">
-                    <select id="securityQuestion" name="securityQuestion" required>
+                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 85%;">
                         <option selected disabled value="">Choose a security question</option>
-                        <option>What city were you born in?</option>
-                        <option>What elementary school did you attend?</option>
-                        <option>What is the name of your favorite show growing up?</option>
-                        <option>What is the name of your favorite childhood teacher?</option>
-                        <option>What was the name of your favorite childhood friend?</option>
                     </select>
                 </div>
             </div>
@@ -734,9 +794,17 @@ margin-left:0%;
 				<div class="popup-content">
 					<span class="close" id="closeErrorPopupUser">&times;</span>
 					<h3 class="error">User not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
-					<h5>Make sure you entered the correct Email along with the security question and answer registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+					<h5>Make sure you entered the correct email along with the security question and answer registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
 				</div>
 			</div>
+<!-- Username Reset failed Pop-up (hidden by default) -->
+<div class="popup fail" id="errorPopupEmail">
+    <div class="popup-content">
+        <span class="close" id="closeErrorPopupEmail">&times;</span>
+        <h3 class="error">Email not found  &nbsp;<i class="fa fa-close" aria-hidden="true" style="color: red;"></i></h3>
+        <h5>Make sure you entered the correct email registered with Game Geek. If the issue persists, don't hesitate to contact us for assistance!</h5>
+    </div>
+</div>
 
 <!-- Password sent Success Pop-up (hidden by default) -->
 <div id="EmailSentSuccess" class="popup Success">
@@ -893,8 +961,6 @@ margin-left:0%;
     var status = "{{ status }}";
     console.log(status)
 
-
-
     if (status === 'confirm') {
         // Display passwordResetConfirm pop-up
  console.log(status)
@@ -988,8 +1054,7 @@ margin-left:0%;
             this.classList.toggle('fa-eye');
         });
     });
-</script>
-<script>
+
 	//Username Reset
 	var status = "{{ status }}";
 	if(status === 'confirmUser'){
@@ -1035,6 +1100,17 @@ console.log(status)
     xhr.send(formData);
 }
 });
+
+const securityQuestionSelect = document.getElementById("securityQuestion");
+securityQuestionSelect.addEventListener("mouseenter", function() {
+		const hasOptions = securityQuestionSelect.options.length > 1;    
+		//alert(securityQuestionSelect.options.length);
+		if (!hasOptions) {
+			securityQuestionSelect.title = "You need to write an email to choose a security question";
+		} else {
+			securityQuestionSelect.title = "Choose a security question";
+		}
+	});
 
 </script>
 
@@ -1164,6 +1240,11 @@ document.getElementById("closeErrorPopupUser").addEventListener("click", functio
         var successPopup = document.getElementById("errorPopupUser");
         successPopup.style.display = "none";
     });
+
+document.getElementById("closeErrorPopupEmail").addEventListener("click", function() {
+        var successPopup = document.getElementById("errorPopupEmail");
+        successPopup.style.display = "none";
+    });    
 
     document.getElementById("closePopupConfirm").addEventListener("click", function() {
         var successPopup = document.getElementById("passwordResetConfirm");
