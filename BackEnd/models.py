@@ -24,13 +24,11 @@ class GGUser(AbstractBaseUser, PermissionsMixin):
     Username = models.CharField(max_length=50, unique=True)
     Email = models.EmailField(max_length=50)
     Accept_conditions = models.BooleanField(default=False)
-    First_name = models.CharField(max_length=30)
-    Last_name = models.CharField(max_length=30)
-    Approved_age_group = models.CharField(max_length=4, null=True, blank=True)
+    Approved_age_group = models.CharField(max_length=4, blank=False, null=False)
     Date_joined = models.DateTimeField(auto_now_add=True)
     email_confirmed = models.BooleanField(default=False) 
-    Security_question = models.CharField(max_length=255, blank=True)
-    Security_answer = models.CharField(max_length=255, blank=True)
+    Security_question = models.CharField(max_length=255, blank=False, null=False)
+    Security_answer = models.CharField(max_length=255, blank=False, null=False)
 
     @property
     def is_superuser(self):

@@ -855,7 +855,7 @@ margin-left:15px;
 
 if (status === 'done') {
     // Display done pop-up
-    if(NeedsAgeGroupValidation){
+    if(!NeedsAgeGroupValidation){
     document.getElementById('done').style.display = 'block';
     document.getElementById("instructions").style.display = "none";
     document.getElementById('send').style.display = 'none';
@@ -882,7 +882,9 @@ else if (status === 'confirm'){
     //alert('has been sent');
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
-    NeedsAgeGroupValidation = true;
+    if(PageName == 'login'){
+        NeedsAgeGroupValidation = true;
+    }
 }
 
 else if (status === 'verify'){
