@@ -883,6 +883,8 @@ else if (status === 'confirm'){
     //alert('has been sent');
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
+    alert('The username is:');
+    alert(localStorage.getItem('username'));
     if(PageName == 'login'){
         NeedsAgeGroupValidation = true;
     }
