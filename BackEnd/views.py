@@ -190,7 +190,7 @@ def custom_assigining_ageGroup(request):
         send_mail(
             'Assigning Age Group',
             f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}',
-            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.\n'
+            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.\n',
             'gamegeekwebsite@gmail.com',
             [email],
             fail_silently=False,
