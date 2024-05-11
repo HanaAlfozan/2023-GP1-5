@@ -909,6 +909,7 @@ else if (status === 'confirm'){
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
+                    alert(data.status);
                     if(data.status){
                         //alert('line 914'+ data.status);
                         document.getElementById("instructions").style.display = "none";
