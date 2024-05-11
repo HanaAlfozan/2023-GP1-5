@@ -145,14 +145,14 @@
 		}
 
 		function updateSecurityQuestions(questions) {
-			if(questions.length === 10){
-				document.getElementById('errorPopup').style.display = 'block';
-			}
-			else{
 			var emailMessage = document.getElementById("email").value;
 			var selectElement = $('#securityQuestion');
 			selectElement.empty();
 			selectElement.append('<option selected disabled value="">Choose a security question</option>');
+			if(questions.length === 10){
+				document.getElementById('errorPopup').style.display = 'block';
+			}
+			else{
 			if(emailMessage.length === 0){
 				return;
 			}
