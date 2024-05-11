@@ -964,17 +964,19 @@ else if (status === 'confirm'){
                 },
                 
                 error: function () {
+                    alert(967);
                     console.error('Failed to fetch status.');
                     document.getElementById("instructions").style.display = "none";
                     document.getElementById("errorPopUp").style.display = "block";
+                    document.getElementById('errorPopUpBrowser').style.display = 'none';
                 }});
 
                 if(localStorage.getItem('username') === null ){
                     alert(972);
+                    document.getElementById('errorPopUp').style.display = 'none';
                     document.getElementById('ageGroupConfirm').style.display = 'none';
                     document.getElementById("instructions").style.display = "none";
                     document.getElementById('errorPopUpBrowser').style.display = 'block';
-                    document.getElementById('errorPopUp').style.display = 'none';
                 }
 
                 if(PageName == 'login'){
@@ -989,10 +991,12 @@ else if (status === 'verify'){
                 dataType: 'json',
                 success: function (data) {
                     if(data.status === false){
+                        alert(992);
                         document.getElementById("instructions").style.display = "none";
                         confirm();
                     }
                     else{
+                        alert(997);
                         document.getElementById("errorPopUp").style.display = "block";
                     }
                 },
