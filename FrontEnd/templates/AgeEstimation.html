@@ -875,6 +875,7 @@ if (status === 'done') {
         document.getElementById('done').style.display = 'none';
         document.getElementById('errorPopUpBrowser').style.display = 'block';
         document.getElementById('EmailConfirmedSuccessfully').style.display = 'none';
+        document.getElementById("instructions").style.display = "none";
     }
     // Display done pop-up
     if(!NeedsAgeGroupValidation){
@@ -910,15 +911,17 @@ else if (status === 'confirm'){
                 dataType: 'json',
                 success: function (data) {
                     if(data.status){
+                        alert('line 914'+ data.status);
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById("errorPopUp").style.display = "block";
                     }
                     else{
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById('ageGroupConfirm').style.display = 'block';
-                        //alert(localStorage.getItem('username'));
-                        if(localStorage.getItem('username') === null ){
+                        alert(localStorage.getItem('username'));
+                        if('line 922'+ localStorage.getItem('username') === null ){
                             document.getElementById('ageGroupConfirm').style.display = 'none';
+                            document.getElementById("instructions").style.display = "none";
                             document.getElementById('errorPopUpBrowser').style.display = 'block';
                         }
                         if(PageName == 'login'){
