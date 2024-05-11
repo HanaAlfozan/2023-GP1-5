@@ -872,7 +872,7 @@ margin-left:15px;
 if (status === 'done') {
     
     if(localStorage.getItem('username') === null ){
-        alert(875);
+        //alert(875);
         document.getElementById('done').style.display = 'none';
         document.getElementById('errorPopUpBrowser').style.display = 'block';
         document.getElementById('EmailConfirmedSuccessfully').style.display = 'none';
@@ -886,7 +886,7 @@ if (status === 'done') {
                 dataType: 'json',
                 success: function (data) {
                     if(data.status === true){
-                        alert('in 888');
+                        //alert('in 888');
                         document.getElementById('errorPopUp').style.display = 'none';
                         document.getElementById('done').style.display = 'block';
                         document.getElementById('errorPopUpBrowser').style.display = 'none';
@@ -896,14 +896,14 @@ if (status === 'done') {
                 error: function () {
                     document.getElementById('done').style.display = 'none';
                     console.error('Failed to fetch status.');
-                    alert('in 898');
+                    //alert('in 898');
                     if(localStorage.getItem('username') === null ){
-                        alert(900);
+                        //alert(900);
                         document.getElementById('errorPopUpBrowser').style.display = 'block';
                         document.getElementById('errorPopUp').style.display = 'none';
                     }
                     else{
-                        alert('in 903');
+                        //alert('in 903');
                         document.getElementById('errorPopUp').style.display = 'block';
                         document.getElementById('errorPopUpBrowser').style.display = 'none';
                     }                    
@@ -935,7 +935,7 @@ if (status === 'done') {
 }
 else if (status === 'error'){
     // Display error pop-up
-    alert(937);
+    //alert(937);
     document.getElementById('send').style.display = 'none';
     document.getElementById("instructions").style.display = "none";
     document.getElementById('errorPopUp').style.display = 'block';
@@ -964,15 +964,15 @@ else if (status === 'confirm'){
                 },
                 
                 error: function () {
-                    alert(967);
+                    //alert(967);
                     console.error('Failed to fetch status.');
                     document.getElementById("instructions").style.display = "none";
-                    document.getElementById("errorPopUp").style.display = "block";
-                    document.getElementById('errorPopUpBrowser').style.display = 'none';
+                    document.getElementById("errorPopUp").style.display = "none";
+                    document.getElementById('errorPopUpBrowser').style.display = 'block';
                 }});
 
                 if(localStorage.getItem('username') === null ){
-                    alert(972);
+                    //alert(972);
                     document.getElementById('errorPopUp').style.display = 'none';
                     document.getElementById('ageGroupConfirm').style.display = 'none';
                     document.getElementById("instructions").style.display = "none";
@@ -991,12 +991,12 @@ else if (status === 'verify'){
                 dataType: 'json',
                 success: function (data) {
                     if(data.status === false){
-                        alert(992);
+                        //alert(992);
                         document.getElementById("instructions").style.display = "none";
                         confirm();
                     }
                     else{
-                        alert(997);
+                        //alert(997);
                         document.getElementById("errorPopUp").style.display = "block";
                     }
                 },
@@ -1021,7 +1021,7 @@ xhr.onload = function () {
         document.getElementById("instructions").style.display = "none";
         document.getElementById('sendlogin').style.display = 'none';
     } else if (xhr.status === 404) {
-        alert(1017);
+        //alert(1017);
         document.getElementById('sendlogin').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
@@ -1054,7 +1054,7 @@ xhr.onload = function () {
 
 
     } else if (xhr.status === 404) {
-        alert(1049);
+        //alert(1049);
         document.getElementById('signUpConfirmation').style.display = 'none';
         document.getElementById('send').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
@@ -1082,7 +1082,7 @@ xhr.onload = function () {
         document.getElementById("instructions").style.display = "none";
         document.getElementById('send').style.display = 'none';
     } else if (xhr.status === 404) {
-        alert(1076);
+        //alert(1076);
         document.getElementById('send').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
