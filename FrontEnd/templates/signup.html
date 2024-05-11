@@ -889,11 +889,6 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
         document.getElementById('email').addEventListener('input', function(event) {
             removeEmptyValues();
         })
-
-		document.getElementById("closeErrorPopup").addEventListener("click", function() {
-        var successPopup = document.getElementById("errorPopup");
-        successPopup.style.display = "none";
-    });  
   </script>
 
 											</div> <!--end of col-lg-6 col-md-6 text-center-->
@@ -1003,6 +998,10 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
 	<script src="{% static '/js/main.js' %}"></script>
 	
       <script>
+		document.getElementById("closeErrorPopup").addEventListener("click", function() {
+			var successPopup = document.getElementById("errorPopup");
+			successPopup.style.display = "none";
+		});  
         // Function to handle the checkbox state and enable/disable the "Next" button
         function handleCheckbox() {
           const agreeCheckbox = document.getElementById("agree");
