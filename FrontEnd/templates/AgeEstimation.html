@@ -877,6 +877,20 @@ if (status === 'done') {
         document.getElementById('EmailConfirmedSuccessfully').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
     }
+
+    $.ajax({
+                url: '/BackEnd/checkIfConfrim/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status == true){
+                        document.getElementById('errorPopUpBrowser').style.display = 'block';
+                    }
+                },
+                error: function () {
+                    console.error('Failed to fetch status.');
+                }});
+                
     // Display done pop-up
     if(!NeedsAgeGroupValidation){
     document.getElementById('done').style.display = 'block';
@@ -939,9 +953,22 @@ else if (status === 'confirm'){
 }
 
 else if (status === 'verify'){
-    confirm();
-document.getElementById("instructions").style.display = "none";
-
+    $.ajax({
+                url: '/BackEnd/checkIfConfrim/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status == false){
+                        document.getElementById("instructions").style.display = "none";
+                        confirm();
+                    }
+                    else{
+                        document.getElementById("errorPopUp").style.display = "block";
+                    }
+                },
+                error: function () {
+                    console.error('Failed to fetch status.');
+                }});
 }
 
 function sendEmail(){
