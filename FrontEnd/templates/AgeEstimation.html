@@ -904,36 +904,36 @@ else if (status === 'error'){
 }
 
 else if (status === 'confirm'){
-    alert( '907' + localStorage.getItem('username'));
-
     $.ajax({
                 url: '/BackEnd/checkIfAssigned/',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
                     if(data.status){
-                        alert('line 914'+ data.status);
+                        //alert('line 914'+ data.status);
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById("errorPopUp").style.display = "block";
                     }
                     else{
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById('ageGroupConfirm').style.display = 'block';
-                        alert('line 922'+ localStorage.getItem('username'));
-                        if(localStorage.getItem('username') === null ){
-                            document.getElementById('ageGroupConfirm').style.display = 'none';
-                            document.getElementById("instructions").style.display = "none";
-                            document.getElementById('errorPopUpBrowser').style.display = 'block';
-                        }
-                        if(PageName == 'login'){
-                            NeedsAgeGroupValidation = true;
-                        }
+                        //alert('line 922'+ localStorage.getItem('username'));
                     }
                 },
                 
                 error: function () {
                     console.error('Failed to fetch status.');
                 }});
+
+                if(localStorage.getItem('username') === null ){
+                    document.getElementById('ageGroupConfirm').style.display = 'none';
+                    document.getElementById("instructions").style.display = "none";
+                    document.getElementById('errorPopUpBrowser').style.display = 'block';
+                }
+
+                if(PageName == 'login'){
+                    NeedsAgeGroupValidation = true;
+                }
 }
 
 else if (status === 'verify'){
