@@ -886,16 +886,22 @@ if (status === 'done') {
                 success: function (data) {
                     if(data.status === true){
                         alert('in 888');
-                        document.getElementById('errorPopUp').style.display = 'block';
-                        document.getElementById('done').style.display = 'none';
+                        document.getElementById('errorPopUp').style.display = 'none';
+                        document.getElementById('done').style.display = 'block';
+                        document.getElementById('errorPopUpBrowser').style.display = 'none';
                     }
 
                 },
                 error: function () {
-                    alert('in 895');
-                    console.error('Failed to fetch status.');
-                    document.getElementById('errorPopUp').style.display = 'block';
                     document.getElementById('done').style.display = 'none';
+                    console.error('Failed to fetch status.');
+                    alert('in 895');
+                    if(localStorage.getItem('username') === null ){
+                        document.getElementById('errorPopUpBrowser').style.display = 'block';
+                    }
+                    else{
+                        document.getElementById('errorPopUp').style.display = 'block';
+                    }                    
                 }});
 
     // Display done pop-up
