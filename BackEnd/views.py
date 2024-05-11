@@ -189,8 +189,7 @@ def custom_assigining_ageGroup(request):
         # Send the email with the reset link
         send_mail(
             'Assigning Age Group',
-            f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}',
-            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.\n',
+            f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}\n\nNote: If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.',
             'gamegeekwebsite@gmail.com',
             [email],
             fail_silently=False,
