@@ -883,12 +883,14 @@ if (status === 'done') {
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    if(data.status == true){
-                        document.getElementById('errorPopUpBrowser').style.display = 'block';
+                    if(data.status === true){
+                        document.getElementById('errorPopUp').style.display = 'block';
                     }
+
                 },
                 error: function () {
                     console.error('Failed to fetch status.');
+                    document.getElementById('errorPopUp').style.display = 'block';
                 }});
 
     // Display done pop-up
@@ -923,17 +925,17 @@ else if (status === 'confirm'){
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    alert(912 + data.AgeGroup);
+                    //alert(912 + data.AgeGroup);
                     if(data.AgeGroup){
-                        alert('line 914'+ data.status);
+                        //alert('line 914'+ data.status);
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById("errorPopUp").style.display = "block";
                     }
                     else{
-                        alert('in 919');
+                        //alert('in 919');
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById('ageGroupConfirm').style.display = 'block';
-                        alert('line 922'+ localStorage.getItem('username'));
+                        //alert('line 922'+ localStorage.getItem('username'));
                     }
                 },
                 
@@ -958,7 +960,7 @@ else if (status === 'verify'){
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    if(data.status == false){
+                    if(data.status === false){
                         document.getElementById("instructions").style.display = "none";
                         confirm();
                     }

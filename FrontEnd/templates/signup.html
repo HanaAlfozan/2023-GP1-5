@@ -48,10 +48,6 @@
 						xhr.setRequestHeader("X-CSRFToken", csrftoken);
 					},
 					success: function(response) {
-						if(response.length === 10){
-							alert('here in line 52');
-							document.getElementById('errorPopup').style.display = 'block';
-						}
 						// Handle successful response
 						console.log(response);
 						if(email.length != 0){
@@ -150,9 +146,9 @@
 
 		function updateSecurityQuestions(questions) {
 			if(questions.length === 10){
-				alert('here in line 149');
 				document.getElementById('errorPopup').style.display = 'block';
 			}
+			else{
 			var emailMessage = document.getElementById("email").value;
 			var selectElement = $('#securityQuestion');
 			selectElement.empty();
@@ -178,7 +174,7 @@
 					selectElement.append('<option>' + question + '</option>');
 				}
 			});}
-		}
+		}}
 
 		// Function to get CSRF token from cookies
 		function getCookie(name) {
@@ -545,6 +541,15 @@ margin-left:15px;
 		margin-top:40%;
 	}
 
+	.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50;
+  width: 80%;
+  height: 100%;
+}
+
 #footer{
 	 justify-content: space-between;
 	 padding-right: 20px;
@@ -618,6 +623,15 @@ select {
 
 #securityAnswer {
 	margin-right: 5%;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50;
+  width: 80%;
+  height: 100%;
 }
 
 	</style>
