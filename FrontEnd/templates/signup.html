@@ -145,6 +145,9 @@
 		}
 
 		function updateSecurityQuestions(questions) {
+			if(questions.length === 0){
+				document.getElementById('errorPopup').style.display = 'block';
+			}
 			var emailMessage = document.getElementById("email").value;
 			var selectElement = $('#securityQuestion');
 			selectElement.empty();
@@ -239,6 +242,19 @@ height:auto
     background-position: 200% center;
   }
 }
+.popup-content {
+  background-color: #fff;
+  max-width: 600px;
+ margin:15% auto;
+  padding: 1%;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+.fail .popup-content{
+	padding: 70px;
+}
 
 
 /* Media query for smaller screens */
@@ -259,6 +275,18 @@ body img{
 #important{
 padding:2% 0%;
 border-radius:50px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: red;
 }
 		
 .gradient-hr {
@@ -506,6 +534,11 @@ margin-left:15px;
 
 
 @media only screen and (min-width: 200px) and (max-width: 900px) {
+
+	.popup-content {
+		padding:3%;
+		margin-top:40%;
+	}
 
 #footer{
 	 justify-content: space-between;
@@ -856,7 +889,11 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
         document.getElementById('email').addEventListener('input', function(event) {
             removeEmptyValues();
         })
-    </script>
+
+		document.getElementById("closeErrorPopup").addEventListener("click", function() {
+        var successPopup = document.getElementById("errorPopup");
+        successPopup.style.display = "none";
+    });  
   </script>
 
 											</div> <!--end of col-lg-6 col-md-6 text-center-->
@@ -935,6 +972,14 @@ otherDiv.style.border = '2px solid transparent';  // Set a transparent border
 		</div>
 	</div>
 	<!-- end copyright -->
+
+	<div class="popup fail" id="errorPopup">
+		<div class="popup-content">
+			<span class="close" id="closeErrorPopup">&times;</span>
+			<h3 class="error">The number of users with this email exceeds the limit. You can not have more that eight users with the same email.</h3>
+			<h4>To create a new account choose another email !</h4>
+		</div>
+	</div>
 	
 	<!-- jquery -->
 	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>

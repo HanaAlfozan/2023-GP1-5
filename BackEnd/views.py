@@ -1353,7 +1353,7 @@ def checkIfAssigned(request):
         try:
             user = GGUser.objects.get(User_ID=user_id)
             AgeGroup = user.Approved_age_group
-            return JsonResponse({'status': AgeGroup}, safe=False)
+            return JsonResponse({'AgeGroup': AgeGroup}, safe=False)
         except GGUser.DoesNotExist:
             return HttpResponseNotFound('Try again')   
     else:
