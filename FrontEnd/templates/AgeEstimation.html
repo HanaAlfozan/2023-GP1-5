@@ -874,10 +874,10 @@ if (status === 'done') {
     if(localStorage.getItem('username') === null ){
         //alert(875);
         document.getElementById('done').style.display = 'none';
-        document.getElementById('errorPopUpBrowser').style.display = 'block';
+        document.getElementById('errorPopUpBrowser').style.display = 'none';
         document.getElementById('EmailConfirmedSuccessfully').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
-        document.getElementById('errorPopUp').style.display = 'none';
+        document.getElementById('errorPopUp').style.display = 'block';
     }
 
     $.ajax({
