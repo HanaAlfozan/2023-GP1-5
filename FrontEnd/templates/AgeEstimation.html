@@ -890,7 +890,7 @@ if (status === 'done') {
                 error: function () {
                     console.error('Failed to fetch status.');
                 }});
-                
+
     // Display done pop-up
     if(!NeedsAgeGroupValidation){
     document.getElementById('done').style.display = 'block';
@@ -923,17 +923,17 @@ else if (status === 'confirm'){
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    //alert(912 + data.AgeGroup);
+                    alert(912 + data.AgeGroup);
                     if(data.AgeGroup){
-                        //alert('line 914'+ data.status);
+                        alert('line 914'+ data.status);
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById("errorPopUp").style.display = "block";
                     }
                     else{
-                        //alert('in 919');
+                        alert('in 919');
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById('ageGroupConfirm').style.display = 'block';
-                        //alert('line 922'+ localStorage.getItem('username'));
+                        alert('line 922'+ localStorage.getItem('username'));
                     }
                 },
                 

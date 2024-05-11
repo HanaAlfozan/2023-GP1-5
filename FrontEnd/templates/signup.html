@@ -48,6 +48,10 @@
 						xhr.setRequestHeader("X-CSRFToken", csrftoken);
 					},
 					success: function(response) {
+						if(response.length === 10){
+							alert('here in line 52');
+							document.getElementById('errorPopup').style.display = 'block';
+						}
 						// Handle successful response
 						console.log(response);
 						if(email.length != 0){
@@ -146,6 +150,7 @@
 
 		function updateSecurityQuestions(questions) {
 			if(questions.length === 10){
+				alert('here in line 149');
 				document.getElementById('errorPopup').style.display = 'block';
 			}
 			var emailMessage = document.getElementById("email").value;
