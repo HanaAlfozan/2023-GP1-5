@@ -411,7 +411,22 @@ margin-left:15px;
                     <!-- Error Popup -->
                     <div id="errorPopUp" class="Popup" style="display: none;">
                         <div class="popup-content">
-                            <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occurred, please try again! <a class="boxed-btn" onClick="dis()">Try again</a></h4>
+                            <h4 style="font-size: 20px; font-weight: inherit;">Unexpected error occurred. If the issue persists, don't hesitate to contact us for assistance!</h4>
+                            <h7>Back to <a id="next-button" href="{% url 'index' %}">Home Page</a></h7>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=".container-lg">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 text-center">   
+                    <!-- Error Popup -->
+                    <div id="errorPopUpBrowser" class="Popup" style="display: none;">
+                        <div class="popup-content">
+                            <h4 style="font-size: 20px; font-weight: inherit;">Seems like there's an issue! When using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser. Stay smooth sailing on the web!  If the issue persists, don't hesitate to contact us for assistance!</h4>
+                            <h7>Back to <a id="next-button" href="{% url 'index' %}">Home Page</a></h7>
                         </div>
                     </div>
                 </div>
@@ -854,11 +869,18 @@ margin-left:15px;
         }
 
 if (status === 'done') {
+    
+    if(localStorage.getItem('username') === null ){
+        document.getElementById('done').style.display = 'none';
+        document.getElementById('errorPopUpBrowser').style.display = 'block';
+        document.getElementById('EmailConfirmedSuccessfully').style.display = 'none';
+    }
     // Display done pop-up
     if(!NeedsAgeGroupValidation){
     document.getElementById('done').style.display = 'block';
     document.getElementById("instructions").style.display = "none";
     document.getElementById('send').style.display = 'none';
+    localStorage.removeItem('username');
     }
     else{
         document.getElementById('EmailConfirmedSuccessfully').style.display = 'block';
@@ -883,8 +905,11 @@ else if (status === 'confirm'){
     //alert('has been sent');
     document.getElementById("instructions").style.display = "none";
     document.getElementById('ageGroupConfirm').style.display = 'block';
-    alert('The username is:');
     alert(localStorage.getItem('username'));
+    if(localStorage.getItem('username') === null ){
+        document.getElementById('ageGroupConfirm').style.display = 'none';
+        document.getElementById('errorPopUpBrowser').style.display = 'block';
+    }
     if(PageName == 'login'){
         NeedsAgeGroupValidation = true;
     }
