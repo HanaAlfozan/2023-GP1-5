@@ -425,7 +425,8 @@ margin-left:15px;
                     <!-- Error Popup -->
                     <div id="errorPopUpBrowser" class="Popup" style="display: none;">
                         <div class="popup-content">
-                            <h4 style="font-size: 20px; font-weight: inherit;">Seems like there's an issue! When using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser. Stay smooth sailing on the web!  If the issue persists, don't hesitate to contact us for assistance!</h4>
+                            <h4 style="font-size: 20px; font-weight: inherit; line-height: 1.4;">Seems like there's an issue! When using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.</h4>
+                            <h4 style="font-size: 20px; font-weight: inherit;">If the issue persists, don't hesitate to contact us for assistance!</h4>
                             <h7>Back to <a id="next-button" href="{% url 'index' %}">Home Page</a></h7>
                         </div>
                     </div>
@@ -880,7 +881,6 @@ if (status === 'done') {
     document.getElementById('done').style.display = 'block';
     document.getElementById("instructions").style.display = "none";
     document.getElementById('send').style.display = 'none';
-    localStorage.removeItem('username');
     }
     else{
         document.getElementById('EmailConfirmedSuccessfully').style.display = 'block';
@@ -901,18 +901,35 @@ else if (status === 'error'){
     document.getElementById('errorPopUp').style.display = 'block';
     document.getElementById("ageGroupConfirm").style.display = "none";
 }
+
 else if (status === 'confirm'){
     //alert('has been sent');
-    document.getElementById("instructions").style.display = "none";
-    document.getElementById('ageGroupConfirm').style.display = 'block';
-    alert(localStorage.getItem('username'));
-    if(localStorage.getItem('username') === null ){
-        document.getElementById('ageGroupConfirm').style.display = 'none';
-        document.getElementById('errorPopUpBrowser').style.display = 'block';
-    }
-    if(PageName == 'login'){
-        NeedsAgeGroupValidation = true;
-    }
+    $.ajax({
+                url: '/BackEnd/checkIfAssigned/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status){
+                        document.getElementById("instructions").style.display = "none";
+                        document.getElementById("errorPopUp").style.display = "block";
+                    }
+                    else{
+                        document.getElementById("instructions").style.display = "none";
+                        document.getElementById('ageGroupConfirm').style.display = 'block';
+                        //alert(localStorage.getItem('username'));
+                        if(localStorage.getItem('username') === null ){
+                            document.getElementById('ageGroupConfirm').style.display = 'none';
+                            document.getElementById('errorPopUpBrowser').style.display = 'block';
+                        }
+                        if(PageName == 'login'){
+                            NeedsAgeGroupValidation = true;
+                        }
+                    }
+                },
+                
+                error: function () {
+                    console.error('Failed to fetch status.');
+                }});
 }
 
 else if (status === 'verify'){

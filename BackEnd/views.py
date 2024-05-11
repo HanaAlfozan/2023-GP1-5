@@ -190,6 +190,7 @@ def custom_assigining_ageGroup(request):
         send_mail(
             'Assigning Age Group',
             f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}',
+            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.\n'
             'gamegeekwebsite@gmail.com',
             [email],
             fail_silently=False,
@@ -1315,6 +1316,7 @@ def custom_signup_confirmation(request):
             f'Hi Gamer, thank you for joining Game Geek\n'
             f'To confirm your registration please click on this link:\n'
             f'{reset_link}'
+            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.\n'
         )
 
         # Send the email with the constructed message
@@ -1345,6 +1347,19 @@ def checkIfConfrim(request):
     else:
         return JsonResponse({'error': 'User not found'}, status=404)
            
+ 
+def checkIfAssigned(request):
+    user_id = request.session.get('user_id')
+    if user_id is not None:
+        try:
+            user = GGUser.objects.get(User_ID=user_id)
+            AgeGroup = user.Approved_age_group
+            return JsonResponse({'status': AgeGroup}, safe=False)
+        except GGUser.DoesNotExist:
+            return HttpResponseNotFound('Try again')   
+    else:
+        return JsonResponse({'error': 'User not found'}, status=404)
+               
 
 def get_security_questions(request):
     if request.method == 'POST':
@@ -1354,6 +1369,7 @@ def get_security_questions(request):
         return JsonResponse(list(security_questions), safe=False)
     else:
         return JsonResponse({'error': 'Invalid request'})
+    
 
 '''   
 @periodic_task(run_every=365 * 24 * 60 * 60)  # Run every year
