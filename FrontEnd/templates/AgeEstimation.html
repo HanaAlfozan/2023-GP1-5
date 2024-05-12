@@ -425,7 +425,7 @@ margin-left:15px;
                     <!-- Error Popup -->
                     <div id="errorPopUpBrowser" class="Popup" style="display: none;">
                         <div class="popup-content">
-                            <h4 style="font-size: 20px; font-weight: inherit; line-height: 1.4;">Seems like there's an issue! When using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.</h4>
+                            <h4 style="font-size: 20px; font-weight: inherit; line-height: 1.4;">Looks like there's a problem! Don't open links directly from your email app in Safari. Instead, copy and paste them into your browser or try a different browser. Also, steer clear of private browsing mode.</h4>
                             <h4 style="font-size: 20px; font-weight: inherit;">If the issue persists, don't hesitate to contact us for assistance!</h4>
                             <h7>Back to <a id="next-button" href="{% url 'index' %}">Home Page</a></h7>
                         </div>
@@ -1025,6 +1025,7 @@ xhr.onload = function () {
         document.getElementById('sendlogin').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
+        document.getElementById('errorPopUpBrowser').style.display = 'none';
     }
 };
 
@@ -1059,6 +1060,7 @@ xhr.onload = function () {
         document.getElementById('send').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
+        document.getElementById('errorPopUpBrowser').style.display = 'none';
 
     }
 };
@@ -1086,6 +1088,7 @@ xhr.onload = function () {
         document.getElementById('send').style.display = 'none';
         document.getElementById("instructions").style.display = "none";
         document.getElementById('errorPopUp').style.display = 'block';
+        document.getElementById('errorPopUpBrowser').style.display = 'none';
     }
 };
 xhr.send();
