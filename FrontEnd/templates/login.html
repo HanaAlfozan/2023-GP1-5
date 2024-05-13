@@ -187,8 +187,11 @@ height:auto
     background-color: rgba(255, 255, 255, 0.7);
     font-size:1.2rem;
 }
+#Email.input-box{
+width: 60%;}
+
  #securityAnswer {
-    width: 60%;
+ width: 60%;
     padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
@@ -207,12 +210,11 @@ height:auto
     color: #ff069a;
     text-decoration: none;
 }
-#securityQuestion{
-margin-left:-185%;}
+
 .input-pair {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     margin-bottom: 25px;
 }
 
@@ -409,11 +411,11 @@ select {
 }
 
 .Success .popup-content{
-	padding: 50px;
+	padding: 20px;
 }
 
 .fail .popup-content{
-	padding: 70px;
+	padding: 20px;
 }
 
 .right {
@@ -482,6 +484,13 @@ margin-left:15px;
 @media only screen and (min-width: 200px) and (max-width: 900px) {
 #securityQuestion{
 margin-left:0%;}
+#securityAnswer {
+    width: 60%;
+
+}
+#Email.input-box {
+    width: 75%;
+}
 
 #footer{
 	 justify-content: space-between;
@@ -775,7 +784,7 @@ margin-left:0%;
             <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
                 <label for="securityQuestion" id="secLabel">Security Question:</label>
                 <div class="seqQselect">
-                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 100%;">
+                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 100%; margin-left:3%;">
                         <option selected disabled value="">Choose a security question</option>
                     </select>
                 </div>
