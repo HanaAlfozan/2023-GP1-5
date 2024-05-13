@@ -151,12 +151,11 @@ height:auto
 .form-container form {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 50px;
-    padding: 25px;
+    padding: 18px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: center;
 
-	/*margin-left: 100px;
-	margin-right: 100px;*/
+	margin-right:15%;
 	height:auto;
 
 }
@@ -179,7 +178,16 @@ height:auto
 }
 
 
-.input-box, #securityAnswer {
+.input-box {
+    width: 70%;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size:1.2rem;
+}
+ #securityAnswer {
     width: 60%;
     padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -199,7 +207,8 @@ height:auto
     color: #ff069a;
     text-decoration: none;
 }
-
+#securityQuestion{
+margin-left:-185%;}
 .input-pair {
     display: flex;
     align-items: center;
@@ -259,9 +268,7 @@ select {
   top: 55%;
 }
 
-#securityAnswer{
-	margin-left: 2%;
-}  
+
 
 
 
@@ -473,6 +480,8 @@ margin-left:15px;
 
 
 @media only screen and (min-width: 200px) and (max-width: 900px) {
+#securityQuestion{
+margin-left:0%;}
 
 #footer{
 	 justify-content: space-between;
@@ -731,7 +740,7 @@ margin-left:0%;
             {% csrf_token %}
             <div class="input-pair">
                 <label for="username" style="margin-left: 10px;">Username:</label>
-                <input type="username" id="Username" class="input-box" name="Username" required placeholder="Enter your username" style="margin-left: 10px;">
+                <input type="username" id="Username" class="input-box" name="Username" required placeholder="Enter your username">
             </div>
             <button type="button" id="resetPassword">Reset Password</button>
         </form>
@@ -766,7 +775,7 @@ margin-left:0%;
             <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
                 <label for="securityQuestion" id="secLabel">Security Question:</label>
                 <div class="seqQselect">
-                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 85%;">
+                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 100%;">
                         <option selected disabled value="">Choose a security question</option>
                     </select>
                 </div>
@@ -774,7 +783,7 @@ margin-left:0%;
             <div id="answerSpace">
                 <label for="securityAnswer">Your Answer:</label>
                 <input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer" onblur="validateAnswer(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="The answer should not contain only numbers or any special characters">
-                <span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span>
+                <span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%; width:60%;"></span>
             </div>
             <button type="button" id="resetUser">Reset Username</button>
         </form>
@@ -851,7 +860,7 @@ margin-left:0%;
                 <label for="password">New Password:</label>
 				<input type="password" id="password" class="input-box" name="password" required placeholder="Enter your password" onblur="validatePassword(this.value)" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
 				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
-				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: absolute; top:148px; right: 80px; cursor: pointer;"></i>
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative;  right: 12%; cursor: pointer;"></i>
 			</div>
 			<span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 44%; left: 1%; max-width: 97%; text-align: -moz-left;"></span>
             <div class="input-pair" id="cp">
