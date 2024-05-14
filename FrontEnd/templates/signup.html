@@ -618,7 +618,7 @@ select {
   }
 
 #SecurityQuestion{
-	margin-left: 2%;
+	margin-left: 11%;
 }  
 
 #securityAnswer {
@@ -753,8 +753,8 @@ select {
 		<i class="fas fa-shield-alt"></i>
 	</span>
 	<label for="SecurityQuestion" id="secLabel">Security Question:</label>
-	<div class="seqQselect">
-	<select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 85%;">
+	<div class="seqQselect" style="margin-right: 13%;">
+	<select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 100%;">
 		<option selected disabled value="">Choose a security question</option>
 	</select>
   </div>
@@ -812,7 +812,7 @@ select {
 
 	{% endif %}
 
-    <input type="submit" id="LogIN" value="Join US" style="width: 80%;" onclick="return validateCheckbox();">
+    <input type="submit" id="LogIN" value="Join Us" style="width: 80%;" onclick="return validateCheckbox();">
     <br><br>
     <label>Already have an account? <a href="{% url 'login' %}" class="alt-link">Log in</a></label>
 </form>
