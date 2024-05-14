@@ -179,16 +179,17 @@ height:auto
 
 
 .input-box {
-    width: 70%;
+    width: 60%;
     padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
-    font-size:1.2rem;
+
 }
 #Email.input-box{
-width: 60%;}
+width: 60%;
+margin-left:-1%;}
 
  #securityAnswer {
  width: 60%;
@@ -197,7 +198,7 @@ width: 60%;}
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
-    font-size:1.2rem;
+
 }
 
 .input-box:focus, #securityAnswer:focus {
@@ -389,7 +390,9 @@ select {
 .close:hover {
   color: red;
 }
-
+#securityQuestion{
+width:165%;
+}
 #resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton, #ResendButton{
   background-color: #06f7ff;
   color: white;
@@ -442,6 +445,7 @@ select {
 */
 
 
+
 @media only screen and (min-width: 1101px) and (max-width: 1499px) {
 
 .site-logo img{
@@ -483,9 +487,10 @@ margin-left:15px;
 
 @media only screen and (min-width: 200px) and (max-width: 900px) {
 #securityQuestion{
-margin-left:0%;}
+margin-left:0%;
+width:80%;}
 #securityAnswer {
-    width: 60%;
+    width: 55%;
 
 }
 #Email.input-box {
@@ -532,11 +537,11 @@ margin-left:5%;}
 .input-pair input{
 margin-left:0%;
 }
-.input-box{
+/*.input-box{
  width:-webkit-fill-available;
 
 
-}
+}*/
 
 
 }
@@ -784,7 +789,7 @@ margin-left:0%;
             <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
                 <label for="securityQuestion" id="secLabel">Security Question:</label>
                 <div class="seqQselect">
-                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 100%; margin-left:3%;">
+                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="margin-left:3%;">
                         <option selected disabled value="">Choose a security question</option>
                     </select>
                 </div>
