@@ -43,6 +43,33 @@
         var AgeGroupResult;
         var NeedsAgeGroupValidation = false;
         if(PageName == 'login'){
+            
+            $.ajax({
+                url: '/BackEnd/checkIfAssigned/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if(!data.AgeGroup){
+                        document.getElementById("instructions").style.display = "none";
+                        document.getElementById("errorPopUp").style.display = "block";
+                        document.getElementById("errorPopUpBrowser").style.display = "none";
+                        stopExecution = true;
+                    }
+                },
+                
+                error: function () {
+                    console.error('Failed to fetch status.');
+                    document.getElementById("instructions").style.display = "none";
+                    document.getElementById("errorPopUp").style.display = "none";
+                    document.getElementById('errorPopUpBrowser').style.display = 'block';
+                }});
+
+
+                if (stopExecution) {
+                    throw new Error("Execution stopped due to an error.");
+                }
+
+
             $.ajax({
                 url: '/BackEnd/checkIfConfrim/',
                 type: 'GET',
@@ -792,6 +819,7 @@ height:100%;
                         }else {
                             // Request failed, handle error
                             document.getElementById("errorPopUp").style.display = "block";
+                            document.getElementById("errorPopUpBrowser").style.display = "none";
                         }
                     }
                 };
@@ -957,6 +985,7 @@ else if (status === 'confirm'){
                         //alert('line 914'+ data.status);
                         document.getElementById("instructions").style.display = "none";
                         document.getElementById("errorPopUp").style.display = "block";
+                        document.getElementById("errorPopUpBrowser").style.display = "none";
                     }
                     else{
                         //alert('in 919');
@@ -1001,6 +1030,7 @@ else if (status === 'verify'){
                     else{
                         //alert(997);
                         document.getElementById("errorPopUp").style.display = "block";
+                        document.getElementById("errorPopUpBrowser").style.display = "none";
                     }
                 },
                 error: function () {
