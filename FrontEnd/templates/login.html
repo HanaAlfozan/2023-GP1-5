@@ -179,16 +179,17 @@ height:auto
 
 
 .input-box {
-    width: 70%;
+    width: 60%;
     padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
-    font-size:1.2rem;
+
 }
 #Email.input-box{
-width: 60%;}
+width: 60%;
+margin-left:-1%;}
 
  #securityAnswer {
  width: 60%;
@@ -197,7 +198,7 @@ width: 60%;}
     border: none;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.7);
-    font-size:1.2rem;
+
 }
 
 .input-box:focus, #securityAnswer:focus {
@@ -389,7 +390,9 @@ select {
 .close:hover {
   color: red;
 }
-
+#securityQuestion{
+width:165%;
+}
 #resetPassword , #setNewPassword ,#resetUser ,#setNewUsername, #EmailnotConfirmedButton, #ResendButton{
   background-color: #06f7ff;
   color: white;
@@ -442,6 +445,7 @@ select {
 */
 
 
+
 @media only screen and (min-width: 1101px) and (max-width: 1499px) {
 
 .site-logo img{
@@ -483,9 +487,10 @@ margin-left:15px;
 
 @media only screen and (min-width: 200px) and (max-width: 900px) {
 #securityQuestion{
-margin-left:0%;}
+margin-left:0%;
+width:80%;}
 #securityAnswer {
-    width: 60%;
+    width: 55%;
 
 }
 #Email.input-box {
@@ -532,11 +537,11 @@ margin-left:5%;}
 .input-pair input{
 margin-left:0%;
 }
-.input-box{
+/*.input-box{
  width:-webkit-fill-available;
 
 
-}
+}*/
 
 
 }
@@ -604,7 +609,7 @@ margin-left:0%;
 				}
 			});}
 		}
-        
+
 </script>
 
 </head>
@@ -720,7 +725,7 @@ margin-left:0%;
 										</span>
 										<label for="password"  style="margin-bottom:-6%;">Password:</label>
 										<input type="password" id="pass" class="input-box" name="Password" required placeholder="Enter your password" style="margin-bottom:-6%;">
-										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 10%; cursor: pointer;padding-top:7%;" id="ayeee"></i>
+										<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 12%; cursor: pointer;padding-top:14%;" id="ayeee"></i>
 
 									</div>
 									<a href="#" id="forgetPass">Forgot Password?</a>
@@ -730,10 +735,10 @@ margin-left:0%;
                                         <br>
                                         <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
                                             <h5 id="error_message" style="margin: 5px 0; color: #880808;">{{ message }}</h5>
-                                        </div>	
+                                        </div>
                                         <br>
                                     {% endfor %}
-                                    {% endif %}    
+                                    {% endif %}
 									<input type="submit" id="LogIN" value="Log In" style="width: 80%;">
 									<br><br><label>New to Game Geek? <a href="{% url 'signup' %}" class="alt-link">Sign Up</a></label>
 								</form>
@@ -766,7 +771,7 @@ margin-left:0%;
                 var email = document.getElementById('Email').value;
                 var securityQuestion = document.getElementById('securityQuestion').value;
                 var securityAnswer = document.getElementById('securityAnswer').value;
-        
+
                 if (email.trim() === '' || securityQuestion.trim() === '' || securityAnswer.trim() === '') {
                     alert('Please fill out all fields before resetting your username.');
                     return false;
@@ -774,7 +779,7 @@ margin-left:0%;
                 return true; // Allow form submission
             }
         </script>
-        
+
         <form id="usernameResetForm" action="{% url 'custom_username_reset' %}" data-form-type="username" method="POST">
             {% csrf_token %}
             <div class="input-pair">
@@ -784,7 +789,7 @@ margin-left:0%;
             <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
                 <label for="securityQuestion" id="secLabel">Security Question:</label>
                 <div class="seqQselect">
-                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="width: 94%; margin-left:3%;">
+                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="margin-left:3%;">
                         <option selected disabled value="">Choose a security question</option>
                     </select>
                 </div>
@@ -796,7 +801,7 @@ margin-left:0%;
             </div>
             <button type="button" id="resetUser">Reset Username</button>
         </form>
-        
+
     </div>
 </div>
 <!-- Password Reset failed Pop-up (hidden by default) -->
@@ -1121,7 +1126,7 @@ console.log(status)
 
 const securityQuestionSelect = document.getElementById("securityQuestion");
 securityQuestionSelect.addEventListener("mouseenter", function() {
-		const hasOptions = securityQuestionSelect.options.length > 1;    
+		const hasOptions = securityQuestionSelect.options.length > 1;
 		//alert(securityQuestionSelect.options.length);
 		if (!hasOptions) {
 			securityQuestionSelect.title = "You need to write an email to choose a security question";
@@ -1213,6 +1218,7 @@ securityQuestionSelect.addEventListener("mouseenter", function() {
 		</div>
 	</div>
 	<!-- end copyright -->
+	<!---->
 <!-- JavaScript to handle the close buttons and pop-ups -->
 <!-- JavaScript to handle the pop-ups -->
 <script>
@@ -1262,7 +1268,7 @@ document.getElementById("closeErrorPopupUser").addEventListener("click", functio
 document.getElementById("closeErrorPopupEmail").addEventListener("click", function() {
         var successPopup = document.getElementById("errorPopupEmail");
         successPopup.style.display = "none";
-    });    
+    });
 
     document.getElementById("closePopupConfirm").addEventListener("click", function() {
         var successPopup = document.getElementById("passwordResetConfirm");

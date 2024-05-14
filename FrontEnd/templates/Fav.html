@@ -482,7 +482,7 @@ padding: 10px;
                                 // Sort by order and re-append to maintain the correct order
                                 var container = $('.favoriteGamesContainer');
                                 container.find('.game-item').sort(function(a, b) {
-                                    return $(a).data('order') - $(b).data('order');
+                                    return $(b).data('order') - $(a).data('order');
                                 }).appendTo(container);
                             }
                         
@@ -528,7 +528,7 @@ padding: 10px;
                                 var button = $(this);
                                 var gameContainer = button.closest('.game-item');
                                 var undoButton = $('<button class="undo-remove">Undo</button>');
-                                var gameId = button.data('id');
+                                var gameId = button.data('game-id');
                                 var gameName = gameContainer.find('.names').text(); // Get the game name
                         
                                 // Display removal message
@@ -544,11 +544,11 @@ padding: 10px;
                                     // If Undo button wasn't clicked, delete the game
                                     if (!undoButton.data('undo-clicked')) {
                                         gameContainer.remove();
-                                        updateOrder();
+                                      
                         
                                         // Show or hide the message based on whether the container is empty
                                         if ($('.favoriteGamesContainer').children().length === 0) {
-                                            $('.favoriteGamesContainer').html('<p class="empty-message">No favorite games added yet. Discover and add your favorite games!</p>');
+                                            $('.favoriteGamesContainer').html('<p class="empty-message">There are no favourite games added yet. Discover and add your favourite games!</p>');
                                         }
                         
                                         // AJAX request to remove the game from the database
