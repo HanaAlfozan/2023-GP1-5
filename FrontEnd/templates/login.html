@@ -191,6 +191,11 @@ height:auto
 #Email.input-box{
 width: 60%;
 margin-left:-1%;}
+#password.input-box  , #password2.input-box {
+    width: 70%;
+
+
+}
 
  #securityAnswer {
  width: 60%;
@@ -881,11 +886,11 @@ font-size:0.9rem;}
 				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
 				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative;  right: 12%; cursor: pointer;"></i>
 			</div>
-			<span id="passMessage" style="color: darkred; font-size: 90%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 44%; left: 1%; max-width: 97%; text-align: -moz-left;"></span>
+			<span id="passMessage" style="color: darkred; font-size: 80%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 44%; left: 1%; max-width: 97%; text-align: -moz-left;"></span>
             <div class="input-pair" id="cp">
                 <label for="password2">Confirm Password:</label>
                 <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
-				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative; right: 12%; cursor: pointer;" id="eye"></i>
+				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative;  right: 12%; cursor: pointer;"></i>
             </div>
 
 			{% if messages %}
