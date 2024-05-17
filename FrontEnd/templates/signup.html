@@ -761,7 +761,7 @@ select {
 </div>
 	<div id="answerSpace" class="input-pair hidden">
 		<label for="securityAnswer" style="margin-left: 5%;" >Your Answer:</label>
-		<input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer" onblur="validateAnswer(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="The answer should not contain only numbers or any special characters" style="width: 62%;" class="input-box">
+		<input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer"  style="width: 62%;" class="input-box">
 </div>
 <span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%;"></span>
 
@@ -830,16 +830,6 @@ select {
             usernameError.textContent = '';
         }
     }
-	function validateAnswer(answer) {
-    var answerError = document.getElementById('answer-error');
-    var letterPattern = /[A-Za-z]/;
-    var specialCharPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-    if (!letterPattern.test(answer) || specialCharPattern.test(answer)) {
-        answerError.textContent = "The answer should contain at least one letter and should not contain any special characters.";
-    } else {
-        answerError.textContent = '';
-    }
-}
 
     document.querySelectorAll('.togglePassword').forEach(function(icon) {
         icon.addEventListener('click', function() {
