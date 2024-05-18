@@ -43,7 +43,7 @@
 		  const passRegex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 		  var messageSpan = document.getElementById("passMessage");
 		  var divCP = document.getElementById("cp");
-		  var eye = document.getElementById("eye");
+
 
 
 
@@ -51,14 +51,14 @@
 			messageSpan.innerHTML = 'Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.';
 			messageSpan.style.visibility = 'visible';
 			divCP.style.paddingTop = '8%';
-			eye.style.top ='283px';
+
 
 
 				return false;
 			} else {
 				messageSpan.style.visibility = 'hidden';
 				divCP.style.paddingTop = '0';
-				eye.style.top ='236px';
+
 
 
 			}
@@ -886,7 +886,7 @@ font-size:0.9rem;}
 				title="Password must be at least 8 characters, contain at least one number, one lowercase letter, and one uppercase letter.">
 				<i class="fa fa-eye-slash togglePassword" style="font-size: 20px; position: relative;  right: 12%; cursor: pointer;"></i>
 			</div>
-			<span id="passMessage" style="color: darkred; font-size: 80%; font-weight: 600; visibility:hidden; display: flex; position: absolute; top: 44%; left: 1%; max-width: 97%; text-align: -moz-left;"></span>
+			<span id="passMessage" style="color: darkred; font-size: 80%; font-weight: 600; visibility:hidden; display: flex; position: absolute;  left: 1%; max-width: 97%; text-align: -moz-left;"></span>
             <div class="input-pair" id="cp">
                 <label for="password2">Confirm Password:</label>
                 <input type="password" id="password2" class="input-box" name="password2" required placeholder="Confirm your new password">
@@ -898,7 +898,7 @@ font-size:0.9rem;}
 			{% for message in messages %}
             <br>
             <div style="border: 2px solid #880808; padding: 15px; border-radius: 5px;">
-                <h5 style="margin: 5px 0; color: #880808;">{{ message }}</h5>
+                <h5  id ='pM' style="margin: 5px 0; color: #880808;">{{ message }}</h5>
             </div>
             <br>
 			{% endfor %}
