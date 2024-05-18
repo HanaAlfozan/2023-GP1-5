@@ -806,7 +806,7 @@ font-size:0.9rem;}
             </div>
             <div id="answerSpace">
                 <label for="securityAnswer">Your Answer:</label>
-                <input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer" onblur="validateAnswer(this.value)" pattern="[A-Za-z][A-Za-z0-9]*" title="The answer should not contain only numbers or any special characters">
+                <input type="text" id="securityAnswer" name="answer" required placeholder="Enter your answer">
                 <span id="answer-error" class="error-message" style="color: darkred; font-size: 90%; font-weight: 600;  display: flex; position: relative; top: 19.5%; width:60%;"></span>
             </div>
             <button type="button" id="resetUser">Reset Username</button>
@@ -1015,9 +1015,8 @@ font-size:0.9rem;}
         document.getElementById('errorPopup').style.display = 'block';
 
 
-
-
 	}
+
 	else if(status === 'reset'){
 			// Display reset pop-up
 

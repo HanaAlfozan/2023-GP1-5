@@ -244,26 +244,33 @@ def custom_password_reset_confirm(request, uidb64, token):
         error_message = 'Unexpected error occured, please try again'
         return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
 
-
 def custom_username_reset_confirm(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = GGUser.objects.get(User_ID=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, GGUser.DoesNotExist):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
-        # Valid token, allow the user to set a new password
+        # Valid token, allow the user to set a new username
         if request.method == 'POST':
             newusername = request.POST['newusername']
-            user.Username = newusername
-            user.save()
-            return render(request, 'login.html', {'status': 'resetUser', 'message': 'Username reset'})
-
-        return render(request, 'login.html', {'status': 'confirmUser', 'message': 'Username confirm'})
+            
+            # Check if the new username already exists, except for the current user's username
+            if newusername != user.Username and GGUser.objects.filter(Username=newusername).exists():
+                messages.error(request, "Username already exists. Please choose a different username.")
+            else:
+                user.Username = newusername
+                user.save()
+                return render(request, 'login.html', {'status': 'resetUser', 'message': 'Username reset successfully'})
+        
+        return render(request, 'login.html', {'status': 'confirmUser', 'message': 'Please enter a new username'})
     else:
-        error_message = 'Unexpected error occured, please try again'
-        return render(request, 'login.html', {'status': 'error', 'message': 'Password reset ' + error_message})
+        error_message = 'Unexpected error occurred, please try again'
+        return render(request, 'login.html', {'status': 'error', 'message': 'Username reset ' + error_message})
+
+
+
 
 
 @csrf_protect
