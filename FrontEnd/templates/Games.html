@@ -821,25 +821,23 @@ padding: 10px;
 										}
 									},
 									error: function(xhr, status, error) {
-										document.getElementById("errorPopUp").style.display = "block";
+                                        window.location.href = '/error/';
 										console.error('Error:', error);
+                                        document.getElementsByTagName("body")[0].style.display = "none";
 									}
 								});
 							});
                             document.getElementById('logout-btn').addEventListener('click', function(event) {
                                 localStorage.clear();
+
                             });
 							</script>
-
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- end header -->
-
-
 
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -1453,7 +1451,7 @@ function makeAjaxRequest(page, slice) {
         type: 'GET',
         dataType: 'json',
          success: function(response) {
-console.log(response)
+            console.log(response)
             updateGamesContainer(response);
 
             if(response.filter_status === "no games satisfies the filter") {

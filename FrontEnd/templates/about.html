@@ -174,7 +174,7 @@ padding: 10px;
 
 .main-menu{
 	margin-left: 20px;
-	margin top: 15px;
+	margin-top: 15px;
 	}
 
 
@@ -321,8 +321,10 @@ padding: 10px;
 											}
 										},
 										error: function(xhr, status, error) {
-											document.getElementById("errorPopUp").style.display = "block";
+											window.location.href = '/error/';
+											document.getElementsByTagName("body")[0].style.display = "none";
 											console.error('Error:', error);
+											
 										}
 									});
 								});
