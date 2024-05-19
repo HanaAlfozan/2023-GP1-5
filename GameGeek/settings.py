@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'GameGeek.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'GameGeek',
+        'NAME': 'gamegeek',
         'USER': 'group5',
         #'USER': 'postgres',
         'PASSWORD': '123456',
