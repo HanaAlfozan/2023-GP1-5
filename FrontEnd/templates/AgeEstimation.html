@@ -43,7 +43,7 @@
         var AgeGroupResult;
         var NeedsAgeGroupValidation = false;
         if(PageName == 'login'){
-            
+
             $.ajax({
                 url: '/BackEnd/checkIfAssigned/',
                 type: 'GET',
@@ -328,8 +328,9 @@ height:100%;
                             <br>
                             <h4 style="color: #ff069bc0;">Almost There!</h4>
                             <h6>Ready to Take Your Picture? Follow These Simple Instructions:</h6>
-                            <p>1. Stay perfectly still while capturing the photo.</p>
-                            <p>2. Ensure good lighting for the best results.</p>
+                            <p>1. Make sure your browser allows camera access.</p>
+                            <p>2. Stay perfectly still while capturing the photo.</p>
+                            <p>3. Ensure good lighting for the best results.</p>
                             <p>Click the <button id="start-camera-button" class="boxed-btn" onclick="hideDiv()">Ready</button> button to begin.</p>
                         </div>
                     </div>
@@ -455,7 +456,7 @@ height:100%;
                     <!-- Error Popup -->
                     <div id="errorPopUpBrowser" class="Popup" style="display: none;">
                         <div class="popup-content">
-                            <h4 style="font-size: 20px; font-weight: inherit; line-height: 1.4;">Looks like there's a problem! Don't open links directly from your email app in Safari. Instead, copy and paste them into your browser or try a different browser. Also, steer clear of private browsing mode.</h4>
+                            <h4 style="font-size: 20px; font-weight: inherit; line-height: 1.4;">Looks like there's a problem! Don't open links directly from your email app in Safari. Instead, copy and paste them into your browser or try a different browser. For a smoother experience, try to use the same device for the entire session, and steer clear of private browsing mode.</h4>
                             <h4 style="font-size: 20px; font-weight: inherit;">If the issue persists, don't hesitate to contact us for assistance!</h4>
                             <h7>Back to <a id="next-button" href="{% url 'index' %}">Home Page</a></h7>
                         </div>
