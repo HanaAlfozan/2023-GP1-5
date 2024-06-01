@@ -585,8 +585,9 @@ padding: 10px;
 										}
 									},
 									error: function(xhr, status, error) {
-                                        document.getElementById("errorPopUp").style.display = "block";
+                                        window.location.href = '/error/';
 										console.error('Error:', error);
+                                        document.getElementsByTagName("body")[0].style.display = "none";
 									}
 								});
 							});

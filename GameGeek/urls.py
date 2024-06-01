@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
     path('Games/',views.Game,name='Games'),
+    path('error/',views.error,name='error'),
     path('Fav/',views.Fav,name='Fav'),
     path('History/',views.History,name='History'),
     path('login/',views.login,name='login'),

@@ -189,7 +189,7 @@ def custom_assigining_ageGroup(request):
         # Send the email with the reset link
         send_mail(
             'Assigning Age Group',
-            f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}\n\nNote:If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser. Also, steer clear of private browsing mode.',
+            f'Dear Gamer, we apologize for the issue you encountered. Please click this link to assign your age group: {reset_link}\n\nNote:If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser. For a smoother experience, try to use the same device for the entire session, and steer clear of private browsing mode.',
             'gamegeekwebsite@gmail.com',
             [email],
             fail_silently=False,
@@ -1322,7 +1322,7 @@ def custom_signup_confirmation(request):
             f'Hi Gamer, thank you for joining Game Geek\n'
             f'To confirm your registration please click on this link:\n'
             f'{reset_link}\n'
-            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.  Also, steer clear of private browsing mode.\n'
+            f'Note:  If you are using any email app, avoid opening links in Safari directly from the app. Instead, copy & paste the link into your browser or try another browser.For a smoother experience, try to use the same device for the entire session, and steer clear of private browsing mode.\n'
         )
 
         # Send the email with the constructed message

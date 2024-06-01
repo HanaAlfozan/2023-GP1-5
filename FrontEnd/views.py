@@ -37,10 +37,11 @@ def about(request):
 def estimate(request):
     return render(request,"AgeEstimation.html" )
 
-
-
 def custom_password_reset_form(request):
     return render(request,"custom_password_reset_form.html" )
 
 def game_info_page(request, game_id):
     return render(request, 'GameInfoPage.html', {'game_id': game_id})
+
+def error(request):
+    return render(request,"error.html" )

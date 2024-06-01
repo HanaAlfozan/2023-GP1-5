@@ -1,0 +1,99 @@
+{% load static %}
+{% block brand %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+	<!-- title -->
+	<title>Error</title>
+
+    <style>
+
+body {
+  background: linear-gradient(96deg, rgb(25, 22, 51) -20%, rgb(226, 42, 162) 150%);
+  height: auto;
+  background-size: 100%;
+}
+
+.mainbox {
+  margin: auto;
+  height: 600px;
+  position: relative;
+}
+
+  .err {
+    color: #ffffff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position:absolute;
+    left: 20%;
+    top: 8%;
+  }
+
+.far {
+  position: absolute;
+  font-size: 8.5rem;
+  left: 45%;
+  top: 15%;
+  color: #ffffff;
+}
+
+ .err2 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11rem;
+    position:absolute;
+    font-weight: 700;
+    left: 70%;
+    top: 8%;
+  }
+
+.msg {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.9rem;
+    position:absolute;
+    font-weight: 701;
+    left: 16%;
+    top: 60%;
+    width: 75%;
+  }
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+.err2{
+    left: 76%;
+    top: 11%;
+}
+.far{
+    left: 35%;
+    top: 16%;
+}
+.err{
+    left: 2%;
+}
+}
+
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossorigin="anonymous"></script>
+  <body>
+    <div class="mainbox">
+      <div class="err">4</div>
+      <i class="far fa-question-circle fa-spin"></i>
+      <div class="err2">4</div>
+      <div class="msg">Looks like there's a problem! Don't open links directly from your email app in Safari. Instead, copy and paste them into your browser or try a different browser. For a smoother experience, try to use the same device for the entire session, and steer clear of private browsing mode.<p>Let's go <a href="{% url 'index' %}">home</a> and try from there.</p></div>
+        </div>
+{% endblock %}
+</html>
