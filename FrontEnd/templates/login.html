@@ -577,7 +577,8 @@ font-size:0.9rem;}
 						updateSecurityQuestions(response);
 						localStorage.setItem('questions', 'response');
 
-						 document.getElementById('securityQuestion').style.width = '110%';
+						 document.getElementById('securityQuestion').style.width = '98%';
+
 					}
 						//alert(response.join("\n"));
 						else if (email.length === 0){
@@ -799,7 +800,7 @@ font-size:0.9rem;}
             <div class="input-pair" id="secQ"  style="margin-bottom: 3%">
                 <label for="securityQuestion" id="secLabel">Security Question:</label>
                 <div class="seqQselect">
-                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  style="margin-left:3%;">
+                    <select id="securityQuestion" name="securityQuestion" required class="input-box"  >
                         <option selected disabled value="">Choose a security question</option>
                     </select>
                 </div>
